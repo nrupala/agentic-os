@@ -36,6 +36,17 @@ Open `dashboard/index.html` in any browser to visualize the agent hand-off seque
 `powershell ./setup.ps1`
 `docker-compose up -d`
 
+## 📁 Project Structure
+```
+.
+├── logs/           # Command execution logs
+├── outputs/        # Generated artifacts
+├── projects/       # Project-specific files
+└── dashboard/      # Web UI
+    ├── server.js   # Node bridge server
+    └── index.html  # Command Center GUI
+```
+
 ## 📋 Versioning
 Current version: `1.0.0`
 

@@ -3,6 +3,7 @@ pip install -r requirements.txt
 
 # 2. Install Node Dependencies
 npm i -g cline @qodo/command
+cd dashboard; npm install; cd ..
 
 # 3. Setup Crawl4AI browser
 crawl4ai-setup

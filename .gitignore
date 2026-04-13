@@ -14,6 +14,14 @@ venv/
 build/
 lxml/
 
+# Dashboard Dependencies
+dashboard/node_modules/
+
+# Runtime Data
+logs/
+outputs/
+projects/
+
 # Observability Data
 data/
 *.log

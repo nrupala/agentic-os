@@ -39,10 +39,12 @@ async function startWorkflow() {
     const prompt = document.getElementById('prompt-input').value;
     if (!prompt) return alert("Enter a prompt first!");
 
-    document.getElementById('terminal-output').innerHTML = "> Initializing Paradise Sequence...";
+    document.getElementById('terminal-output').innerHTML = "> Initializing Paradise Sequence...\n";
+    await logToTerminal(`Working Directory: ${window.location.origin}\n`, "#888");
     
     for (const step of workflowSteps) {
         await logToTerminal(`\n[${step.agent}] Executing ${step.action}...`, "#58a6ff");
+        await logToTerminal(`Command: ${step.command.replace('$PROMPT', prompt)}`, "#666");
         
         try {
             const response = await fetch('http://localhost:3001/execute', {
@@ -54,18 +56,22 @@ async function startWorkflow() {
             const data = await response.json();
             
             if (data.success) {
-                await logToTerminal(data.output, "#c9d1d9");
+                if (data.output) await logToTerminal(data.output, "#c9d1d9");
+                if (data.logPath) await logToTerminal(`Log: ${data.logPath}`, "#3fb950");
                 await logToTerminal(`[${step.agent}] Success.`, "#3fb950");
             } else {
-                await logToTerminal(`Error: ${data.output}`, "#ff7b72");
-                break; // Stop workflow on error
+                await logToTerminal(`Error: ${data.output || 'Command failed'}`, "#ff7b72");
+                if (data.logPath) await logToTerminal(`Log: ${data.logPath}`, "#ff7b72");
             }
         } catch (err) {
-            await logToTerminal(`Bridge Error: Ensure server.js is running.`, "#ff7b72");
+            await logToTerminal(`Bridge Error: ${err.message}`, "#ff7b72");
+            await logToTerminal(`Ensure server is running: cd dashboard && npm start`, "#ff7b72");
             break;
         }
     }
-    await logToTerminal("\n✅ Sequence Finished.", "#d29922");
+    await logToTerminal("\n=====================================", "#888");
+    await logToTerminal("Logs stored in: /logs/ | Outputs in: /outputs/", "#888");
+    await logToTerminal("✅ Sequence Finished.", "#d29922");
 }
 
 async function logToTerminal(message, color = "#c9d1d9") {
