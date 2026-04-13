@@ -76,10 +76,21 @@ button {
 button:active { transform: scale(0.98); }
 
 .status-dot {
-    height: 8px;
-    width: 8px;
-    background-color: #3fb950;
+    height: 10px;
+    width: 10px;
+    background-color: #484f58; /* Default Grey (Unknown) */
     border-radius: 50%;
     display: inline-block;
-    margin-right: 10px;
+    margin-right: 8px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.online { 
+    background-color: #3fb950 !important; 
+    box-shadow: 0 0 8px #3fb950; 
+}
+
+.offline { 
+    background-color: #f85149 !important; 
+    box-shadow: 0 0 8px #f85149; 
 }

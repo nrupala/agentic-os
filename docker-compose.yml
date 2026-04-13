@@ -1,16 +1,55 @@
 version: '3.8'
+
 services:
   langfuse:
     image: langfuse/langfuse:latest
+    container_name: paradise-langfuse
     ports:
       - "3000:3000"
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
-      - NEXTAUTH_SECRET=mysecret
+      - DATABASE_URL=postgresql://postgres:${POSTGRES_PASSWORD:-postgres}@db:5432/postgres
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET:-changeme}
       - NEXTAUTH_URL=http://localhost:3000
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/api/public/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  phoenix:
+    image: arizephoenix/phoenix:latest
+    container_name: paradise-phoenix
+    ports:
+      - "6006:6006"
+      - "4317:4317"
+    restart: unless-stopped
+    environment:
+      - PHOENIX_HOST=0.0.0.0
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6006/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
   db:
-    image: postgres:16
+    image: postgres:16-alpine
+    container_name: paradise-db
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
       - POSTGRES_DB=postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:

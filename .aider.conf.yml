@@ -1,9 +1,15 @@
+# Model Selection
 model: openai/qwen2.5-coder:32b
-openai-api-base: http://localhost:11434/v1
-openai-api-key: dummy-key
+
+# Point to LiteLLM Proxy (which handles the Phoenix/Langfuse logging)
+openai-api-base: http://localhost:4000/v1 
+openai-api-key: fake-key
+
+# Technical Preferences
 edit-format: architect
-map-tokens: 1024
+map-tokens: 2048 # Increased for better codebase understanding
 auto-test: true
 test-command: qodo scan .
-# Connects Aider to your Phoenix dashboard
+
+# Context & Logging
 env-file: .env
