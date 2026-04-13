@@ -33,8 +33,18 @@ Configured to run via **Ollama**. Default models:
 Open `dashboard/index.html` in any browser to visualize the agent hand-off sequence and monitor system health.
 
 ## 🚀 Installation
-`powershell ./setup.ps1`
-`docker-compose up -d`
+
+### Option 1: Docker (Recommended)
+```bash
+docker-compose up -d
+```
+Open http://localhost:3001
+
+### Option 2: Local Setup
+```powershell
+powershell ./setup.ps1
+docker-compose up -d
+```
 
 ## 📁 Project Structure
 ```

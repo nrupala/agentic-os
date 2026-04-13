@@ -25,3 +25,7 @@ projects/
 # Observability Data
 data/
 *.log
+
+# Docker
+Dockerfile.prod
+.docker/
