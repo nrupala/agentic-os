@@ -25,19 +25,34 @@ function logToFile(filename, content) {
     return filepath;
 }
 
+function getEnv() {
+    const pyScripts = path.join(process.env.APPDATA || '', 'Python', 'pythoncore-3.14-64', 'Scripts');
+    return {
+        ...process.env,
+        PATH: `${pyScripts};${process.env.PATH || ''}`,
+        PYTHONPATH: path.join(process.env.APPDATA || '', 'Python', 'pythoncore-3.14-64', 'Lib', 'site-packages')
+    };
+}
+
+function wrapCommand(command) {
+    return `set "PATH=%APPDATA%\\Python\\pythoncore-3.14-64\\Scripts;%PATH%" && ${command}`;
+}
+
 app.post('/execute', (req, res) => {
     const { command } = req.body;
     const timestamp = new Date().toISOString();
     console.log(`[${timestamp}] Executing: ${command}`);
 
-    exec(command, { cwd: projectRoot, maxBuffer: 10 * 1024 * 1024 }, (error, stdout, stderr) => {
+    const wrappedCmd = wrapCommand(command);
+    
+    exec(wrappedCmd, { cwd: projectRoot, maxBuffer: 10 * 1024 * 1024, shell: 'cmd.exe' }, (error, stdout, stderr) => {
         const output = stdout || stderr || '';
         const logPath = logToFile('command', `[${timestamp}]\nCommand: ${command}\nOutput:\n${output}\nError: ${error?.message || 'None'}\n`);
 
-        if (error) {
-            return res.json({ success: false, output: stderr || error.message, logPath });
+        if (error && !output) {
+            return res.json({ success: false, output: error.message, logPath });
         }
-        res.json({ success: true, output: stdout, logPath });
+        res.json({ success: true, output: stdout || stderr, logPath });
     });
 });
 
