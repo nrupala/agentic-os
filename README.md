@@ -1,78 +1,124 @@
-# 🏝️ The Paradise Stack
-> A fully independent, FOSS AI Software Engineering OS.
+# 🏝️ Paradise Stack
 
-## 🚀 The Stack
-- **Architect:** [Cline CLI](https://github.com) - Autonomous Planning.
-- **Builder:** [Aider](https://aider.chat) - Git-native Implementation.
-- **Senses:** [Langfuse](https://langfuse.com) & [Arize Phoenix](https://arize.com) - Tracing & Observability.
-- **Knowledge:** [Crawl4AI](https://crawl4ai.com) - Documentation RAG.
-- **Guardian:** [Ruff](https://docs.astral.sh/ruff) + [ESLint](https://eslint.org) + [Prettier](https://prettier.io) - FOSS Quality Assurance.
+> A fully independent, FOSS AI Software Engineering OS powered by multi-agent orchestration.
 
-## 🛠️ Quick Start
-1. **Fix Build Tools:** Install [C++ Build Tools](https://microsoft.com) (Select "Desktop development with C++").
-2. **Install:** `powershell ./setup.ps1`
-3. **Launch Senses:** `docker-compose up -d`
-4. **Code:** 
-   - Use `cline "Plan feature X"` to create a `PLAN.md`.
-   - Use `aider --message "Execute PLAN.md"` to build it.
+## ⚡ Quick Start (One Command)
 
-## 🧠 Local Intelligence
-Configured to run via **Ollama**. Default models:
-- **Planning:** `deepseek-v3`
-- **Coding:** `qwen2.5-coder:32b`
-
-
-## 🏗️ The Workflow
-1. **Architect (Cline):** High-level planning via `cline`.
-2. **Knowledge (Crawl4AI):** Just-in-time documentation scraping.
-3. **Builder (Aider):** Git-native code implementation.
-4. **Guardian (Qodo):** Automated testing and quality gates.
-5. **Senses (Langfuse/Phoenix):** Full observability of every token.
-
-## 🖥️ The Command Center
-Open `dashboard/index.html` in any browser to visualize the agent hand-off sequence and monitor system health.
-
-## 🚀 Installation
-
-### Option 1: Docker (Recommended)
 ```bash
 docker-compose up -d
 ```
-Open http://localhost:3001
 
-### Option 2: Local Setup
-```powershell
-powershell ./setup.ps1
-docker-compose up -d
-```
+Then open **http://localhost:3001** in your browser.
+
+That's it. No installation, no dependencies, nothing else needed.
+
+---
+
+## 🎯 What It Does
+
+Enter a feature request (e.g., "generate a simple to-do list") and Paradise Stack:
+
+1. **Architect** (Cline) - Creates implementation plan
+2. **Knowledge** (Crawl4AI) - Retrieves relevant documentation
+3. **Builder** (Aider) - Implements the code
+4. **Guardian** (Ruff/ESLint) - Quality assurance
+
+---
+
+## 🔧 The Stack
+
+| Agent | Tool | Purpose |
+|-------|------|---------|
+| Architect | [Cline CLI](https://github.com) | High-level planning |
+| Builder | [Aider](https://aider.chat) | Git-native code implementation |
+| Knowledge | [Crawl4AI](https://crawl4ai.com) | Documentation RAG |
+| Guardian | [Ruff](https://ruff.rs) + [ESLint](https://eslint.org) | FOSS Quality Assurance |
+| Senses | [Langfuse](https://langfuse.com) + [Phoenix](https://arize.com) | Observability |
+
+---
+
+## 🖥️ Access Points
+
+| Service | URL | Purpose |
+|---------|-----|---------|
+| **Paradise Dashboard** | http://localhost:3001 | Command Center |
+| **Langfuse** | http://localhost:3000 | Tracing & Analytics |
+| **Phoenix** | http://localhost:6006 | Agent Visualization |
+
+---
 
 ## 📁 Project Structure
+
 ```
 .
-├── logs/           # Command execution logs
-├── outputs/        # Generated artifacts
-├── projects/       # Project-specific files
-└── dashboard/      # Web UI
-    ├── server.js   # Node bridge server
-    └── index.html  # Command Center GUI
+├── docker-compose.yml    # One-command startup
+├── Dockerfile           # Container definition
+├── dashboard/            # Web UI
+│   ├── index.html       # Dashboard
+│   ├── server.js        # Bridge server
+│   └── workflow.js      # Agent orchestration
+├── docs/
+│   └── RESEARCH.md      # Research references
+├── logs/                # Command logs
+├── outputs/             # Generated artifacts
+└── projects/           # Project files
 ```
 
-## 📋 Versioning
-Current version: `1.0.0`
+---
 
-**Get version:**
+## 🛠️ Development
+
+### Local Setup (without Docker)
+
+```powershell
+# Install dependencies
+pip install -r requirements.txt
+cd dashboard && npm install && cd ..
+
+# Start dashboard
+node dashboard/server.js
+
+# Start observability (in another terminal)
+docker-compose up -d langfuse phoenix db
+```
+
+### Build Image
+
 ```bash
-# From VERSION file
+docker-compose build
+```
+
+### View Logs
+
+```bash
+docker-compose logs -f paradise
+```
+
+---
+
+## 🔬 Research Basis
+
+Paradise Stack is based on peer-reviewed research:
+
+- **MapCoder** (ACL 2024) - Four-agent pipeline pattern
+- **HyperAgent** (arXiv 2024) - Specialized agent roles
+- **SkillOrchestra** (arXiv 2026) - Skill-aware orchestration
+- **12-Factor Docker** - Container best practices
+
+See [docs/RESEARCH.md](docs/RESEARCH.md) for full references.
+
+---
+
+## 📋 Version
+
+Current: **1.0.0**
+
+```bash
 cat VERSION
-
-# From package.json
-npm pkg get version
 ```
 
-**Release workflow:**
-```bash
-# Update version in VERSION and package.json
-# Create git tag
-git tag v1.0.0
-git push origin v1.0.0
-```
+---
+
+## 📜 License
+
+MIT

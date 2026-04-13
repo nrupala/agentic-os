@@ -1,0 +1,57 @@
+# Git
+.git
+.gitignore
+
+# Environment
+.env
+.env.*
+.env.local
+
+# Build artifacts
+node_modules
+dashboard/node_modules
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info
+dist
+build
+lxml
+
+# Logs and runtime
+logs
+outputs
+projects
+*.log
+data
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# AI context
+PLAN.md
+docs/architecture/*.png
+
+# Documentation (not needed in container)
+*.md
+!README.md
+LICENSE
+
+# Docker files (not needed in container)
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# GitHub
+.github

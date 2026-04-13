@@ -1,6 +1,16 @@
-version: '3.8'
+# =============================================================================
+# Paradise Stack - AI Agent Orchestration Platform
+# 
+# ONE COMMAND STARTUP:
+#   docker-compose up -d
+#
+# Then open: http://localhost:3001
+# =============================================================================
 
 services:
+  # ---------------------------------------------------------------------------
+  # Paradise Bridge - Main Dashboard & Agent Orchestration
+  # ---------------------------------------------------------------------------
   paradise:
     build: .
     container_name: paradise-bridge
@@ -8,33 +18,51 @@ services:
       - "3001:3001"
     volumes:
       - .:/app
-      - ~/.gitconfig:/root/.gitconfig:ro
-      - ~/.ssh:/root/.ssh:ro
+      - ~/.gitconfig:/home/paradise/.gitconfig:ro
+      - ~/.ssh:/home/paradise/.ssh:ro
     environment:
       - HOST_PROJECT_ROOT=/app
+      - PYTHONUNBUFFERED=1
+      - NODE_ENV=production
     stdin_open: true
     tty: true
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/status"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - paradise-net
 
+  # ---------------------------------------------------------------------------
+  # Langfuse - AI Observability & Tracing
+  # ---------------------------------------------------------------------------
   langfuse:
     image: langfuse/langfuse:latest
     container_name: paradise-langfuse
     ports:
       - "3000:3000"
     environment:
-      - DATABASE_URL=postgresql://postgres:${POSTGRES_PASSWORD:-postgres}@db:5432/postgres
-      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET:-changeme}
+      - DATABASE_URL=postgresql://postgres:${POSTGRES_PASSWORD:-paradise}@db:5432/postgres
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET:-paradise-stack-secret}
       - NEXTAUTH_URL=http://localhost:3000
     depends_on:
       db:
         condition: service_healthy
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/api/public/health"]
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:3000/api/public/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
+    networks:
+      - paradise-net
 
+  # ---------------------------------------------------------------------------
+  # Phoenix - Agent Visualizer & RAG Observability
+  # ---------------------------------------------------------------------------
   phoenix:
     image: arizephoenix/phoenix:latest
     container_name: paradise-phoenix
@@ -45,17 +73,22 @@ services:
     environment:
       - PHOENIX_HOST=0.0.0.0
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:6006/health"]
+      test: ["CMD-SHELL", "curl -f http://localhost:6006/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
+    networks:
+      - paradise-net
 
+  # ---------------------------------------------------------------------------
+  # PostgreSQL - Langfuse Database
+  # ---------------------------------------------------------------------------
   db:
     image: postgres:16-alpine
     container_name: paradise-db
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-paradise}
       - POSTGRES_DB=postgres
     volumes:
       - pgdata:/var/lib/postgresql/data
@@ -65,6 +98,12 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - paradise-net
+
+networks:
+  paradise-net:
+    driver: bridge
 
 volumes:
   pgdata:
