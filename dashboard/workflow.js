@@ -1,7 +1,7 @@
 const workflowSteps = [
     { id: "step1", agent: "CLINE", action: "Architect", command: "cline --plan \"$PROMPT\"", description: "Generating PLAN.md" },
-    { id: "step2", agent: "CRAWL4AI", action: "Knowledge", command: "crawl4ai --url \"$PROMPT\"", description: "Updating Context" },
-    { id: "step3", agent: "AIDER", action: "Implement", command: "aider --message \"Execute PLAN.md\" --auto-test --yes", description: "Applying Code Changes" },
+    { id: "step2", agent: "CRAWL4AI", action: "Knowledge", command: "python -m crawl4ai fetch \"$PROMPT\"", description: "Updating Context" },
+    { id: "step3", agent: "AIDER", action: "Implement", command: "python -m aider --message \"Execute PLAN.md\" --auto-test --yes", description: "Applying Code Changes" },
     { id: "step4", agent: "QODO", action: "Verify", command: "qodo scan .", description: "Quality Assurance" }
 ];
 

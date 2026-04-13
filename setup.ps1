@@ -1,3 +1,6 @@
+# Add Python Scripts to PATH
+$env:PATH = "$env:APPDATA\Python\pythoncore-3.14-64\Scripts;$env:PATH"
+
 # 1. Install Python Dependencies
 pip install -r requirements.txt
 
@@ -6,7 +9,7 @@ npm i -g cline @qodo/command
 cd dashboard; npm install; cd ..
 
 # 3. Setup Crawl4AI browser
-crawl4ai-setup
+python -m crawl4ai setup
 
 # 4. Check for Ollama
 if (Get-Command ollama -ErrorAction SilentlyContinue) {
