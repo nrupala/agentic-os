@@ -35,3 +35,23 @@ Open `dashboard/index.html` in any browser to visualize the agent hand-off seque
 ## 🚀 Installation
 `powershell ./setup.ps1`
 `docker-compose up -d`
+
+## 📋 Versioning
+Current version: `1.0.0`
+
+**Get version:**
+```bash
+# From VERSION file
+cat VERSION
+
+# From package.json
+npm pkg get version
+```
+
+**Release workflow:**
+```bash
+# Update version in VERSION and package.json
+# Create git tag
+git tag v1.0.0
+git push origin v1.0.0
+```

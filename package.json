@@ -1,0 +1,16 @@
+{
+  "name": "paradise-stack",
+  "version": "1.0.0",
+  "description": "A fully independent, FOSS AI Software Engineering OS",
+  "main": "dashboard/server.js",
+  "scripts": {
+    "start": "node dashboard/server.js",
+    "version": "cat VERSION",
+    "bump": "npm version $(cat VERSION) && git add VERSION package.json package-lock.json"
+  },
+  "keywords": ["ai", "agentic", "devops", "paradise-stack"],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
