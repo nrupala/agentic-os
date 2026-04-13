@@ -5,6 +5,13 @@
 ## ⚡ Quick Start (One Command)
 
 ```bash
+# Linux/Mac
+./test.sh
+
+# Windows
+test.bat
+
+# Or manually:
 docker-compose up -d
 ```
 
