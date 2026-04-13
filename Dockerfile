@@ -30,6 +30,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     curl \
     git \
+    nodejs \
+    npm \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=deps /install /usr/local
@@ -59,16 +61,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     git \
     bash \
-    && npm config set unsafe-perm true \
-    && rm -rf /var/lib/apt/lists/* \
-    && ln -sf /usr/bin/nodejs /usr/bin/node
+    && rm -rf /var/lib/apt/lists/*
 
 COPY --from=deps /install /usr/local
 COPY --from=builder /build/node_modules ./node_modules
 COPY . .
 
-RUN adduser --disabled-password --gecos "" paradise && \
-    addgroup paradise paradise && \
+RUN adduser --disabled-password --gecos "" paradise || true && \
     chown -R paradise:paradise /app
 
 USER paradise
