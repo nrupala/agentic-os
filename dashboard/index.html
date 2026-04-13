@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paradise Stack | Command Center</title>
+    <style>
+        :root { --bg: #0d1117; --text: #c9d1d9; --accent: #58a6ff; --green: #238636; --border: #30363d; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; height: 100vh; }
+        #sidebar { width: 300px; border-right: 1px solid var(--border); padding: 20px; background: #161b22; }
+        #main { flex: 1; display: flex; flex-direction: column; padding: 20px; }
+        .card { background: #161b22; border: 1px solid var(--border); border-radius: 6px; padding: 15px; margin-bottom: 15px; }
+        .status { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 5px; }
+        .online { background: #3fb950; box-shadow: 0 0 5px #3fb950; }
+        .terminal { background: #000; color: #00ff00; font-family: 'Courier New', monospace; padding: 15px; border-radius: 4px; flex-grow: 1; overflow-y: auto; white-space: pre-wrap; font-size: 0.9em; }
+        button { background: var(--green); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        button:hover { opacity: 0.8; }
+        input { background: #0d1117; border: 1px solid var(--border); color: white; padding: 10px; width: 100%; box-sizing: border-box; margin-bottom: 10px; }
+        .tag { font-size: 0.7em; background: var(--accent); color: #000; padding: 2px 6px; border-radius: 10px; margin-left: 5px; }
+    </style>
+</head>
+<body>
+
+<div id="sidebar">
+    <h2>Paradise Stack</h2>
+    <div class="card">
+        <h4>System Senses</h4>
+        <div><span class="status online"></span> Ollama (Port 11434)</div>
+        <div><span class="status online"></span> Langfuse (Port 3000)</div>
+        <div><span class="status online"></span> Phoenix (Port 6006)</div>
+    </div>
+    <div class="card">
+        <h4>Workflow Sequence</h4>
+        <div id="workflow-list"></div>
+    </div>
+</div>
+
+<div id="main">
+    <div class="card">
+        <h4>Active Prompt</h4>
+        <input type="text" id="prompt-input" placeholder="Enter feature request (e.g., 'Add user authentication')">
+        <button onclick="startWorkflow()">Execute Paradise Sequence</button>
+    </div>
+    <div class="terminal" id="terminal-output">> System Ready. Awaiting instructions...</div>
+</div>
+
+<script src="workflow.js"></script>
+</body>
+</html>

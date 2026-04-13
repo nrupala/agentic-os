@@ -1,16 +1,19 @@
-# Ignore local environment variables
+# Local Environment
 .env
+.env.local
 
-# Ignore Python dependencies
+# AI Generated Context
+docs/architecture/*.png
+PLAN.md
+
+# Dependencies & Build
+node_modules/
 __pycache__/
-*.py[cod]
-*$py.class
 venv/
 .venv/
+build/
+lxml/
 
-# Ignore Node dependencies
-node_modules/
-
-# Ignore local observability data
+# Observability Data
 data/
 *.log

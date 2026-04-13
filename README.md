@@ -20,3 +20,18 @@
 Configured to run via **Ollama**. Default models:
 - **Planning:** `deepseek-v3`
 - **Coding:** `qwen2.5-coder:32b`
+
+
+## 🏗️ The Workflow
+1. **Architect (Cline):** High-level planning via `cline`.
+2. **Knowledge (Crawl4AI):** Just-in-time documentation scraping.
+3. **Builder (Aider):** Git-native code implementation.
+4. **Guardian (Qodo):** Automated testing and quality gates.
+5. **Senses (Langfuse/Phoenix):** Full observability of every token.
+
+## 🖥️ The Command Center
+Open `dashboard/index.html` in any browser to visualize the agent hand-off sequence and monitor system health.
+
+## 🚀 Installation
+`powershell ./setup.ps1`
+`docker-compose up -d`
