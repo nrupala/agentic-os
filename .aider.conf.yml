@@ -1,0 +1,9 @@
+model: openai/qwen2.5-coder:32b
+openai-api-base: http://localhost:11434/v1
+openai-api-key: dummy-key
+edit-format: architect
+map-tokens: 1024
+auto-test: true
+test-command: qodo scan .
+# Connects Aider to your Phoenix dashboard
+env-file: .env

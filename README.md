@@ -1,0 +1,22 @@
+# 🏝️ The Paradise Stack
+> A fully independent, FOSS AI Software Engineering OS.
+
+## 🚀 The Stack
+- **Architect:** [Cline CLI](https://github.com) - Autonomous Planning.
+- **Builder:** [Aider](https://aider.chat) - Git-native Implementation.
+- **Senses:** [Langfuse](https://langfuse.com) & [Arize Phoenix](https://arize.com) - Tracing & Observability.
+- **Knowledge:** [Crawl4AI](https://crawl4ai.com) - Documentation RAG.
+- **Guardian:** [Qodo](https://qodo.ai) - Automated Quality Assurance.
+
+## 🛠️ Quick Start
+1. **Fix Build Tools:** Install [C++ Build Tools](https://microsoft.com) (Select "Desktop development with C++").
+2. **Install:** `powershell ./setup.ps1`
+3. **Launch Senses:** `docker-compose up -d`
+4. **Code:** 
+   - Use `cline "Plan feature X"` to create a `PLAN.md`.
+   - Use `aider --message "Execute PLAN.md"` to build it.
+
+## 🧠 Local Intelligence
+Configured to run via **Ollama**. Default models:
+- **Planning:** `deepseek-v3`
+- **Coding:** `qwen2.5-coder:32b`
