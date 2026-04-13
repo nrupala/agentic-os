@@ -6,7 +6,7 @@
 - **Builder:** [Aider](https://aider.chat) - Git-native Implementation.
 - **Senses:** [Langfuse](https://langfuse.com) & [Arize Phoenix](https://arize.com) - Tracing & Observability.
 - **Knowledge:** [Crawl4AI](https://crawl4ai.com) - Documentation RAG.
-- **Guardian:** [Qodo](https://qodo.ai) - Automated Quality Assurance.
+- **Guardian:** [Ruff](https://docs.astral.sh/ruff) + [ESLint](https://eslint.org) + [Prettier](https://prettier.io) - FOSS Quality Assurance.
 
 ## 🛠️ Quick Start
 1. **Fix Build Tools:** Install [C++ Build Tools](https://microsoft.com) (Select "Desktop development with C++").

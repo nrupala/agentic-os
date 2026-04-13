@@ -5,7 +5,8 @@ $env:PATH = "$env:APPDATA\Python\pythoncore-3.14-64\Scripts;$env:PATH"
 pip install -r requirements.txt
 
 # 2. Install Node Dependencies
-npm i -g cline @qodo/command
+npm i -g cline
+npm install -g eslint prettier
 cd dashboard; npm install; cd ..
 
 # 3. Setup Crawl4AI browser
