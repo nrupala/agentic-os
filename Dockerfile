@@ -6,7 +6,7 @@
 # =============================================================================
 
 # -----------------------------------------------------------------------------
-# Stage 1: Dependencies (Python packages)
+# Stage 1: Dependencies (Python + Node packages)
 # -----------------------------------------------------------------------------
 FROM python:3.11-slim AS deps
 
@@ -14,38 +14,21 @@ WORKDIR /deps
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
-    && rm -rf /var/lib/apt/lists/*
-
-COPY requirements.txt .
-
-RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
-
-# -----------------------------------------------------------------------------
-# Stage 2: Builder (Node packages + cline)
-# -----------------------------------------------------------------------------
-FROM python:3.11-slim AS builder
-
-WORKDIR /build
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    curl \
     git \
     nodejs \
     npm \
+    ripgrep \
     && rm -rf /var/lib/apt/lists/*
 
-COPY --from=deps /install /usr/local
-
-# Install dashboard dependencies
-COPY dashboard/package*.json ./
-RUN npm ci --production && npm cache clean --force
+# Install Python packages to /install
+COPY requirements.txt .
+RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
 
 # Install cline globally for CLI access
 RUN npm install -g cline && npm cache clean --force
 
 # -----------------------------------------------------------------------------
-# Stage 3: Runtime (Final container)
+# Stage 2: Runtime (Final container)
 # -----------------------------------------------------------------------------
 FROM python:3.11-slim AS runtime
 
@@ -66,15 +49,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     git \
     bash \
+    ripgrep \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy Python packages
+# Copy Python packages from deps
 COPY --from=deps /install /usr/local
 
-# Copy npm packages from builder
-COPY --from=builder /build/node_modules /app/node_modules
-COPY --from=builder /usr/local/lib/node_modules /usr/local/lib/node_modules
-COPY --from=builder /usr/local/bin/cline /usr/local/bin/cline
+# Copy cline executable and global npm modules
+COPY --from=deps /usr/local/bin/cline /usr/local/bin/cline
+COPY --from=deps /usr/local/lib/node_modules /usr/local/lib/node_modules
+
+# Copy dashboard dependencies
+COPY dashboard/package*.json ./
+RUN npm ci --production && npm cache clean --force
 
 # Copy application code
 COPY . .

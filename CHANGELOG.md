@@ -15,6 +15,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 - Dockerfile multi-stage build optimization
 - Global npm modules handling for cline
+- Added `ripgrep` dependency for cline
+- Updated requirements.txt to use `aider-chat` instead of `aider`
+
+### Fixed
+- Aider command path: `/home/paradise/.local/bin/aider`
+- Crawl4AI command via Python module
+- Cline missing dependency issue
 
 ## [1.0.0] - Initial Release
 
