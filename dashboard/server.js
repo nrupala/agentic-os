@@ -12,6 +12,19 @@ const LOGS_DIR = path.join(projectRoot, 'logs');
 const OUTPUTS_DIR = path.join(projectRoot, 'outputs');
 const PROJECTS_DIR = path.join(projectRoot, 'projects');
 
+const VERSIONS = {
+    platform: '1.1.0-dev',
+    node: process.version,
+    python: '3.11',
+    docker: 'containerized',
+    dependencies: {
+        aider: '0.2.6',
+        crawl4ai: '0.8.6',
+        ruff: '0.15.10',
+        express: '4.x'
+    }
+};
+
 [LOGS_DIR, OUTPUTS_DIR, PROJECTS_DIR].forEach(dir => {
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 });
@@ -131,6 +144,10 @@ app.get('/status', (req, res) => {
         projectRoot,
         timestamp: new Date().toISOString()
     });
+});
+
+app.get('/version', (req, res) => {
+    res.json(VERSIONS);
 });
 
 app.listen(3001, () => {

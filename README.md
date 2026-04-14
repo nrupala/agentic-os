@@ -60,7 +60,7 @@ Enter a feature request (e.g., "generate a simple to-do list") and Paradise Stac
 .
 ├── docker-compose.yml    # One-command startup
 ├── Dockerfile           # Container definition
-├── dashboard/            # Web UI
+├── dashboard/           # Web UI
 │   ├── index.html       # Dashboard
 │   ├── server.js        # Bridge server
 │   └── workflow.js      # Agent orchestration
@@ -68,7 +68,7 @@ Enter a feature request (e.g., "generate a simple to-do list") and Paradise Stac
 │   └── RESEARCH.md      # Research references
 ├── logs/                # Command logs
 ├── outputs/             # Generated artifacts
-└── projects/           # Project files
+└── projects/            # Project files
 ```
 
 ---
@@ -118,14 +118,73 @@ See [docs/RESEARCH.md](docs/RESEARCH.md) for full references.
 
 ## 📋 Version
 
-Current: **1.0.0**
+Current: **1.1.0-dev**
+
+### Versioning System
+
+Paradise Stack uses [Semantic Versioning](https://semver.org/):
+
+```
+MAJOR.MINOR.PATCH[-PRERELEASE]
+1     .1     .0        -dev
+```
+
+| Component | Description |
+|-----------|-------------|
+| MAJOR | Breaking changes to core architecture |
+| MINOR | New features, backwards-compatible |
+| PATCH | Bug fixes, small improvements |
+| PRERELEASE | Development markers (dev, alpha, beta) |
+
+### Version Files
 
 ```bash
+# Current version
 cat VERSION
+
+# Dependency versions
+cat versions.json
+
+# Full changelog
+cat CHANGELOG.md
 ```
+
+### API Version Endpoint
+
+```bash
+# Get version info
+curl http://localhost:3001/version
+```
+
+Returns:
+```json
+{
+  "platform": "1.1.0-dev",
+  "node": "v20.x",
+  "python": "3.11",
+  "docker": "containerized",
+  "dependencies": {
+    "aider": "0.2.6",
+    "crawl4ai": "0.8.6",
+    "ruff": "0.15.10",
+    "express": "4.x"
+  }
+}
+```
+
+### Version History
+
+| Version | Date | Status |
+|---------|------|--------|
+| 1.1.0-dev | 2026-04-14 | Development |
+| 1.0.0 | 2026-04-13 | Initial Release |
 
 ---
 
 ## 📜 License
 
 MIT
+
+---
+
+*Paradise Stack - Version 1.1.0-dev | Based on MapCoder, HyperAgent, SkillOrchestra*

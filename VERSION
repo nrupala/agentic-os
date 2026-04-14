@@ -1,1 +1,9 @@
-1.0.0
+1.1.0-dev
+
+## Version History
+
+### 1.0.0 (Initial Release)
+- Core dashboard with Express server
+- Workflow orchestration (Cline → Crawl4AI → Aider → Ruff)
+- Multi-agent pipeline based on MapCoder/HyperAgent/SkillOrchestra
+- Docker-based zero-dependency deployment

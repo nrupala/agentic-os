@@ -1,11 +1,12 @@
 # syntax=docker/dockerfile:1.4
 # =============================================================================
 # Paradise Stack - AI Agent Orchestration Platform
+# Version: 1.1.0-dev
 # Based on: MapCoder (ACL 2024), HyperAgent (arXiv 2024), SkillOrchestra (arXiv 2026)
 # =============================================================================
 
 # -----------------------------------------------------------------------------
-# Stage 1: Dependencies
+# Stage 1: Dependencies (Python packages)
 # -----------------------------------------------------------------------------
 FROM python:3.11-slim AS deps
 
@@ -20,7 +21,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
 
 # -----------------------------------------------------------------------------
-# Stage 2: Builder
+# Stage 2: Builder (Node packages + cline)
 # -----------------------------------------------------------------------------
 FROM python:3.11-slim AS builder
 
@@ -36,17 +37,21 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY --from=deps /install /usr/local
 
+# Install dashboard dependencies
 COPY dashboard/package*.json ./
 RUN npm ci --production && npm cache clean --force
 
+# Install cline globally for CLI access
+RUN npm install -g cline && npm cache clean --force
+
 # -----------------------------------------------------------------------------
-# Stage 3: Runtime
+# Stage 3: Runtime (Final container)
 # -----------------------------------------------------------------------------
 FROM python:3.11-slim AS runtime
 
 LABEL maintainer="Paradise Stack"
 LABEL description="AI Agent Orchestration Platform"
-LABEL version="1.0.0"
+LABEL version="1.1.0-dev"
 
 ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONDONTWRITEBYTECODE=1 \
@@ -63,10 +68,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     bash \
     && rm -rf /var/lib/apt/lists/*
 
+# Copy Python packages
 COPY --from=deps /install /usr/local
-COPY --from=builder /build/node_modules ./node_modules
+
+# Copy npm packages from builder
+COPY --from=builder /build/node_modules /app/node_modules
+COPY --from=builder /usr/local/lib/node_modules /usr/local/lib/node_modules
+COPY --from=builder /usr/local/bin/cline /usr/local/bin/cline
+
+# Copy application code
 COPY . .
 
+# Create user and set permissions
 RUN adduser --disabled-password --gecos "" paradise || true && \
     chown -R paradise:paradise /app
 

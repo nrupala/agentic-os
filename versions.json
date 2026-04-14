@@ -1,0 +1,25 @@
+{
+  "platform": "1.1.0-dev",
+  "docker": {
+    "image": "agentic-os-paradise",
+    "tag": "latest",
+    "base": "python:3.11-slim"
+  },
+  "dependencies": {
+    "python": "3.11",
+    "node": "20.x",
+    "aider": "0.2.6",
+    "crawl4ai": "0.8.6",
+    "ruff": "0.15.10",
+    "cline": "latest",
+    "express": "4.x",
+    "cors": "2.x"
+  },
+  "ports": {
+    "dashboard": 3001,
+    "langfuse": 3000,
+    "phoenix": 6006,
+    "phoenix-grpc": 4317
+  },
+  "lastUpdated": "2026-04-14"
+}
