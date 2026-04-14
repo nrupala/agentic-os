@@ -1,3 +1,35 @@
+# Paradise Stack - Core Dependencies
+# Intelligent WebApp Generating Agent
+
+# === Core AI/Coding Tools ===
 aider-chat
 crawl4ai
 ruff
+
+# === Data Processing & ML ===
+numpy>=1.24.0
+pandas>=2.0.0
+scikit-learn>=1.3.0
+
+# === Web Development ===
+flask>=3.0.0
+fastapi>=0.110.0
+uvicorn>=0.27.0
+
+# === Database ===
+psycopg2-binary>=2.9.9
+sqlalchemy>=2.0.0
+
+# === HTTP & APIs ===
+requests>=2.31.0
+httpx>=0.27.0
+
+# === Testing ===
+pytest>=8.0.0
+pytest-cov>=4.1.0
+
+# === Code Analysis ===
+tree-sitter>=0.21.0
+
+# === Learning & Adaptation ===
+# (For future self-learning capabilities)

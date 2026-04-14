@@ -1,8 +1,8 @@
 # syntax=docker/dockerfile:1.4
 # =============================================================================
-# Paradise Stack - AI Agent Orchestration Platform
-# Version: 1.1.0-dev
-# Based on: MapCoder (ACL 2024), HyperAgent (arXiv 2024), SkillOrchestra (arXiv 2026)
+# Paradise Stack - Intelligent WebApp Generating Agent
+# Version: 1.1.0
+# Based on: MapCoder (ACL 2024), Claude Code, KAT-Coder
 # =============================================================================
 
 # -----------------------------------------------------------------------------
@@ -18,13 +18,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     nodejs \
     npm \
     ripgrep \
+    build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python packages to /install
+# Install Python packages
 COPY requirements.txt .
 RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
 
-# Install cline globally for CLI access
+# Install cline globally
 RUN npm install -g cline && npm cache clean --force
 
 # -----------------------------------------------------------------------------
@@ -33,8 +34,8 @@ RUN npm install -g cline && npm cache clean --force
 FROM python:3.11-slim AS runtime
 
 LABEL maintainer="Paradise Stack"
-LABEL description="AI Agent Orchestration Platform"
-LABEL version="1.1.0-dev"
+LABEL description="Intelligent WebApp Generating Agent"
+LABEL version="1.1.0"
 
 ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONDONTWRITEBYTECODE=1 \
@@ -52,10 +53,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ripgrep \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy Python packages from deps
+# Copy Python packages
 COPY --from=deps /install /usr/local
 
-# Copy cline executable and global npm modules
+# Copy cline
 COPY --from=deps /usr/local/bin/cline /usr/local/bin/cline
 COPY --from=deps /usr/local/lib/node_modules /usr/local/lib/node_modules
 
@@ -66,7 +67,7 @@ RUN npm ci --production && npm cache clean --force
 # Copy application code
 COPY . .
 
-# Create user and set permissions
+# Create user
 RUN adduser --disabled-password --gecos "" paradise || true && \
     chown -R paradise:paradise /app
 
