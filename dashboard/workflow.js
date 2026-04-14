@@ -1,8 +1,7 @@
 const workflowSteps = [
-    { id: "step1", agent: "CLINE", action: "Architect", command: "cline --plan '$PROMPT'", description: "Creating implementation plan" },
-    { id: "step2", agent: "CRAWL4AI", action: "Knowledge", command: "python3 -c \"from crawl4ai import cli; import sys; sys.argv = ['crawl4ai', 'crawl', '$PROMPT']; cli.main()\"", description: "Fetching relevant documentation" },
-    { id: "step3", agent: "AIDER", action: "Implement", command: "aider --no-git --no-auto-commits --message '$PROMPT'", description: "Implementing code changes" },
-    { id: "step4", agent: "GUARDIAN", action: "Verify", command: "ruff check . && ruff format --check .", description: "Quality assurance" }
+    { id: "step1", agent: "PLANNER", action: "Architect", command: "python3 /app/planner.py '$PROMPT'", description: "Creating implementation plan" },
+    { id: "step2", agent: "AIDER", action: "Implement", command: "aider --no-git --no-auto-commits --message '$PROMPT'", description: "Implementing code changes" },
+    { id: "step3", agent: "GUARDIAN", action: "Verify", command: "ruff check . && ruff format --check .", description: "Quality assurance" }
 ];
 
 function initWorkflow() {
