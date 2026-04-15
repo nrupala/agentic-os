@@ -1,0 +1,32 @@
+# Code Owners for agentic-OS
+# This file defines who owns which parts of the codebase
+
+# Default owner for everything
+* @nrupala
+
+# Core engine components
+/engine/ @nrupala
+/tools/ @nrupala
+/api/ @nrupala
+
+# Security and compliance
+/security/ @nrupala
+
+# Documentation
+/docs/ @nrupala
+/**/*.md @nrupala
+
+# CI/CD
+/.github/workflows/ @nrupala
+/.github/ISSUE_TEMPLATE/ @nrupala
+/.github/PULL_REQUEST_TEMPLATE.md @nrupala
+
+# Docker
+/docker/ @nrupala
+Dockerfile* @nrupala
+docker-compose* @nrupala
+
+# Configuration
+/requirements*.txt @nrupala
+/pyproject.toml @nrupala
+/.env* @nrupala

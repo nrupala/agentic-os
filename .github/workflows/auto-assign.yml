@@ -1,0 +1,109 @@
+name: Auto Assign
+
+on:
+  issues:
+    types: [opened, labeled]
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  assign-author:
+    name: Assign Author
+    runs-on: ubuntu-latest
+    if: github.event_name == 'issues'
+    steps:
+      - name: Assign author to issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            if (issue.assignees.length === 0) {
+              await github.rest.issues.addAssignees({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                assignees: [issue.user.login]
+              });
+            }
+
+  assign-reviewers:
+    name: Assign Reviewers
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Assign reviewers
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            
+            // Auto-assign based on code owner rules
+            const reviewers = [];
+            
+            // Add codeowners as reviewers
+            const files = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number
+            });
+            
+            const reviewersSet = new Set();
+            for (const file of files.data) {
+              // Simple auto-reviewer logic based on file paths
+              if (file.filename.startsWith('engine/')) {
+                reviewersSet.add('nrupala');
+              } else if (file.filename.startsWith('tools/')) {
+                reviewersSet.add('nrupala');
+              } else if (file.filename.startsWith('api/')) {
+                reviewersSet.add('nrupala');
+              }
+            }
+            
+            if (reviewersSet.size > 0) {
+              await github.rest.pulls.requestReviewers({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pr.number,
+                reviewers: Array.from(reviewersSet)
+              });
+            }
+
+  add-triage-label:
+    name: Add Triage Label
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add triage label
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const context_data = context.payload;
+            const issueOrPR = context_data.issue || context_data.pull_request;
+            
+            if (issueOrPR && issueOrPR.labels) {
+              const hasTriageLabel = issueOrPR.labels.some(
+                label => label.name === 'triage'
+              );
+              
+              if (!hasTriageLabel) {
+                if (context.eventName === 'issues') {
+                  await github.rest.issues.addLabels({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: issueOrPR.number,
+                    labels: ['triage']
+                  });
+                } else if (context.eventName === 'pull_request') {
+                  await github.rest.issues.addLabels({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: issueOrPR.number,
+                    labels: ['triage']
+                  });
+                }
+              }
+            }

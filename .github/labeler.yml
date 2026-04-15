@@ -1,0 +1,64 @@
+# Labeler configuration for agentic-OS
+
+# Engine components
+engine:
+  - changed: 'engine/**/*'
+
+# Tools
+tools:
+  - changed: 'tools/**/*'
+
+# API server
+api:
+  - changed: 'api/**/*'
+
+# Dashboard
+dashboard:
+  - changed: 'dashboard/**/*'
+
+# Security modules
+security:
+  - changed: 'security/**/*'
+  - changed: '**/*security*'
+
+# Cognition modules
+cognition:
+  - changed: 'cognition/**/*'
+
+# Documentation
+documentation:
+  - changed: '**/*.md'
+  - changed: 'docs/**/*'
+  - changed: '.github/**/*.md'
+
+# Tests
+tests:
+  - changed: 'tests/**/*'
+  - changed: '**/*test*.py'
+  - changed: '**/*spec*.js'
+
+# CI/CD
+ci:
+  - changed: '.github/workflows/**/*'
+  - changed: '.github/ISSUE_TEMPLATE/**/*'
+  - changed: 'PULL_REQUEST_TEMPLATE.md'
+
+# Docker
+docker:
+  - changed: 'docker/**/*'
+  - changed: 'Dockerfile*'
+  - changed: 'docker-compose*'
+
+# Dependencies
+dependencies:
+  - changed: 'requirements*.txt'
+  - changed: 'package*.json'
+  - changed: 'Pipfile*'
+  - changed: 'pyproject.toml'
+
+# Configuration
+config:
+  - changed: '.env*'
+  - changed: 'config/**/*'
+  - changed: '*.yaml'
+  - changed: '*.yml'

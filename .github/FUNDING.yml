@@ -1,0 +1,22 @@
+# Funding Configuration
+
+# GitHub Sponsors
+github:
+  - nrupala
+
+# Open Collective
+open_collective:
+
+# Patreon
+patreon:
+
+# Buy Me A Coffee
+ko_fi:
+
+# Liberapay
+liberapay:
+
+# Custom funding
+custom:
+  - type: github
+    url: https://github.com/sponsors/nrupala

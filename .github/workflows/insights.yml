@@ -1,0 +1,39 @@
+name: Weekly Insights
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  insights:
+    name: Generate Weekly Insights
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Get stats
+        run: |
+          echo "commits=$(git rev-list --count HEAD)" >> $GITHUB_OUTPUT
+          echo "contributors=$(git log --format='%ae' | sort -u | wc -l)" >> $GITHUB_OUTPUT
+      
+      - name: Create insights issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const today = new Date().toISOString().split('T')[0];
+            const body = '## Weekly Project Insights - ' + today + '\n\n### Statistics\n- Commits since start: ' + process.env.COMMITS + '\n- Contributors: ' + process.env.CONTRIBUTORS + '\n\n---\nGenerated automatically';
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '📊 Weekly Insights - ' + today,
+              body: body,
+              labels: ['insights', 'weekly']
+            });

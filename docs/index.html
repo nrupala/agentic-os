@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="agentic-OS - Production-ready autonomous coding agent combining Paradise Stack + OMEGA-CODE">
+    <meta name="author" content="Nrupal Akolkar">
+    <meta name="github" content="https://github.com/nrupala/agentic-OS">
+    <title>agentic-OS | Autonomous Coding Agent</title>
+    <link rel="canonical" href="https://nrupala.github.io/agentic-OS/">
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --border: #30363d;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --accent: #58a6ff;
+            --accent-hover: #79b8ff;
+            --success: #3fb950;
+            --warning: #d29922;
+            --error: #f85149;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        a:hover { color: var(--accent-hover); }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .logo svg {
+            width: 32px;
+            height: 32px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        
+        .nav-links a:hover { color: var(--text-primary); }
+        
+        .hero {
+            padding: 6rem 0;
+            text-align: center;
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+        }
+        
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent) 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        
+        .badges {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .badge {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .badge svg { width: 16px; height: 16px; }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        
+        .btn {
+            padding: 0.875rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+        
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+        }
+        
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--border);
+            transform: translateY(-2px);
+        }
+        
+        section {
+            padding: 5rem 0;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.2s;
+        }
+        
+        .feature-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+        }
+        
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(88, 166, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-icon svg {
+            width: 24px;
+            height: 24px;
+            color: var(--accent);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+        }
+        
+        .architecture {
+            background: var(--bg-secondary);
+        }
+        
+        .arch-diagram {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            overflow-x: auto;
+        }
+        
+        .arch-diagram pre {
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.75rem;
+            line-height: 1.4;
+            color: var(--text-secondary);
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        
+        .tool-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .tool-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        
+        .tool-info h4 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .tool-info p {
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+        }
+        
+        .contributing {
+            background: var(--bg-secondary);
+        }
+        
+        .contrib-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .step {
+            text-align: center;
+        }
+        
+        .step-number {
+            width: 48px;
+            height: 48px;
+            background: var(--accent);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 1rem;
+        }
+        
+        .step h4 {
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .step p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+        
+        .step code {
+            background: var(--bg-tertiary);
+            padding: 0.125rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.8125rem;
+        }
+        
+        footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-links a {
+            color: var(--text-secondary);
+        }
+        
+        .footer-links a:hover { color: var(--text-primary); }
+        
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links { display: none; }
+            .cta-buttons { flex-direction: column; }
+            .features { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    </svg>
+                    agentic-OS
+                </a>
+                <div class="nav-links">
+                    <a href="#features">Features</a>
+                    <a href="#architecture">Architecture</a>
+                    <a href="#tools">Tools</a>
+                    <a href="#contributing">Contributing</a>
+                    <a href="https://github.com/nrupala/agentic-OS" target="_blank">GitHub</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <h1>agentic-OS</h1>
+            <p>Production-ready autonomous coding agent combining Paradise Stack + OMEGA-CODE with all 19 phases complete and properly integrated.</p>
+            
+            <div class="badges">
+                <span class="badge">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    MIT License
+                </span>
+                <span class="badge">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7.5 3.75a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5zm11.25 0a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5zm-11.25 11.25a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5zm11.25 0a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5z"/></svg>
+                    Python 3.10+
+                </span>
+                <span class="badge">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    Paradise Stack + OMEGA-CODE
+                </span>
+            </div>
+            
+            <div class="cta-buttons">
+                <a href="https://github.com/nrupala/agentic-OS" class="btn btn-primary" target="_blank">
+                    View on GitHub
+                </a>
+                <a href="#architecture" class="btn btn-secondary">
+                    Explore Architecture
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <section id="features">
+        <div class="container">
+            <h2 class="section-title">Core Features</h2>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <h3>Paradise Planning</h3>
+                    <p>Intelligent task decomposition with dependency graph analysis, resource estimation, and strategy selection.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 6v6l4 2"/>
+                        </svg>
+                    </div>
+                    <h3>OMEGA Recursive Loop</h3>
+                    <p>19-phase autonomous execution with RECOLLECT, RECTIFY, VERIFY, and PERSIST cycles for continuous improvement.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+                        </svg>
+                    </div>
+                    <h3>GAN Self-Correction</h3>
+                    <p>Generator vs Discriminator loop for self-improvement with continuous feedback and pattern learning.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+                        </svg>
+                    </div>
+                    <h3>RAG Memory System</h3>
+                    <p>Vector-based retrieval augmented generation with hierarchical 3-tier memory architecture.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                            <path d="M7 11V7a5 5 0 0110 0v4"/>
+                        </svg>
+                    </div>
+                    <h3>Zero-Trust Security</h3>
+                    <p>AES-256-GCM encryption, RBAC access control, and comprehensive audit logging.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+                        </svg>
+                    </div>
+                    <h3>Tool Ecosystem</h3>
+                    <p>50+ tools including file operations, git, security scanning, testing, and Docker execution.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="architecture" class="architecture">
+        <div class="container">
+            <h2 class="section-title">System Architecture</h2>
+            
+            <div class="arch-diagram">
+                <pre>
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         agentic-OS Architecture                               │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+     ┌─────────────┐
+     │  User Input │
+     └──────┬──────┘
+            │
+            v
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         INPUT LAYER                                         │
+│  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐      │
+│  │   CLI   │  │   API   │  │  Voice  │  │  Files  │  │  Code   │      │
+│  └────┬────┘  └────┬────┘  └────┬────┘  └────┬────┘  └────┬────┘      │
+└────────┼───────────┼───────────┼───────────┼───────────┼───────────────┘
+         │           │           │           │           │
+         v           v           v           v           v
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                      PLANNING LAYER (Paradise)                              │
+│  ┌───────────┐  ┌───────────┐  ┌───────────┐  ┌───────────┐            │
+│  │   Task    │  │ Dependency│  │ Resource  │  │ Strategy  │            │
+│  │ Decomposer│  │   Graph   │  │ Estimator │  │  Selector │            │
+│  └─────┬─────┘  └─────┬─────┘  └─────┬─────┘  └─────┬─────┘            │
+│        └───────────────┼───────────────┼───────────────┘                  │
+│                        v                                               │
+│              ┌─────────────────────┐                                       │
+│              │  Plan-Omega Bridge│                                       │
+│              └──────────┬────────┘                                       │
+└─────────────────────────┼─────────────────────────────────────────────────┘
+                          │
+                          v
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                      COGNITION LAYER (OMEGA)                               │
+│  ┌───────────┐  ┌───────────┐  ┌───────────┐  ┌───────────┐            │
+│  │   Meta    │  │    GAN    │  │   RAG     │  │  Memory   │            │
+│  │ Cognition │  │ Correction│  │ Retrieval │  │ Hierarchy │            │
+│  └───────────┘  └───────────┘  └───────────┘  └───────────┘            │
+└─────────────────────────────────────────────────────────────────────────────┘
+                          │
+                          v
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                      EXECUTION LAYER                                        │
+│  ┌───────────┐  ┌───────────┐  ┌───────────┐  ┌───────────┐            │
+│  │   Tool    │  │   Code    │  │   Test    │  │  Docker  │            │
+│  │ Executor  │  │ Generator │  │ Generator │  │  Runtime │            │
+│  └───────────┘  └───────────┘  └───────────┘  └───────────┘            │
+└─────────────────────────────────────────────────────────────────────────────┘
+                          │
+                          v
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                      VALIDATION LAYER                                       │
+│  ┌───────────┐  ┌───────────┐  ┌───────────┐  ┌───────────┐            │
+│  │  Unit     │  │ Security  │  │  Linter   │  │   User    │            │
+│  │  Tests    │  │  Scanner  │  │           │  │ Validation│            │
+│  └───────────┘  └───────────┘  └───────────┘  └───────────┘            │
+└─────────────────────────────────────────────────────────────────────────────┘
+                          │
+                          v
+                   ┌─────────────┐
+                   │   Output    │
+                   └─────────────┘
+                </pre>
+            </div>
+        </div>
+    </section>
+    
+    <section id="tools">
+        <div class="container">
+            <h2 class="section-title">Built-in Tools</h2>
+            
+            <div class="tools-grid">
+                <div class="tool-item">
+                    <div class="tool-icon">🧪</div>
+                    <div class="tool-info">
+                        <h4>Test Generator</h4>
+                        <p>Auto-generate pytest from Python</p>
+                    </div>
+                </div>
+                
+                <div class="tool-item">
+                    <div class="tool-icon">🔒</div>
+                    <div class="tool-info">
+                        <h4>Security Scanner</h4>
+                        <p>SAST vulnerability detection</p>
+                    </div>
+                </div>
+                
+                <div class="tool-item">
+                    <div class="tool-icon">📦</div>
+                    <div class="tool-info">
+                        <h4>Git Provider</h4>
+                        <p>Full version control</p>
+                    </div>
+                </div>
+                
+                <div class="tool-item">
+                    <div class="tool-icon">🐳</div>
+                    <div class="tool-info">
+                        <h4>Docker Runtime</h4>
+                        <p>Container build and run</p>
+                    </div>
+                </div>
+                
+                <div class="tool-item">
+                    <div class="tool-icon">📁</div>
+                    <div class="tool-info">
+                        <h4>File Operations</h4>
+                        <p>Read/write/edit/grep</p>
+                    </div>
+                </div>
+                
+                <div class="tool-item">
+                    <div class="tool-icon">📊</div>
+                    <div class="tool-info">
+                        <h4>Web Dashboard</h4>
+                        <p>Real-time execution UI</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="contributing" class="contributing">
+        <div class="container">
+            <h2 class="section-title">Contributing</h2>
+            
+            <div class="contrib-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h4>Fork the Repo</h4>
+                    <p>Create your own fork on GitHub</p>
+                    <code>gh repo fork nrupala/agentic-OS</code>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h4>Clone & Create Branch</h4>
+                    <p>Work on a feature branch</p>
+                    <code>git checkout -b feature/amazing</code>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h4>Make Changes</h4>
+                    <p>Implement your feature</p>
+                    <code>python -m pytest tests/</code>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h4>Submit PR</h4>
+                    <p>Open a pull request</p>
+                    <code>gh pr create --fill</code>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="https://github.com/nrupala/agentic-OS" target="_blank">GitHub</a>
+                <a href="https://github.com/nrupala/agentic-OS/issues" target="_blank">Issues</a>
+                <a href="https://github.com/nrupala/agentic-OS/discussions" target="_blank">Discussions</a>
+                <a href="https://github.com/nrupala/agentic-OS/blob/main/CONTRIBUTING.md" target="_blank">Contributing Guide</a>
+            </div>
+            <p class="copyright">
+                MIT License &copy; 2026 <a href="https://github.com/nrupala" target="_blank">Nrupal Akolkar</a>
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
