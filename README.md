@@ -14,7 +14,13 @@
 
 Paradise Stack + OMEGA-CODE = agentic-OS
 
-A production-ready, fully autonomous coding agent with cognitive abilities, self-correcting memory, and enterprise-grade security.
+**OMEGA-CODE: Autonomous Codebase Evolution System**
+
+A production-ready, fully autonomous coding agent with cognitive abilities, self-correcting memory, and enterprise-grade security. The OMEGA-Executor is the primary entry point for all operations.
+
+## OMEGA-CODE Manifest
+
+See [OMEGA_CODE_MANIFEST.md](OMEGA_CODE_MANIFEST.md) for the full specification.
 
 ---
 

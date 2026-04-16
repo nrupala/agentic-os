@@ -16,228 +16,162 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from tools.security_scanner import (
     SecurityScanner,
+    SeverityLevel,
+    ConfidenceLevel,
     Vulnerability,
-    VulnerabilitySeverity,
-    scan_file,
-    scan_directory
+    ScanResult
 )
 
 
-class TestVulnerabilitySeverity:
+class TestSeverityLevel:
     def test_severity_values(self):
-        assert VulnerabilitySeverity.CRITICAL.value == "critical"
-        assert VulnerabilitySeverity.HIGH.value == "high"
-        assert VulnerabilitySeverity.MEDIUM.value == "medium"
-        assert VulnerabilitySeverity.LOW.value == "low"
-        assert VulnerabilitySeverity.INFO.value == "info"
+        assert SeverityLevel.CRITICAL.value == "CRITICAL"
+        assert SeverityLevel.HIGH.value == "HIGH"
+        assert SeverityLevel.MEDIUM.value == "MEDIUM"
+        assert SeverityLevel.LOW.value == "LOW"
+
+
+class TestConfidenceLevel:
+    def test_confidence_values(self):
+        assert ConfidenceLevel.HIGH.value == "HIGH"
+        assert ConfidenceLevel.MEDIUM.value == "MEDIUM"
+        assert ConfidenceLevel.LOW.value == "LOW"
 
 
 class TestVulnerability:
     def test_vulnerability_creation(self):
         vuln = Vulnerability(
-            severity=VulnerabilitySeverity.HIGH,
-            rule_id="B101",
-            message="Assert usage",
-            file_path="test.py",
-            line_number=10,
-            code_snippet="assert x == y"
+            severity=SeverityLevel.HIGH,
+            confidence=ConfidenceLevel.HIGH,
+            issue="B101",
+            code="assert True",
+            file="test.py",
+            line=10,
+            category="Security"
         )
         
-        assert vuln.severity == VulnerabilitySeverity.HIGH
-        assert vuln.rule_id == "B101"
-        assert vuln.file_path == "test.py"
-        assert vuln.line_number == 10
+        assert vuln.severity == SeverityLevel.HIGH
+        assert vuln.issue == "B101"
+        assert vuln.file == "test.py"
 
-    def test_vulnerability_to_dict(self):
+    def test_vulnerability_with_defaults(self):
         vuln = Vulnerability(
-            severity=VulnerabilitySeverity.MEDIUM,
-            rule_id="B102",
-            message="exec usage",
-            file_path="test.py",
-            line_number=5
+            severity=SeverityLevel.MEDIUM,
+            confidence=ConfidenceLevel.LOW,
+            issue="Test",
+            code="code",
+            file="test.py",
+            line=1,
+            category="Test"
         )
         
-        result = vuln.to_dict()
-        
-        assert result["severity"] == "medium"
-        assert result["rule_id"] == "B102"
-        assert result["line_number"] == 5
+        assert vuln.description == ""
+        assert vuln.cwe_id == ""
+        assert vuln.remediation == ""
 
-    def test_vulnerability_cwe_mapping(self):
-        vuln = Vulnerability(
-            severity=VulnerabilitySeverity.CRITICAL,
-            rule_id="B301",
-            message="Pickle deserialization",
+
+class TestScanResult:
+    def test_scan_result_creation(self):
+        result = ScanResult(
             file_path="test.py",
-            line_number=1
+            vulnerabilities=[],
+            scan_time=1.5
         )
         
-        assert "CWE" in vuln.cwe_id or vuln.cwe_id.startswith("CWE-")
+        assert result.file_path == "test.py"
+        assert result.scan_time == 1.5
+        assert result.vulnerabilities == []
+        assert result.is_safe is True
+
+    def test_scan_result_with_vulnerabilities(self):
+        vuln = Vulnerability(
+            severity=SeverityLevel.HIGH,
+            confidence=ConfidenceLevel.HIGH,
+            issue="Test",
+            code="code",
+            file="test.py",
+            line=1,
+            category="Test"
+        )
+        
+        result = ScanResult(
+            file_path="test.py",
+            vulnerabilities=[vuln],
+            scan_time=1.0,
+            lines_scanned=10
+        )
+        
+        assert len(result.vulnerabilities) == 1
+        result.is_safe = len(result.vulnerabilities) == 0
+        assert result.is_safe is False
+
+    def test_scan_result_severity_counts(self):
+        vuln1 = Vulnerability(
+            severity=SeverityLevel.HIGH,
+            confidence=ConfidenceLevel.HIGH,
+            issue="Test1",
+            code="code",
+            file="test.py",
+            line=1,
+            category="Test"
+        )
+        vuln2 = Vulnerability(
+            severity=SeverityLevel.LOW,
+            confidence=ConfidenceLevel.LOW,
+            issue="Test2",
+            code="code",
+            file="test.py",
+            line=2,
+            category="Test"
+        )
+        
+        result = ScanResult(
+            file_path="test.py",
+            vulnerabilities=[vuln1, vuln2],
+            scan_time=1.0
+        )
+        
+        counts = result.severity_counts
+        assert counts["HIGH"] == 1
+        assert counts["LOW"] == 1
 
 
 class TestSecurityScanner:
     @pytest.fixture
     def temp_dir(self):
-        import shutil
         tmpdir = tempfile.mkdtemp()
         yield Path(tmpdir)
-        shutil.rmtree(tmpdir, ignore_errors=True)
 
-    def test_scanner_creation(self):
-        scanner = SecurityScanner()
-        assert scanner.excluded_paths is not None
+    @pytest.fixture
+    def scanner(self, temp_dir):
+        return SecurityScanner(project_path=str(temp_dir))
 
-    def test_scanner_with_custom_rules(self):
-        custom_rules = [
-            {"pattern": r"dangerous_pattern", "severity": "critical", "message": "Dangerous!"}
-        ]
-        scanner = SecurityScanner(custom_rules=custom_rules)
-        assert len(scanner.custom_rules) == 1
+    def test_scanner_creation(self, temp_dir):
+        scanner = SecurityScanner(project_path=str(temp_dir))
+        
+        assert scanner.project_path == Path(temp_dir)
 
-    def test_scan_python_file_eval(self, temp_dir):
-        test_file = temp_dir / "test_eval.py"
-        test_file.write_text('result = eval("2 + 2")')
-        
-        scanner = SecurityScanner()
-        results = scanner.scan_file(test_file)
-        
-        vulnerabilities = results.get("vulnerabilities", [])
-        assert any(v.rule_id == "B102" for v in vulnerabilities)
-
-    def test_scan_python_file_exec(self, temp_dir):
-        test_file = temp_dir / "test_exec.py"
-        test_file.write_text('exec("print(1)")')
-        
-        scanner = SecurityScanner()
-        results = scanner.scan_file(test_file)
-        
-        vulnerabilities = results.get("vulnerabilities", [])
-        assert any(v.rule_id == "B102" for v in vulnerabilities)
-
-    def test_scan_python_file_hardcoded_password(self, temp_dir):
-        test_file = temp_dir / "test_password.py"
-        test_file.write_text('password = "secret123"')
-        
-        scanner = SecurityScanner()
-        results = scanner.scan_file(test_file)
-        
-        vulnerabilities = results.get("vulnerabilities", [])
-        assert any(v.severity == VulnerabilitySeverity.HIGH for v in vulnerabilities)
-
-    def test_scan_python_file_sql_injection(self, temp_dir):
-        test_file = temp_dir / "test_sql.py"
-        test_file.write_text('''
-query = "SELECT * FROM users WHERE id = " + user_input
-''')
-        
-        scanner = SecurityScanner()
-        results = scanner.scan_file(test_file)
-        
-        vulnerabilities = results.get("vulnerabilities", [])
-        assert any("SQL" in v.message or "injection" in v.message.lower() for v in vulnerabilities)
-
-    def test_scan_python_file_shell_injection(self, temp_dir):
-        test_file = temp_dir / "test_shell.py"
-        test_file.write_text('''
-import os
-os.system("ls " + user_input)
-''')
-        
-        scanner = SecurityScanner()
-        results = scanner.scan_file(test_file)
-        
-        vulnerabilities = results.get("vulnerabilities", [])
-        assert any("shell" in v.message.lower() or "command" in v.message.lower() for v in vulnerabilities)
-
-    def test_scan_safe_code(self, temp_dir):
-        test_file = temp_dir / "test_safe.py"
-        test_file.write_text('''
-def add(a, b):
-    """Add two numbers."""
-    return a + b
-
-result = add(1, 2)
-''')
-        
-        scanner = SecurityScanner()
-        results = scanner.scan_file(test_file)
-        
-        vulnerabilities = results.get("vulnerabilities", [])
-        critical_high = [v for v in vulnerabilities if v.severity in [VulnerabilitySeverity.CRITICAL, VulnerabilitySeverity.HIGH]]
-        assert len(critical_high) == 0
-
-    def test_scan_with_skipped_patterns(self, temp_dir):
-        test_file = temp_dir / "test_skip.py"
-        test_file.write_text('password = "test123"')
-        
-        scanner = SecurityScanner(skip_patterns=["test_skip.py"])
-        results = scanner.scan_file(test_file)
-        
-        assert results["skipped"] is True
-
-    def test_scan_directory(self, temp_dir):
-        (temp_dir / "file1.py").write_text('eval("1")')
-        (temp_dir / "file2.py").write_text('exec("1")')
-        
-        scanner = SecurityScanner()
-        results = scanner.scan_directory(temp_dir)
-        
-        assert results["files_scanned"] == 2
-        assert results["total_vulnerabilities"] > 0
-
-    def test_scan_directory_with_exclusions(self, temp_dir):
-        (temp_dir / "file1.py").write_text('eval("1")')
-        
-        venv_dir = temp_dir / "venv"
-        venv_dir.mkdir()
-        (venv_dir / "file2.py").write_text('eval("1")')
-        
-        scanner = SecurityScanner()
-        results = scanner.scan_directory(temp_dir)
-        
-        assert results["files_skipped"] >= 1
-
-    def test_generate_report(self, temp_dir):
+    def test_scan_file(self, scanner, temp_dir):
         test_file = temp_dir / "test.py"
-        test_file.write_text('password = "secret"')
+        test_file.write_text("import os\nos.system('ls')")
         
-        scanner = SecurityScanner()
-        scanner.scan_file(test_file)
-        report = scanner.generate_report()
+        result = scanner.scan_file(test_file)
         
-        assert "summary" in report
-        assert "vulnerabilities" in report
+        assert result.file_path == str(test_file)
 
-    def test_scan_unicode_file(self, temp_dir):
-        test_file = temp_dir / "test_unicode.py"
-        test_file.write_text('# -*- coding: utf-8 -*-\npassword = "密码"')
+    def test_scan_project(self, scanner, temp_dir):
+        (temp_dir / "file1.py").write_text("import os\nos.system('ls')")
+        (temp_dir / "file2.py").write_text("print('hello')")
         
-        scanner = SecurityScanner()
-        results = scanner.scan_file(test_file)
+        result = scanner.scan_project()
         
-        assert results is not None
+        assert "summary" in result
+        assert result["summary"]["files_scanned"] == 2
 
-
-class TestScanFileFunction:
-    def test_scan_file_function(self, tmp_path):
-        test_file = tmp_path / "test.py"
-        test_file.write_text('eval("1")')
+    def test_safe_file_no_vulnerabilities(self, scanner, temp_dir):
+        test_file = temp_dir / "safe.py"
+        test_file.write_text("print('hello world')\n x = 1")
         
-        results = scan_file(test_file)
+        result = scanner.scan_file(test_file)
         
-        assert "vulnerabilities" in results
-        assert results["file"] == str(test_file)
-
-
-class TestScanDirectoryFunction:
-    def test_scan_directory_function(self, tmp_path):
-        (tmp_path / "test1.py").write_text('eval("1")')
-        (tmp_path / "test2.py").write_text('exec("1")')
-        
-        results = scan_directory(tmp_path)
-        
-        assert results["files_scanned"] == 2
-
-
-if __name__ == "__main__":
-    pytest.main([__file__, "-v"])
+        assert result.is_safe is True

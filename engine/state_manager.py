@@ -50,7 +50,7 @@ class Checkpoint:
     execution_id: str
     created_at: str
     status: CheckpointStatus
-    tasks: Dict[str, TaskState]
+    tasks: Dict[str, TaskState] = field(default_factory=dict)
     memory_state: Dict[str, Any] = field(default_factory=dict)
     engine_state: Dict[str, Any] = field(default_factory=dict)
     metrics: Dict[str, Any] = field(default_factory=dict)
@@ -98,7 +98,7 @@ class CheckpointManager:
         self.max_checkpoints = max_checkpoints
         self.auto_save_interval = auto_save_interval
         
-        self._storage_path.mkdir(parents=True, exist_ok=True)
+        self.storage_path.mkdir(parents=True, exist_ok=True)
         
         self._current_checkpoint: Optional[Checkpoint] = None
         self._execution_id: Optional[str] = None
@@ -234,6 +234,11 @@ class CheckpointManager:
     def _start_auto_save(self):
         if self._auto_save_task:
             self._auto_save_task.cancel()
+        
+        try:
+            loop = asyncio.get_running_loop()
+        except RuntimeError:
+            return
         
         async def auto_save_loop():
             while True:

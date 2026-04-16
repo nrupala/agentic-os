@@ -130,9 +130,7 @@ class CircuitBreaker:
         self._state = new_state
         self._metrics.state_changed_at = datetime.utcnow()
         
-        if new_state == CircuitState.OPEN and old_state != CircuitState.OPEN:
-            self._metrics.consecutive_failures = 0
-        elif new_state == CircuitState.HALF_OPEN:
+        if new_state == CircuitState.HALF_OPEN:
             self._metrics.consecutive_successes = 0
             self._half_open_calls = 0
         

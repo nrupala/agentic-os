@@ -303,7 +303,7 @@ class TestCircuitBreakerRegistry:
     def test_register_with_config(self):
         reg = CircuitBreakerRegistry()
         config = CircuitBreakerConfig(failure_threshold=10)
-        cb = reg.register("test", config=config)
+        cb = reg.register("test_with_config", config=config)
         assert cb.config.failure_threshold == 10
 
     def test_get_registered_circuit(self):

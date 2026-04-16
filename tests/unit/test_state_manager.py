@@ -71,12 +71,13 @@ class TestCheckpoint:
         checkpoint = Checkpoint(
             checkpoint_id="cp-1",
             execution_id="exec-1",
-            created_at=datetime.utcnow().isoformat(),
+            created_at="2024-01-01T00:00:00",
             status=CheckpointStatus.ACTIVE
         )
         assert checkpoint.checkpoint_id == "cp-1"
         assert checkpoint.execution_id == "exec-1"
         assert checkpoint.status == CheckpointStatus.ACTIVE
+        assert checkpoint.tasks == {}
 
     def test_checkpoint_to_dict(self):
         checkpoint = Checkpoint(

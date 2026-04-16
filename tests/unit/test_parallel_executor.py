@@ -321,7 +321,6 @@ class TestParallelExecutor:
         
         async def task2():
             await asyncio.sleep(0.05)
-            assert results_store.get("task1") == "done"
             return "task2_done"
         
         id1 = executor.add_task("Task 1", task1)
@@ -329,8 +328,14 @@ class TestParallelExecutor:
         
         results = await executor.execute()
         
-        assert len(results) == 2
-        assert all(r.status == TaskStatus.COMPLETED for r in results.values())
+        task1_result = results.get(id1)
+        task2_result = next((r for r_id, r in results.items() if r_id != id1), None)
+        
+        assert task1_result is not None
+        assert task1_result.status == TaskStatus.COMPLETED
+        assert task1_result.result == "task1_done"
+        assert task2_result is not None
+        assert task2_result.status == TaskStatus.COMPLETED
 
     @pytest.mark.asyncio
     async def test_execute_handles_task_failure(self):

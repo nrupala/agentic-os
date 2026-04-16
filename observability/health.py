@@ -89,6 +89,9 @@ class HealthCheck(ABC):
 
 
 class SystemHealthCheck(HealthCheck):
+    def __init__(self, name: str = "system", timeout: float = 5.0):
+        super().__init__(name, timeout)
+    
     async def check(self) -> ComponentHealth:
         try:
             cpu_percent = psutil.cpu_percent(interval=0.1)
@@ -124,6 +127,9 @@ class SystemHealthCheck(HealthCheck):
 
 
 class ProcessHealthCheck(HealthCheck):
+    def __init__(self, name: str = "process", timeout: float = 5.0):
+        super().__init__(name, timeout)
+    
     async def check(self) -> ComponentHealth:
         try:
             process = psutil.Process()
@@ -156,6 +162,9 @@ class ProcessHealthCheck(HealthCheck):
 
 
 class EngineHealthCheck(HealthCheck):
+    def __init__(self, name: str = "engine", timeout: float = 5.0):
+        super().__init__(name, timeout)
+    
     async def check(self) -> ComponentHealth:
         try:
             from engine.bridge import PlanToOmegaBridge
@@ -190,6 +199,9 @@ class EngineHealthCheck(HealthCheck):
 
 
 class MemoryHealthCheck(HealthCheck):
+    def __init__(self, name: str = "memory", timeout: float = 5.0):
+        super().__init__(name, timeout)
+    
     async def check(self) -> ComponentHealth:
         try:
             from engine.cognitive_memory import CognitiveMemory
@@ -222,6 +234,9 @@ class MemoryHealthCheck(HealthCheck):
 
 
 class ToolsHealthCheck(HealthCheck):
+    def __init__(self, name: str = "tools", timeout: float = 5.0):
+        super().__init__(name, timeout)
+    
     async def check(self) -> ComponentHealth:
         try:
             tools_status = {}

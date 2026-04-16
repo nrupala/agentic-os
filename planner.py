@@ -3,6 +3,9 @@
 Paradise Planner - Research-backed implementation planner
 Based on: MapCoder (ACL 2024), Claude Code, KAT-Coder
 
+Paradise Stack v2.0 - Autonomous AI Organization
+"I am excellent, adaptable, robotically accurate, and I NEVER STOP learning."
+
 Supported Languages:
 - Python, JavaScript, TypeScript, HTML/CSS
 - Rust, Go, Java, C#, Ruby, PHP, Swift, Kotlin
@@ -15,11 +18,48 @@ Supported Languages:
 import sys
 import os
 import re
+import json
 from datetime import datetime
 from pathlib import Path
 from collections import defaultdict
 
 PROJECT_ROOT = Path(os.environ.get('HOST_PROJECT_ROOT', '/app'))
+
+try:
+    from cognition.continuous_intelligence import initialize_evolution, ParadiseStackPersona
+    INTELLIGENCE_AVAILABLE = True
+except ImportError:
+    INTELLIGENCE_AVAILABLE = False
+    ParadiseStackPersona = None
+
+def log_planner_interaction(prompt, request_type, success=True):
+    """Log planner interactions for continuous learning."""
+    if not INTELLIGENCE_AVAILABLE:
+        return
+    
+    try:
+        cache_dir = Path("C:/Users/HomeUser/Downloads/agentic-OS/intelligence/cache")
+        cache_dir.mkdir(parents=True, exist_ok=True)
+        log_file = cache_dir / "planner_log.json"
+        
+        log_data = []
+        if log_file.exists():
+            with open(log_file, 'r') as f:
+                log_data = json.load(f)
+        
+        log_data.append({
+            "timestamp": datetime.now().isoformat(),
+            "prompt": prompt[:200],
+            "type": request_type,
+            "success": success,
+        })
+        
+        log_data = log_data[-100:]
+        
+        with open(log_file, 'w') as f:
+            json.dump(log_data, f, indent=2)
+    except:
+        pass
 
 # ============================================================================
 # SUPPORTED LANGUAGES & FRAMEWORKS
@@ -160,7 +200,7 @@ class CodebaseExplorer:
                 for db in DATABASES:
                     if db.lower() in content or db.lower() in name_lower:
                         self.structure["databases"].add(db)
-            except:
+            except Exception:
                 pass
             
             # Categorize files
@@ -305,22 +345,21 @@ class Planner:
             plan += f"### Step {i}: {self._format_step_name(step)}\n"
             plan += f"{self._get_step_details(step)}\n\n"
         
-        plan += f"""---
-
+        plan += """---
 ## Phase 4: Files to Create/Modify
 
 ### New Files
 ```
 """
         plan += self._suggest_new_files()
-        plan += f"""
+        plan += """
 ```
 
 ### Files to Modify
 ```
 """
         plan += self._suggest_modify_files()
-        plan += f"""
+        plan += """
 ```
 
 ---

@@ -301,6 +301,8 @@ class ParallelExecutor:
                                 for running_id, running_task in list(self._running_tasks.items()):
                                     running_task.cancel()
                                 return self._results
+                    
+                    ready_tasks = self._graph.get_ready_tasks()
                 
                 if not self._running_tasks and not ready_tasks:
                     break
