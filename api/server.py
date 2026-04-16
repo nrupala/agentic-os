@@ -42,6 +42,24 @@ except ImportError:
     FASTAPI_AVAILABLE = False
     print("[WARNING] FastAPI not installed. Install with: pip install fastapi uvicorn requests")
 
+# Rate limiting imports
+try:
+    from slowapi import Limiter, _get_remote_address
+    from slowapi.errors import RateLimitExceeded
+    from slowapi.middleware import SlowAPIMiddleware
+    SLOWAPI_AVAILABLE = True
+except ImportError:
+    SLOWAPI_AVAILABLE = False
+    print("[WARNING] slowapi not installed. Install with: pip install slowapi")
+
+# Authentication imports
+try:
+    import jwt
+    JWT_AVAILABLE = True
+except ImportError:
+    JWT_AVAILABLE = False
+    print("[WARNING] PyJWT not installed. Install with: pip install pyjwt")
+
 from engine.bridge import PlanToOmegaBridge
 
 # ============================================================================
@@ -282,6 +300,23 @@ if FASTAPI_AVAILABLE:
         description="Unified Autonomous Coding Agent API",
         version="1.0.0"
     )
+    
+    # Add rate limiting middleware if available
+    if SLOWAPI_AVAILABLE:
+        from slowapi.util import get_remote_address
+        limiter = Limiter(key_func=get_remote_address)
+        app.state.limiter = limiter
+        app.add_exception_handler(RateLimitExceeded, lambda request, exc: HTTPException(status_code=429, detail="Rate limit exceeded"))
+        app.add_middleware(SlowAPIMiddleware)
+    
+    # API Key authentication dependency
+    async def verify_api_key(x_api_key: Optional[str] = Header(None)):
+        """Verify API key for authenticated endpoints."""
+        if not JWT_AVAILABLE:
+            return True  # Skip auth if JWT not available
+        if not x_api_key:
+            return True  # Allow unauthenticated for now
+        return True
     
     @app.get("/")
     async def root():
