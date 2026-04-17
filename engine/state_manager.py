@@ -23,6 +23,17 @@ import logging
 logger = logging.getLogger(__name__)
 
 
+def _get_encryptor():
+    """Lazy-load encryption module."""
+    try:
+        from omega_phase_encryptor import OmegaPhaseEncryptor
+        return OmegaPhaseEncryptor("state_manager")
+    except ImportError:
+        return None
+
+_ENCRYPTOR = None
+
+
 class CheckpointStatus(str, Enum):
     ACTIVE = "active"
     COMPLETED = "completed"
@@ -180,35 +191,70 @@ class CheckpointManager:
             self._dirty = True
     
     async def save(self, force: bool = False) -> Optional[str]:
+        global _ENCRYPTOR
         if not self._current_checkpoint or not self._dirty and not force:
             return None
-        
+
         self._current_checkpoint.tasks = self._tasks.copy()
         self._current_checkpoint.memory_state = self._memory_state.copy()
         self._current_checkpoint.engine_state = self._engine_state.copy()
-        
+
         checkpoint_path = self.storage_path / f"{self._current_checkpoint.checkpoint_id}.json"
-        
+        checkpoint_path_enc = self.storage_path / f"{self._current_checkpoint.checkpoint_id}.enc"
+
+        data = json.dumps(self._current_checkpoint.to_dict(), indent=2, default=str)
+
+        if _ENCRYPTOR is None:
+            _ENCRYPTOR = _get_encryptor()
+
+        if _ENCRYPTOR:
+            try:
+                _ENCRYPTOR.encrypt_string(data, self._current_checkpoint.checkpoint_id)
+                logger.info(f"Encrypted checkpoint {self._current_checkpoint.checkpoint_id}")
+                self._dirty = False
+                self._enforce_max_checkpoints()
+                return self._current_checkpoint.checkpoint_id
+            except Exception as e:
+                logger.warning(f"Encryption failed, falling back to plaintext: {e}")
+
         with open(checkpoint_path, "w") as f:
             json.dump(self._current_checkpoint.to_dict(), f, indent=2, default=str)
-        
+
         await self._save_binaries()
-        
+
         self._dirty = False
         self._enforce_max_checkpoints()
-        
+
         for listener in self._listeners:
             try:
                 listener(self._current_checkpoint)
             except Exception as e:
                 logger.error(f"Checkpoint listener error: {e}")
-        
+
         logger.info(f"Saved checkpoint {self._current_checkpoint.checkpoint_id}")
         return self._current_checkpoint.checkpoint_id
     
     async def _save_binaries(self):
+        global _ENCRYPTOR
         if self._memory_state or self._engine_state:
             binary_path = self.storage_path / f"{self._current_checkpoint.checkpoint_id}.bin"
+            binary_path_enc = self.storage_path / f"{self._current_checkpoint.checkpoint_id}.bin.enc"
+
+            data = json.dumps({
+                "memory_state": self._memory_state,
+                "engine_state": self._engine_state
+            }, default=str)
+
+            if _ENCRYPTOR is None:
+                _ENCRYPTOR = _get_encryptor()
+
+            if _ENCRYPTOR:
+                try:
+                    _ENCRYPTOR.encrypt_string(data, f"{self._current_checkpoint.checkpoint_id}_bin")
+                    return
+                except Exception:
+                    pass
+
             with open(binary_path, "wb") as f:
                 pickle.dump({
                     "memory_state": self._memory_state,
@@ -216,19 +262,21 @@ class CheckpointManager:
                 }, f)
     
     def _enforce_max_checkpoints(self):
-        checkpoints = sorted(
-            self.storage_path.glob("*.json"),
+        all_checkpoints = sorted(
+            list(self.storage_path.glob("*.json")) + list(self.storage_path.glob("*.enc")),
             key=lambda p: p.stat().st_mtime,
             reverse=True
         )
-        
-        for old_checkpoint in checkpoints[self.max_checkpoints:]:
+
+        for old_checkpoint in all_checkpoints[self.max_checkpoints:]:
             checkpoint_id = old_checkpoint.stem
             binary_path = self.storage_path / f"{checkpoint_id}.bin"
-            
+            binary_path_enc = self.storage_path / f"{checkpoint_id}.bin.enc"
+
             old_checkpoint.unlink(missing_ok=True)
             binary_path.unlink(missing_ok=True)
-            
+            binary_path_enc.unlink(missing_ok=True)
+
             logger.info(f"Removed old checkpoint {checkpoint_id}")
     
     def _start_auto_save(self):
@@ -260,30 +308,55 @@ class CheckpointManager:
             self.stop_auto_save()
     
     async def resume(self, checkpoint_id: str) -> Checkpoint:
+        global _ENCRYPTOR
         checkpoint_path = self.storage_path / f"{checkpoint_id}.json"
-        
-        if not checkpoint_path.exists():
+        checkpoint_path_enc = self.storage_path / f"{checkpoint_id}.enc"
+
+        if _ENCRYPTOR is None:
+            _ENCRYPTOR = _get_encryptor()
+
+        data = None
+
+        if _ENCRYPTOR and checkpoint_path_enc.exists():
+            try:
+                decrypted = _ENCRYPTOR.decrypt_string(checkpoint_id)
+                data = json.loads(decrypted)
+            except Exception as e:
+                logger.warning(f"Encrypted checkpoint load failed: {e}")
+
+        if not data and not checkpoint_path.exists():
             raise FileNotFoundError(f"Checkpoint {checkpoint_id} not found")
-        
-        with open(checkpoint_path) as f:
-            data = json.load(f)
-        
+
+        if not data:
+            with open(checkpoint_path) as f:
+                data = json.load(f)
+
         self._current_checkpoint = Checkpoint.from_dict(data)
         self._execution_id = self._current_checkpoint.execution_id
         self._tasks = self._current_checkpoint.tasks.copy()
         self._memory_state = self._current_checkpoint.memory_state.copy()
         self._engine_state = self._current_checkpoint.engine_state.copy()
-        
+
         binary_path = self.storage_path / f"{checkpoint_id}.bin"
-        if binary_path.exists():
+        binary_path_enc = self.storage_path / f"{checkpoint_id}.bin.enc"
+
+        if _ENCRYPTOR and binary_path_enc.exists():
+            try:
+                decrypted = _ENCRYPTOR.decrypt_string(f"{checkpoint_id}_bin")
+                bin_data = json.loads(decrypted)
+                self._memory_state = bin_data.get("memory_state", {})
+                self._engine_state = bin_data.get("engine_state", {})
+            except Exception:
+                pass
+        elif binary_path.exists():
             with open(binary_path, "rb") as f:
-                data = pickle.load(f)
-                self._memory_state = data.get("memory_state", {})
-                self._engine_state = data.get("engine_state", {})
-        
+                bin_data = pickle.load(f)
+                self._memory_state = bin_data.get("memory_state", {})
+                self._engine_state = bin_data.get("engine_state", {})
+
         self._dirty = False
         logger.info(f"Resumed execution from checkpoint {checkpoint_id}")
-        
+
         return self._current_checkpoint
     
     def list_checkpoints(self) -> List[Dict[str, Any]]:

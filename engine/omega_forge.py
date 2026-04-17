@@ -188,37 +188,39 @@ class OmegaForge:
             return False
     
     def _classify_error(self, error: str) -> str:
-        """Classify error type from error message."""
-        error_lower = error.lower()
-        
-        if any(x in error_lower for x in ["timeout", "timed out"]):
-            return "timeout"
-        elif any(x in error_lower for x in ["syntax", "parse error", "expected"]):
-            return "syntax_error"
-        elif any(x in error_lower for x in ["import", "modulenotfound", "no module"]):
-            return "import_error"
-        elif any(x in error_lower for x in ["memory", "out of memory", "oom"]):
-            return "memory"
-        elif any(x in error_lower for x in ["connection", "network", "refused"]):
-            return "network"
-        elif any(x in error_lower for x in ["permission", "access denied"]):
-            return "permission"
-        elif any(x in error_lower for x in ["type error", "type mismatch"]):
-            return "type_error"
-        elif any(x in error_lower for x in ["value error", "invalid value"]):
-            return "value_error"
-        elif any(x in error_lower for x in ["assertion", "assert"]):
-            return "assertion"
-        elif any(x in error_lower for x in ["docker", "container"]):
-            return "docker"
-        elif any(x in error_lower for x in ["sqlite", "database"]):
-            return "sqlite"
-        elif any(x in error_lower for x in ["json", "decode"]):
-            return "json"
-        elif any(x in error_lower for x in ["file", "not found", "no such"]):
-            return "file"
-        
-        return "generic"
+        """Classify error type from error message using unified ErrorClassifier."""
+        try:
+            from omega_error_classifier import classify_error
+            return classify_error(error)
+        except ImportError:
+            error_lower = error.lower()
+            if any(x in error_lower for x in ["timeout", "timed out"]):
+                return "timeout"
+            elif any(x in error_lower for x in ["syntax", "parse error", "expected"]):
+                return "syntax_error"
+            elif any(x in error_lower for x in ["import", "modulenotfound", "no module"]):
+                return "import_error"
+            elif any(x in error_lower for x in ["memory", "out of memory", "oom"]):
+                return "memory"
+            elif any(x in error_lower for x in ["connection", "network", "refused"]):
+                return "network"
+            elif any(x in error_lower for x in ["permission", "access denied"]):
+                return "permission"
+            elif any(x in error_lower for x in ["type error", "type mismatch"]):
+                return "type_error"
+            elif any(x in error_lower for x in ["value error", "invalid value"]):
+                return "value_error"
+            elif any(x in error_lower for x in ["assertion", "assert"]):
+                return "assertion"
+            elif any(x in error_lower for x in ["docker", "container"]):
+                return "docker"
+            elif any(x in error_lower for x in ["sqlite", "database"]):
+                return "sqlite"
+            elif any(x in error_lower for x in ["json", "decode"]):
+                return "json"
+            elif any(x in error_lower for x in ["file", "not found", "no such"]):
+                return "file"
+            return "generic"
     
     def recollect(self, goal: str = None) -> ForgeState:
         """Phase 1: RECOLLECT - Load previous state."""

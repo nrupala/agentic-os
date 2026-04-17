@@ -19,6 +19,19 @@ OUTPUT_DIR = PROJECT_ROOT / "outputs"
 OUTPUT_DIR.mkdir(exist_ok=True)
 DB_PATH = PROJECT_ROOT / "agent_state.db"
 
+_ENCRYPTION_AVAILABLE = False
+
+def _init_encryption():
+    """Check if encryption is available (lazy initialization)."""
+    global _ENCRYPTION_AVAILABLE
+    try:
+        from omega_phase_encryptor import OmegaPhaseEncryptor
+        _ENCRYPTION_AVAILABLE = True
+    except ImportError:
+        _ENCRYPTION_AVAILABLE = False
+
+_init_encryption()
+
 @dataclass
 class Roadmap:
     modules: List[str]

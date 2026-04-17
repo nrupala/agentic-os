@@ -2,6 +2,9 @@
 """
 PHASE 13: GAN-Inspired Self-Correction
 Generator vs Discriminator pattern for code quality.
+
+ZERO-KNOWLEDGE: All generated code encrypted to file before return.
+If RAM fails, encrypted files persist and can resume.
 """
 
 import json
@@ -14,6 +17,12 @@ import base64
 import hmac
 import secrets
 import hashlib as hashlib_mod
+
+try:
+    from omega_phase_encryptor import OmegaPhaseEncryptor
+    HAS_ZERO_KNOWLEDGE = True
+except ImportError:
+    HAS_ZERO_KNOWLEDGE = False
 
 # Code templates for various application types
 CODE_TEMPLATES = {
@@ -347,44 +356,61 @@ class CodeGenerator:
         self.generated_count = 0
     
     def generate(self, goal: str, constraints: List[str]) -> str:
-        """Generate code based on goal and constraints."""
+        """Generate code based on goal and constraints.
+        
+        ZERO-KNOWLEDGE: Encrypted to file before return.
+        """
         self.generated_count += 1
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
         
         goal_lower = goal.lower()
         
         # Priority 1: WebSocket chat (before generic chat)
         if "websocket" in goal_lower and "chat" in goal_lower:
-            return self._generate_websocket_chat(goal, constraints)
+            code = self._generate_websocket_chat(goal, constraints)
         
         # Priority 2: Secure chat (zero-knowledge specific)
-        if any(kw in goal_lower for kw in ["zero-knowledge", "zero-trust", "zero-identifier", 
+        elif any(kw in goal_lower for kw in ["zero-knowledge", "zero-trust", "zero-identifier", 
                                              "end-to-end", "e2e encryption"]):
-            return CODE_TEMPLATES["secure_chat"]
+            code = CODE_TEMPLATES["secure_chat"]
         
         # Priority 3: Generic chat/messaging
-        if "chat" in goal_lower or "messaging" in goal_lower:
-            return self._generate_chat_server(goal, constraints)
+        elif "chat" in goal_lower or "messaging" in goal_lower:
+            code = self._generate_chat_server(goal, constraints)
         
         # Priority 4: REST API with auth
-        if "rest" in goal_lower or "api" in goal_lower:
+        elif "rest" in goal_lower or "api" in goal_lower:
             if "jwt" in goal_lower or "auth" in goal_lower:
-                return self._generate_rest_api_auth(goal, constraints)
-            return self._generate_rest_api(goal, constraints)
+                code = self._generate_rest_api_auth(goal, constraints)
+            else:
+                code = self._generate_rest_api(goal, constraints)
         
         # Priority 5: Web server
-        if any(kw in goal_lower for kw in ["web", "server", "http"]):
-            return self._generate_web_server(goal, constraints)
+        elif any(kw in goal_lower for kw in ["web", "server", "http"]):
+            code = self._generate_web_server(goal, constraints)
         
         # Priority 6: Database
-        if any(kw in goal_lower for kw in ["database", "db", "storage", "crud"]):
-            return self._generate_database(goal, constraints)
+        elif any(kw in goal_lower for kw in ["database", "db", "storage", "crud"]):
+            code = self._generate_database(goal, constraints)
         
         # Priority 7: CLI
-        if any(kw in goal_lower for kw in ["cli", "command", "tool"]):
-            return self._generate_cli(goal, constraints)
+        elif any(kw in goal_lower for kw in ["cli", "command", "tool"]):
+            code = self._generate_cli(goal, constraints)
         
         # Default
-        return self._generate_basic(goal, constraints)
+        else:
+            code = self._generate_basic(goal, constraints)
+        
+        # ZERO-KNOWLEDGE: Encrypt code to file BEFORE return
+        if HAS_ZERO_KNOWLEDGE and code:
+            try:
+                encryptor = OmegaPhaseEncryptor(project="omega_gan")
+                code_path = encryptor.encrypt_code(code, f"gen_{timestamp}")
+                print(f"  [ZK] Generated code encrypted: {code_path.name}")
+            except Exception as e:
+                print(f"  [ZK] Warning: Failed to encrypt: {e}")
+        
+        return code
     
     def _generate_web_server(self, goal: str, constraints: List[str]) -> str:
         return '''#!/usr/bin/env python3
@@ -493,24 +519,24 @@ if __name__ == "__main__":
 '''
     
     def _generate_basic(self, goal: str, constraints: List[str]) -> str:
-        return '''#!/usr/bin/env python3
+        return f'''#!/usr/bin/env python3
 """
 OMEGA Generated Code
-Goal: General Python application
-Constraints: {}
+Goal: {goal}
+Constraints: {", ".join(constraints[:3])}
 """
 
 import json
 from datetime import datetime
 
 def main():
-    result = {"status": "implemented", "timestamp": datetime.now().isoformat()}
+    result = {{"status": "implemented", "timestamp": datetime.now().isoformat()}}
     print(json.dumps(result, indent=2))
     return result
 
 if __name__ == "__main__":
     main()
-'''.format(", ".join(constraints[:3]))
+'''
     
     def _generate_websocket_chat(self, goal: str, constraints: List[str]) -> str:
         return '''#!/usr/bin/env python3

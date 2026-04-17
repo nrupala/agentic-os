@@ -1,17 +1,24 @@
 #!/usr/bin/env python3
 """
-agentic-OS: Plan → Omega Bridge
-================================
+agentic-OS: Plan -> Omega Bridge (NUCLEAR GRADE SAFETY)
+======================================================
 The critical connection between Paradise Planning Layer and OMEGA Execution Layer.
+
+NUCLEAR SAFETY THINKING:
+- Every plan in RAM -> encrypted to file BEFORE execution
+- If RAM fails -> can resume from encrypted plan file
+- Full audit trail of all handoffs
+- Zero-knowledge: plan data encrypted at rest AND in motion
 
 This bridge:
 1. Receives parsed plans from Paradise Stack
 2. Transforms them into Omega execution context
-3. Wires up all required subsystems
-4. Hands off to OmegaForge for recursive execution
+3. Encrypts plan to file (ZERO-KNOWLEDGE)
+4. Wires up all required subsystems
+5. Hands off to OmegaForge for recursive execution
 
 Flow:
-    User Request → Planner → Analyzer → Bridge → OmegaForge → User Validation
+    User Request -> Planner -> Analyzer -> BRIDGE (encrypts) -> OmegaForge -> User Validation
 """
 
 import json
@@ -22,6 +29,13 @@ from datetime import datetime
 from typing import Dict, List, Optional, Any
 from dataclasses import dataclass, field
 from enum import Enum
+
+try:
+    from zero_knowledge_handoff import ZeroKnowledgeHandoff
+    from omega_phase_encryptor import OmegaPhaseEncryptor
+    HAS_ZERO_KNOWLEDGE = True
+except ImportError:
+    HAS_ZERO_KNOWLEDGE = False
 
 PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
@@ -458,6 +472,22 @@ class PlanToOmegaBridge:
         # Phase 1: Parse Plan
         print("\n[PHASE 1/4] PARSING PLAN FROM PARADISE")
         plan_context = self.parse_plan(plan_json)
+        
+        # NUCLEAR SAFETY: Encrypt plan to file BEFORE execution
+        if HAS_ZERO_KNOWLEDGE:
+            try:
+                handoff = ZeroKnowledgeHandoff(project="bridge")
+                plan_data = {
+                    "goal": plan_context.goal,
+                    "steps": plan_context.steps,
+                    "files_to_create": plan_context.files_to_create,
+                    "max_iterations": max_iterations
+                }
+                signal = handoff.write_phase("bridge_plan", plan_data)
+                print(f"\n[ZK] Plan encrypted to: {signal.file_path}")
+                print(f"[ZK] Checksum: {signal.checksum}")
+            except Exception as e:
+                print(f"\n[ZK] Warning: Plan encryption failed: {e}")
         
         # Phase 2: Transform to Omega Context
         print("\n[PHASE 2/4] TRANSFORMING TO OMEGA CONTEXT")

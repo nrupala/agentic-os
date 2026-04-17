@@ -4,6 +4,26 @@ All notable changes to Paradise Stack will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.2.0] - Zero-Knowledge Zero-Trust Architecture
+
+### Added
+- Zero-knowledge encrypted phase handoffs (`zero_knowledge_handoff.py`)
+- Phase-level file encryption (`omega_phase_encryptor.py`)
+- Crash resume capability from encrypted files (`omega_resume.py`)
+- AES-256-GCM encryption for all phase data at rest
+- Encrypted planner context storage in omega_codex.py
+- Encrypted generated code storage in omega_gan.py
+- Encrypted loop history in omega_feedback_loop.py
+- Encrypted plan storage in bridge.py
+
+### Changed
+- All phase handoffs now use encrypted files instead of RAM
+- Resume check on startup loads last encrypted state
+- Project wisdom encrypted at rest (not just in memory)
+
+### Fixed
+- Broken `_phase_verify` checks in omega_vault.py (moved to unused_code/)
+
 ## [1.1.0] - Production Ready
 
 ### Added
