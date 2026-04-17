@@ -53,9 +53,24 @@ class StateSnapshot:
         self.project = project
         self.snapshot_path = Path(f"projects/{project}/state_snapshot.json")
         self.data = self._load()
+        
+        try:
+            from omega_phase_encryptor import OmegaPhaseEncryptor
+            _ENCRYPTOR = OmegaPhaseEncryptor("forge")
+            HAS_ZK = True
+        except ImportError:
+            _ENCRYPTOR = None
+            HAS_ZK = False
     
     def _load(self) -> Dict:
         if self.snapshot_path.exists():
+            try:
+                data = self.snapshot_path.read_bytes()
+                if HAS_ZK and _ENCRYPTOR and len(data) > 12:
+                    decrypted = _ENCRYPTOR.aesgcm.decrypt(data[:12], data[12:], None)
+                    return json.loads(decrypted)
+            except:
+                pass
             try:
                 return json.loads(self.snapshot_path.read_text())
             except:
@@ -79,11 +94,19 @@ class StateSnapshot:
     def update(self, **kwargs):
         self.data.update(kwargs)
         self.data["updated_at"] = datetime.now().isoformat()
-        self.snapshot_path.parent.mkdir(parents=True, exist_ok=True)
-        self.snapshot_path.write_text(json.dumps(self.data, indent=2))
+        self.save()
     
     def save(self):
         self.snapshot_path.parent.mkdir(parents=True, exist_ok=True)
+        
+        if HAS_ZK and _ENCRYPTOR:
+            try:
+                payload = _ENCRYPTOR.encrypt_string(json.dumps(self.data))
+                self.snapshot_path.write_bytes(payload.nonce + payload.ciphertext)
+                return
+            except Exception:
+                pass
+        
         self.snapshot_path.write_text(json.dumps(self.data, indent=2))
     
     def compute_hash(self) -> str:
