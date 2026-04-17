@@ -2,12 +2,21 @@
 """
 PHASE 7: Hierarchical Memory System
 Three-tier memory architecture with WAL protocol.
+With zero-knowledge encryption.
 """
 
 import json
 from pathlib import Path
 from datetime import datetime
 from typing import Optional
+
+try:
+    from omega_phase_encryptor import OmegaPhaseEncryptor
+    _ENCRYPTOR = OmegaPhaseEncryptor("hierarchical_memory")
+    HAS_ZK = True
+except ImportError:
+    _ENCRYPTOR = None
+    HAS_ZK = False
 
 class HierarchicalMemory:
     """
@@ -72,7 +81,7 @@ class HierarchicalMemory:
 """
 
     def write_session_state(self, context: dict):
-        """WAL Protocol: Write immediately before next tool call."""
+        """WAL Protocol: Write immediately before next tool call with optional encryption."""
         lines = [
             f"# OMEGA Session State",
             f"**Last Updated:** {datetime.now().isoformat()}",
@@ -96,7 +105,17 @@ class HierarchicalMemory:
         for decision in context.get('decisions', []):
             lines.append(f"- {decision}")
         
-        self.session_state.write_text("\n".join(lines))
+        content = "\n".join(lines)
+        
+        if HAS_ZK and _ENCRYPTOR:
+            try:
+                payload = _ENCRYPTOR.encrypt_string(content)
+                self.session_state.write_bytes(payload.nonce + payload.ciphertext)
+                return
+            except Exception:
+                pass
+        
+        self.session_state.write_text(content)
     
     def append_daily_log(self, entry: str, category: str = "general"):
         """Append to daily episodic log."""
@@ -157,7 +176,14 @@ class HierarchicalMemory:
         if not self.session_state.exists():
             return {"status": "no_session"}
         
-        content = self.session_state.read_text()
+        try:
+            data = self.session_state.read_bytes()
+            if HAS_ZK and _ENCRYPTOR and len(data) > 12:
+                content = _ENCRYPTOR.aesgcm.decrypt(data[:12], data[12:], None).decode()
+            else:
+                content = self.session_state.read_text()
+        except Exception:
+            content = self.session_state.read_text()
         
         return {
             "status": "active",

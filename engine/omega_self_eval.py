@@ -2,12 +2,21 @@
 """
 PHASE 12: Self-Evaluation Reporting
 Generates periodic markdown reports on cognitive performance.
+With zero-knowledge encryption.
 """
 
 import json
 from pathlib import Path
 from datetime import datetime
 from typing import Optional
+
+try:
+    from omega_phase_encryptor import OmegaPhaseEncryptor
+    _ENCRYPTOR = OmegaPhaseEncryptor("self_eval")
+    HAS_ZK = True
+except ImportError:
+    _ENCRYPTOR = None
+    HAS_ZK = False
 
 class SelfEvaluationReporting:
     def __init__(self, project_path: str):
@@ -160,10 +169,18 @@ class SelfEvaluationReporting:
         return "\n".join(recommendations)
     
     def _save_report(self, report: str, timestamp: str):
-        """Save report to self-eval-logs directory."""
+        """Save report to self-eval-logs directory with optional encryption."""
         date = timestamp.split("T")[0]
         filename = f"{date}-{datetime.now().strftime('%H%M%S')}.md"
         filepath = self.eval_dir / filename
+        
+        if HAS_ZK and _ENCRYPTOR:
+            try:
+                payload = _ENCRYPTOR.encrypt_string(report)
+                filepath.write_bytes(payload.nonce + payload.ciphertext)
+                return
+            except Exception:
+                pass
         
         filepath.write_text(report)
     

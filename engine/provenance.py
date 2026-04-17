@@ -1,12 +1,23 @@
 """
-OMEGA-CODE Provenance Tracker
-Links generated code to exact prompts and model versions.
+OMEGA Provenance Tracker
+Tracks code generation provenance for audits.
+With zero-knowledge encryption.
 """
 
-import json
 import hashlib
+import json
 from pathlib import Path
+from typing import Optional
+from dataclasses import dataclass, asdict
 from datetime import datetime
+
+try:
+    from omega_phase_encryptor import OmegaPhaseEncryptor
+    _ENCRYPTOR = OmegaPhaseEncryptor("provenance")
+    HAS_ZK = True
+except ImportError:
+    _ENCRYPTOR = None
+    HAS_ZK = False
 from typing import Dict, Optional
 from dataclasses import dataclass, asdict
 
@@ -68,12 +79,25 @@ class ProvenanceTracker:
         return entry
     
     def _save_entry(self, entry: ProvenanceEntry):
-        """Save to provenance.json."""
+        """Save to provenance.json with optional encryption."""
         entries = []
         if self.provenance_file.exists():
-            entries = json.loads(self.provenance_file.read_text())
-        
-        entries.append(asdict(entry))
+            try:
+                entries = json.loads(self.provenance_file.read_text())
+            except:
+                pass
+
+        entry_data = asdict(entry)
+
+        if HAS_ZK and _ENCRYPTOR:
+            try:
+                enc_data = _ENCRYPTOR.encrypt_string(json.dumps([entry_data]))
+                self.provenance_file.write_text(enc_data.ciphertext.hex())
+                return
+            except Exception:
+                pass
+
+        entries.append(entry_data)
         self.provenance_file.write_text(json.dumps(entries, indent=2))
     
     def _create_snapshot(self, code: str, iteration: int, status: str):

@@ -88,9 +88,12 @@ class OmegaPhaseEncryptor:
     def _get_or_create_key(self) -> bytes:
         """Get or create the phase encryption key."""
         key_file = self.omega_dir / "phase.key"
-        
+
         if key_file.exists():
-            return key_file.read_bytes()
+            key_data = key_file.read_bytes()
+            if len(key_data) >= 32:
+                return key_data[-32:]
+            return key_data
         
         if not HAS_CRYPTO:
             raise ImportError("cryptography required")
