@@ -11,7 +11,6 @@ import asyncio
 import json
 import shutil
 import tempfile
-from unittest.mock import Mock, patch, AsyncMock
 from datetime import datetime
 from pathlib import Path
 
@@ -251,7 +250,6 @@ class TestCheckpointManager:
     def test_list_checkpoints(self, temp_dir):
         manager = CheckpointManager(storage_path=temp_dir)
         
-        import asyncio
         async def create_checkpoint():
             manager.start_execution(f"exec-{datetime.utcnow().timestamp()}")
             await manager.save()
@@ -265,7 +263,6 @@ class TestCheckpointManager:
     def test_delete_checkpoint(self, temp_dir):
         manager = CheckpointManager(storage_path=temp_dir)
         
-        import asyncio
         async def create_and_delete():
             manager.start_execution("exec-1")
             return await manager.save()
@@ -313,7 +310,6 @@ class TestCheckpointManager:
     def test_max_checkpoints_enforcement(self, temp_dir):
         manager = CheckpointManager(storage_path=temp_dir, max_checkpoints=2)
         
-        import asyncio
         async def create_checkpoint():
             manager.start_execution(f"exec-{datetime.utcnow().timestamp()}")
             await manager.save()
@@ -331,7 +327,6 @@ class TestCheckpointManager:
         listener_called = []
         manager.on_checkpoint(lambda cp: listener_called.append(cp))
         
-        import asyncio
         async def trigger_listener():
             manager.update_task("task-1", "Task 1", "completed")
             await manager.save()

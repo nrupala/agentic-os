@@ -20,7 +20,7 @@ import psutil
 import platform
 from datetime import datetime
 from typing import Dict, Any, List, Optional
-from dataclasses import dataclass, field, asdict
+from dataclasses import dataclass, field
 from enum import Enum
 from abc import ABC, abstractmethod
 import sys

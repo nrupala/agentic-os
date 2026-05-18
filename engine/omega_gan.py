@@ -8,21 +8,17 @@ If RAM fails, encrypted files persist and can resume.
 """
 
 import json
-import hashlib
-import os
 from pathlib import Path
-from typing import Tuple, Optional, List, Dict
+from typing import Tuple, List
 from datetime import datetime
-import base64
-import hmac
-import secrets
-import hashlib as hashlib_mod
 
 try:
     from omega_phase_encryptor import OmegaPhaseEncryptor
     HAS_ZERO_KNOWLEDGE = True
+    _ENCRYPTOR = OmegaPhaseEncryptor()
 except ImportError:
     HAS_ZERO_KNOWLEDGE = False
+    _ENCRYPTOR = None
 
 # Code templates for various application types
 CODE_TEMPLATES = {
@@ -1050,11 +1046,25 @@ class OmegaGAN:
     def _save_history(self):
         """Save generation history."""
         self.history_file.parent.mkdir(parents=True, exist_ok=True)
+        if HAS_ZERO_KNOWLEDGE and _ENCRYPTOR:
+            try:
+                payload = _ENCRYPTOR.encrypt_string(json.dumps(self.history[-100:]))
+                self.history_file.write_bytes(payload.nonce + payload.ciphertext)
+                return
+            except Exception:
+                pass
         self.history_file.write_text(json.dumps(self.history[-100:], indent=2))
     
     def _save_state(self):
         """Save temporal state."""
         self.state_file.parent.mkdir(parents=True, exist_ok=True)
+        if HAS_ZERO_KNOWLEDGE and _ENCRYPTOR:
+            try:
+                payload = _ENCRYPTOR.encrypt_string(json.dumps(self.state))
+                self.state_file.write_bytes(payload.nonce + payload.ciphertext)
+                return
+            except Exception:
+                pass
         self.state_file.write_text(json.dumps(self.state, indent=2))
     
     def generate_and_refine(

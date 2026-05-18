@@ -8,7 +8,6 @@ Wires all 19 phases together into a cohesive system.
 import os
 import sys
 from pathlib import Path
-from typing import Optional
 from datetime import datetime
 
 PROJECT_ROOT = Path(__file__).parent.parent
@@ -207,7 +206,7 @@ class OmegaIntegrator:
         
         if self.evaluator:
             report = self.evaluator.generate_markdown_report(metrics)
-            print(f"[INTEGRATOR] Self-eval report generated")
+            print("[INTEGRATOR] Self-eval report generated")
             return report
         return None
     

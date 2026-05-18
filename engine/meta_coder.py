@@ -14,6 +14,14 @@ PROJECT_ROOT = Path(__file__).parent.parent.parent
 OUTPUT_DIR = PROJECT_ROOT / "outputs"
 OUTPUT_DIR.mkdir(exist_ok=True)
 
+try:
+    from engine.omega_phase_encryptor import OmegaPhaseEncryptor
+    HAS_ZERO_KNOWLEDGE = True
+    _ENCRYPTOR = OmegaPhaseEncryptor()
+except ImportError:
+    HAS_ZERO_KNOWLEDGE = False
+    _ENCRYPTOR = None
+
 @dataclass
 class Solution:
     task: str
@@ -55,9 +63,25 @@ class MetaCoder:
     
     def _save_solutions(self):
         data = [asdict(s) for s in self.solutions[-100:]]
+        self.solutions_file.parent.mkdir(parents=True, exist_ok=True)
+        if HAS_ZERO_KNOWLEDGE and _ENCRYPTOR:
+            try:
+                payload = _ENCRYPTOR.encrypt_string(json.dumps(data))
+                self.solutions_file.write_bytes(payload.nonce + payload.ciphertext)
+                return
+            except Exception:
+                pass
         self.solutions_file.write_text(json.dumps(data, indent=2))
     
     def _save_cache(self):
+        self.cache_file.parent.mkdir(parents=True, exist_ok=True)
+        if HAS_ZERO_KNOWLEDGE and _ENCRYPTOR:
+            try:
+                payload = _ENCRYPTOR.encrypt_string(json.dumps(self.cache))
+                self.cache_file.write_bytes(payload.nonce + payload.ciphertext)
+                return
+            except Exception:
+                pass
         self.cache_file.write_text(json.dumps(self.cache, indent=2))
     
     def remember_solution(self, task: str, code: str, files: List[str], success: bool):
@@ -197,7 +221,7 @@ class MetaCoder:
             print(f"    [MetaCog] Found substantial solution: {existing.task[:50]}...")
             return self._adapt_solution(existing, task, language), True
         
-        print(f"    [MetaCog] No good solution - will generate new...")
+        print("    [MetaCog] No good solution - will generate new...")
         return "", False
     
     def _adapt_solution(self, solution: Solution, new_task: str, language: str) -> str:

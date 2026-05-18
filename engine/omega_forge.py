@@ -19,8 +19,8 @@ import json
 import asyncio
 import hashlib
 from pathlib import Path
-from typing import Dict, Tuple, Optional, List, Any
-from dataclasses import dataclass, asdict, field
+from typing import Dict, Tuple, Optional, List
+from dataclasses import dataclass
 from datetime import datetime
 
 PROJECT_ROOT = Path(__file__).parent.parent
@@ -378,7 +378,7 @@ class OmegaForge:
         Phase 2: RECTIFY - Generate improved code with Discipline Protocol.
         Returns (code, discipline_output)
         """
-        print(f"\n[OMEGA] Phase 2: RECTIFY")
+        print("\n[OMEGA] Phase 2: RECTIFY")
         print(f"  Attempts so far: {state.attempts}")
         
         patterns = []
@@ -443,7 +443,7 @@ class OmegaForge:
             success, parsed = DisciplineParser.parse(raw_response)
             
             if success:
-                print(f"  [DISCIPLINE] Parsed successfully")
+                print("  [DISCIPLINE] Parsed successfully")
                 return DisciplineOutput(
                     thought_process=parsed.get("thought_process", ""),
                     rectified_code=parsed.get("rectified_code", ""),
@@ -488,10 +488,10 @@ if __name__ == "__main__":
         state = self.recollect(goal)
         
         if state.goal == goal and state.status == "failed":
-            print(f"\n[RECOLLECT] Resuming previous session")
+            print("\n[RECOLLECT] Resuming previous session")
             print(f"   Previous attempts: {state.attempts}")
         else:
-            print(f"\n[RECOLLECT] Fresh start")
+            print("\n[RECOLLECT] Fresh start")
             state.goal = goal
             state.docker_available = self.docker_available
         
@@ -511,7 +511,7 @@ if __name__ == "__main__":
             code, discipline_output = self.rectify(state)
             state.code = code
             
-            print(f"\n[VERIFY] Running sandbox verification...")
+            print("\n[VERIFY] Running sandbox verification...")
             success, logs = self.sandbox_verify(code)
             
             state.logs = logs[:1000]
@@ -536,7 +536,7 @@ if __name__ == "__main__":
                 
                 self.snapshot.update(llm_status="RECTIFYING")
                 
-                print(f"\n[FAIL] LOGIC BREACH DETECTED")
+                print("\n[FAIL] LOGIC BREACH DETECTED")
                 print(f"   Error: {logs[:150]}...")
             
             time.sleep(1)

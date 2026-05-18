@@ -5,7 +5,6 @@ Generates periodic markdown reports on cognitive performance.
 With zero-knowledge encryption.
 """
 
-import json
 from pathlib import Path
 from datetime import datetime
 from typing import Optional

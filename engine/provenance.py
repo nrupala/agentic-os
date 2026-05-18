@@ -18,8 +18,6 @@ try:
 except ImportError:
     _ENCRYPTOR = None
     HAS_ZK = False
-from typing import Dict, Optional
-from dataclasses import dataclass, asdict
 
 @dataclass
 class ProvenanceEntry:

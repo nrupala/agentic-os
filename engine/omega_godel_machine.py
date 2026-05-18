@@ -14,18 +14,13 @@ Features:
 - Change validation before apply
 """
 
-import os
-import sys
 import hashlib
 import json
 import time
-import subprocess
-import shutil
 from pathlib import Path
-from typing import Dict, Optional, List, Any, Tuple
-from dataclasses import dataclass, asdict, field
+from typing import Dict, Optional, List, Tuple
+from dataclasses import dataclass, asdict
 from datetime import datetime
-from collections import defaultdict
 import re
 import ast
 
@@ -414,7 +409,7 @@ class GödelMachine:
         for change in self.changes:
             if change.change_id == change_id:
                 if not change.validated:
-                    print(f"[GÖDEL] Change not validated")
+                    print("[GÖDEL] Change not validated")
                     return False
                 
                 self.version_control.create_checkpoint(change.file_path)
@@ -423,7 +418,7 @@ class GödelMachine:
                 content = file_path.read_text()
                 
                 if hashlib.sha256(content.encode()).hexdigest()[:12] != change.original_hash:
-                    print(f"[GÖDEL] File changed since change was created")
+                    print("[GÖDEL] File changed since change was created")
                     return False
                 
                 modified_content = self._apply_code_diff(content, change.diff)

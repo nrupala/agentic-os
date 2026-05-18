@@ -16,7 +16,7 @@ Used by:
 
 import json
 from pathlib import Path
-from typing import Optional, Dict, List, Any
+from typing import Optional, Dict, List
 from datetime import datetime
 from dataclasses import dataclass
 

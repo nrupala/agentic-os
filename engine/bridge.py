@@ -591,7 +591,7 @@ class PlanToOmegaBridge:
         forge.close()
         
         print("\n" + "=" * 70)
-        print(f"EXECUTION COMPLETE")
+        print("EXECUTION COMPLETE")
         print(f"  Status: {state.status.value}")
         print(f"  Iterations: {state.iteration}")
         print(f"  Output Files: {len(state.output_files)}")
@@ -629,7 +629,7 @@ class PlanToOmegaBridge:
         print("USER VALIDATION GATE")
         print("=" * 70)
         
-        print(f"\nGenerated Code Preview (first 500 chars):")
+        print("\nGenerated Code Preview (first 500 chars):")
         print("-" * 50)
         print(code[:500] + "..." if len(code) > 500 else code)
         print("-" * 50)

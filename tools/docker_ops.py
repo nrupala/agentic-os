@@ -9,7 +9,7 @@ import uuid
 import base64
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Any
+from typing import Dict, List, Optional
 from dataclasses import dataclass, field
 from enum import Enum
 
@@ -535,7 +535,6 @@ class SandboxExecutor:
         packages: List[str] = None
     ) -> ExecutionResult:
         """Execute Python code in sandbox."""
-        import base64
         
         encoded_code = base64.b64encode(code.encode()).decode()
         
@@ -592,7 +591,6 @@ class SandboxExecutor:
         timeout: int = 60
     ) -> ExecutionResult:
         """Execute bash script in sandbox."""
-        import base64
         
         encoded_script = base64.b64encode(script.encode()).decode()
         

@@ -5,10 +5,17 @@ Retrieval-Augmented Generation for long-term memory.
 """
 
 import json
-import hashlib
 from pathlib import Path
-from typing import List, Optional, Dict
+from typing import List, Dict
 from datetime import datetime
+
+try:
+    from omega_phase_encryptor import OmegaPhaseEncryptor
+    HAS_ZERO_KNOWLEDGE = True
+    _ENCRYPTOR = OmegaPhaseEncryptor()
+except ImportError:
+    HAS_ZERO_KNOWLEDGE = False
+    _ENCRYPTOR = None
 
 class OmegaRAG:
     """
@@ -75,6 +82,13 @@ class OmegaRAG:
     def _save_index(self):
         """Save index to disk."""
         self.index_file.parent.mkdir(parents=True, exist_ok=True)
+        if HAS_ZERO_KNOWLEDGE and _ENCRYPTOR:
+            try:
+                payload = _ENCRYPTOR.encrypt_string(json.dumps(self.index))
+                self.index_file.write_bytes(payload.nonce + payload.ciphertext)
+                return
+            except Exception:
+                pass
         self.index_file.write_text(json.dumps(self.index, indent=2))
     
     def retrieve(self, query: str, top_k: int = 3) -> List[Dict]:

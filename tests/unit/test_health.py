@@ -8,8 +8,7 @@ Copyright (c) 2024 Nrupal Akolkar
 
 import pytest
 import asyncio
-from unittest.mock import Mock, patch, AsyncMock
-from datetime import datetime
+from unittest.mock import Mock, patch
 
 import sys
 from pathlib import Path
@@ -18,11 +17,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 from observability.health import (
     HealthStatus,
     ComponentHealth,
-    HealthCheck,
     SystemHealthCheck,
     ProcessHealthCheck,
-    EngineHealthCheck,
-    ToolsHealthCheck,
     HealthMonitor,
     basic_health,
     readiness_probe,

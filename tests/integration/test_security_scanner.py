@@ -88,7 +88,6 @@ class TestSecurityScannerValidation:
     
     def test_vulnerability_severity_ordering(self):
         """Test vulnerability severity ordering."""
-        from tools.security_scanner import SecurityScanner
         
         class MockSeverity:
             CRITICAL = 'critical'

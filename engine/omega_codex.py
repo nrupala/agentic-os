@@ -11,15 +11,10 @@ Or the full 6-phase recursive loop:
 This version INTEGRATES with Paradise Stack instead of replacing it.
 """
 
-import os
 import sys
 import json
-import uuid
-import time
 from pathlib import Path
-from typing import Dict, List, Optional, Any, Tuple
-from dataclasses import dataclass, field
-from datetime import datetime
+from typing import Dict, List, Tuple
 from enum import Enum
 import logging
 
@@ -383,9 +378,9 @@ class OmegaCodex:
             "score": 0.0
         }
         
-        # Run linter - just ruff check (moved broken checks to unused_code/)
+        # Run linter - use python -m ruff for cross-platform compatibility
         if self.shell:
-            lint_cmd = "ruff check ."
+            lint_cmd = "python -m ruff check ."
             lint_passed = False
 
             try:
@@ -393,7 +388,7 @@ class OmegaCodex:
                 if lint_result.return_code == 0:
                     lint_passed = True
                     result["lint_passed"] = True
-                    logger.info(f"  Lint: PASS")
+                    logger.info("  Lint: PASS")
                 else:
                     result["errors"].append(lint_result.stderr[:500])
             except Exception as e:
@@ -403,7 +398,7 @@ class OmegaCodex:
         # Run tests (if code exists)
         if self.shell and len(code) > 100:
             try:
-                test_result = self.shell.run("pytest -v --tb=short", timeout=120)
+                test_result = self.shell.run("python -m pytest -v --tb=short", timeout=120)
                 result["tests_passed"] = test_result.return_code == 0
                 if test_result.stderr:
                     result["errors"].append(test_result.stderr[:500])
@@ -636,7 +631,7 @@ class OmegaCodex:
                 if file_context:
                     planner_context = file_context
                     zk_sig = planner_context.get("_zk_signal", {})
-                    logger.info(f"  [ZK] Loaded encrypted planner_context from file")
+                    logger.info("  [ZK] Loaded encrypted planner_context from file")
                     logger.info(f"  [ZK] Checksum: {zk_sig.get('checksum', 'unknown')}")
             except Exception as e:
                 logger.warning(f"  [ZK] No encrypted file found or read failed: {e}")
@@ -687,7 +682,7 @@ class OmegaCodex:
                     "violations": 0
                 }
                 results["steps"]["6_guardian"] = {"status": "guarded", "metrics": metrics}
-                logger.info(f"  ✓ Guardian: Quality metrics recorded")
+                logger.info("  ✓ Guardian: Quality metrics recorded")
             else:
                 results["steps"]["6_guardian"] = {"status": "skipped"}
         except Exception as e:
@@ -698,7 +693,7 @@ class OmegaCodex:
         logger.info("\n=== STEP 7: EXECUTOR - Execute tests ===")
         try:
             if self.shell and results["code"]:
-                test_result = self.shell.run("pytest -v --tb=short", timeout=120)
+                test_result = self.shell.run("python -m pytest -v --tb=short", timeout=120)
                 results["steps"]["7_executor"] = {
                     "status": "executed",
                     "test_passed": test_result.return_code == 0,
@@ -716,7 +711,7 @@ class OmegaCodex:
         try:
             if self.gan and results["code"]:
                 results["steps"]["8_improver"] = {"status": "improved"}
-                logger.info(f"  ✓ Improver: Code refined via GAN")
+                logger.info("  ✓ Improver: Code refined via GAN")
             else:
                 results["steps"]["8_improver"] = {"status": "skipped"}
         except Exception as e:
@@ -731,7 +726,7 @@ class OmegaCodex:
                 memory_entry = f"Goal: {goal}\n\nCode:\n{results['code']}"
                 self.rag.add_to_memory(memory_entry, category="generated")
                 results["steps"]["9_knowledge"] = {"status": "indexed"}
-                logger.info(f"  ✓ Knowledge: Code indexed in RAG")
+                logger.info("  ✓ Knowledge: Code indexed in RAG")
             else:
                 results["steps"]["9_knowledge"] = {"status": "skipped"}
         except Exception as e:
@@ -742,7 +737,7 @@ class OmegaCodex:
         logger.info("\n=== STEP 10: VERIFY - Final verification ===")
         try:
             if self.shell:
-                lint_result = self.shell.run("ruff check .", timeout=30)
+                lint_result = self.shell.run("python -m ruff check .", timeout=30)
                 final_verification = lint_result.return_code == 0
                 results["steps"]["10_verify"] = {
                     "status": "verified" if final_verification else "failed",
@@ -797,15 +792,15 @@ class OmegaCodex:
             dag_plan = self.planner_context.get('dag_plan', [])
             constraints = self.planner_context.get('constraints', [])
             
-            logger.info(f"[HANDSHAKE 3->4] Received from Step 3 PLANNER:")
+            logger.info("[HANDSHAKE 3->4] Received from Step 3 PLANNER:")
             logger.info(f"  dag_plan: {len(dag_plan)} files in order")
             logger.info(f"  constraints: {len(constraints)} items")
             logger.info(f"  first_file: {dag_plan[0] if dag_plan else 'NONE'}")
             
             # Log the EXPECTED behavior - if not used, it will be logged as warning
-            logger.info(f"[HANDSHAKE 3->4] EXPECTED: Omega will consume dag_plan in iteration 1")
+            logger.info("[HANDSHAKE 3->4] EXPECTED: Omega will consume dag_plan in iteration 1")
         else:
-            logger.warning(f"[HANDSHAKE 3->4] NO planner context received - Omega will work from scratch")
+            logger.warning("[HANDSHAKE 3->4] NO planner context received - Omega will work from scratch")
         
         self.iteration = 0
         result = {
@@ -817,7 +812,7 @@ class OmegaCodex:
         }
         
         logger.info(f"\n{'='*60}")
-        logger.info(f"OMEGA Codex: Executing goal")
+        logger.info("OMEGA Codex: Executing goal")
         logger.info(f"Goal: {goal}")
         logger.info(f"{'='*60}\n")
         
@@ -831,7 +826,7 @@ class OmegaCodex:
                 constraints = self.planner_context.get('constraints', [])
                 
                 # CONSUME: Use planner's DAG plan and constraints
-                logger.info(f"[HANDSHAKE 3->4] ITERATION 1: CONSUMING planner output")
+                logger.info("[HANDSHAKE 3->4] ITERATION 1: CONSUMING planner output")
                 logger.info(f"  Applying dag_plan: {dag_plan[:3]}")
                 logger.info(f"  Applying constraints from planner: {constraints}")
                 
@@ -845,12 +840,12 @@ class OmegaCodex:
                     "planner_consumed": True
                 }
                 self.planner_used = True
-                logger.info(f"[HANDSHAKE 3->4] CONSUMED by Omega: dag_plan applied")
+                logger.info("[HANDSHAKE 3->4] CONSUMED by Omega: dag_plan applied")
                 
                 # Phase 2: THINK - include planner constraints in disciplined prompt
                 prompt = self._phase_think(goal, state)
                 # Extend with planner's constraints
-                prompt += f"\n\n# Planner DAG Order:\n" + "\n".join([f"- {f}" for f in dag_plan])
+                prompt += "\n\n# Planner DAG Order:\n" + "\n".join([f"- {f}" for f in dag_plan])
                 result["phases"]["think"] = {"prompt_length": len(prompt), "planner_used": True}
                 
                 # Phase 3: GENERATE - use planner's constraints
@@ -905,17 +900,17 @@ class OmegaCodex:
         if not result["success"]:
             result["iterations"] = self.iteration
             result["code"] = code if code else "# Max iterations reached"
-            logger.warning(f"\n[FAILED] Max iterations reached without success")
+            logger.warning("\n[FAILED] Max iterations reached without success")
         
         # FINAL HANDSHAKE TRACKING: Log if planner was used or not
         if self.planner_context and not self.planner_used:
-            logger.error(f"[HANDSHAKE 3->4] CRITICAL: planner_context received but NOT USED!")
+            logger.error("[HANDSHAKE 3->4] CRITICAL: planner_context received but NOT USED!")
             logger.error(f"  dag_plan had {len(self.planner_context.get('dag_plan', []))} files")
             result["handshake_error"] = "planner_not_consumed"
         elif self.planner_used:
-            logger.info(f"[HANDSHAKE 3->4] SUCCESS: Planner output was consumed by Omega")
+            logger.info("[HANDSHAKE 3->4] SUCCESS: Planner output was consumed by Omega")
         else:
-            logger.info(f"[HANDSHAKE 3->4] No planner context - Omega worked from scratch")
+            logger.info("[HANDSHAKE 3->4] No planner context - Omega worked from scratch")
         
         result["planner_used"] = self.planner_used
         result["planner_context_received"] = bool(self.planner_context)
@@ -1003,30 +998,30 @@ def main():
         if results.get('code'):
             print(f"\nCode length: {len(results['code'])} chars")
             if len(results['code']) > 500:
-                print(f"\nFirst 500 chars:")
+                print("\nFirst 500 chars:")
                 print(results['code'][:500])
             else:
-                print(f"\nGenerated code:")
+                print("\nGenerated code:")
                 print(results['code'])
     
     else:
-        print(f"OMEGA Codex v2.0.0 - Paradise Stack Integrated")
-        print(f"\nUsage:")
-        print(f"  python omega_codex.py --goal 'your goal'         # Run 6-phase loop")
-        print(f"  python omega_codex.py --goal 'your goal' --full  # Run full 10-step")
-        print(f"  python omega_codex.py --status                  # Show system status")
-        print(f"  python omega_codex.py --steps                   # Show 10-step architecture")
-        print(f"\n10-Step Architecture (from OMEGA_CODE_MANIFEST):")
-        print(f"  1. COGNITION      - Initialize cognitive systems")
-        print(f"  2. META_COGNITION - Self-awareness analysis")
-        print(f"  3. PLANNER        - DAG-based implementation plan")
-        print(f"  4. OMEGA STACK    - 6-phase loop (RECOLLECT->RECTIFY->VERIFY->PERSIST->EVALUATE)")
-        print(f"  5. REACTIVE      - DAG-based reactive validation")
-        print(f"  6. GUARDIAN       - Quality assurance")
-        print(f"  7. EXECUTOR       - Execute tests")
-        print(f"  8. IMPROVER       - Iterative improvement")
-        print(f"  9. KNOWLEDGE      - Update knowledge graph")
-        print(f"  10. VERIFY        - Final verification")
+        print("OMEGA Codex v2.0.0 - Paradise Stack Integrated")
+        print("\nUsage:")
+        print("  python omega_codex.py --goal 'your goal'         # Run 6-phase loop")
+        print("  python omega_codex.py --goal 'your goal' --full  # Run full 10-step")
+        print("  python omega_codex.py --status                  # Show system status")
+        print("  python omega_codex.py --steps                   # Show 10-step architecture")
+        print("\n10-Step Architecture (from OMEGA_CODE_MANIFEST):")
+        print("  1. COGNITION      - Initialize cognitive systems")
+        print("  2. META_COGNITION - Self-awareness analysis")
+        print("  3. PLANNER        - DAG-based implementation plan")
+        print("  4. OMEGA STACK    - 6-phase loop (RECOLLECT->RECTIFY->VERIFY->PERSIST->EVALUATE)")
+        print("  5. REACTIVE      - DAG-based reactive validation")
+        print("  6. GUARDIAN       - Quality assurance")
+        print("  7. EXECUTOR       - Execute tests")
+        print("  8. IMPROVER       - Iterative improvement")
+        print("  9. KNOWLEDGE      - Update knowledge graph")
+        print("  10. VERIFY        - Final verification")
 
 
 if __name__ == "__main__":

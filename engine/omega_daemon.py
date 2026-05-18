@@ -18,13 +18,11 @@ import time
 import json
 import hashlib
 import threading
-import subprocess
 import psutil
 from pathlib import Path
-from typing import Dict, Optional, Any, List
-from dataclasses import dataclass, asdict, field
-from datetime import datetime, timedelta
-from enum import Enum
+from typing import Dict, Optional, Any
+from dataclasses import dataclass, asdict
+from datetime import datetime
 import logging
 
 logging.basicConfig(
@@ -187,7 +185,7 @@ class OmegaDaemon:
         heartbeat_thread = threading.Thread(target=self._heartbeat_loop, daemon=True)
         heartbeat_thread.start()
         
-        logger.info(f"OMEGA Daemon started successfully")
+        logger.info("OMEGA Daemon started successfully")
         logger.info(f"  PID: {os.getpid()}")
         logger.info(f"  Resource limits: {self.resources.limits.max_memory_mb}MB, {self.resources.limits.max_cpu_percent}% CPU")
         
@@ -267,7 +265,6 @@ class OmegaDaemon:
             sys.path.insert(0, str(ENGINE_DIR))
             
             from omega_forge import OmegaForge
-            from omega_meta_logic import MetaCognition
             
             forge = OmegaForge(self.project)
             result = forge.execute_goal(task.get("goal", ""))

@@ -6,11 +6,9 @@ No external API dependencies - runs 100% offline.
 
 import subprocess
 import json
-import os
-import tempfile
 from pathlib import Path
 from datetime import datetime
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 from typing import Optional, List, Dict
 
 PROJECT_ROOT = Path(__file__).parent.parent

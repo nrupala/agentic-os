@@ -4,14 +4,11 @@ The continuous autonomous interaction loop where Paradise Stack
 thinks, acts, learns, and improves continuously.
 """
 
-import os
 import sys
 import json
-import time
-import threading
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Callable
+from typing import Dict, List, Optional
 from enum import Enum
 from dataclasses import dataclass, asdict
 

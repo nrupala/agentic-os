@@ -11,7 +11,7 @@ Copyright (c) 2024 Nrupal Akolkar
 import asyncio
 import time
 from datetime import datetime, timedelta
-from typing import Dict, Any, Callable, Optional, TypeVar, Awaitable
+from typing import Dict, Callable, Optional, TypeVar, Awaitable
 from dataclasses import dataclass, field
 from enum import Enum
 from functools import wraps
@@ -409,7 +409,7 @@ if __name__ == "__main__":
             await asyncio.sleep(0.5)
         
         info = api_cb.get_info()
-        print(f"\nCircuit Info:")
+        print("\nCircuit Info:")
         print(f"  State: {info.state.value}")
         print(f"  Total calls: {info.metrics.total_calls}")
         print(f"  Failed: {info.metrics.failed_calls}")

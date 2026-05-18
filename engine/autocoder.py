@@ -5,12 +5,9 @@ LLM-powered autonomous code generation and modification.
 
 import asyncio
 import subprocess
-import json
-import re
 import time
-import hashlib
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, Optional, Tuple
 from concurrent.futures import ThreadPoolExecutor
 
 PROJECT_ROOT = Path(__file__).parent.parent.parent
@@ -141,13 +138,13 @@ class AutoCoder:
         print(f"    [AutoCoder] LLM available: {self.llm.is_available()}")
         
         if self.llm.is_available():
-            print(f"    [AutoCoder] Generating with LLM...")
+            print("    [AutoCoder] Generating with LLM...")
             code = await self.llm.generate(prompt)
         else:
             code = ""
         
         if not code or len(code) < 100:
-            print(f"    [AutoCoder] Using smart templates...")
+            print("    [AutoCoder] Using smart templates...")
             code = self._template_generate(task, language)
         
         generation_time = time.time() - start_time

@@ -8,7 +8,6 @@ Copyright (c) 2024 Nrupal Akolkar
 
 import pytest
 import tempfile
-import os
 from pathlib import Path
 
 import sys

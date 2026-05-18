@@ -8,8 +8,6 @@ Copyright (c) 2024 Nrupal Akolkar
 
 import pytest
 import asyncio
-from unittest.mock import Mock, patch, AsyncMock
-from datetime import datetime
 
 import sys
 from pathlib import Path

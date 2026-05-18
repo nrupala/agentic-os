@@ -100,7 +100,7 @@ class GitHubIntelligenceScanner:
                     import base64
                     return base64.b64decode(data["content"]).decode("utf-8")
                 return None
-            except Exception as e:
+            except Exception:
                 return None
     
     async def find_skill_files(self, owner: str, repo: str) -> List[Dict]:
@@ -110,7 +110,7 @@ class GitHubIntelligenceScanner:
         async with httpx.AsyncClient(headers=HEADERS, timeout=30.0) as client:
             try:
                 response = await client.get(
-                    f"https://api.github.com/search/code",
+                    "https://api.github.com/search/code",
                     params={"q": f"repo:{owner}/{repo} (SKILL.md OR CLAUDE.md OR skill.md) in:path"}
                 )
                 if response.status_code == 200:

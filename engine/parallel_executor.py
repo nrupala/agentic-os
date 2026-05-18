@@ -454,7 +454,7 @@ if __name__ == "__main__":
             if result.error:
                 print(f"      → Error: {result.error}")
         
-        print(f"\nStats:")
+        print("\nStats:")
         print(f"  Total tasks: {stats.total_tasks}")
         print(f"  Completed: {stats.completed}")
         print(f"  Failed: {stats.failed}")

@@ -8,9 +8,7 @@ Copyright (c) 2024 Nrupal Akolkar
 
 import pytest
 import asyncio
-import time
-from unittest.mock import Mock, patch, AsyncMock
-from datetime import datetime
+from unittest.mock import Mock
 
 import sys
 from pathlib import Path
@@ -25,9 +23,7 @@ from observability.circuit_breaker import (
     CircuitInfo,
     CircuitBreaker,
     CircuitBreakerRegistry,
-    FallbackHandler,
-    circuit_breaker,
-    circuit_breaker_sync
+    FallbackHandler
 )
 
 

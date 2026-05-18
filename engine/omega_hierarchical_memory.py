@@ -83,7 +83,7 @@ class HierarchicalMemory:
     def write_session_state(self, context: dict):
         """WAL Protocol: Write immediately before next tool call with optional encryption."""
         lines = [
-            f"# OMEGA Session State",
+            "# OMEGA Session State",
             f"**Last Updated:** {datetime.now().isoformat()}",
             "",
             "## Current Context",

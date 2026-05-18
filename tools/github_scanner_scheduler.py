@@ -3,7 +3,6 @@ Monthly Intelligence Scheduler
 Schedules GitHub scans on monthly basis using Windows Task Scheduler.
 """
 
-import os
 import subprocess
 import json
 from datetime import datetime, timedelta

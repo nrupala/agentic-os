@@ -13,13 +13,11 @@ Provides:
 - Bash: Execute shell commands
 """
 
-import os
-import sys
 import re
 import subprocess
 import hashlib
 from pathlib import Path
-from typing import List, Dict, Optional, Any
+from typing import List, Dict, Optional
 from dataclasses import dataclass
 from datetime import datetime
 
@@ -538,10 +536,10 @@ def main():
     print(f"Operation: {result.operation}")
     print(f"Path: {result.path}")
     if result.content:
-        print(f"\n--- Content ---")
+        print("\n--- Content ---")
         print(result.content[:1000] + "..." if len(result.content) > 1000 else result.content)
     if result.error:
-        print(f"\n--- Error ---")
+        print("\n--- Error ---")
         print(result.error)
     if result.backup_path:
         print(f"\nBackup: {result.backup_path}")

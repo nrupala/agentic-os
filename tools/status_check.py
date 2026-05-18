@@ -3,10 +3,8 @@ Paradise Stack Status Checker
 Quick validation - fails fast to show what's working and what's not.
 """
 
-import os
 import json
 from pathlib import Path
-from datetime import datetime
 
 INTELLIGENCE_DIR = Path("C:\\Users\\HomeUser\\Downloads\\agentic-OS\\intelligence")
 PROJECT_ROOT = Path("C:\\Users\\HomeUser\\Downloads\\agentic-OS")

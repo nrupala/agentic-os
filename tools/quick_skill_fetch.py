@@ -3,7 +3,6 @@ Quick Manual Skill Integrator
 Fetches skills directly from top discovered repositories.
 """
 
-import os
 import json
 import httpx
 from pathlib import Path
@@ -51,7 +50,7 @@ async def main():
             skills_found += 1
             print(f"    + Saved: {skill_file.name}")
         else:
-            print(f"    - Rate limited or unavailable")
+            print("    - Rate limited or unavailable")
     
     # Update intelligence cache
     cache = {

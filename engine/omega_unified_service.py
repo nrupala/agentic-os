@@ -15,14 +15,13 @@ Components:
 This is the main entry point for the enhanced OMEGA engine.
 """
 
-import os
 import sys
 import json
 import time
 import threading
 import signal
 from pathlib import Path
-from typing import Dict, Optional, Any, List
+from typing import Dict, Any
 from dataclasses import dataclass, asdict
 from datetime import datetime
 import logging

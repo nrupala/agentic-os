@@ -19,7 +19,6 @@ SOFTWARE.
 """
 
 import subprocess
-import json
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 from dataclasses import dataclass, field

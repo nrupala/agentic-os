@@ -16,15 +16,13 @@ Usage:
     # Starts on http://localhost:8080
 """
 
-import os
 import sys
-import json
 import asyncio
 import uuid
 from pathlib import Path
 from datetime import datetime
-from typing import Optional, Dict, Any
-from dataclasses import dataclass, asdict
+from typing import Optional, Dict
+from dataclasses import dataclass
 from enum import Enum
 from concurrent.futures import ThreadPoolExecutor
 
@@ -266,7 +264,7 @@ class ExecutionManager:
             # Run sync code in thread pool to not block event loop
             loop = asyncio.get_event_loop()
             print(f"[API] Got loop: {loop}")
-            print(f"[API] Running executor...")
+            print("[API] Running executor...")
             result = await loop.run_in_executor(None, lambda: self.run_execution_sync(execution_id, request))
             print(f"[API] Executor returned: {result}")
         except Exception as e:

@@ -17,7 +17,7 @@ import time
 import hashlib
 from pathlib import Path
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Set, Any
+from typing import Dict, List, Optional, Set
 from concurrent.futures import ThreadPoolExecutor
 from collections import defaultdict
 
@@ -108,7 +108,7 @@ class Indexer:
             self.files[str(filepath)] = cf
             return cf
             
-        except Exception as e:
+        except Exception:
             return CodeFile(path=str(filepath), content="", hash="", indexed_at=time.time())
     
     def _extract_symbols(self, filepath: Path, content: str) -> List[Symbol]:

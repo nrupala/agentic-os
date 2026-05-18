@@ -1,5 +1,4 @@
 import ast
-import re
 from pathlib import Path
 from typing import Dict, List, Optional, Set
 from dataclasses import dataclass, field

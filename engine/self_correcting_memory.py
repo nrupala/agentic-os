@@ -13,6 +13,14 @@ PROJECT_ROOT = Path(__file__).parent.parent.parent
 OUTPUT_DIR = PROJECT_ROOT / "outputs"
 OUTPUT_DIR.mkdir(exist_ok=True)
 
+try:
+    from engine.omega_phase_encryptor import OmegaPhaseEncryptor
+    HAS_ZERO_KNOWLEDGE = True
+    _ENCRYPTOR = OmegaPhaseEncryptor()
+except ImportError:
+    HAS_ZERO_KNOWLEDGE = False
+    _ENCRYPTOR = None
+
 @dataclass
 class Solution:
     task: str
@@ -109,6 +117,14 @@ class SelfCorrectingMemory:
     
     def _save_solutions(self):
         data = [asdict(s) for s in self.solutions[-100:]]
+        self.solutions_file.parent.mkdir(parents=True, exist_ok=True)
+        if HAS_ZERO_KNOWLEDGE and _ENCRYPTOR:
+            try:
+                payload = _ENCRYPTOR.encrypt_string(json.dumps(data))
+                self.solutions_file.write_bytes(payload.nonce + payload.ciphertext)
+                return
+            except Exception:
+                pass
         self.solutions_file.write_text(json.dumps(data, indent=2))
     
     def remember(self, task: str, code: str, files: List[str], language: str = "python") -> bool:
@@ -156,7 +172,7 @@ class SelfCorrectingMemory:
                     print(f"    [Memory] Updated superior solution for: {new_solution.task_type}")
                     return
                 else:
-                    print(f"    [Memory] Kept existing solution (better quality)")
+                    print("    [Memory] Kept existing solution (better quality)")
                     return
         
         self.solutions.append(new_solution)

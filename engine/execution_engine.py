@@ -5,11 +5,8 @@ Professional code generation matching opencode quality.
 
 import asyncio
 import subprocess
-import json
-import re
 import time
 from pathlib import Path
-from typing import Dict, List, Tuple, Optional
 
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 OUTPUT_DIR = PROJECT_ROOT / "outputs"
@@ -45,13 +42,13 @@ class ExecutionEngine:
         
         # Try LLM first
         if self.llm_available:
-            print(f"    [Executor] LLM generation...")
+            print("    [Executor] LLM generation...")
             code = await self._generate_with_llm(task, language)
             if len(code) > 200:
                 return code
         
         # Smart template generation
-        print(f"    [Executor] Template generation...")
+        print("    [Executor] Template generation...")
         return self._generate_template(task, task_type, language)
     
     async def _generate_with_llm(self, task: str, language: str) -> str:

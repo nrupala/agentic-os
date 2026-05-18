@@ -21,14 +21,10 @@ Key features:
 Inspired by: Claude Code (5-15s loop), OpenCode (streaming), Cursor (live squiggles)
 """
 
-import os
-import time
 import json
-import re
 from pathlib import Path
-from typing import Dict, List, Optional, Any, Callable, Tuple
+from typing import Dict, List, Optional, Callable, Tuple
 from dataclasses import dataclass, field
-from datetime import datetime
 from enum import Enum
 import logging
 
@@ -418,7 +414,7 @@ class OmegaFeedbackLoop:
         last_result = self.loop_history[-1]
         
         context_parts = [
-            f"## Feedback Loop Status",
+            "## Feedback Loop Status",
             f"**Iteration**: {last_result.iteration}",
             f"**State**: {last_result.state.value}",
             f"**Command**: {last_result.command}",

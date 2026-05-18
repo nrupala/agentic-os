@@ -6,8 +6,6 @@ Comprehensive tests for all components.
 import os
 import sys
 import json
-import asyncio
-import tempfile
 from pathlib import Path
 from datetime import datetime
 

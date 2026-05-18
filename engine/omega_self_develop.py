@@ -7,10 +7,16 @@ Detects capability gaps and autonomously resolves them.
 import json
 import sqlite3
 import subprocess
-import hashlib
 from pathlib import Path
-from datetime import datetime, timedelta
-from typing import Optional
+from datetime import datetime
+
+try:
+    from omega_phase_encryptor import OmegaPhaseEncryptor
+    HAS_ZERO_KNOWLEDGE = True
+    _ENCRYPTOR = OmegaPhaseEncryptor()
+except ImportError:
+    HAS_ZERO_KNOWLEDGE = False
+    _ENCRYPTOR = None
 
 class SelfDevelopingIntelligence:
     def __init__(self, project_path: str):
@@ -162,6 +168,18 @@ class SelfDevelopingIntelligence:
     def _enable_gc_tuning(self):
         """Enable garbage collection tuning."""
         gc_config = self.project_path / "state" / "gc_config.json"
+        gc_config.parent.mkdir(parents=True, exist_ok=True)
+        if HAS_ZERO_KNOWLEDGE and _ENCRYPTOR:
+            try:
+                payload = _ENCRYPTOR.encrypt_string(json.dumps({
+                    "gc_threshold0": 700,
+                    "gc_threshold1": 10,
+                    "gc_threshold2": 10
+                }))
+                gc_config.write_bytes(payload.nonce + payload.ciphertext)
+                return
+            except Exception:
+                pass
         gc_config.write_text(json.dumps({
             "gc_threshold0": 700,
             "gc_threshold1": 10,

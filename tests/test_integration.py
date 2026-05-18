@@ -28,7 +28,7 @@ def test_cli_integration():
 def test_web_dashboard_integration():
     """Test web dashboard module works."""
     try:
-        from dashboard.web_dashboard import app, get_system_state
+        from dashboard.web_dashboard import get_system_state
         state = get_system_state()
         assert "evolution_level" in state
         print("[PASS] Web Dashboard Integration")
@@ -89,7 +89,7 @@ def test_cache_data():
 def test_planner_integration():
     """Test planner module works."""
     try:
-        from planner import CodebaseExplorer, TaskAnalyzer, Planner
+        from planner import CodebaseExplorer, TaskAnalyzer
         
         explorer = CodebaseExplorer()
         explorer.scan()

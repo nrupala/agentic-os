@@ -11,7 +11,7 @@ import time
 import sqlite3
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
-from dataclasses import dataclass, asdict, field
+from dataclasses import dataclass, asdict
 from datetime import datetime
 
 PROJECT_ROOT = Path(__file__).parent.parent.parent
@@ -226,11 +226,11 @@ class AutonomousAgent:
         self.roadmap = self._decompose(goal)
         self.spec = self._generate_spec(goal)
         
-        print(f"\nRoadmap:")
+        print("\nRoadmap:")
         print(f"  Modules: {', '.join(self.roadmap.modules)}")
         print(f"  Tech Stack: {', '.join(self.roadmap.tech_stack)}")
         
-        print(f"\nSpec:")
+        print("\nSpec:")
         print(f"  Architecture: {self.spec.architecture}")
         print(f"  Endpoints: {len(self.spec.endpoints)}")
         
@@ -344,7 +344,7 @@ class AutonomousAgent:
         
         passed = len(security_issues) == 0 and len(issues) <= 2
         
-        print(f"\nReview Result:")
+        print("\nReview Result:")
         print(f"  Issues: {len(issues)}")
         print(f"  Security: {len(security_issues)}")
         print(f"  Quality Score: {quality_score:.2f}")
@@ -413,7 +413,7 @@ class AutonomousAgent:
                 passed = True
                 print("  [OMEGA] No tests collected - basic validation passed")
             
-            print(f"\nTest Result:")
+            print("\nTest Result:")
             print(f"  Passed: {passed_count}")
             print(f"  Failed: {failed_count}")
             print(f"  Status: {'SUCCESS' if passed else 'NEEDS FIX'}")
@@ -556,7 +556,6 @@ class AutonomousAgent:
         if not self.docker_available:
             return False, "Docker not available"
         
-        import tempfile
         container_name = f"agent_sandbox_{int(time.time())}"
         escaped_code = code.replace("'", "'\\''")
         
@@ -596,7 +595,7 @@ class AutonomousAgent:
         OMEGA-CODE: If interrupted, next run will RECOLLECT and resume.
         """
         print("\n" + "="*60)
-        print(f"AUTONOMOUS AGENT STARTING (OMEGA-CODE Mode)")
+        print("AUTONOMOUS AGENT STARTING (OMEGA-CODE Mode)")
         print(f"Goal: {goal}")
         print(f"Docker Sandbox: {'AVAILABLE' if self.docker_available else 'UNAVAILABLE'}")
         print("="*60)

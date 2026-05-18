@@ -6,9 +6,7 @@ Test the API server endpoints
 """
 
 import requests
-import json
 import time
-import sys
 
 BASE_URL = "http://localhost:8080"
 
@@ -80,7 +78,7 @@ def main():
     print("\n[CHECK] Is API server running on port 8080?")
     try:
         resp = requests.get(f"{BASE_URL}/", timeout=2)
-        print(f"    YES - Server is running")
+        print("    YES - Server is running")
         print(f"    Response: {resp.json()}")
     except:
         print("    NO - Server not running")

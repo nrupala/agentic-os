@@ -4,10 +4,7 @@ Tests API endpoints with mocked dependencies for isolated testing.
 """
 
 import pytest
-import json
-import asyncio
-from unittest.mock import Mock, patch, AsyncMock
-from datetime import datetime
+from unittest.mock import Mock, patch
 from pathlib import Path
 
 # Add project root to path
@@ -15,7 +12,7 @@ import sys
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from api.server import ExecutionManager, ExecutionStatus, ValidationChoice
+from api.server import ExecutionManager, ExecutionStatus
 
 # Check if slowapi is available
 try:

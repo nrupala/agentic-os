@@ -5,7 +5,6 @@ PHASE 8: Vacuum Protocol
 Log distillation, cleanup, and wisdom extraction.
 """
 
-import os
 import shutil
 from pathlib import Path
 from datetime import datetime
@@ -150,11 +149,11 @@ if __name__ == "__main__":
     print("Running Vacuum Protocol...")
     results = vacuum.run_vacuum()
     
-    print(f"\nResults:")
+    print("\nResults:")
     for key, value in results.items():
         print(f"  {key}: {value}")
     
     status = vacuum.get_status()
-    print(f"\nStatus:")
+    print("\nStatus:")
     for key, value in status.items():
         print(f"  {key}: {value}")

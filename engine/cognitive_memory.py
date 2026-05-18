@@ -5,11 +5,9 @@ Learns from every interaction and grows smarter over time.
 """
 
 import json
-import time
 import hashlib
 from pathlib import Path
-from dataclasses import dataclass, field, asdict
-from typing import Dict, List, Optional, Set, Any
+from typing import Dict, List, Optional
 from datetime import datetime
 from collections import defaultdict
 

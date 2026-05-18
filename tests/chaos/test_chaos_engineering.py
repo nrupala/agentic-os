@@ -9,9 +9,8 @@ Copyright (c) 2024 Nrupal Akolkar
 
 import pytest
 import asyncio
-import random
 import time
-from unittest.mock import Mock, patch, AsyncMock
+from unittest.mock import patch
 from pathlib import Path
 import sys
 
@@ -112,7 +111,7 @@ class TestChaosEngineering:
     @pytest.mark.asyncio
     async def test_graceful_degradation(self):
         """Test graceful degradation when services are unavailable."""
-        from observability.health import HealthMonitor, HealthStatus
+        from observability.health import HealthMonitor
 
         monitor = HealthMonitor()
 

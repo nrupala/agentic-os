@@ -4,7 +4,6 @@ The activity center where tasks are created, executed, and tracked.
 Real-time execution monitoring and control.
 """
 
-import os
 import sys
 import json
 import time
@@ -278,7 +277,7 @@ class TaskConsole:
                 
                 elif cmd == "summary":
                     summary = self.get_console_summary()
-                    print(f"\n  Task Summary:")
+                    print("\n  Task Summary:")
                     print(f"    Total: {summary['total_tasks']}")
                     print(f"    Running: {summary['running']}")
                     print(f"    Completed: {summary['completed']}")
