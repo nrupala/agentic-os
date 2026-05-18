@@ -423,7 +423,7 @@ def main():
     
     meta = get_meta_cognition()
     rag = get_rag()
-    gan = get_gan()
+    get_gan()
     rnn = get_rnn()
     
     print("\n📊 System Capabilities:")

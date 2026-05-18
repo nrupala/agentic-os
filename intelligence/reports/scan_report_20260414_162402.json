@@ -1,0 +1,220 @@
+{
+  "scan_date": "2026-04-14T16:23:51.938880",
+  "queries_searched": 13,
+  "repositories_found": 50,
+  "top_repositories": [
+    {
+      "full_name": "affaan-m/everything-claude-code",
+      "description": "The agent harness performance optimization system. Skills, instincts, memory, security, and research-first development for Claude Code, Codex, Opencode, Cursor and beyond.",
+      "stars": 155998,
+      "url": "https://github.com/affaan-m/everything-claude-code",
+      "language": "JavaScript",
+      "updated": "2026-04-14T22:20:01Z"
+    },
+    {
+      "full_name": "obra/superpowers",
+      "description": "An agentic skills framework & software development methodology that works.",
+      "stars": 152157,
+      "url": "https://github.com/obra/superpowers",
+      "language": "Shell",
+      "updated": "2026-04-14T22:20:08Z"
+    },
+    {
+      "full_name": "x1xhlol/system-prompts-and-models-of-ai-tools",
+      "description": "FULL Augment Code, Claude Code, Cluely, CodeBuddy, Comet, Cursor, Devin AI, Junie, Kiro, Leap.new, Lovable, Manus, NotionAI, Orchids.app, Perplexity, Poke, Qoder, Replit, Same.dev, Trae, Traycer AI, VSCode Agent, Warp.dev, Windsurf, Xcode, Z.ai Code, Dia & v0. (And other Open Sourced) System Prompts, Internal Tools & AI Models",
+      "stars": 135173,
+      "url": "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools",
+      "language": null,
+      "updated": "2026-04-14T21:55:31Z"
+    },
+    {
+      "full_name": "Chalarangelo/30-seconds-of-code",
+      "description": "Coding articles to level up your development skills",
+      "stars": 127461,
+      "url": "https://github.com/Chalarangelo/30-seconds-of-code",
+      "language": "JavaScript",
+      "updated": "2026-04-14T19:39:44Z"
+    },
+    {
+      "full_name": "anthropics/skills",
+      "description": "Public repository for Agent Skills",
+      "stars": 117337,
+      "url": "https://github.com/anthropics/skills",
+      "language": "Python",
+      "updated": "2026-04-14T22:23:23Z"
+    },
+    {
+      "full_name": "florinpop17/app-ideas",
+      "description": "A Collection of application ideas which can be used to improve your coding skills.",
+      "stars": 92951,
+      "url": "https://github.com/florinpop17/app-ideas",
+      "language": null,
+      "updated": "2026-04-14T22:12:44Z"
+    },
+    {
+      "full_name": "dair-ai/Prompt-Engineering-Guide",
+      "description": "🐙 Guides, papers, lessons, notebooks and resources for prompt engineering, context engineering, RAG, and AI Agents.",
+      "stars": 73308,
+      "url": "https://github.com/dair-ai/Prompt-Engineering-Guide",
+      "language": "MDX",
+      "updated": "2026-04-14T22:16:34Z"
+    },
+    {
+      "full_name": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "description": "An AI SKILL that provide design intelligence for building professional UI/UX multiple platforms",
+      "stars": 64961,
+      "url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "language": "Python",
+      "updated": "2026-04-14T22:22:21Z"
+    },
+    {
+      "full_name": "bytedance/deer-flow",
+      "description": "An open-source long-horizon SuperAgent harness that researches, codes, and creates. With the help of sandboxes, memories, tools, skill, subagents and message gateway, it handles different levels of tasks that could take minutes to hours.",
+      "stars": 61495,
+      "url": "https://github.com/bytedance/deer-flow",
+      "language": "Python",
+      "updated": "2026-04-14T22:07:05Z"
+    },
+    {
+      "full_name": "ComposioHQ/awesome-claude-skills",
+      "description": "A curated list of awesome Claude Skills, resources, and tools for customizing Claude AI workflows",
+      "stars": 53802,
+      "url": "https://github.com/ComposioHQ/awesome-claude-skills",
+      "language": "Python",
+      "updated": "2026-04-14T22:20:44Z"
+    }
+  ],
+  "analysis_results": [
+    {
+      "repo": {
+        "full_name": "affaan-m/everything-claude-code",
+        "description": "The agent harness performance optimization system. Skills, instincts, memory, security, and research-first development for Claude Code, Codex, Opencode, Cursor and beyond.",
+        "stars": 155998,
+        "url": "https://github.com/affaan-m/everything-claude-code",
+        "language": "JavaScript",
+        "updated": "2026-04-14T22:20:01Z"
+      },
+      "skill_files": [],
+      "features": [],
+      "saved_skills": []
+    },
+    {
+      "repo": {
+        "full_name": "obra/superpowers",
+        "description": "An agentic skills framework & software development methodology that works.",
+        "stars": 152157,
+        "url": "https://github.com/obra/superpowers",
+        "language": "Shell",
+        "updated": "2026-04-14T22:20:08Z"
+      },
+      "skill_files": [],
+      "features": [],
+      "saved_skills": []
+    },
+    {
+      "repo": {
+        "full_name": "x1xhlol/system-prompts-and-models-of-ai-tools",
+        "description": "FULL Augment Code, Claude Code, Cluely, CodeBuddy, Comet, Cursor, Devin AI, Junie, Kiro, Leap.new, Lovable, Manus, NotionAI, Orchids.app, Perplexity, Poke, Qoder, Replit, Same.dev, Trae, Traycer AI, VSCode Agent, Warp.dev, Windsurf, Xcode, Z.ai Code, Dia & v0. (And other Open Sourced) System Prompts, Internal Tools & AI Models",
+        "stars": 135173,
+        "url": "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools",
+        "language": null,
+        "updated": "2026-04-14T21:55:31Z"
+      },
+      "skill_files": [],
+      "features": [],
+      "saved_skills": []
+    },
+    {
+      "repo": {
+        "full_name": "Chalarangelo/30-seconds-of-code",
+        "description": "Coding articles to level up your development skills",
+        "stars": 127461,
+        "url": "https://github.com/Chalarangelo/30-seconds-of-code",
+        "language": "JavaScript",
+        "updated": "2026-04-14T19:39:44Z"
+      },
+      "skill_files": [],
+      "features": [],
+      "saved_skills": []
+    },
+    {
+      "repo": {
+        "full_name": "anthropics/skills",
+        "description": "Public repository for Agent Skills",
+        "stars": 117337,
+        "url": "https://github.com/anthropics/skills",
+        "language": "Python",
+        "updated": "2026-04-14T22:23:23Z"
+      },
+      "skill_files": [],
+      "features": [],
+      "saved_skills": []
+    },
+    {
+      "repo": {
+        "full_name": "florinpop17/app-ideas",
+        "description": "A Collection of application ideas which can be used to improve your coding skills.",
+        "stars": 92951,
+        "url": "https://github.com/florinpop17/app-ideas",
+        "language": null,
+        "updated": "2026-04-14T22:12:44Z"
+      },
+      "skill_files": [],
+      "features": [],
+      "saved_skills": []
+    },
+    {
+      "repo": {
+        "full_name": "dair-ai/Prompt-Engineering-Guide",
+        "description": "🐙 Guides, papers, lessons, notebooks and resources for prompt engineering, context engineering, RAG, and AI Agents.",
+        "stars": 73308,
+        "url": "https://github.com/dair-ai/Prompt-Engineering-Guide",
+        "language": "MDX",
+        "updated": "2026-04-14T22:16:34Z"
+      },
+      "skill_files": [],
+      "features": [],
+      "saved_skills": []
+    },
+    {
+      "repo": {
+        "full_name": "nextlevelbuilder/ui-ux-pro-max-skill",
+        "description": "An AI SKILL that provide design intelligence for building professional UI/UX multiple platforms",
+        "stars": 64961,
+        "url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+        "language": "Python",
+        "updated": "2026-04-14T22:22:21Z"
+      },
+      "skill_files": [],
+      "features": [],
+      "saved_skills": []
+    },
+    {
+      "repo": {
+        "full_name": "bytedance/deer-flow",
+        "description": "An open-source long-horizon SuperAgent harness that researches, codes, and creates. With the help of sandboxes, memories, tools, skill, subagents and message gateway, it handles different levels of tasks that could take minutes to hours.",
+        "stars": 61495,
+        "url": "https://github.com/bytedance/deer-flow",
+        "language": "Python",
+        "updated": "2026-04-14T22:07:05Z"
+      },
+      "skill_files": [],
+      "features": [],
+      "saved_skills": []
+    },
+    {
+      "repo": {
+        "full_name": "ComposioHQ/awesome-claude-skills",
+        "description": "A curated list of awesome Claude Skills, resources, and tools for customizing Claude AI workflows",
+        "stars": 53802,
+        "url": "https://github.com/ComposioHQ/awesome-claude-skills",
+        "language": "Python",
+        "updated": "2026-04-14T22:20:44Z"
+      },
+      "skill_files": [],
+      "features": [],
+      "saved_skills": []
+    }
+  ],
+  "total_skills_saved": 0
+}

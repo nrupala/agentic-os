@@ -417,7 +417,7 @@ class ParadiseNotebook:
     def load(cls, filepath: Path) -> "ParadiseNotebook":
         """Load notebook from Python file"""
         with open(filepath, "r") as f:
-            code = f.read()
+            f.read()
         
         notebook = cls()
         notebook.name = filepath.stem

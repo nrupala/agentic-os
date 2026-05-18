@@ -417,7 +417,7 @@ def asdict(obj):
 def demo():
     """Demo the agent loop."""
     agent = AgentLoop()
-    result = agent.run_loop(iterations=3)
+    agent.run_loop(iterations=3)
 
 
 if __name__ == "__main__":

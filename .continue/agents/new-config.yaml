@@ -1,0 +1,77 @@
+name: Continue Local Config
+version: 1.0.0
+schema: v1
+apiBase: http://localhost:11434/v1
+models:
+  - name: qwen3.6-27b-q4_k_m
+    provider: ollama
+    model: qwen3.6-27B-Q4_K_M
+    roles:
+      - chat
+      - edit
+      - apply
+    settings:
+      temperature: 0.1
+      top_p: 0.9
+      top_k: 40
+      repeat_penalty: 1.05
+  - name: Llama 3.1 8B
+    provider: ollama
+    model: llama3.1:8b
+    roles:
+      - chat
+      - edit
+      - apply
+  - name: Qwen2.5-Coder 1.5B
+    provider: ollama
+    model: qwen2.5-coder:1.5b-base
+    roles:
+      - autocomplete
+  - name: Nomic Embed
+    provider: ollama
+    model: nomic-embed-text:latest
+    roles:
+      - embed
+  - name: Fortytwo Strand Rust Coder 14B
+    provider: ollama
+    model: Fortytwo_Strand-Rust-Coder-14B-v1-Q4_K_M
+    roles:
+      - autocomplete
+      - chat
+      - edit
+  - name: Gemma 3 4B
+    provider: ollama
+    model: gemma-3-4b-it-Q4_K_M
+    roles:
+      - chat
+      - edit
+      - apply
+  - name: GLM 4.7 Flash
+    provider: ollama
+    model: GLM-4.7-Flash-Q4_K_M
+    roles:
+      - chat
+      - edit
+  - name: "Google: Gemma 4 26B A4B (free)"
+    provider: openrouter
+    model: google/gemma-4-26b-a4b-it:free
+    apiKey: $OPENROUTER_API_KEY
+  - name: "Google: Gemma 4 26B A4B  (free) (1)"
+    provider: openrouter
+    model: google/gemma-4-26b-a4b-it:free
+    apiKey: $OPENROUTER_API_KEY
+  - name: "Google: Gemma 4 26B A4B  (free) (2)"
+    provider: openrouter
+    model: google/gemma-4-26b-a4b-it:free
+    apiKey: $OPENROUTER_API_KEY
+mcpServers:
+  - name: MCP_DOCKER
+    command: docker
+    args:
+      - mcp
+      - gateway
+      - run
+    env:
+      LOCALAPPDATA: C:\Users\nrupa\AppData\Local
+      ProgramData: C:\ProgramData
+      ProgramFiles: C:\Program Files

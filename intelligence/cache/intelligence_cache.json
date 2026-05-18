@@ -1,0 +1,48 @@
+{
+  "last_scan": "2026-04-14T16:24:42.783471",
+  "next_scan_due": "2026-05-14T16:24:42.783490",
+  "repositories_found": 8,
+  "skills_sourced": 8,
+  "top_repos": [
+    {
+      "name": "everything-claude-code",
+      "stars": 155998,
+      "owner": "affaan-m"
+    },
+    {
+      "name": "superpowers",
+      "stars": 152157,
+      "owner": "obra"
+    },
+    {
+      "name": "system-prompts-and-models-of-ai-tools",
+      "stars": 135173,
+      "owner": "x1xhlol"
+    },
+    {
+      "name": "30-seconds-of-code",
+      "stars": 127461,
+      "owner": "Chalarangelo"
+    },
+    {
+      "name": "skills",
+      "stars": 117337,
+      "owner": "anthropics"
+    },
+    {
+      "name": "Prompt-Engineering-Guide",
+      "stars": 73308,
+      "owner": "dair-ai"
+    },
+    {
+      "name": "deer-flow",
+      "stars": 61495,
+      "owner": "bytedance"
+    },
+    {
+      "name": "awesome-claude-skills",
+      "stars": 53802,
+      "owner": "ComposioHQ"
+    }
+  ]
+}

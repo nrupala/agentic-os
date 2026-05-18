@@ -1,0 +1,34 @@
+# OMEGA-CODE Systemd Guardian Service
+# ====================================
+# Auto-restarts on crash, auto-resumes on reboot
+
+[Unit]
+Description=OMEGA-CODE Autonomous Agent Guardian
+After=network.target docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/agentic-OS
+
+ExecStartPre=/usr/bin/docker ps -a --filter "name=omega" --format "{{.Names}}" | xargs -r docker rm -f || true
+ExecStart=/usr/bin/docker-compose -f /opt/agentic-OS/docker/docker-compose.yml up
+
+Restart=always
+RestartSec=10
+
+WatchdogSec=60
+TimeoutStartSec=120
+TimeoutStopSec=30
+
+Environment="PROJECT_NAME=default"
+Environment="MAX_ATTEMPTS=50"
+Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=omega-guardian
+
+[Install]
+WantedBy=multi-user.target

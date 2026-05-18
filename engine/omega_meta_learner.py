@@ -326,7 +326,7 @@ class RecursiveMetaLearner:
         storage_path = Path(f"projects/{self.project}/state")
         storage_path.mkdir(parents=True, exist_ok=True)
         attempts_file = storage_path / "meta_attempts.json"
-        attempts_file_enc = storage_path / "meta_attempts.enc"
+        storage_path / "meta_attempts.enc"
 
         data = json.dumps([asdict(a) for a in self.attempts], indent=2)
 
@@ -375,7 +375,7 @@ class RecursiveMetaLearner:
         storage_path = Path(f"projects/{self.project}/state")
         storage_path.mkdir(parents=True, exist_ok=True)
         rules_file = storage_path / "meta_rules.json"
-        rules_file_enc = storage_path / "meta_rules.enc"
+        storage_path / "meta_rules.enc"
 
         data = json.dumps({k: asdict(v) for k, v in self.rules.items()}, indent=2)
 
@@ -442,7 +442,7 @@ class RecursiveMetaLearner:
             
             result = self._execute_iteration(goal, strategy, iteration)
             
-            iteration_time = time.time() - iteration_start
+            time.time() - iteration_start
             
             if result.get("success"):
                 success = True
@@ -511,7 +511,7 @@ class RecursiveMetaLearner:
     def _execute_test_first(self, goal: str, iteration: int) -> Dict:
         """Test-first development strategy."""
         test_goal = f"Write tests for: {goal}"
-        test_result = self._call_omega_forge(test_goal)
+        self._call_omega_forge(test_goal)
         
         impl_goal = f"Implement: {goal}"
         return self._call_omega_forge(impl_goal)

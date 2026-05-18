@@ -1,0 +1,45 @@
+{
+  "tasks": {
+    "task_1_1776207431": {
+      "id": "task_1_1776207431",
+      "title": "Test task",
+      "description": "Testing the console",
+      "status": "completed",
+      "priority": 2,
+      "created_at": "2026-04-14T16:57:11.565939",
+      "updated_at": "2026-04-14T16:57:11.569321",
+      "activities": [],
+      "steps": [],
+      "current_step": 0
+    }
+  },
+  "activities": [
+    {
+      "id": "0b697eaf",
+      "task_id": "task_1_1776207431",
+      "action": "created",
+      "timestamp": "2026-04-14T16:57:11.566009",
+      "details": "Task 'Test task' created",
+      "agent": "Paradise",
+      "status": "ok"
+    },
+    {
+      "id": "bb168907",
+      "task_id": "task_1_1776207431",
+      "action": "started",
+      "timestamp": "2026-04-14T16:57:11.568038",
+      "details": "Task execution started",
+      "agent": "Paradise",
+      "status": "ok"
+    },
+    {
+      "id": "21150b41",
+      "task_id": "task_1_1776207431",
+      "action": "completed",
+      "timestamp": "2026-04-14T16:57:11.569342",
+      "details": "Done!",
+      "agent": "Paradise",
+      "status": "ok"
+    }
+  ]
+}

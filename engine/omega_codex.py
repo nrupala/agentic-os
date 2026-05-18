@@ -381,12 +381,10 @@ class OmegaCodex:
         # Run linter - use python -m ruff for cross-platform compatibility
         if self.shell:
             lint_cmd = "python -m ruff check ."
-            lint_passed = False
 
             try:
                 lint_result = self.shell.run(lint_cmd, timeout=30)
                 if lint_result.return_code == 0:
-                    lint_passed = True
                     result["lint_passed"] = True
                     logger.info("  Lint: PASS")
                 else:

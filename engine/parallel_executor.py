@@ -375,7 +375,7 @@ async def create_task_dag() -> ParallelExecutor:
     executor.add_task("fetch_users", fetch_data, "users", 1.0)
     executor.add_task("fetch_products", fetch_data, "products", 0.8)
     
-    results = executor.get_results()
+    executor.get_results()
     user_data_id = list(executor._graph.get_all_tasks())[0].id
     product_data_id = list(executor._graph.get_all_tasks())[1].id
     

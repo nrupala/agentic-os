@@ -200,7 +200,7 @@ class CheckpointManager:
         self._current_checkpoint.engine_state = self._engine_state.copy()
 
         checkpoint_path = self.storage_path / f"{self._current_checkpoint.checkpoint_id}.json"
-        checkpoint_path_enc = self.storage_path / f"{self._current_checkpoint.checkpoint_id}.enc"
+        self.storage_path / f"{self._current_checkpoint.checkpoint_id}.enc"
 
         data = json.dumps(self._current_checkpoint.to_dict(), indent=2, default=str)
 
@@ -238,7 +238,7 @@ class CheckpointManager:
         global _ENCRYPTOR
         if self._memory_state or self._engine_state:
             binary_path = self.storage_path / f"{self._current_checkpoint.checkpoint_id}.bin"
-            binary_path_enc = self.storage_path / f"{self._current_checkpoint.checkpoint_id}.bin.enc"
+            self.storage_path / f"{self._current_checkpoint.checkpoint_id}.bin.enc"
 
             data = json.dumps({
                 "memory_state": self._memory_state,
@@ -284,7 +284,7 @@ class CheckpointManager:
             self._auto_save_task.cancel()
         
         try:
-            loop = asyncio.get_running_loop()
+            asyncio.get_running_loop()
         except RuntimeError:
             return
         

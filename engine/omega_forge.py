@@ -57,10 +57,8 @@ class StateSnapshot:
         try:
             from omega_phase_encryptor import OmegaPhaseEncryptor
             _ENCRYPTOR = OmegaPhaseEncryptor("forge")
-            HAS_ZK = True
         except ImportError:
             _ENCRYPTOR = None
-            HAS_ZK = False
     
     def _load(self) -> Dict:
         if self.snapshot_path.exists():

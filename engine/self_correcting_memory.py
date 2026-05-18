@@ -134,7 +134,7 @@ class SelfCorrectingMemory:
         """
         is_valid, quality_score = QualityValidator.validate(code, language)
         
-        if is_inferior := QualityValidator.is_inferior(code, language):
+        if QualityValidator.is_inferior(code, language):
             print(f"    [Memory] Discarding inferior solution ({len(code)} chars)")
             return False
         

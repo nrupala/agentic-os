@@ -1,0 +1,14 @@
+[Unit]
+Description=OMEGA-CODE Infinite Persistence Guardian
+After=docker.service
+
+[Service]
+Restart=always
+RestartSec=10
+WorkingDirectory=/opt/omega-code
+# Automatically resumes the last project set in environment variables
+ExecStart=/usr/local/bin/docker-compose up
+
+[Install]
+WantedBy=multi-user.target
+//loction /etc/systemd/system/omega-guardian.service

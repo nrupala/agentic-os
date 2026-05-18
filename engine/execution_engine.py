@@ -12,17 +12,21 @@ PROJECT_ROOT = Path(__file__).parent.parent.parent
 OUTPUT_DIR = PROJECT_ROOT / "outputs"
 OUTPUT_DIR.mkdir(exist_ok=True)
 
+USER_HOME = Path.home()
+MODEL_DIR = USER_HOME / ".lmstudio" / "models"
+
 LLAMA_CLI = None
-for path in ["llama-cli", "C:/Users/HomeUser/.local/bin/llama-cli.exe"]:
+for path in ["llama-cli", str(USER_HOME / ".local" / "bin" / "llama-cli.exe")]:
     if Path(path).exists():
         LLAMA_CLI = path
         break
 
 MODEL_PATH = None
-for p in Path("C:/Users/HomeUser/.lmstudio/models").rglob("*.gguf"):
-    if "qwen" in str(p).lower():
-        MODEL_PATH = str(p)
-        break
+if MODEL_DIR.exists():
+    for p in MODEL_DIR.rglob("*.gguf"):
+        if "qwen" in str(p).lower():
+            MODEL_PATH = str(p)
+            break
 
 class ExecutionEngine:
     """

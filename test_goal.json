@@ -1,0 +1,3 @@
+{
+  "goal": "Build a secure tokenized file sharing server with: 1) Token-based upload/download auth, 2) File encryption at rest, 3) Self-hosted option, 4) Google Cloud Storage wrapper, 5) REST API with FastAPI, 6) WebSocket for real-time transfer progress, 7) SQLite database for file metadata, 8) Docker support for self-hosting"
+}

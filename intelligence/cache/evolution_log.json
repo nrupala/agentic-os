@@ -1,0 +1,341 @@
+{
+  "integrations": [
+    {
+      "timestamp": "2026-04-14T16:28:18.538737",
+      "patterns_added": 0,
+      "skills_added": 0,
+      "knowledge_delta": 0
+    },
+    {
+      "timestamp": "2026-04-14T16:31:08.006701",
+      "patterns_added": 0,
+      "skills_added": 0,
+      "knowledge_delta": 0
+    },
+    {
+      "timestamp": "2026-04-14T16:47:17.450007",
+      "patterns_added": 0,
+      "skills_added": 0,
+      "knowledge_delta": 0
+    },
+    {
+      "timestamp": "2026-04-14T16:47:23.846749",
+      "patterns_added": 0,
+      "skills_added": 0,
+      "knowledge_delta": 0
+    },
+    {
+      "timestamp": "2026-04-14T16:47:59.622625",
+      "patterns_added": 0,
+      "skills_added": 0,
+      "knowledge_delta": 0
+    },
+    {
+      "timestamp": "2026-04-14T17:08:22.668754",
+      "patterns_added": 0,
+      "skills_added": 0,
+      "knowledge_delta": 0
+    },
+    {
+      "timestamp": "2026-04-14T17:08:23.894484",
+      "patterns_added": 0,
+      "skills_added": 0,
+      "knowledge_delta": 0
+    },
+    {
+      "timestamp": "2026-04-14T22:54:45.139997",
+      "patterns_added": 0,
+      "skills_added": 0,
+      "knowledge_delta": 0
+    },
+    {
+      "timestamp": "2026-04-14T23:16:03.137159",
+      "patterns_added": 0,
+      "skills_added": 0,
+      "knowledge_delta": 0
+    },
+    {
+      "timestamp": "2026-04-15T19:25:26.828748",
+      "patterns_added": 0,
+      "skills_added": 0,
+      "knowledge_delta": 0
+    },
+    {
+      "timestamp": "2026-04-15T19:32:18.615363",
+      "patterns_added": 0,
+      "skills_added": 0,
+      "knowledge_delta": 0
+    },
+    {
+      "timestamp": "2026-04-15T19:41:41.951806",
+      "patterns_added": 0,
+      "skills_added": 0,
+      "knowledge_delta": 0
+    },
+    {
+      "timestamp": "2026-04-15T19:58:08.790032",
+      "patterns_added": 0,
+      "skills_added": 0,
+      "knowledge_delta": 0
+    },
+    {
+      "timestamp": "2026-04-15T20:01:28.588384",
+      "patterns_added": 0,
+      "skills_added": 0,
+      "knowledge_delta": 0
+    },
+    {
+      "timestamp": "2026-04-15T20:35:23.872719",
+      "patterns_added": 0,
+      "skills_added": 0,
+      "knowledge_delta": 0
+    },
+    {
+      "timestamp": "2026-04-15T21:04:08.149644",
+      "patterns_added": 0,
+      "skills_added": 0,
+      "knowledge_delta": 0
+    },
+    {
+      "timestamp": "2026-04-16T19:18:51.048547",
+      "patterns_added": 0,
+      "skills_added": 0,
+      "knowledge_delta": 0
+    },
+    {
+      "timestamp": "2026-04-16T19:42:10.739122",
+      "patterns_added": 0,
+      "skills_added": 0,
+      "knowledge_delta": 0
+    },
+    {
+      "timestamp": "2026-04-16T19:45:57.354244",
+      "patterns_added": 0,
+      "skills_added": 0,
+      "knowledge_delta": 0
+    },
+    {
+      "timestamp": "2026-04-16T20:36:47.274663",
+      "patterns_added": 0,
+      "skills_added": 0,
+      "knowledge_delta": 0
+    }
+  ],
+  "interactions": [
+    {
+      "timestamp": "2026-04-14T16:28:18.541814",
+      "type": "test_interaction",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-14T16:31:08.009876",
+      "type": "test_interaction",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-14T16:32:41.347272",
+      "type": "test_workflow",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-14T16:47:21.047523",
+      "type": "user_interaction",
+      "outcome": "processed"
+    },
+    {
+      "timestamp": "2026-04-14T16:47:43.333235",
+      "type": "user_interaction",
+      "outcome": "processed"
+    },
+    {
+      "timestamp": "2026-04-14T16:47:44.325877",
+      "type": "user_interaction",
+      "outcome": "processed"
+    },
+    {
+      "timestamp": "2026-04-14T16:49:19.011146",
+      "type": "user_query",
+      "outcome": "processed"
+    },
+    {
+      "timestamp": "2026-04-14T16:56:20.430006",
+      "type": "agent_loop_learning",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-14T16:56:20.433777",
+      "type": "agent_loop_learning",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-14T16:56:20.436743",
+      "type": "agent_loop_learning",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-14T17:08:21.543928",
+      "type": "user_interaction",
+      "outcome": "processed"
+    },
+    {
+      "timestamp": "2026-04-14T22:54:45.143569",
+      "type": "test_interaction",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-14T22:56:11.272864",
+      "type": "test_workflow",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-14T22:58:53.639727",
+      "type": "agent_loop_learning",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-14T23:16:03.139385",
+      "type": "test_interaction",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-15T19:25:26.791444",
+      "type": "test_workflow",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-15T19:25:26.838049",
+      "type": "test_interaction",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-15T19:32:18.602254",
+      "type": "test_workflow",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-15T19:32:18.620125",
+      "type": "test_interaction",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-15T19:41:41.916835",
+      "type": "test_workflow",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-15T19:41:41.962147",
+      "type": "test_interaction",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-15T19:58:08.766982",
+      "type": "test_workflow",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-15T19:58:08.798469",
+      "type": "test_interaction",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-15T20:01:28.537440",
+      "type": "test_workflow",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-15T20:01:28.603129",
+      "type": "test_interaction",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-15T20:35:23.844487",
+      "type": "test_workflow",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-15T20:35:23.882911",
+      "type": "test_interaction",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-15T21:04:08.129268",
+      "type": "test_workflow",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-15T21:04:08.157396",
+      "type": "test_interaction",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-16T17:57:50.724395",
+      "type": "test_workflow",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-16T19:16:10.090371",
+      "type": "test_workflow",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-16T19:18:51.025255",
+      "type": "test_workflow",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-16T19:18:51.056422",
+      "type": "test_interaction",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-16T19:42:10.724311",
+      "type": "test_workflow",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-16T19:42:10.745016",
+      "type": "test_interaction",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-16T19:45:57.339206",
+      "type": "test_workflow",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-16T19:45:57.359724",
+      "type": "test_interaction",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-16T19:47:18.845933",
+      "type": "test_workflow",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-16T20:36:47.255285",
+      "type": "test_workflow",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-16T20:36:47.280445",
+      "type": "test_interaction",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-28T21:44:23.919370",
+      "type": "agent_loop_learning",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-28T21:44:23.941266",
+      "type": "agent_loop_learning",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-04-28T21:44:23.948977",
+      "type": "agent_loop_learning",
+      "outcome": "success"
+    }
+  ]
+}

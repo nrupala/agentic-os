@@ -1,0 +1,21 @@
+services:
+  # ... existing omega-agent, omega-chroma, and omega-tls-proxy ...
+
+  loki:
+    image: grafana/loki:latest
+    container_name: omega_loki
+    command: -config.file=/etc/loki/local-config.yaml
+    ports:
+      - "3100:3100"
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: omega_dashboard
+    depends_on:
+      - loki
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=omega_secure_admin
+    volumes:
+      - ./grafana_data:/var/lib/grafana

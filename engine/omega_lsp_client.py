@@ -399,7 +399,7 @@ class OmegaLSPClient:
             return None
         
         # Request goto definition
-        uri = Path(file_path).as_uri()
+        Path(file_path).as_uri()
         
         # For now, use simple regex-based finding
         # In production, use proper LSP definition request
@@ -417,7 +417,7 @@ class OmegaLSPClient:
                 
                 # Look for definitions
                 if stripped.startswith('def ') or stripped.startswith('class '):
-                    name = stripped.split()[1].split('(')[0].split(':')[0]
+                    stripped.split()[1].split('(')[0].split(':')[0]
                     
                     # Return first definition
                     return Location(

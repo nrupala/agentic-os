@@ -134,7 +134,7 @@ class ProcessHealthCheck(HealthCheck):
         try:
             process = psutil.Process()
             threads = process.num_threads()
-            fds = process.num_fds() if hasattr(process, 'num_fds') else 0
+            process.num_fds() if hasattr(process, 'num_fds') else 0
             memory_info = process.memory_info()
             
             open_files = len(process.open_files()) if hasattr(process, 'open_files') else 0
@@ -168,7 +168,7 @@ class EngineHealthCheck(HealthCheck):
     async def check(self) -> ComponentHealth:
         try:
             from engine.bridge import PlanToOmegaBridge
-            bridge = PlanToOmegaBridge()
+            PlanToOmegaBridge()
             
             return ComponentHealth(
                 name="engine",

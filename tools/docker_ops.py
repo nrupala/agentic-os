@@ -235,7 +235,7 @@ class DockerRuntime:
                 container_id = stdout.decode().strip()[:12]
                 
                 await asyncio.sleep(0.5)
-                inspect = await self.inspect_container(container_id)
+                await self.inspect_container(container_id)
                 
                 self.containers[container_id] = Container(
                     id=container_id,
@@ -544,7 +544,7 @@ class SandboxExecutor:
                 setup_commands.append(f"pip install {pkg}")
             setup_commands.append("pip install --quiet")
         
-        full_code = "\n".join(setup_commands + [code])
+        "\n".join(setup_commands + [code])
         
         environment = {
             "PYTHONUNBUFFERED": "1"

@@ -1,0 +1,116 @@
+{
+  "containers": {},
+  "carriers": {
+    "de7599f4-33b": {
+      "id": "de7599f4-33b",
+      "name": "planner",
+      "type": "planner",
+      "state": "idle",
+      "capabilities": [
+        "planning",
+        "analysis",
+        "architecture"
+      ],
+      "performance": {
+        "tasks_completed": 0,
+        "tasks_failed": 0,
+        "total_duration": 0
+      },
+      "history": [],
+      "created_at": "2026-04-15T03:00:24.036279"
+    },
+    "e2ffd80a-58d": {
+      "id": "e2ffd80a-58d",
+      "name": "aider",
+      "type": "implementer",
+      "state": "idle",
+      "capabilities": [
+        "code_generation",
+        "refactoring",
+        "recursion"
+      ],
+      "performance": {
+        "tasks_completed": 0,
+        "tasks_failed": 0,
+        "total_duration": 0
+      },
+      "history": [],
+      "created_at": "2026-04-15T03:00:24.036337"
+    },
+    "b416f4bc-70e": {
+      "id": "b416f4bc-70e",
+      "name": "guardian",
+      "type": "guardian",
+      "state": "idle",
+      "capabilities": [
+        "linting",
+        "security",
+        "quality"
+      ],
+      "performance": {
+        "tasks_completed": 0,
+        "tasks_failed": 0,
+        "total_duration": 0
+      },
+      "history": [],
+      "created_at": "2026-04-15T03:00:24.036364"
+    },
+    "a3a2924a-7e2": {
+      "id": "a3a2924a-7e2",
+      "name": "executor",
+      "type": "executor",
+      "state": "idle",
+      "capabilities": [
+        "testing",
+        "execution",
+        "verification"
+      ],
+      "performance": {
+        "tasks_completed": 0,
+        "tasks_failed": 0,
+        "total_duration": 0
+      },
+      "history": [],
+      "created_at": "2026-04-15T03:00:24.036376"
+    },
+    "5d812e31-9bd": {
+      "id": "5d812e31-9bd",
+      "name": "improver",
+      "type": "improver",
+      "state": "idle",
+      "capabilities": [
+        "fixing",
+        "optimization",
+        "learning"
+      ],
+      "performance": {
+        "tasks_completed": 0,
+        "tasks_failed": 0,
+        "total_duration": 0
+      },
+      "history": [],
+      "created_at": "2026-04-15T03:00:24.036385"
+    },
+    "01653808-ef4": {
+      "id": "01653808-ef4",
+      "name": "orchestrator",
+      "type": "orchestrator",
+      "state": "idle",
+      "capabilities": [
+        "coordination",
+        "flow",
+        "monitoring"
+      ],
+      "performance": {
+        "tasks_completed": 0,
+        "tasks_failed": 0,
+        "total_duration": 0
+      },
+      "history": [],
+      "created_at": "2026-04-15T03:00:24.036395"
+    }
+  },
+  "blobs": {},
+  "placeholders": {},
+  "saved_at": "2026-04-15T03:00:24.068486"
+}

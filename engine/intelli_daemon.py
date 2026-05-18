@@ -351,7 +351,7 @@ class BuildScheduler:
             build["status"] = "generating"
             build["progress"] = 50
             
-            context = self.generator.get_context()
+            self.generator.get_context()
             
             wf_id = f"wf_{int(time.time())}"
             output_dir = OUTPUT_DIR / wf_id

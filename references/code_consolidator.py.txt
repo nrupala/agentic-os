@@ -1,0 +1,19 @@
+import os
+
+def consolidate_for_notebook(root_dir, output_file):
+    with open(output_file, 'w', encoding='utf-8') as f_out:
+        for root, dirs, files in os.walk(root_dir):
+            # Skip noise like git, docker volumes, and node_modules
+            dirs[:] = [d for d in dirs if not d.startswith('.') and d not in ['chroma_data', 'grafana_data']]
+            for file in files:
+                if file.endswith(('.py', '.sh', '.md', '.yml', '.yaml', '.json')):
+                    path = os.path.join(root, file)
+                    f_out.write(f"\n\n{'='*20} FILE: {path} {'='*20}\n\n")
+                    with open(path, 'r', encoding='utf-8') as f_in:
+                        f_out.write(f_in.read())
+
+consolidate_for_notebook('.', 'OMEGA_MASTER_CONTEXT.txt')
+#To migrate your entire OMEGA-CODE bank into Google NotebookLM, you must transform your executable scripts into a "grounded knowledge base." This allows you to use NotebookLM as a High-Context Brain to reason over your architecture, even though it won't execute the code itself. 
+#1. Codebase Consolidation (Master Context)
+#NotebookLM handles structured text much more effectively than hundreds of disparate small files. Use this script to merge your repo into a single "Master Context" file: 
+

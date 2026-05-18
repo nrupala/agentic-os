@@ -542,7 +542,7 @@ def main():
         func=add,
     )
     
-    cell2 = engine.register_cell(
+    engine.register_cell(
         name="multiply",
         code="def multiply(result, c): return result * c",
         refs=["result", "c"],
@@ -550,7 +550,7 @@ def main():
         func=multiply,
     )
     
-    cell3 = engine.register_cell(
+    engine.register_cell(
         name="display",
         code="def display(value): return f'Final: {value}'",
         refs=["product"],

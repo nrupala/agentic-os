@@ -1,0 +1,490 @@
+{
+  "metadata": {
+    "created": "2026-04-14",
+    "purpose": "Feature extraction map from 6 external repositories for Paradise Stack integration",
+    "sources": [
+      "collection-claude-code-source-code",
+      "everything-claude-code",
+      "agency-agents",
+      "awesome-system-design",
+      "claude-code-ui-agents",
+      "definitive-opensource"
+    ]
+  },
+  "features": [
+    {
+      "feature_name": "Tool System Architecture",
+      "source_repo": "collection-claude-code-source-code",
+      "implementation_pattern": "40+ built-in tools: FileRead/Edit/Write, Glob, Grep, Bash, WebFetch/Search, Tasks, Sub-agents, Code Environments, Git Workflow, Memory/Planning",
+      "integration_point": "paradise.py -> ToolPool -> Builder (Aider)",
+      "details": {
+        "permission_system": "Three modes: default (ask), bypass (auto-allow), strict (auto-deny)",
+        "protocol": "MCP (Model Context Protocol)"
+      }
+    },
+    {
+      "feature_name": "Three-Layer Memory Architecture",
+      "source_repo": "collection-claude-code-source-code",
+      "implementation_pattern": "Layer 1: In-Context (active window), Layer 2: External File Memory (memory.md index), Layer 3: Project-level static config (CLAUDE.md)",
+      "integration_point": "cognition/knowledge_graph.py -> Memory Management",
+      "details": {
+        "layer_1": "In-context memory - conversation history in active window",
+        "layer_2": "External file memory - memory.md as pointer index to domain-specific files",
+        "layer_3": "Static project config - CLAUDE.md at project root",
+        "self_healing": "Agent rewrites memory files when information changes"
+      }
+    },
+    {
+      "feature_name": "Multi-Provider Pattern",
+      "source_repo": "collection-claude-code-source-code",
+      "implementation_pattern": "Unified tool registry with memoized assembly, feature-gated modules using Bun feature() function",
+      "integration_point": "paradise.py -> Provider abstraction layer",
+      "details": {
+        "architecture": "getTools() and getCommands() use memoized assembly functions",
+        "extensibility": "Add new capability by creating self-contained tool module with input schema, permission model, execution logic"
+      }
+    },
+    {
+      "feature_name": "Skill Format Specification",
+      "source_repo": "everything-claude-code",
+      "implementation_pattern": "YAML frontmatter + markdown body with name, description, version, author, triggers, allowed-tools, patterns, examples",
+      "integration_point": "cognition/notebook.py -> SkillLoader",
+      "details": {
+        "frontmatter_fields": [
+          "name",
+          "description",
+          "author",
+          "version",
+          "date",
+          "triggers",
+          "allowed-tools"
+        ],
+        "body_sections": [
+          "Problem",
+          "Solution",
+          "Patterns",
+          "Examples",
+          "Anti-patterns",
+          "Verification"
+        ],
+        "activation": "Loaded on-demand when Claude detects relevance via semantic matching"
+      }
+    },
+    {
+      "feature_name": "Hook System",
+      "source_repo": "everything-claude-code",
+      "implementation_pattern": "Event-driven lifecycle: PreToolUse, PostToolUse, Notification, Stop, MidConversation, PreCompact, PostCompact, SessionStart, SessionEnd",
+      "integration_point": "cognition/reactive_engine.py -> Event Hooks",
+      "details": {
+        "hook_phases": [
+          "pre",
+          "post",
+          "notification",
+          "stop",
+          "mid-conversation",
+          "pre-compact",
+          "post-compact",
+          "session-start",
+          "session-end"
+        ],
+        "execution": "Bash/Node.js scripts that run outside Claude context (zero tokens)",
+        "persistence": "Memory-persistence hooks that save/load context across sessions"
+      }
+    },
+    {
+      "feature_name": "Continuous Learning Mechanism",
+      "source_repo": "everything-claude-code",
+      "implementation_pattern": "Instinct-based learning v2 with confidence scoring: /learn-eval extracts patterns, /evolve promotes instincts to skills",
+      "integration_point": "cognition/self_improvement.py -> Learning Engine",
+      "details": {
+        "session_learning": "/learn-eval extracts recurring patterns into instinct files",
+        "instinct_evolution": "/evolve analyzes instincts and promotes stable ones to permanent skills",
+        "confidence_scoring": "Each instinct tagged with confidence level based on frequency",
+        "import_export": "Instincts can be imported or exported for sharing"
+      }
+    },
+    {
+      "feature_name": "Agent Persona Structure",
+      "source_repo": "agency-agents",
+      "implementation_pattern": "Markdown with YAML frontmatter: name, description, color, emoji, vibe followed by Identity, Mission, Workflows, Deliverables, Metrics, Rules",
+      "integration_point": "cognition/agent_personas.py -> PersonaLoader",
+      "details": {
+        "frontmatter": [
+          "name",
+          "description",
+          "color",
+          "emoji",
+          "vibe"
+        ],
+        "body_sections": [
+          "Agent Personality",
+          "Core Mission",
+          "Workflows",
+          "Deliverables",
+          "Success Metrics",
+          "Rules"
+        ],
+        "context_isolation": "Subagents start with clean slate focused on narrow job"
+      }
+    },
+    {
+      "feature_name": "Division Organization",
+      "source_repo": "agency-agents",
+      "implementation_pattern": "17 professional divisions with 157 specialized agents: Engineering (26), Design (8), Marketing (29), Sales (11), Testing (8)",
+      "integration_point": "cognition/engineering_teams.py -> DivisionManager",
+      "details": {
+        "divisions": [
+          {
+            "name": "Engineering",
+            "count": 26,
+            "specialties": [
+              "Frontend",
+              "Backend",
+              "Mobile",
+              "AI/ML",
+              "DevOps",
+              "Security"
+            ]
+          },
+          {
+            "name": "Design",
+            "count": 8
+          },
+          {
+            "name": "Marketing",
+            "count": 29
+          },
+          {
+            "name": "Sales",
+            "count": 11
+          },
+          {
+            "name": "Testing",
+            "count": 8
+          }
+        ],
+        "hierarchy": "Division -> Category -> Agent"
+      }
+    },
+    {
+      "feature_name": "Handover Protocols",
+      "source_repo": "agency-agents",
+      "implementation_pattern": "Multi-agent workflows: Sequential, Parallel, Router, Swarm with explicit handoffs and termination conditions",
+      "integration_point": "cognition/master_orchestrator.py -> HandoffManager",
+      "details": {
+        "handoff_types": [
+          "Sequential",
+          "Parallel",
+          "Router",
+          "Swarm"
+        ],
+        "handoff_data": "Context includes message history, artifacts, shared state",
+        "termination": [
+          "MaxMessageTermination",
+          "TextMentionTermination",
+          "TokenUsageTermination"
+        ]
+      }
+    },
+    {
+      "feature_name": "CAP Theorem Pattern",
+      "source_repo": "awesome-system-design",
+      "implementation_pattern": "Distributed system tradeoff: Consistency vs Availability vs Partition Tolerance. CP, AP, CA systems",
+      "integration_point": "paradise.py -> Distributed Systems layer",
+      "details": {
+        "cp_systems": [
+          "MongoDB (strict)",
+          "ZooKeeper"
+        ],
+        "ap_systems": [
+          "Cassandra",
+          "DynamoDB"
+        ],
+        "ca_systems": [
+          "MySQL",
+          "PostgreSQL (single-node)"
+        ],
+        "selection_criteria": "Financial: CP, Social media: AP, Enterprise internal: CA"
+      }
+    },
+    {
+      "feature_name": "Caching Strategies",
+      "source_repo": "awesome-system-design",
+      "implementation_pattern": "Cache-Aside, Write-Through, Write-Behind, Refresh-Ahead with LRU/LFU/FIFO eviction policies",
+      "integration_point": "cognition/knowledge_graph.py -> CacheLayer",
+      "details": {
+        "strategies": [
+          "Cache-Aside",
+          "Write-Through",
+          "Write-Behind",
+          "Refresh-Ahead"
+        ],
+        "eviction_policies": [
+          "LRU",
+          "LFU",
+          "FIFO",
+          "TTL"
+        ],
+        "distributed_caching": "Redis/Memcached clusters with consistent hashing"
+      }
+    },
+    {
+      "feature_name": "Circuit Breaker Pattern",
+      "source_repo": "awesome-system-design",
+      "implementation_pattern": "Three-state machine: Closed (normal) -> Open (fail fast) -> Half-Open (test recovery)",
+      "integration_point": "cognition/pdc_orchestrator.py -> ResilienceLayer",
+      "details": {
+        "states": [
+          "Closed",
+          "Open",
+          "Half-Open"
+        ],
+        "thresholds": [
+          "count-based",
+          "rate-based"
+        ],
+        "benefits": [
+          "Prevents cascading failures",
+          "Stops wasting resources",
+          "Graceful degradation"
+        ],
+        "frameworks": [
+          "Netflix Hystrix",
+          "Polly (.NET)",
+          "Resilience4J (Java)"
+        ]
+      }
+    },
+    {
+      "feature_name": "Prompt Template Structure",
+      "source_repo": "claude-code-ui-agents",
+      "implementation_pattern": "YAML frontmatter + markdown: name, description, model, category, difficulty, tags followed by Description, Prompt, Sample Results",
+      "integration_point": "paradise.py -> PromptTemplateEngine",
+      "details": {
+        "frontmatter": [
+          "name",
+          "description",
+          "model",
+          "category",
+          "difficulty",
+          "tags"
+        ],
+        "body": [
+          "Description",
+          "Prompt",
+          "Sample Results"
+        ],
+        "categories": [
+          "ui-design",
+          "web-development",
+          "components",
+          "ux-research",
+          "animation",
+          "responsive",
+          "accessibility"
+        ]
+      }
+    },
+    {
+      "feature_name": "Prompt Categories",
+      "source_repo": "claude-code-ui-agents",
+      "implementation_pattern": "Seven category structure: UI Design, Web Development, Component Development, UX Research, Animation, Responsive Design, Accessibility",
+      "integration_point": "planner.py -> TemplateCategorizer",
+      "details": {
+        "ui_design": [
+          "Design System Generator",
+          "Universal UI/UX Design Methodology"
+        ],
+        "web_development": [
+          "CSS Architecture Specialist"
+        ],
+        "components": [
+          "React Component Architect"
+        ]
+      }
+    },
+    {
+      "feature_name": "Agent Reference Catalog",
+      "source_repo": "definitive-opensource",
+      "implementation_pattern": "Categorized list of AI agents with descriptions, platform support, star ratings",
+      "integration_point": "cognition/entities.py -> ReferenceCatalog",
+      "details": {
+        "agents": [
+          {
+            "name": "AgenticSeek",
+            "stars": "25.9k",
+            "description": "Fully local Manus AI"
+          },
+          {
+            "name": "OpenCode",
+            "stars": "142.7k",
+            "description": "Open source coding agent"
+          },
+          {
+            "name": "gptme",
+            "stars": "4.3k",
+            "description": "Local agent with terminal tools"
+          },
+          {
+            "name": "Gemini CLI",
+            "description": "Google AI agent"
+          }
+        ],
+        "platforms": [
+          "CLI",
+          "TUI",
+          "Web",
+          "Desktop",
+          "Cross-platform"
+        ]
+      }
+    },
+    {
+      "feature_name": "RAG Framework Catalog",
+      "source_repo": "definitive-opensource",
+      "implementation_pattern": "Comprehensive RAG framework listing: LangChain, Dify, RAGFlow, LlamaIndex, Haystack, Cognita, R2R",
+      "integration_point": "cognition/knowledge_graph.py -> RAGIntegration",
+      "details": {
+        "frameworks": [
+          {
+            "name": "LangChain",
+            "stars": "105k",
+            "focus": "Component chaining"
+          },
+          {
+            "name": "Dify",
+            "stars": "90.5k",
+            "focus": "Visual workflow"
+          },
+          {
+            "name": "RAGFlow",
+            "focus": "Deep document understanding"
+          },
+          {
+            "name": "LlamaIndex",
+            "focus": "Connecting data to LLMs"
+          },
+          {
+            "name": "Haystack",
+            "focus": "Production pipelines"
+          }
+        ],
+        "patterns": [
+          "Naive RAG",
+          "Modular RAG",
+          "Agentic RAG",
+          "RAG-Fusion",
+          "Hybrid RAG"
+        ]
+      }
+    },
+    {
+      "feature_name": "Tool Reference Catalog",
+      "source_repo": "definitive-opensource",
+      "implementation_pattern": "Curated list of external toolkits: Search (Arxiv, Bing, Brave, Exa, Tavily), Developer (GitHub/GitLab), Browser automation",
+      "integration_point": "paradise.py -> ExternalToolRegistry",
+      "details": {
+        "search_tools": [
+          "Arxiv",
+          "Bing",
+          "Brave",
+          "Exa",
+          "Tavily",
+          "DuckDuckGo"
+        ],
+        "developer_tools": [
+          "GitHub Toolkit",
+          "GitLab Toolkit",
+          "Code Docs Search"
+        ],
+        "browser_tools": [
+          "Browserbase",
+          "Crawl4AI",
+          "MultiOn",
+          "Spider"
+        ]
+      }
+    }
+  ],
+  "integration_mapping": {
+    "Architect": {
+      "source_features": [
+        "Tool System Architecture",
+        "Multi-Provider Pattern",
+        "CAP Theorem Pattern"
+      ],
+      "files": [
+        "paradise.py",
+        "planner.py"
+      ]
+    },
+    "Builder": {
+      "source_features": [
+        "Skill Format Specification",
+        "Prompt Template Structure",
+        "Agent Persona Structure"
+      ],
+      "files": [
+        "cognition/notebook.py",
+        "cognition/agent_personas.py"
+      ]
+    },
+    "Knowledge": {
+      "source_features": [
+        "Three-Layer Memory Architecture",
+        "RAG Framework Catalog",
+        "Caching Strategies"
+      ],
+      "files": [
+        "cognition/knowledge_graph.py"
+      ]
+    },
+    "Guardian": {
+      "source_features": [
+        "Hook System",
+        "Circuit Breaker Pattern"
+      ],
+      "files": [
+        "cognition/reactive_engine.py",
+        "cognition/pdc_orchestrator.py"
+      ]
+    },
+    "Orchestrator": {
+      "source_features": [
+        "Division Organization",
+        "Handover Protocols",
+        "Continuous Learning Mechanism"
+      ],
+      "files": [
+        "cognition/master_orchestrator.py",
+        "cognition/engineering_teams.py",
+        "cognition/self_improvement.py"
+      ]
+    },
+    "Reference": {
+      "source_features": [
+        "Agent Reference Catalog",
+        "Tool Reference Catalog",
+        "Prompt Categories"
+      ],
+      "files": [
+        "cognition/entities.py"
+      ]
+    }
+  },
+  "recommendations": {
+    "priority_implementations": [
+      "Three-Layer Memory Architecture -> cognition/knowledge_graph.py",
+      "Hook System -> cognition/reactive_engine.py",
+      "Skill Format -> cognition/notebook.py",
+      "Circuit Breaker -> cognition/pdc_orchestrator.py",
+      "Agent Persona -> cognition/agent_personas.py"
+    ],
+    "future_enhancements": [
+      "Continuous Learning Mechanism expansion",
+      "Multi-provider tool abstraction",
+      "RAG integration with external frameworks",
+      "Division-based team organization for complex workflows"
+    ]
+  }
+}

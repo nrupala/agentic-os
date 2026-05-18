@@ -1,0 +1,116 @@
+services:
+  omega-agent:
+    image: omega-hardened:latest
+    container_name: omega_${PROJECT_NAME}
+    environment:
+      - PROJECT_NAME=${PROJECT_NAME}
+      - RECURSION_LIMIT=50
+    # Security: Hardened runtime settings
+    read_only: true
+    tmpfs:
+      - /tmp/omega:rw,size=64m
+    networks:
+      - omega-sandbox
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+    # Volume Mapping: Unique project isolation
+    volumes:
+      - ./projects/${PROJECT_NAME}/src:/app/src:rw
+      - ./projects/${PROJECT_NAME}/outputs:/app/outputs:rw
+      - ./projects/${PROJECT_NAME}/logs:/app/logs:rw
+    # Combined Automated Sequence
+    command: >
+      sh -c "/app/verify_env.py && 
+             /app/check_deps.py && 
+             python3 /app/omega_forge.py --project ${PROJECT_NAME}"
+    healthcheck:
+      test: ["CMD", "/app/healthcheck.sh"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  omega-sandbox:
+    driver: bridge
+    internal: true # Disables external internet access
+
+services:
+  omega-chroma:
+    image: chromadb/chroma:latest
+    container_name: omega_memory_hub
+    volumes:
+      - ./chroma_data:/data
+    environment:
+      - PERSIST_DIRECTORY=/data
+    ports:
+      - "8000:8000"
+
+  omega-agent:
+    build: .
+    depends_on:
+      - omega-chroma
+    environment:
+      - CHROMA_HOST=omega-chroma
+      - PROJECT_NAME=${PROJECT_NAME}
+    volumes:
+      - ./projects/${PROJECT_NAME}:/app/project
+
+services:
+  omega-chroma:
+    image: chromadb/chroma:latest
+    container_name: omega_memory_hub
+    volumes:
+      - ./chroma_data:/data
+    # Bind to localhost only so traffic MUST go through the TLS proxy
+    ports:
+      - "127.0.0.1:8001:8000"
+
+  omega-tls-proxy:
+    image: nginx:alpine
+    volumes:
+      - ./certs:/etc/nginx/certs:ro
+      - ./system_scripts/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "8443:443" # Carrier Encryption Entrypoint
+
+  omega-agent:
+    build: .
+    environment:
+      - CHROMA_URL=https://omega-tls-proxy:443
+      - MASTER_KEY_PATH=/app/system_scripts/master.key
+
+  # ... existing omega-agent, chroma, grafana, loki ...
+
+  omega-mail:
+    image: juanluisbaptiste/postfix:latest
+    container_name: omega_mail_relay
+    environment:
+      - SMTP_SERVER=smtp.gmail.com # Or your FOSS mail server
+      - SMTP_PORT=587
+      - SMTP_USERNAME=${MAIL_USER}
+      - SMTP_PASSWORD=${MAIL_PASS}
+      - SERVER_HOSTNAME=omega-fortress.local
+
+  # ... existing omega-agent, omega-chroma, and omega-tls-proxy ...
+
+  loki:
+    image: grafana/loki:latest
+    container_name: omega_loki
+    command: -config.file=/etc/loki/local-config.yaml
+    ports:
+      - "3100:3100"
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: omega_dashboard
+    depends_on:
+      - loki
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=omega_secure_admin
+    volumes:
+      - ./grafana_data:/var/lib/grafana

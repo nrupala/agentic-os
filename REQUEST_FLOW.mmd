@@ -1,0 +1,306 @@
+# agentic-OS User Request Flow - Mermaid Diagrams
+
+## Complete Request Lifecycle
+
+```mermaid
+flowchart TB
+    subgraph INPUT["USER INPUT LAYER"]
+        CLI["CLI: python agentic-os.py --goal 'Build REST API'"]
+        API["API: POST /execute"]
+        CHAT["Interactive Chat Mode"]
+    end
+
+    INPUT --> PARSE
+
+    subgraph PARSE["PHASE 1: REQUEST PARSING"]
+        P1["Parse goal, constraints, context"]
+        P2["Create request_id (UUID)"]
+        P3["Set iteration = 0"]
+        P1 --> P2 --> P3
+    end
+
+    PARSE --> LOOP
+
+    subgraph LOOP["RECURSIVE LOOP (1 to MAX_ITERATIONS)"]
+        direction LR
+        
+        subgraph RECOLLECT["PHASE 2: RECOLLECT"]
+            R1["Load from SQLite<br/>forge_state, failures, history"]
+            R2["Load from Memory<br/>SESSION-STATE.md, MEMORY.md"]
+            R3["Load from Git<br/>Last commit, branch state"]
+            R1 & R2 & R3 --> R4["Combine context"]
+        end
+
+        subgraph THINK["PHASE 3: THINK"]
+            T1["RAG Retrieval<br/>Query memory with TF-IDF"]
+            T2["Meta-Cognition Analysis<br/>Analyze failure patterns"]
+            T3["Derive constraints<br/>For each error type"]
+            T4["Build Disciplined Prompt<br/>RAG context + constraints + 'No Quitting'"]
+            T1 --> T2 --> T3 --> T4
+        end
+
+        subgraph GENERATE["PHASE 4: GENERATE (GAN)"]
+            G1["Generator creates code"]
+            G1 --> D1["Discriminator evaluates"]
+            D1 --> S1{"Score >= 0.7?"}
+            S1 -->|"No"| G2["Refine code"]
+            G2 --> G1
+            S1 -->|"Yes"| G3["PASSED"]
+        end
+
+        subgraph VERIFY["PHASE 5: VERIFY"]
+            V1["Docker Sandbox execution"]
+            V2["Syntax check"]
+            V3["Unit tests"]
+            V1 & V2 & V3 --> V4{"SUCCESS?"}
+            V4 -->|"No"| FAIL["Record failure<br/>increment iteration<br/>loop again"]
+            V4 -->|"Yes"| PASS["PASSED"]
+        end
+
+        FAIL -.-> RECOLLECT
+    end
+
+    RECOLLECT --> THINK
+    THINK --> GENERATE
+    GENERATE --> VERIFY
+
+    VERIFY --> VALIDATION
+
+    subgraph VALIDATION["PHASE 6: USER VALIDATION"]
+        V5["Present code to user"]
+        V5 --> DECISION{"User Decision"}
+        DECISION -->|"[ACCEPT]"| SUCCESS["END: SUCCESS"]
+        DECISION -->|"[REFINE]"| FEEDBACK["Add user feedback<br/>Loop again"]
+        DECISION -->|"[REJECT]"| REJECTED["END: REJECTED"]
+        FEEDBACK -.-> THINK
+    end
+
+    SUCCESS --> FINALIZE
+
+    subgraph FINALIZE["PHASE 7: FINALIZE"]
+        F1["Save to SQLite"]
+        F2["Update Memory (WAL)"]
+        F3["Git commit (atomic)"]
+        F4["Send alerts"]
+        F1 --> F2 --> F3 --> F4
+    end
+```
+
+## Validation & Termination Flow
+
+```mermaid
+flowchart TB
+    START["User Submits Request"] --> LOOP_START
+    LOOP_START["Loop Start<br/>iteration = 1"] --> RECOLLECT
+
+    subgraph RECOLLECT["RECOLLECT"]
+        R1["Load SQLite state"]
+        R2["Load memory"]
+        R1 --> R3["Combine context"]
+        R2 --> R3
+    end
+
+    RECOLLECT --> THINK
+    subgraph THINK["THINK"]
+        T1["RAG retrieval"]
+        T2["Meta-cognition analysis"]
+        T3["Build prompt"]
+        T1 --> T2 --> T3
+    end
+
+    THINK --> GENERATE
+    subgraph GENERATE["GENERATE"]
+        G1["GAN loop"]
+        G1 --> G2{"Quality OK?"}
+        G2 -->|"No"| G1
+        G2 -->|"Yes"| G3["Code ready"]
+    end
+
+    GENERATE --> VERIFY
+    subgraph VERIFY["VERIFY"]
+        V1["Sandbox execution"]
+        V1 --> V2{"Success?"}
+        V2 -->|"No"| FAIL_RECORD["Record failure"]
+        FAIL_RECORD --> INCREMENT["iteration++"]
+        INCREMENT --> CHECK_MAX
+        V2 -->|"Yes"| USER_VAL["Present to user"]
+    end
+
+    CHECK_MAX{"iter >= MAX?"}
+    CHECK_MAX -->|"Yes"| MAX_REACHED["END: MAX_ITERATIONS"]
+    CHECK_MAX -->|"No"| RECOLLECT
+
+    USER_VAL --> USER_DECISION
+    USER_DECISION{"User accepts?"}
+    USER_DECISION -->|"Yes"| SUCCESS_END["END: SUCCESS"]
+    USER_DECISION -->|"Refine"| FEEDBACK_LOOP["Add feedback<br/>Loop again"]
+    USER_DECISION -->|"Reject"| REJECT_END["END: REJECTED"]
+
+    FEEDBACK_LOOP --> THINK
+```
+
+## GAN Self-Correction Loop
+
+```mermaid
+flowchart TB
+    START["Goal Input"] --> GEN
+    
+    subgraph GEN["Generator"]
+        G1["Create code from prompt"]
+        G2["Return code + constraints"]
+    end
+    
+    G1 --> CODE
+    
+    subgraph DISC["Discriminator"]
+        D1["Check error handling"]
+        D2["Check type hints"]
+        D3["Check documentation"]
+        D4["Check code length"]
+        D1 & D2 & D3 & D4 --> SCORE["Calculate score"]
+    end
+    
+    CODE["Generated Code"] --> DISC
+    SCORE --> QUALITY{"Score >= 0.7?"}
+    
+    QUALITY -->|"No"| ISSUES["List issues"]
+    ISSUES --> REFINE["Refine code"]
+    REFINE --> GEN
+    
+    QUALITY -->|"Yes"| PASS["Code passes<br/>quality threshold"]
+```
+
+## User Validation Flow
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant AgenticOS
+    participant Memory
+    participant Git
+    
+    User->>AgenticOS: Submit goal: "Build REST API"
+    AgenticOS->>AgenticOS: Parse request
+    AgenticOS->>AgenticOS: Loop iteration 1
+    
+    loop Recursive Loop
+        AgenticOS->>Memory: RAG retrieval
+        Memory-->>AgenticOS: Relevant memories
+        AgenticOS->>AgenticOS: Meta-cognition analysis
+        AgenticOS->>AgenticOS: GAN generate code
+        AgenticOS->>AgenticOS: Verify in sandbox
+    end
+    
+    AgenticOS->>User: Present generated code
+    User->>AgenticOS: [ACCEPT] / [REFINE] / [REJECT]
+    
+    alt User accepts
+        AgenticOS->>Git: Final commit
+        AgenticOS->>Memory: Update wisdom
+        AgenticOS->>User: Success + artifacts
+    else User refines
+        AgenticOS->>AgenticOS: Loop with feedback
+    else User rejects
+        AgenticOS->>User: Rejected message
+    end
+```
+
+## State Persistence Flow
+
+```mermaid
+flowchart TB
+    subgraph PERSIST["PHASE: PERSIST (On Success)"]
+        PS1["Save to SQLite"]
+        PS2["forge_state table"]
+        PS3["forge_history table"]
+        PS4["Update SESSION-STATE.md (WAL)"]
+        PS5["Distill to MEMORY.md if lessons found"]
+        PS6["Git atomic commit"]
+        PS7["Create prod branch"]
+    end
+
+    subgraph RECOVER["RECOVERY (On Restart)"]
+        RR1["Load state_snapshot.json"]
+        RR2["Compute environment hash"]
+        RR3{"Hash matches?"}
+        RR4["Resume from checkpoint"]
+        RR5["Warm start complete"]
+    end
+
+    subgraph FAILURE_RECORD["On Failure"]
+        FR1["Log to failures table"]
+        FR2["Update state_snapshot.json"]
+        FR3["Increment recursion_depth"]
+        FR4["Return to RECOLLECT"]
+    end
+```
+
+## Termination Conditions
+
+```mermaid
+flowchart TB
+    START["Process Running"] --> CHECK
+
+    CHECK{"Which condition met?"}
+    
+    CHECK -->|"User clicks [ACCEPT]"| T1["SUCCESS"]
+    CHECK -->|"User clicks [REJECT]"| T2["REJECTED"]
+    CHECK -->|"iteration >= MAX"| T3["MAX_ITERATIONS"]
+    CHECK -->|"LLM unavailable"| T4["HIBERNATED"]
+    CHECK -->|"User timeout 30min"| T5["PAUSED"]
+
+    T1 --> FINAL1["Record acceptance<br/>Final commit<br/>Send alert<br/>Return SUCCESS"]
+    T2 --> FINAL2["Record rejection<br/>Clean state<br/>Return REJECTED"]
+    T3 --> FINAL3["Save best effort<br/>Send alert<br/>Return MAX_ITERATIONS"]
+    T4 --> FINAL4["Serialize state<br/>Wait for LLM<br/>Return HIBERNATED"]
+    T5 --> FINAL5["Preserve state<br/>Generate resume token<br/>Return PAUSED"]
+```
+
+## Memory Flow (WAL Protocol)
+
+```mermaid
+flowchart LR
+    subgraph WRITE["Write Path (WAL)"]
+        W1["Tool call executes"] --> W2["Write SESSION-STATE.md"]
+        W2 --> W3["Append to daily log"]
+        W3 --> W4["Every 100 iters:<br/>Distill to MEMORY.md"]
+    end
+
+    subgraph READ["Read Path"]
+        R1["Query arrives"] --> R2["Search SESSION-STATE.md"]
+        R2 --> R3["Search daily logs"]
+        R3 --> R4["Search MEMORY.md"]
+        R4 --> R5["TF-IDF ranking"]
+        R5 --> R6["Return Top-K"]
+    end
+```
+
+## Observability Pipeline
+
+```mermaid
+flowchart TB
+    subgraph COLLECT["Collection"]
+        A1["omega-agent logs"]
+        A2["system logs"]
+        A3["audit logs"]
+    end
+
+    COLLECT --> LOKI["Loki<br/>Log Aggregation"]
+
+    LOKI --> QUERY["Query & Analysis"]
+
+    QUERY --> VIZ["Visualization"]
+
+    subgraph VIZ["Grafana Dashboards"]
+        P1["Recursion Efficiency"]
+        P2["Security Alerts"]
+        P3["Sandbox Health"]
+        P4["Live Audit Trail"]
+    end
+
+    VIZ --> P1 & P2 & P3 & P4
+
+    P1 & P2 & P3 & P4 --> ALERTS["Alerting"]
+    ALERTS --> SMTP["SMTP Email"]
+    ALERTS --> WEBHOOK["Webhook"]
+```

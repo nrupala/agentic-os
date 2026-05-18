@@ -280,7 +280,7 @@ def main():
     print("=" * 40)
     
     verifier = VerificationEngine()
-    pdca = PDCAVerifier()
+    PDCAVerifier()
     loop_detector = LoopDetector()
     
     test_text = """

@@ -176,7 +176,7 @@ class Test{class_name}:
                 continue
             
             if method.args:
-                self_arg = 'self, ' if method.args[0] == 'self' else ''
+                'self, ' if method.args[0] == 'self' else ''
                 remaining_args = method.args[1:] if method.args[0] == 'self' else method.args
                 remaining_types = method.arg_types[1:] if method.args[0] == 'self' else method.arg_types
                 param_str = ', '.join(remaining_args)

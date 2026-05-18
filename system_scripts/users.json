@@ -1,0 +1,10 @@
+{
+  "omega_admin": {
+    "username": "omega_admin",
+    "role": "ADMIN",
+    "password_hash": "6265af4cf46a0ae4592c9d0db3c5820d$977efb9683d70615e1663de118a2902a7680d86a49f57c30df60074c1f54425c",
+    "created_at": "2026-04-15T11:52:56.506170",
+    "must_change_password": true,
+    "last_login": "2026-04-16T17:12:12.393215"
+  }
+}

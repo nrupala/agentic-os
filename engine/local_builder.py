@@ -10,30 +10,34 @@ from pathlib import Path
 from datetime import datetime
 from dataclasses import dataclass
 from typing import Optional, List, Dict
+import os
 
 PROJECT_ROOT = Path(__file__).parent.parent
 OUTPUT_DIR = PROJECT_ROOT / "outputs"
 OUTPUT_DIR.mkdir(exist_ok=True, parents=True)
 
+USER_HOME = Path.home()
 LLAMA_CLI_PATHS = [
     "llama-cli",
-    "C:/Users/HomeUser/.local/bin/llama-cli.exe",
-    "C:/Users/HomeUser/.local/bin/llama-cli",
+    str(USER_HOME / ".local" / "bin" / "llama-cli.exe"),
+    str(USER_HOME / ".local" / "bin" / "llama-cli"),
 ]
+
+MODEL_DIR = USER_HOME / ".lmstudio" / "models"
 
 MODEL_CONFIGS = {
     "qwen_coder": {
-        "path": "C:/Users/HomeUser/.lmstudio/models/Qwen/Qwen2.5-Coder-7B-Instruct-GGUF/qwen2.5-coder-7b-instruct-q4_k_m.gguf",
+        "path": str(MODEL_DIR / "Qwen" / "Qwen2.5-Coder-7B-Instruct-GGUF" / "qwen2.5-coder-7b-instruct-q4_k_m.gguf"),
         "context": 4096,
         "gpu_layers": -1,
     },
     "qwen3_coder": {
-        "path": "C:/Users/HomeUser/.lmstudio/models/bartowski/Qwen_Qwen3-Coder-Next-GGUF/Qwen_Qwen3-Coder-Next-imatrix.gguf",
+        "path": str(MODEL_DIR / "bartowski" / "Qwen_Qwen3-Coder-Next-GGUF" / "Qwen_Qwen3-Coder-Next-imatrix.gguf"),
         "context": 8192,
         "gpu_layers": -1,
     },
     "deepseek": {
-        "path": "C:/Users/HomeUser/.lmstudio/models/lmstudio-community/DeepSeek-R1-0528-Qwen3-8B-GGUF/DeepSeek-R1-0528-Qwen3-8B-Q4_K_M.gguf",
+        "path": str(MODEL_DIR / "lmstudio-community" / "DeepSeek-R1-0528-Qwen3-8B-GGUF" / "DeepSeek-R1-0528-Qwen3-8B-Q4_K_M.gguf"),
         "context": 8192,
         "gpu_layers": -1,
     },
@@ -79,9 +83,10 @@ class LocalBuilder:
         path = Path(self.model_config["path"])
         if path.exists():
             return str(path)
-        for search_dir in Path("C:/Users/HomeUser/.lmstudio/models").rglob("*.gguf"):
-            if "qwen" in str(search_dir).lower() and "coder" in str(search_dir).lower():
-                return str(search_dir)
+        if MODEL_DIR.exists():
+            for search_dir in MODEL_DIR.rglob("*.gguf"):
+                if "qwen" in str(search_dir).lower() and "coder" in str(search_dir).lower():
+                    return str(search_dir)
         return None
     
     def generate(self, task: str, language: str = "python", options: Dict = None) -> BuildResult:
@@ -272,7 +277,7 @@ main();
             sections = code.split('```')
             for i, section in enumerate(sections):
                 if i % 2 == 1:
-                    lang = sections[i-1].strip()
+                    sections[i-1].strip()
                     fname = self._get_filename(language)
                     (output_dir / fname).write_text(section.strip())
                     files.append(fname)

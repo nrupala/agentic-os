@@ -1,0 +1,23 @@
+{
+  "project": "Alpha-Zero-HFT",
+  "current_branch": "rectify-latency-spike",
+  "recursion_depth": 14,
+  "last_cognitive_breakthrough": "Identified race condition in async buffer.",
+  "pending_tasks": ["Optimize memory layout", "Add stress-test suite"],
+  "failure_patterns": ["Buffer overflow on 10k+ tps", "Timeout during handshake"],
+  "llm_status": "WAITING_ON_BACKOFF",
+  "environment_hash": "sha256:889a... (Ensures sandbox hasn't drifted)"
+}
+
+{
+  "project": "high_freq_trading_v1",
+  "iteration": 42,
+  "last_known_stable_git_hash": "a1b2c3d4",
+  "active_thinking_rules": [
+    "Always use Decimal for currency to avoid float precision errors",
+    "Max memory per container: 256MB"
+  ],
+  "llm_wait_mode": false,
+  "last_brain_dump": "Attempting to fix race condition in the async worker pool using a threading.Lock()."
+}
+//projects/[PROJECT_NAME]/state_snapshot.json

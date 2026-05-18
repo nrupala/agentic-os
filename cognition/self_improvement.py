@@ -380,7 +380,7 @@ def main():
     print("🔧 Paradise Self-Improvement Engine")
     print("=" * 40)
     
-    memory = get_memory()
+    get_memory()
     improver = get_self_improver()
     optimizer = get_optimizer()
     

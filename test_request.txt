@@ -1,0 +1,10 @@
+# Paradise Stack - REST API with CRUD operations
+
+Write a complete Flask REST API with CRUD operations. Include:
+- GET /items - List all items
+- POST /items - Create item
+- GET /items/<id> - Get single item  
+- PUT /items/<id> - Update item
+- DELETE /items/<id> - Delete item
+- Proper error handling
+- JSON responses

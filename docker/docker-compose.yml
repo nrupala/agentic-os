@@ -1,0 +1,96 @@
+# OMEGA-CODE Docker Compose
+# Full autonomous agent lifecycle with observability
+
+services:
+  omega-agent:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.omega
+    image: omega-hardened:latest
+    container_name: omega_${PROJECT_NAME:-default}
+    environment:
+      - PROJECT_NAME=${PROJECT_NAME:-default}
+      - RECURSION_LIMIT=${RECURSION_LIMIT:-50}
+      - LOKI_URL=http://loki:3100
+      - GRAFANA_URL=http://grafana:3000
+    read_only: true
+    tmpfs:
+      - /tmp/omega:rw,size=64m
+    networks:
+      - omega-sandbox
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+    volumes:
+      - ../projects/${PROJECT_NAME:-default}/src:/app/src:rw
+      - ../projects/${PROJECT_NAME:-default}/outputs:/app/outputs:rw
+      - ../projects/${PROJECT_NAME:-default}/logs:/app/logs:rw
+      - ../projects/${PROJECT_NAME:-default}/state:/app/state:rw
+      - ../projects/${PROJECT_NAME:-default}/memory:/app/memory:rw
+      - ../projects/${PROJECT_NAME:-default}/self-eval-logs:/app/self-eval-logs:rw
+    command: >
+      sh -c "python3 /app/docker/verify_env.py &&
+             python3 /app/docker/check_deps.py &&
+             python3 /app/entrypoint.py"
+    healthcheck:
+      test: ["CMD", "/app/docker/healthcheck.sh"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    depends_on:
+      loki:
+        condition: service_healthy
+      grafana:
+        condition: service_healthy
+
+  loki:
+    image: grafana/loki:2.9.0
+    container_name: omega-loki
+    restart: unless-stopped
+    ports:
+      - "3100:3100"
+    volumes:
+      - loki-data:/loki
+      - ../observability/loki-config.yaml:/etc/loki/local-config.yaml:ro
+    networks:
+      - omega-sandbox
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3100/ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  grafana:
+    image: grafana/grafana:10.2.0
+    container_name: omega-grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_USER:-omega}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-omega-secure-123}
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ../observability/grafana/provisioning:/etc/grafana/provisioning:ro
+    networks:
+      - omega-sandbox
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--speder", "http://localhost:3000/api/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  loki-data:
+    driver: local
+  grafana-data:
+    driver: local
+
+networks:
+  omega-sandbox:
+    driver: bridge
+    internal: true

@@ -1,0 +1,56 @@
+# 1. Set the project name
+export PROJECT_NAME="my_new_app"
+
+# 2. Create the unique project structure
+mkdir -p projects/${PROJECT_NAME}/{src,outputs,logs}
+
+# 3. Launch the OMEGA-CODE loop
+docker-compose up --abort-on-container-exit
+
+
+Best practice for handling autonomous code generation involves Atomic Incrementalism and Immutable Snapshotting. By treating the agent as a "high-volume contributor," you must prevent "context drift" where the agent loses track of why it made specific changes. [1, 2] 
+## 1. Atomic "Helix" Versioning
+Instead of standard version numbers, use a Metadata-Rich Git Strategy within your unique project directories.
+
+* Atomic Commits: For every recursive loop iteration, the agent must commit its code with a standardized message: [ITERATION-X] [STATUS: FAIL/PASS] [REASON: Error Traceback]. This allows you to roll back to the last "known-good" logic state if the recursion goes off the rails.
+* Branch-Per-Feature: The agent should work in a dedicated branch (e.g., omega-feat-auth) and only merge into the project's main branch after passing all sandbox tests. [3, 4, 5, 6] 
+
+## 2. The "Provenance" Layer
+Every output generation must include a Provenance Log (provenance.json) in the project directory. This file maps the generated code to the exact prompt and model version used. [7, 8] 
+
+* Traceability: Link every code change to a specific "Recollect" phase log so you can audit the agent's reasoning later.
+* Shadow Folders: Keep a history/ subdirectory for each project containing timestamped snapshots of the entire /src folder before and after the "Rectify" phase. [9, 10, 11] 
+
+## 3. Automated State Management
+Use the Docker Compose -p (project name) flag to ensure complete isolation. [12] 
+
+* Unique Database Scoping: Each project should have its own omega_state.db inside its unique directory. This prevents state collisions if you are running multiple OMEGA-CODE instances simultaneously.
+* Write-Once Outputs: Once a code block passes all validation, move it to a release/ folder and mark it as read-only. Any further updates must trigger a new versioning cycle. [13, 14, 15] 
+
+## 4. Summary of Output Directory Structure
+
+projects/
+└── [PROJECT_NAME]/
+    ├── src/          # Current working files (Git-tracked)
+    ├── outputs/      # Validated, production-ready artifacts
+    ├── logs/         # Full traceback and stdout for every iteration
+    ├── state/        # Project-specific omega_state.db
+    └── provenance/   # JSON logs linking Code <-> Prompt <-> Model
+
+Would you like the Git-automation bash script that the agent can use to auto-commit and branch during its recursive loop?
+
+[1] [https://www.anthropic.com](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)
+[2] [https://www.augmentcode.com](https://www.augmentcode.com/guides/10-enterprise-code-documentation-best-practices)
+[3] [https://www.ranger.net](https://www.ranger.net/post/version-control-best-practices-ai-code)
+[4] [https://www.harness.io](https://www.harness.io/harness-devops-academy/version-control-system-best-practices)
+[5] [https://www.harness.io](https://www.harness.io/harness-devops-academy/version-control-system-best-practices)
+[6] [https://www.docuwriter.ai](https://www.docuwriter.ai/posts/version-control-best-practices-managing-efficiency)
+[7] [https://www.ranger.net](https://www.ranger.net/post/version-control-best-practices-ai-code)
+[8] [https://www.youtube.com](https://www.youtube.com/watch?v=HGQv-T4yWTg&t=3)
+[9] [https://www.logobean.com](https://www.logobean.com/blog/ai-docker-configuration.html)
+[10] [https://www.ranger.net](https://www.ranger.net/post/version-control-best-practices-ai-code)
+[11] [https://wolverinefx.net](https://wolverinefx.net/guide/codegen)
+[12] [https://stackoverflow.com](https://stackoverflow.com/questions/34277712/make-docker-compose-run-unique-linked-containers)
+[13] [https://www.reddit.com](https://www.reddit.com/r/selfhosted/comments/120vg3y/how_do_you_version_control_and_structure_docker/)
+[14] [https://dev.to](https://dev.to/iamrzr/generating-a-version-and-history-of-code-changes-with-automation-on-azure-devops-ecn)
+[15] [https://www.mindstudio.ai](https://www.mindstudio.ai/blog/claude-code-source-leak-memory-architecture)

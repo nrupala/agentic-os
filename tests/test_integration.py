@@ -110,7 +110,7 @@ def test_full_workflow():
         
         engine = initialize_evolution()
         
-        initial_patterns = engine.get_evolved_state()["patterns_mastered"]
+        engine.get_evolved_state()["patterns_mastered"]
         
         engine.evolve_from_interaction({
             "type": "test_workflow",

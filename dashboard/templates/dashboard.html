@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paradise Stack v2.0</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0f0f14; --card: #1a1a24; --border: #2a2a3a;
+            --accent: #6366f1; --success: #22c55e; --warning: #eab308; --error: #ef4444;
+            --text: #e2e8f0; --dim: #64748b;
+        }
+        body { font-family: system-ui; background: var(--bg); color: var(--text); min-height: 100vh; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 1.5rem; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+        h1 { font-size: 1.5rem; background: linear-gradient(135deg, var(--accent), #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; }
+        .stat { font-size: 2rem; font-weight: 700; }
+        .label { color: var(--dim); font-size: 0.875rem; margin-top: 0.25rem; }
+        .section { margin-bottom: 2rem; }
+        .section-title { font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; }
+        .btn { background: var(--accent); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 500; }
+        .btn:hover { opacity: 0.9; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-secondary { background: var(--card); border: 1px solid var(--border); color: var(--text); }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { text-align: left; padding: 0.75rem; border-bottom: 1px solid var(--border); }
+        th { color: var(--dim); font-weight: 500; font-size: 0.75rem; text-transform: uppercase; }
+        .status { display: inline-block; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 500; }
+        .status-completed { background: rgba(34,197,94,0.2); color: var(--success); }
+        .status-pending { background: rgba(234,179,8,0.2); color: var(--warning); }
+        .status-failed { background: rgba(239,68,68,0.2); color: var(--error); }
+        .badge { background: var(--accent); color: white; padding: 0.125rem 0.5rem; border-radius: 4px; font-size: 0.75rem; }
+        .progress { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; margin-top: 0.5rem; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, var(--accent), #a855f7); transition: width 0.3s; }
+        .tab-container { margin-bottom: 1rem; }
+        .tab { display: inline-block; padding: 0.5rem 1rem; cursor: pointer; border-bottom: 2px solid transparent; color: var(--dim); }
+        .tab.active { color: var(--accent); border-color: var(--accent); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 100; align-items: center; justify-content: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; max-width: 500px; width: 90%; }
+        .modal-title { font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; }
+        input, textarea { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0.75rem; color: var(--text); margin-bottom: 1rem; }
+        textarea { min-height: 100px; resize: vertical; }
+        .modal-actions { display: flex; gap: 1rem; justify-content: flex-end; }
+        .code-block { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 1rem; font-family: monospace; font-size: 0.875rem; max-height: 300px; overflow: auto; white-space: pre-wrap; }
+        .empty { text-align: center; padding: 2rem; color: var(--dim); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Paradise Stack v2.0</h1>
+            <button class="btn" onclick="openCreateModal()">+ New Workflow</button>
+        </header>
+        
+        <div class="grid">
+            <div class="card">
+                <div class="stat" id="stat-level">{{ state.evolution_level }}</div>
+                <div class="label">Evolution Level</div>
+                <div class="progress"><div class="progress-bar" style="width: {{ state.evolution_level * 10 }}%"></div></div>
+            </div>
+            <div class="card">
+                <div class="stat" id="stat-workflows">{{ state.total_workflows }}</div>
+                <div class="label">Total Workflows</div>
+            </div>
+            <div class="card">
+                <div class="stat" id="stat-deliverables">{{ state.total_deliverables }}</div>
+                <div class="label">Deliverables</div>
+            </div>
+            <div class="card">
+                <div class="stat" id="stat-repos">{{ state.repositories_found }}</div>
+                <div class="label">Repositories</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">
+                Workflows
+                <button class="btn btn-secondary" onclick="refreshData()">Refresh</button>
+            </div>
+            <div class="card">
+                <table id="workflows-table">
+                    <thead>
+                        <tr>
+                            <th>Task</th>
+                            <th>Status</th>
+                            <th>Steps</th>
+                            <th>Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if workflows %}
+                        {% for wf in workflows %}
+                        <tr>
+                            <td>{{ wf.task[:50] }}{% if wf.task|length > 50 %}...{% endif %}</td>
+                            <td><span class="status status-{{ wf.status }}">{{ wf.status }}</span></td>
+                            <td>{{ wf.steps|length if wf.steps else 0 }}</td>
+                            <td>{{ wf.created_at[:10] if wf.created_at else 'N/A' }}</td>
+                            <td>
+                                <button class="btn btn-secondary" onclick="viewWorkflow('{{ wf.workflow_id }}')">View</button>
+                                <button class="btn btn-secondary" onclick="testDeliverables('{{ wf.workflow_id }}')">Test</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <tr><td colspan="5" class="empty">No workflows yet. Create one to get started.</td></tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Deliverables</div>
+            <div class="card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Size</th>
+                            <th>Workflow</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if deliverables %}
+                        {% for d in deliverables %}
+                        <tr>
+                            <td>{{ d.name }}</td>
+                            <td><span class="badge">{{ d.type }}</span></td>
+                            <td>{{ "%.1f"|format(d.size / 1024) if d.size else 0 }} KB</td>
+                            <td>{{ d.task[:30] }}...</td>
+                            <td>
+                                <button class="btn btn-secondary" onclick="viewContent('{{ d.id }}')">View</button>
+                                <button class="btn btn-secondary" onclick="uploadFile('{{ d.id }}')">Upload</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <tr><td colspan="5" class="empty">No deliverables yet.</td></tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Top Repositories</div>
+            <div class="card">
+                <table>
+                    <thead>
+                        <tr><th>Repository</th><th>Description</th><th>Stars</th></tr>
+                    </thead>
+                    <tbody>
+                        {% for repo in repos %}
+                        <tr>
+                            <td>{{ repo.full_name }}</td>
+                            <td>{{ repo.description[:60] if repo.description else '' }}...</td>
+                            <td><span class="badge">{{ "{:,}".format(repo.stars) }}</span></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="create-modal">
+        <div class="modal-content">
+            <div class="modal-title">Create Workflow</div>
+            <input type="text" id="task-input" placeholder="What would you like me to build?">
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal('create-modal')">Cancel</button>
+                <button class="btn" onclick="createWorkflow()" id="create-btn">Create</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="content-modal">
+        <div class="modal-content">
+            <div class="modal-title">File Content</div>
+            <div class="code-block" id="content-view">Loading...</div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal('content-modal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openCreateModal() {
+            document.getElementById('create-modal').classList.add('active');
+            document.getElementById('task-input').focus();
+        }
+        
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+        
+        async function createWorkflow() {
+            const task = document.getElementById('task-input').value.trim();
+            if (!task) return alert('Please enter a task');
+            
+            const btn = document.getElementById('create-btn');
+            btn.disabled = true;
+            btn.textContent = 'Creating...';
+            
+            try {
+                const res = await fetch('/api/workflow/create', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({task})
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert('Workflow created: ' + data.workflow_id);
+                    location.reload();
+                } else {
+                    alert('Error: ' + data.error);
+                }
+            } catch (e) {
+                alert('Error: ' + e);
+            }
+            
+            btn.disabled = false;
+            btn.textContent = 'Create';
+        }
+        
+        async function viewContent(id) {
+            try {
+                const res = await fetch('/api/deliverable/' + id + '/content');
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('content-view').textContent = data.content;
+                    document.getElementById('content-modal').classList.add('active');
+                } else {
+                    alert('Error: ' + data.error);
+                }
+            } catch (e) {
+                alert('Error: ' + e);
+            }
+        }
+        
+        async function uploadFile(id) {
+            const repo = prompt('GitHub repo (e.g., user/repo):', 'user/paradise-output');
+            if (!repo) return;
+            
+            try {
+                const res = await fetch('/api/upload', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({deliverable_id: id, repo})
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert('Upload prepared: ' + data.message + '\nFile: ' + data.file);
+                } else {
+                    alert('Error: ' + data.error);
+                }
+            } catch (e) {
+                alert('Error: ' + e);
+            }
+        }
+        
+        async function refreshData() {
+            location.reload();
+        }
+        
+        async function viewWorkflow(id) {
+            alert('View workflow: ' + id);
+        }
+        
+        async function testDeliverables(id) {
+            alert('Test deliverables for: ' + id);
+        }
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
+            }
+        });
+    </script>
+</body>
+</html>

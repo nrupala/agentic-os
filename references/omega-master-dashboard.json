@@ -1,0 +1,42 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "OMEGA-CODE Master Intelligence Dashboard",
+    "tags": ["omega", "agent", "security"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "title": "Recursion Efficiency (Iterations per Goal)",
+        "type": "timeseries",
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+        "targets": [{"expr": "sum(count_over_time({app=\"omega\"} |= \"ITERATION\" [5m]))", "legendFormat": "Depth"}]
+      },
+      {
+        "title": "Security Alerts (Unauthorized Access)",
+        "type": "stat",
+        "gridPos": { "h": 8, "w": 6, "x": 12, "y": 0 },
+        "targets": [{"expr": "count_over_time({app=\"omega\"} |= \"DENIED\" [1h])"}],
+        "fieldConfig": {
+          "defaults": {
+            "color": { "mode": "thresholds" },
+            "thresholds": { "steps": [{ "color": "green", "value": null }, { "color": "red", "value": 1 }] }
+          }
+        }
+      },
+      {
+        "title": "Sandbox Health (Pass vs Fail)",
+        "type": "state-timeline",
+        "gridPos": { "h": 8, "w": 6, "x": 18, "y": 0 },
+        "targets": [{"expr": "{app=\"omega\"} | json | status=\"PASS\" or status=\"FAIL\""}]
+      },
+      {
+        "title": "Audit Trail (Live Log Stream)",
+        "type": "logs",
+        "gridPos": { "h": 10, "w": 24, "x": 0, "y": 8 },
+        "targets": [{"expr": "{app=\"omega\"}"}]
+      }
+    ],
+    "schemaVersion": 36,
+    "version": 1
+  }
+}

@@ -384,7 +384,7 @@ class TestParallelExecutor:
         
         await executor.execute()
         
-        elapsed = asyncio.get_event_loop().time() - start_time
+        asyncio.get_event_loop().time() - start_time
         
         assert executor.get_stats().max_parallelism <= 2
 

@@ -16,24 +16,28 @@ OUTPUT_DIR.mkdir(exist_ok=True)
 
 EXECUTOR = ThreadPoolExecutor(max_workers=4)
 
+USER_HOME = Path.home()
+MODEL_DIR = USER_HOME / ".lmstudio" / "models"
+
 LLAMA_CLI = None
-for path in ["llama-cli", "C:/Users/HomeUser/.local/bin/llama-cli.exe", 
-             "C:/Users/HomeUser/.local/bin/llama-cli"]:
+for path in ["llama-cli", str(USER_HOME / ".local" / "bin" / "llama-cli.exe"), 
+             str(USER_HOME / ".local" / "bin" / "llama-cli")]:
     if Path(path).exists():
         LLAMA_CLI = path
         break
 
 def find_model() -> Optional[str]:
     search_paths = [
-        Path("C:/Users/HomeUser/.lmstudio/models/Qwen/Qwen2.5-Coder-7B-Instruct-GGUF/qwen2.5-coder-7b-instruct-q4_k_m.gguf"),
-        Path("C:/Users/HomeUser/.lmstudio/models/bartowski/Qwen_Qwen3-Coder-Next-GGUF/Qwen_Qwen3-Coder-Next-imatrix.gguf"),
+        MODEL_DIR / "Qwen" / "Qwen2.5-Coder-7B-Instruct-GGUF" / "qwen2.5-coder-7b-instruct-q4_k_m.gguf",
+        MODEL_DIR / "bartowski" / "Qwen_Qwen3-Coder-Next-GGUF" / "Qwen_Qwen3-Coder-Next-imatrix.gguf",
     ]
     for p in search_paths:
         if p.exists():
             return str(p)
-    for p in Path("C:/Users/HomeUser/.lmstudio/models").rglob("*.gguf"):
-        if "qwen" in str(p).lower():
-            return str(p)
+    if MODEL_DIR.exists():
+        for p in MODEL_DIR.rglob("*.gguf"):
+            if "qwen" in str(p).lower():
+                return str(p)
     return None
 
 MODEL_PATH = find_model()
@@ -129,7 +133,7 @@ class AutoCoder:
     async def code(self, task: str, language: str = "python") -> Tuple[str, bool]:
         """Generate code for task."""
         start_time = time.time()
-        task_lower = task.lower()
+        task.lower()
         
         context = self.reader.get_context()
         

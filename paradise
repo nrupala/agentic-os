@@ -1,0 +1,244 @@
+#!/usr/bin/env python3
+"""
+Paradise Stack - Unified CLI
+Local-first, LLM-powered, self-learning code generation.
+
+Usage:
+    python paradise "build a REST API"
+    python paradise --status
+    python paradise --learned
+    python paradise --reset
+"""
+
+import sys
+import json
+import asyncio
+from pathlib import Path
+from datetime import datetime
+
+PROJECT_ROOT = Path(__file__).parent
+sys.path.insert(0, str(PROJECT_ROOT))
+
+OUTPUT_DIR = PROJECT_ROOT / "outputs"
+OUTPUT_DIR.mkdir(exist_ok=True)
+
+def banner():
+    print("""
++=================================================+
+|        Paradise Stack - Local AI Coder          |
+|                                                 |
+|  * Local-first (no external APIs)               |
+|  * Meta-cognition (reuses solutions)             |
+|  * Knowledge grows with use                    |
+|  * Skills evolve over time                     |
++=================================================+
+    """)
+
+async def build(task: str, language: str = "python"):
+    """Build code using all Paradise intelligence."""
+    print(f"\n* Paradise: '{task}'")
+    print("-" * 50)
+    
+    from engine.cognitive_memory import get_cognitive_core
+    from engine.self_correcting_memory import SelfCorrectingMemory, QualityValidator
+    from engine.execution_engine import ExecutionEngine
+    
+    cognitive = get_cognitive_core()
+    memory = SelfCorrectingMemory()
+    executor = ExecutionEngine()
+    
+    print("> Thinking...")
+    thought = cognitive.think(task)
+    print(f"    Type: {thought['task_type']}")
+    print(f"    Approach: {thought['best_approach']}")
+    print(f"    Skill Level: {thought['skill_level']}")
+    print(f"    Confidence: {thought['confidence']:.0%}")
+    
+    if thought['similar_past']:
+        print(f"    Remembered: {len(thought['similar_past'])} similar tasks")
+    
+    print("\n> Generating...")
+    
+    # Try memory first
+    existing = memory.find_similar(task)
+    if existing:
+        print(f"    [MEMORY] Found similar solution (quality: {existing.quality_score:.2f})")
+        code = existing.code
+        reused = True
+    else:
+        # Generate new code
+        print("\n> Executing code generation...")
+        code = await executor.generate(task, language)
+        reused = False
+    
+    if not code:
+        print("    X Generation failed")
+        return
+    
+    # Validate the code
+    is_valid, quality_score = QualityValidator.validate(code, language)
+    print(f"    {'[REUSED]' if reused else '[GENERATED]'} (quality: {quality_score:.2f})")
+    
+    if not is_valid:
+        print(f"    [WARNING] Low quality code detected, regenerating...")
+        code = await executor.generate(task, language)
+        is_valid, quality_score = QualityValidator.validate(code, language)
+    
+    wf_id = f"wf_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+    wf_dir = OUTPUT_DIR / wf_id
+    wf_dir.mkdir(exist_ok=True)
+    
+    ext = {"python": ".py", "javascript": ".js", "html": ".html"}.get(language, ".txt")
+    main_file = wf_dir / f"main{ext}"
+    main_file.write_text(code, encoding='utf-8')
+    
+    manifest = {
+        "workflow_id": wf_id,
+        "task": task,
+        "language": language,
+        "status": "completed",
+        "reused_solution": reused,
+        "quality_score": quality_score,
+        "meta_cognition": {
+            "task_type": thought["task_type"],
+            "skill_level": thought["skill_level"],
+            "confidence": thought["confidence"],
+            "similar_past": len(thought["similar_past"]),
+        },
+        "files": [str(main_file)]
+    }
+    (wf_dir / "manifest.json").write_text(json.dumps(manifest, indent=2))
+    
+    print(f"\n+ Complete!")
+    print(f"    Workflow: {wf_id}")
+    print(f"    Output: {main_file}")
+    print(f"    Size: {len(code)} chars")
+    print(f"    Quality: {quality_score:.2f}")
+    
+    # Remember good solutions
+    cognitive.learn(task, code[:500], is_valid, 
+                   {"language": language, "approach": thought["best_approach"]},
+                   [str(main_file)])
+    
+    if is_valid and quality_score >= 0.6:
+        memory.remember(task, code, [str(main_file)], language)
+    
+    print(f"\n> Learned: {cognitive.knowledge.get_stats()['total_concepts']} concepts")
+    return wf_id
+
+def status():
+    """Show Paradise status."""
+    from engine.cognitive_memory import get_cognitive_core
+    from engine.meta_coder import MetaCoder
+    
+    cognitive = get_cognitive_core()
+    meta = MetaCoder()
+    
+    print("\nParadise Stack Status")
+    print("=" * 40)
+    
+    kg = cognitive.knowledge.get_stats()
+    sk = cognitive.skills.get_stats()
+    mem = cognitive.memory.get_stats()
+    mc = meta.get_stats()
+    
+    print("\nKnowledge Graph")
+    print(f"   Concepts: {kg['total_concepts']}")
+    print(f"   Connections: {kg['total_connections']}")
+    
+    if kg['most_accessed']:
+        print(f"   Top concepts:")
+        for name, count in kg['most_accessed'][:3]:
+            print(f"      - {name} ({count} accesses)")
+    
+    print("\nSkills")
+    for name, info in sk['skills'].items():
+        level_bar = "#" * info['level'] + "." * (5 - info['level'])
+        print(f"   {name}: Lv.{info['level']} [{level_bar}] {info['xp']}XP")
+    
+    print("\nMemory")
+    print(f"   Episodes: {mem['total_episodes']}")
+    print(f"   Success rate: {mem['success_rate']:.0%}")
+    
+    print("\nSolutions")
+    print(f"   Learned: {mc['solutions_learned']}")
+    print(f"   By type: {mc['by_type']}")
+    
+    print("\nOutputs")
+    wfs = list(OUTPUT_DIR.glob("wf_*"))
+    print(f"   Workflows: {len(wfs)}")
+
+def learned():
+    """Show learned solutions."""
+    from engine.meta_coder import MetaCoder
+    meta = MetaCoder()
+    
+    print("\nLearned Solutions")
+    print("=" * 40)
+    
+    if not meta.solutions:
+        print("   No solutions learned yet")
+        return
+    
+    for sol in meta.solutions[-10:]:
+        icon = "[OK]" if sol.success else "[FAIL]"
+        print(f"\n{icon} {sol.task[:60]}...")
+        print(f"   Type: {sol.task_type}")
+        print(f"   Keywords: {', '.join(sol.keywords[:5])}")
+
+def reset():
+    """Reset all learning."""
+    from engine.cognitive_memory import get_cognitive_core
+    from engine.meta_coder import MetaCoder
+    
+    print("\n! Resetting Paradise memory...")
+    
+    cognitive = get_cognitive_core()
+    cognitive.reset()
+    
+    meta = MetaCoder()
+    meta.solutions = []
+    meta._save_solutions()
+    meta.cache = {}
+    meta._save_cache()
+    
+    print("+ Memory reset complete")
+
+def main():
+    args = sys.argv[1:]
+    
+    if not args or args[0] in ["--help", "-h"]:
+        banner()
+        print(__doc__)
+        return
+    
+    if args[0] == "--status":
+        status()
+        return
+    
+    if args[0] == "--learned":
+        learned()
+        return
+    
+    if args[0] == "--reset":
+        reset()
+        return
+    
+    if args[0] == "--autonomous" or args[0] == "-a":
+        from engine.autonomous_agent import run_autonomous
+        task = " ".join(args[1:]) if len(args) > 1 else "Build a REST API"
+        asyncio.run(run_autonomous(task))
+        return
+    
+    task = " ".join(args)
+    language = "python"
+    
+    if any(ext in task.lower() for ext in ["html", "web", "page"]):
+        language = "html"
+    elif any(kw in task.lower() for kw in ["javascript", "js", "node"]):
+        language = "javascript"
+    
+    asyncio.run(build(task, language))
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  loki:
+    image: grafana/loki:2.9.0
+    container_name: omega-loki
+    restart: unless-stopped
+    ports:
+      - "3100:3100"
+    volumes:
+      - loki-data:/loki
+      - ./loki-config.yaml:/etc/loki/local-config.yaml:ro
+    networks:
+      - omega-sandbox
+
+  grafana:
+    image: grafana/grafana:10.2.0
+    container_name: omega-grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=omega
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-omega-secure-123}
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./OMEGA-Master-Dashboard.json:/etc/grafana/provisioning/dashboards/omega.json:ro
+    depends_on:
+      - loki
+    networks:
+      - omega-sandbox
+
+volumes:
+  loki-data:
+    driver: local
+  grafana-data:
+    driver: local
+
+networks:
+  omega-sandbox:
+    driver: bridge
