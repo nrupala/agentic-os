@@ -8,7 +8,8 @@ import httpx
 from pathlib import Path
 from datetime import datetime
 
-INTELLIGENCE_DIR = Path("C:\\Users\\HomeUser\\Downloads\\agentic-OS\\intelligence")
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+INTELLIGENCE_DIR = PROJECT_ROOT / "intelligence"
 SKILLS_DIR = INTELLIGENCE_DIR / "skills"
 REPOS = [
     {"name": "everything-claude-code", "stars": 155998, "owner": "affaan-m"},

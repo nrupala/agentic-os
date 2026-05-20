@@ -37,15 +37,16 @@ SEARCH_QUERIES = [
     "marketing automation agent stars:>50",
 ]
 
-REPOSITORIES = {
-    "skill_extraction": "C:\\Users\\HomeUser\\Downloads\\agentic-OS\\intelligence\\skills",
-    "agent_prompts": "C:\\Users\\HomeUser\\Downloads\\agentic-OS\\intelligence\\prompts",
-    "patterns": "C:\\Users\\HomeUser\\Downloads\\agentic-OS\\intelligence\\patterns",
-    "reports": "C:\\Users\\HomeUser\\Downloads\\agentic-OS\\intelligence\\reports",
-    "cache": "C:\\Users\\HomeUser\\Downloads\\agentic-OS\\intelligence\\cache",
-}
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+INTELLIGENCE_DIR = PROJECT_ROOT / "intelligence"
 
-INTELLIGENCE_DIR = Path("C:\\Users\\HomeUser\\Downloads\\agentic-OS\\intelligence")
+REPOSITORIES = {
+    "skill_extraction": str(INTELLIGENCE_DIR / "skills"),
+    "agent_prompts": str(INTELLIGENCE_DIR / "prompts"),
+    "patterns": str(INTELLIGENCE_DIR / "patterns"),
+    "reports": str(INTELLIGENCE_DIR / "reports"),
+    "cache": str(INTELLIGENCE_DIR / "cache"),
+}
 
 class GitHubIntelligenceScanner:
     def __init__(self):

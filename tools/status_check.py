@@ -6,8 +6,8 @@ Quick validation - fails fast to show what's working and what's not.
 import json
 from pathlib import Path
 
-INTELLIGENCE_DIR = Path("C:\\Users\\HomeUser\\Downloads\\agentic-OS\\intelligence")
-PROJECT_ROOT = Path("C:\\Users\\HomeUser\\Downloads\\agentic-OS")
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+INTELLIGENCE_DIR = PROJECT_ROOT / "intelligence"
 
 CHECKS = []
 

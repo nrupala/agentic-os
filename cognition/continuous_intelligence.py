@@ -12,7 +12,8 @@ from pathlib import Path
 from typing import Dict, List
 from collections import defaultdict
 
-INTELLIGENCE_DIR = Path("C:\\Users\\HomeUser\\Downloads\\agentic-OS\\intelligence")
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+INTELLIGENCE_DIR = PROJECT_ROOT / "intelligence"
 SKILLS_DIR = INTELLIGENCE_DIR / "skills"
 PATTERNS_DIR = INTELLIGENCE_DIR / "patterns"
 CACHE_DIR = INTELLIGENCE_DIR / "cache"

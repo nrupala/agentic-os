@@ -12,7 +12,7 @@ from pathlib import Path
 from typing import Dict, List, Optional
 from dataclasses import dataclass, field, asdict
 
-PROJECT_ROOT = Path("C:\\Users\\HomeUser\\Downloads\\agentic-OS")
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 OUTPUT_DIR = PROJECT_ROOT / "outputs"
 OUTPUT_DIR.mkdir(exist_ok=True)
 

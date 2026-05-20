@@ -12,7 +12,7 @@ from typing import Dict, List, Optional
 from enum import Enum
 from dataclasses import dataclass, asdict
 
-PROJECT_ROOT = Path("C:\\Users\\HomeUser\\Downloads\\agentic-OS")
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT))
 
 class AgentState(Enum):

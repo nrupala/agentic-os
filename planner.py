@@ -23,7 +23,8 @@ from datetime import datetime
 from pathlib import Path
 from collections import defaultdict
 
-PROJECT_ROOT = Path(os.environ.get('HOST_PROJECT_ROOT', '/app'))
+DEFAULT_PROJECT_ROOT = Path(__file__).resolve().parent
+PROJECT_ROOT = Path(os.environ.get('HOST_PROJECT_ROOT', DEFAULT_PROJECT_ROOT))
 
 try:
     from cognition.continuous_intelligence import initialize_evolution, ParadiseStackPersona
@@ -38,7 +39,7 @@ def log_planner_interaction(prompt, request_type, success=True):
         return
     
     try:
-        cache_dir = Path("C:/Users/HomeUser/Downloads/agentic-OS/intelligence/cache")
+        cache_dir = PROJECT_ROOT / "intelligence" / "cache"
         cache_dir.mkdir(parents=True, exist_ok=True)
         log_file = cache_dir / "planner_log.json"
         

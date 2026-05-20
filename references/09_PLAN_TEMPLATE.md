@@ -21,7 +21,7 @@
 ### Key Files (detected)
 ```
 - `setup.ps1`
-- `C:\Users\HomeUser\Downloads\agentic-OS\intelligence\skills/skills_index.json`
+- `intelligence/skills/skills_index.json`
 - `dashboard/index.html`
 - `dashboard/server.js`
 - `intelligence/skills/skills_index.json`
@@ -88,7 +88,7 @@ Based on: "build me a task list web app"
 ### Files to Modify
 ```
 - `setup.ps1`
-- `C:\Users\HomeUser\Downloads\agentic-OS\intelligence\skills/skills_index.json`
+- `intelligence/skills/skills_index.json`
 - `dashboard/index.html`
 - `dashboard/server.js`
 - `intelligence/skills/skills_index.json`

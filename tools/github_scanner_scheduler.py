@@ -9,7 +9,8 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 SCRIPT_PATH = Path(__file__).parent / "github_intelligence_scanner.py"
-INTELLIGENCE_DIR = Path("C:\\Users\\HomeUser\\Downloads\\agentic-OS\\intelligence")
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+INTELLIGENCE_DIR = PROJECT_ROOT / "intelligence"
 CACHE_PATH = INTELLIGENCE_DIR / "cache" / "schedule.json"
 
 def create_task_scheduler_entry():

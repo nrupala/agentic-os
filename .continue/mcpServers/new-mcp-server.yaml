@@ -55,15 +55,15 @@ models:
   - name: "Google: Gemma 4 26B A4B (free)"
     provider: openrouter
     model: google/gemma-4-26b-a4b-it:free
-    apiKey: $OPENROUTER_API_KEY
+    apiKey: REDACTED-OPENROUTER-KEY
   - name: "Google: Gemma 4 26B A4B  (free) (1)"
     provider: openrouter
     model: google/gemma-4-26b-a4b-it:free
-    apiKey: $OPENROUTER_API_KEY
+    apiKey: REDACTED-OPENROUTER-KEY
   - name: "Google: Gemma 4 26B A4B  (free) (2)"
     provider: openrouter
     model: google/gemma-4-26b-a4b-it:free
-    apiKey: $OPENROUTER_API_KEY
+    apiKey: REDACTED-OPENROUTER-KEY
 mcpServers:
   - name: MCP_DOCKER
     command: docker
