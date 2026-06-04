@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT OR Apache-2.0
 """
 PHASE 18: Integrity Stress Test
 Validates system integrity under load.

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT OR Apache-2.0
 """
 OMEGA-CODE Dependency Checker
 Verifies critical libraries are present and correct versions.

@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
+# Copyright 2026 agentic-OS Contributors
+
 """
 Paradise Stack v2.0 - High-Fidelity Development Organization
 Cognitive AI Agent System with Multi-Layer Engineering Teams

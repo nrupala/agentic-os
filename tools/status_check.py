@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
+# Copyright 2026 agentic-OS Contributors
+
 """
 Paradise Stack Status Checker
 Quick validation - fails fast to show what's working and what's not.

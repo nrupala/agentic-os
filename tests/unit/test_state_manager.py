@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT OR Apache-2.0
 """
 Unit tests for engine/state_manager.py
 
@@ -11,7 +12,7 @@ import asyncio
 import json
 import shutil
 import tempfile
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 import sys
@@ -251,7 +252,7 @@ class TestCheckpointManager:
         manager = CheckpointManager(storage_path=temp_dir)
         
         async def create_checkpoint():
-            manager.start_execution(f"exec-{datetime.utcnow().timestamp()}")
+            manager.start_execution(f"exec-{datetime.now(timezone.utc).timestamp()}")
             await manager.save()
         
         asyncio.run(create_checkpoint())
@@ -311,7 +312,7 @@ class TestCheckpointManager:
         manager = CheckpointManager(storage_path=temp_dir, max_checkpoints=2)
         
         async def create_checkpoint():
-            manager.start_execution(f"exec-{datetime.utcnow().timestamp()}")
+            manager.start_execution(f"exec-{datetime.now(timezone.utc).timestamp()}")
             await manager.save()
         
         for i in range(5):

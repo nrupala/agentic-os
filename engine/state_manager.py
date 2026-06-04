@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT OR Apache-2.0
+# Copyright 2026 agentic-OS Contributors
+
 """
 agentic-OS State Manager
 ========================
@@ -13,7 +16,7 @@ import json
 import hashlib
 import pickle
 import shutil
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, Any, Optional, List, Set, Callable
 from dataclasses import dataclass, field, asdict
@@ -122,14 +125,14 @@ class CheckpointManager:
     
     def start_execution(self, execution_id: str) -> str:
         checkpoint_id = hashlib.sha256(
-            f"{execution_id}_{datetime.utcnow().isoformat()}".encode()
+            f"{execution_id}_{datetime.now(timezone.utc).isoformat()}".encode()
         ).hexdigest()[:16]
         
         self._execution_id = execution_id
         self._current_checkpoint = Checkpoint(
             checkpoint_id=checkpoint_id,
             execution_id=execution_id,
-            created_at=datetime.utcnow().isoformat(),
+            created_at=datetime.now(timezone.utc).isoformat(),
             status=CheckpointStatus.ACTIVE
         )
         self._tasks = {}
@@ -162,7 +165,7 @@ class CheckpointManager:
                 task.metadata.update(metadata)
             
             if status in ("completed", "failed", "cancelled"):
-                task.completed_at = datetime.utcnow().isoformat()
+                task.completed_at = datetime.now(timezone.utc).isoformat()
         else:
             self._tasks[task_id] = TaskState(
                 task_id=task_id,
@@ -172,7 +175,7 @@ class CheckpointManager:
                 error=error,
                 progress=progress,
                 metadata=metadata or {},
-                started_at=datetime.utcnow().isoformat()
+                started_at=datetime.now(timezone.utc).isoformat()
             )
         
         self._dirty = True

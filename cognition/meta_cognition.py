@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT OR Apache-2.0
+# Copyright 2026 agentic-OS Contributors
+
 """
 Paradise Cognition - Meta-Cognition, Self-Reflection, and Strategy Adjustment
 Self-awareness, performance monitoring, and adaptive learning

@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
+# Copyright 2026 agentic-OS Contributors
+
 """
 Continuous Intelligence Integration Engine
 Makes Paradise Stack perpetually learning - absorbs new knowledge, 

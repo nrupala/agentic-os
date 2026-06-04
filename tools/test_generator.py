@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
+# Copyright 2026 agentic-OS Contributors
+
 import ast
 from pathlib import Path
 from typing import Dict, List, Optional, Set

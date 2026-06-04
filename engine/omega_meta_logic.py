@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
+# Copyright 2026 agentic-OS Contributors
+
 """
 OMEGA-CODE Meta-Cognition Engine
 ================================
@@ -68,7 +71,7 @@ You are bound by the following operational constraints:
     def __init__(self, db_path: str = None):
         self.db_path = db_path or os.getenv(
             "DB_PATH", 
-            f"projects/{os.getenv('PROJECT_NAME', 'default')}/state/omega_state.db"
+            str(PROJECT_ROOT / f"projects/{os.getenv('PROJECT_NAME', 'default')}/state/omega_state.db")
         )
         self.conn = self._connect()
         self.rules: List[ThinkingRule] = self._load_rules()
@@ -349,7 +352,7 @@ class DisciplineParser:
 def analyze_project(project_name: str = None) -> Dict:
     """Convenience function to analyze a project's failure patterns."""
     project_name = project_name or os.getenv("PROJECT_NAME", "default")
-    db_path = f"projects/{project_name}/state/omega_state.db"
+    db_path = str(PROJECT_ROOT / f"projects/{project_name}/state/omega_state.db")
     
     with MetaCognition(db_path) as meta:
         patterns = meta.analyze_failure_patterns()

@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT OR Apache-2.0
+# Copyright 2026 agentic-OS Contributors
+
 """
 agentic-OS Circuit Breaker
 ==========================
@@ -10,7 +13,7 @@ Copyright (c) 2024 Nrupal Akolkar
 
 import asyncio
 import time
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Dict, Callable, Optional, TypeVar, Awaitable
 from dataclasses import dataclass, field
 from enum import Enum
@@ -47,7 +50,7 @@ class CircuitMetrics:
     consecutive_successes: int = 0
     last_failure_time: Optional[datetime] = None
     last_success_time: Optional[datetime] = None
-    state_changed_at: datetime = field(default_factory=datetime.utcnow)
+    state_changed_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     total_time_in_open: timedelta = field(default_factory=lambda: timedelta(0))
 
 
@@ -120,7 +123,7 @@ class CircuitBreaker:
     def _check_timeout(self):
         if self._state == CircuitState.OPEN:
             if self._metrics.last_failure_time:
-                elapsed = (datetime.utcnow() - self._metrics.last_failure_time).total_seconds()
+                elapsed = (datetime.now(timezone.utc) - self._metrics.last_failure_time).total_seconds()
                 if elapsed >= self.config.timeout:
                     self._transition_to(CircuitState.HALF_OPEN)
                     self._half_open_calls = 0
@@ -128,7 +131,7 @@ class CircuitBreaker:
     def _transition_to(self, new_state: CircuitState):
         old_state = self._state
         self._state = new_state
-        self._metrics.state_changed_at = datetime.utcnow()
+        self._metrics.state_changed_at = datetime.now(timezone.utc)
         
         if new_state == CircuitState.HALF_OPEN:
             self._metrics.consecutive_successes = 0
@@ -146,7 +149,7 @@ class CircuitBreaker:
         self._metrics.successful_calls += 1
         self._metrics.consecutive_successes += 1
         self._metrics.consecutive_failures = 0
-        self._metrics.last_success_time = datetime.utcnow()
+        self._metrics.last_success_time = datetime.now(timezone.utc)
         self._call_latencies.append(latency_ms)
         
         if self._state == CircuitState.HALF_OPEN:
@@ -157,7 +160,7 @@ class CircuitBreaker:
         self._metrics.failed_calls += 1
         self._metrics.consecutive_failures += 1
         self._metrics.consecutive_successes = 0
-        self._metrics.last_failure_time = datetime.utcnow()
+        self._metrics.last_failure_time = datetime.now(timezone.utc)
         
         if self._state == CircuitState.HALF_OPEN:
             self._transition_to(CircuitState.OPEN)
@@ -187,7 +190,7 @@ class CircuitBreaker:
             self._metrics.rejected_calls += 1
             raise CircuitOpenError(
                 f"Circuit '{self.name}' is OPEN. Call rejected. "
-                f"Retry after {(self.config.timeout - (datetime.utcnow() - self._metrics.last_failure_time).total_seconds()) if self._metrics.last_failure_time else self.config.timeout:.0f}s"
+                f"Retry after {(self.config.timeout - (datetime.now(timezone.utc) - self._metrics.last_failure_time).total_seconds()) if self._metrics.last_failure_time else self.config.timeout:.0f}s"
             )
         
         self._metrics.total_calls += 1

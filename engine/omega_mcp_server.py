@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT OR Apache-2.0
+# Copyright 2026 agentic-OS Contributors
+
 """
 OMEGA MCP Server
 ===============
@@ -222,7 +225,7 @@ class OmegaMCPServer:
             def execute(self, params: Dict) -> Dict:
                 try:
                     from omega_hierarchical_memory import HierarchicalMemory
-                    memory = HierarchicalMemory(f"projects/{params.get('project', 'omega')}")
+                    memory = HierarchicalMemory(str(PROJECT_ROOT / f"projects/{params.get('project', 'omega')}"))
                     memory.store(
                         params["content"],
                         params.get("category", "general")
@@ -249,7 +252,7 @@ class OmegaMCPServer:
             def execute(self, params: Dict) -> Dict:
                 try:
                     from omega_hierarchical_memory import HierarchicalMemory
-                    memory = HierarchicalMemory(f"projects/{params.get('project', 'omega')}")
+                    memory = HierarchicalMemory(str(PROJECT_ROOT / f"projects/{params.get('project', 'omega')}"))
                     results = memory.recall(params["query"])
                     return {"success": True, "results": results}
                 except Exception as e:

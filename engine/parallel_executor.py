@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT OR Apache-2.0
+# Copyright 2026 agentic-OS Contributors
+
 """
 agentic-OS Parallel Executor
 ============================
@@ -11,7 +14,7 @@ Copyright (c) 2024 Nrupal Akolkar
 import asyncio
 import uuid
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Dict, Any, List, Optional, Callable, Awaitable, Set
 from dataclasses import dataclass, field
 from enum import Enum
@@ -53,7 +56,7 @@ class Task:
     status: TaskStatus = TaskStatus.PENDING
     result: Any = None
     error: Optional[str] = None
-    created_at: datetime = field(default_factory=datetime.utcnow)
+    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     
     def __hash__(self):
         return hash(self.id)
@@ -198,11 +201,11 @@ class ParallelExecutor:
         self._callbacks[task_id].append(callback)
     
     async def _execute_task(self, task: Task) -> TaskResult:
-        started_at = datetime.utcnow()
+        started_at = datetime.now(timezone.utc)
         
         try:
             result = await task.func(*task.args, **task.kwargs)
-            completed_at = datetime.utcnow()
+            completed_at = datetime.now(timezone.utc)
             duration_ms = (completed_at - started_at).total_seconds() * 1000
             
             task.status = TaskStatus.COMPLETED
@@ -223,8 +226,8 @@ class ParallelExecutor:
                 status=TaskStatus.CANCELLED,
                 error="Task was cancelled",
                 started_at=started_at,
-                completed_at=datetime.utcnow(),
-                duration_ms=(datetime.utcnow() - started_at).total_seconds() * 1000
+                completed_at=datetime.now(timezone.utc),
+                duration_ms=(datetime.now(timezone.utc) - started_at).total_seconds() * 1000
             )
         except Exception as e:
             task.status = TaskStatus.FAILED
@@ -240,8 +243,8 @@ class ParallelExecutor:
                 status=TaskStatus.FAILED,
                 error=str(e),
                 started_at=started_at,
-                completed_at=datetime.utcnow(),
-                duration_ms=(datetime.utcnow() - started_at).total_seconds() * 1000
+                completed_at=datetime.now(timezone.utc),
+                duration_ms=(datetime.now(timezone.utc) - started_at).total_seconds() * 1000
             )
     
     async def execute(self) -> Dict[str, TaskResult]:

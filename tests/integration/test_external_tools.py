@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 """
 Integration tests for git_ops and docker_ops with mocks.
 Tests external tool integrations.

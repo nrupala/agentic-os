@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT OR Apache-2.0
+# Copyright 2026 agentic-OS Contributors
+
 """
 PHASE 6: Self-Developing Intelligence
 Detects capability gaps and autonomously resolves them.
@@ -9,6 +12,8 @@ import sqlite3
 import subprocess
 from pathlib import Path
 from datetime import datetime
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 try:
     from omega_phase_encryptor import OmegaPhaseEncryptor
@@ -22,7 +27,7 @@ class SelfDevelopingIntelligence:
     def __init__(self, project_path: str):
         self.project_path = Path(project_path)
         self.db_path = self.project_path / "state" / "omega.db"
-        self.check_deps_path = self.project_path.parent.parent / "docker" / "check_deps.py"
+        self.check_deps_path = PROJECT_ROOT / "docker" / "check_deps.py"
         self.failure_threshold = 3
         self.shadow_mode = True
         

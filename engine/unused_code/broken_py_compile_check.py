@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
+# Copyright 2026 agentic-OS Contributors
+
 # BROKEN: py_compile verification check
 #
 # This was in _phase_verify method (omega_codex.py line 365)

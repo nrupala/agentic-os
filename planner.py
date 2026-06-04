@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT OR Apache-2.0
 """
 Paradise Planner - Research-backed implementation planner
 Based on: MapCoder (ACL 2024), Claude Code, KAT-Coder

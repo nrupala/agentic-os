@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT OR Apache-2.0
+# Copyright 2026 agentic-OS Contributors
+
 """
 OMEGA Unified Service
 =====================
@@ -298,7 +301,7 @@ class OmegaUnifiedService:
         
         task_id = f"task_{int(time.time())}_{hashlib.md5(goal.encode()).hexdigest()[:6]}"
         
-        storage_path = Path(f"projects/{self.config.project}/state")
+        storage_path = PROJECT_ROOT / f"projects/{self.config.project}/state"
         storage_path.mkdir(parents=True, exist_ok=True)
         
         task_file = storage_path / "task_queue.json"

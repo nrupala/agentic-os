@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT OR Apache-2.0
+# Copyright 2026 agentic-OS Contributors
+
 """
 Paradise Cognitive Orchestrator - Main Coordinator
 Ties together all cognitive systems: Knowledge Graph, Meta-Cognition, Self-Improvement, RNN, GAN, RAG

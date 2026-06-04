@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 """
 Paradise Stack v2.0 - Test Suite
 Comprehensive tests for all components.

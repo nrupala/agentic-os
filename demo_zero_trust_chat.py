@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT OR Apache-2.0
 """
 agentic-OS Demo: Zero Trust, Zero Knowledge, Zero Identifier Chat Server
 ============================================================================

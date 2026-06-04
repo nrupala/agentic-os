@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
+# Copyright 2026 agentic-OS Contributors
+
 """
 Paradise Stack - AutoCoder
 LLM-powered autonomous code generation and modification.
@@ -10,7 +13,7 @@ from pathlib import Path
 from typing import Dict, Optional, Tuple
 from concurrent.futures import ThreadPoolExecutor
 
-PROJECT_ROOT = Path(__file__).parent.parent.parent
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 OUTPUT_DIR = PROJECT_ROOT / "outputs"
 OUTPUT_DIR.mkdir(exist_ok=True)
 

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 import os
 import sqlite3

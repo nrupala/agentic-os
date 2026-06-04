@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 """
 Paradise Stack - Interactive Agentic Chat
 The core interactive system where users talk to Paradise Stack,

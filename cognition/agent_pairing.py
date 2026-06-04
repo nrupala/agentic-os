@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT OR Apache-2.0
+# Copyright 2026 agentic-OS Contributors
+
 """
 Paradise Agent Pairing System - AI Agent Collaboration
 Inspired by marimo pair - Connect AI agents to work with Paradise Stack

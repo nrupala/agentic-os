@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 """
 Paradise Stack Web Dashboard - Full Featured
 Interactive web interface with workflow management, task console, and GitHub integration.

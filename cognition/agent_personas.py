@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT OR Apache-2.0
+# Copyright 2026 agentic-OS Contributors
+
 """
 Paradise Agents - Agent Personas & Specializations
 Inspired by agency-agents: 100+ specialized agents with unique personalities

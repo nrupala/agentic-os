@@ -119,6 +119,66 @@
       "patterns_added": 0,
       "skills_added": 0,
       "knowledge_delta": 0
+    },
+    {
+      "timestamp": "2026-06-03T19:18:32.204574",
+      "patterns_added": 0,
+      "skills_added": 0,
+      "knowledge_delta": 0
+    },
+    {
+      "timestamp": "2026-06-03T19:24:58.831749",
+      "patterns_added": 0,
+      "skills_added": 0,
+      "knowledge_delta": 0
+    },
+    {
+      "timestamp": "2026-06-03T19:25:25.639907",
+      "patterns_added": 0,
+      "skills_added": 0,
+      "knowledge_delta": 0
+    },
+    {
+      "timestamp": "2026-06-03T22:24:27.264670",
+      "patterns_added": 0,
+      "skills_added": 0,
+      "knowledge_delta": 0
+    },
+    {
+      "timestamp": "2026-06-03T22:25:36.735725",
+      "patterns_added": 0,
+      "skills_added": 0,
+      "knowledge_delta": 0
+    },
+    {
+      "timestamp": "2026-06-03T22:26:58.935207",
+      "patterns_added": 0,
+      "skills_added": 0,
+      "knowledge_delta": 0
+    },
+    {
+      "timestamp": "2026-06-04T15:31:32.756440",
+      "patterns_added": 0,
+      "skills_added": 0,
+      "knowledge_delta": 0
+    },
+    {
+      "timestamp": "2026-06-04T15:32:37.287333",
+      "patterns_added": 0,
+      "skills_added": 0,
+      "knowledge_delta": 0
+    },
+    {
+      "timestamp": "2026-06-04T15:34:38.530370",
+      "patterns_added": 0,
+      "skills_added": 0,
+      "knowledge_delta": 0
+    },
+    {
+      "timestamp": "2026-06-04T15:35:51.719728",
+      "patterns_added": 0,
+      "skills_added": 0,
+      "knowledge_delta": 0
     }
   ],
   "interactions": [
@@ -335,6 +395,106 @@
     {
       "timestamp": "2026-04-28T21:44:23.948977",
       "type": "agent_loop_learning",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-06-03T19:18:32.164109",
+      "type": "test_workflow",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-06-03T19:18:32.223285",
+      "type": "test_interaction",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-06-03T19:24:58.784788",
+      "type": "test_workflow",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-06-03T19:24:58.860348",
+      "type": "test_interaction",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-06-03T19:25:25.595382",
+      "type": "test_workflow",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-06-03T19:25:25.651820",
+      "type": "test_interaction",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-06-03T22:24:27.247826",
+      "type": "test_workflow",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-06-03T22:24:27.268898",
+      "type": "test_interaction",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-06-03T22:25:36.710756",
+      "type": "test_workflow",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-06-03T22:25:36.743903",
+      "type": "test_interaction",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-06-03T22:26:58.905572",
+      "type": "test_workflow",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-06-03T22:26:58.942516",
+      "type": "test_interaction",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-06-04T15:31:32.742224",
+      "type": "test_workflow",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-06-04T15:31:32.761085",
+      "type": "test_interaction",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-06-04T15:32:37.295673",
+      "type": "test_interaction",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-06-04T15:32:38.685151",
+      "type": "test_workflow",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-06-04T15:34:38.546664",
+      "type": "test_interaction",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-06-04T15:34:40.172031",
+      "type": "test_workflow",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-06-04T15:35:51.728668",
+      "type": "test_interaction",
+      "outcome": "success"
+    },
+    {
+      "timestamp": "2026-06-04T15:35:52.959757",
+      "type": "test_workflow",
       "outcome": "success"
     }
   ]

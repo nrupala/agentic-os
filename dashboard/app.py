@@ -2,6 +2,7 @@
 MIT License
 Copyright (c) 2026 Nrupal Akolkar
 """
+# SPDX-License-Identifier: MIT OR Apache-2.0
 
 import asyncio
 import json

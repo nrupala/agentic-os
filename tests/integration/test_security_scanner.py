@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 """
 Integration tests for security scanner with mocks.
 Tests security scanner integration with external tools.

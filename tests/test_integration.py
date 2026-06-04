@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 """
 Paradise Stack - Integration Test
 Tests all systems working together.

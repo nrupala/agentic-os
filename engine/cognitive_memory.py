@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
+# Copyright 2026 agentic-OS Contributors
+
 """
 Paradise Stack - Cognitive Memory
 Persistent knowledge graph, evolving skills, and local cognitive storage.
@@ -11,7 +14,7 @@ from typing import Dict, List, Optional
 from datetime import datetime
 from collections import defaultdict
 
-PROJECT_ROOT = Path(__file__).parent.parent.parent
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 COGNITIVE_DIR = PROJECT_ROOT / ".cognitive"
 COGNITIVE_DIR.mkdir(exist_ok=True)
 

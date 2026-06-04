@@ -6,129 +6,25 @@ on:
   pull_request:
     branches: [main]
 
-permissions:
-  contents: read
-
 jobs:
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ['3.10', '3.11', '3.12']
-    
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-          cache: 'pip'
-      
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pytest pytest-cov pytest-asyncio
-          pip install -r requirements.txt 2>/dev/null || true
-      
-      - name: Run tests
-        run: |
-          pytest tests/ -v --tb=short --cov=. --cov-report=xml || echo "Tests may have import errors - CI continues"
-      
-      - name: Upload coverage
-        uses: codecov/codecov-action@v4
-        with:
-          files: ./coverage.xml
-          fail_ci_if_error: false
-
   lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    
+    runs-on: ubuntu-24.04
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-          cache: 'pip'
-      
-      - name: Install linting tools
-        run: |
-          pip install ruff black isort
-      
-      - name: Check formatting
-        run: |
-          pip install black ruff isort
-          black --check . 2>/dev/null || echo "Black check complete"
-      
-      - name: Run ruff
-        run: |
-          ruff check . 2>/dev/null || echo "Ruff check complete"
-      
-      - name: Run isort
-        run: |
-          isort --check-only --diff . 2>/dev/null || echo "Isort check complete"
+          python-version: "3.12"
+      - run: pip install ruff
+      - run: ruff check
 
-  security:
-    name: Security Scan
-    runs-on: ubuntu-latest
-    
+  test:
+    runs-on: ubuntu-24.04
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-      
-      - name: Install security tools
-        run: |
-          pip install bandit safety
-      
-      - name: Run Bandit
-        run: |
-          bandit -r engine tools api -f json -o bandit-report.json || true
-      
-      - name: Check for known vulnerabilities
-        run: |
-          safety check --json || true
-
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push'
-    
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-      
-      - name: Build Docker image
-        run: |
-          docker build -t agentic-os:${{ github.sha }} .
-      
-      - name: Run container test
-        run: |
-          docker run --rm agentic-os:${{ github.sha }} python -c "print('Build successful')"
-
-  validate:
-    name: Validate
-    runs-on: ubuntu-latest
-    needs: [lint]
-    
-    steps:
-      - name: Validate Python syntax
-        run: |
-          python -m py_compile engine/*.py api/*.py tools/*.py 2>/dev/null || true
-      
-      - name: Check imports
-        run: |
-          python -c "import engine.bridge; import api.server; print('Imports OK')" 2>/dev/null || echo "Some imports may fail - OK"
+          python-version: "3.12"
+          cache: pip
+      - run: pip install pytest pytest-xdist
+      - run: pip install -r requirements.txt 2>/dev/null || true
+      - run: pytest tests/ -q -n auto --tb=short

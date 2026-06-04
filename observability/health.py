@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT OR Apache-2.0
+# Copyright 2026 agentic-OS Contributors
+
 """
 agentic-OS Health Checks
 ========================
@@ -18,7 +21,7 @@ import asyncio
 import time
 import psutil
 import platform
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Dict, Any, List, Optional
 from dataclasses import dataclass, field
 from enum import Enum
@@ -44,7 +47,7 @@ class ComponentHealth:
     latency_ms: float = 0.0
     message: str = ""
     details: Dict[str, Any] = field(default_factory=dict)
-    timestamp: str = field(default_factory=lambda: datetime.utcnow().isoformat())
+    timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
     
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -307,7 +310,7 @@ class HealthMonitor:
         
         response = {
             "status": overall_status.value,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "components": results,
             "summary": {
                 "total": len(results),
@@ -343,7 +346,7 @@ health_monitor = HealthMonitor()
 async def basic_health() -> Dict[str, Any]:
     return {
         "status": "healthy",
-        "timestamp": datetime.utcnow().isoformat()
+        "timestamp": datetime.now(timezone.utc).isoformat()
     }
 
 
@@ -369,7 +372,7 @@ async def readiness_probe() -> Dict[str, Any]:
 async def liveness_probe() -> Dict[str, Any]:
     return {
         "status": "alive",
-        "timestamp": datetime.utcnow().isoformat()
+        "timestamp": datetime.now(timezone.utc).isoformat()
     }
 
 

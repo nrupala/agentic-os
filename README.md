@@ -1,4 +1,4 @@
-# agentic-OS: Unified Autonomous Agent System
+# agentic-OS: Ecosystem Integrator
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
@@ -9,345 +9,93 @@
 [![CI](https://github.com/nrupala/agentic-OS/actions/workflows/ci.yml/badge.svg)](https://github.com/nrupala/agentic-OS/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/nrupala/agentic-OS/branch/main/graph/badge.svg)](https://codecov.io/gh/nrupala/agentic-OS)
 
-**Version:** 2.0
-**Date:** 2026-04-15
+**Version:** 3.0
+**Date:** 2026-06-03
 
-Paradise Stack + OMEGA-CODE = agentic-OS
+agentic-OS is the **integrator** of a 47-repo autonomous ecosystem — the glue that weaves Guardian Mesh, Omega Code, Argent, AxiomCode, Aetheris, Nexus, LocalForge, LLMVM, Zerok, PAE, and 37+ other projects into a single self-sustaining fabric.
 
-**OMEGA-CODE: Autonomous Codebase Evolution System**
+This is not a monolith. This is the **operating system** for a never-dying fleet of agents.
 
-A production-ready, fully autonomous coding agent with cognitive abilities, self-correcting memory, and enterprise-grade security. The OMEGA-Executor is the primary entry point for all operations.
+---
 
-## OMEGA-CODE Manifest
+## Core Repos
 
-See [OMEGA_CODE_MANIFEST.md](OMEGA_CODE_MANIFEST.md) for the full specification.
+| Repo | Language | Role |
+|------|----------|------|
+| [Guardian Mesh](https://github.com/nrupala/guardian-mesh) | Rust | 5-enclave security fabric, post-quantum crypto |
+| [Omega Code](https://github.com/nrupala/omega-code) | Python | Self-building verification pipeline |
+| [Argent](https://github.com/nrupala/argent) | Rust | ZK autonomous coding agent with WASM sandbox |
+| [AxiomCode](https://github.com/nrupala/axiomcode) | Python | Natural language → Lean 4 formal proofs |
+| [Aetheris](https://github.com/nrupala/aetheris) | Rust | Production AI cloud gateway (OCI) |
+| [Nexus](https://github.com/nrupala/nexus) | Python | 55+ provider search aggregation |
+| [LocalForge](https://github.com/nrupala/localforge) | TypeScript | Multi-agent workflow engine |
+| [LLMVM](https://github.com/nrupala/llmvm) | Python | Agent orchestrator |
+| [Zerok](https://github.com/nrupala/zerok) | Rust+Go | Portable zero-knowledge vault CLI |
+| [PAE](https://github.com/nrupala/pae) | Python | Personal analytics engine |
+| And 37+ more... | | |
+
+---
+
+## Three-Layer Architecture
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│                     GUARDIAN MESH (Rust)                      │
+│  5-enclave security fabric · post-quantum crypto · enclave    │
+│  attestation · hardware-backed sealing · sealed logging      │
+├──────────────────────────────────────────────────────────────┤
+│                     OMEGA CODE (Python)                       │
+│  Self-building verification pipeline · recursive forge loop   │
+│  meta-cognition · GAN self-correction · 3-tier memory        │
+├──────────────────────────────────────────────────────────────┤
+│                     ECOSYSTEM (47 repos)                      │
+│  Argent · AxiomCode · Aetheris · Nexus · LocalForge · LLMVM  │
+│  Zerok · PAE · and 37+ more                                   │
+└──────────────────────────────────────────────────────────────┘
+```
+
+**Guardian Mesh** runs at the bottom — hardware-enforced trust. **Omega Code** runs in the middle — self-verifying intelligence. The **Ecosystem** runs on top — every specialized agent serving a purpose.
 
 ---
 
 ## Quick Start
 
 ```bash
-# Run demo
-python agentic-os.py --demo
-
-# Run with custom goal
-python agentic-os.py --goal "Build a REST API with authentication"
-
-# Run full agent
-python agentic-os.py
-```
-
----
-
-## Architecture
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                      agentic-OS Core                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│  ┌─────────────┐  ┌──────────────┐  ┌────────────────┐    │
-│  │   Memory    │  │  Cognitive   │  │   Security     │    │
-│  │   System    │  │   Engine     │  │   Layer        │    │
-│  │  (3-tier)  │  │  (Meta+GAN)  │  │ (Vault+RBAC)  │    │
-│  │             │  │              │  │                │    │
-│  │ • SESSION   │  │ • Meta      │  │ • AES-256    │    │
-│  │ • DAILY     │  │ • RAG       │  │ • RBAC       │    │
-│  │ • LONG-TERM │  │ • GAN       │  │ • Audit      │    │
-│  └─────────────┘  └──────────────┘  └────────────────┘    │
-│                                                              │
-│         ┌──────────────────────────────────────┐            │
-│         │         Recursive Forge Loop          │            │
-│         │                                       │            │
-│         │   1. RECOLLECT (Load state)          │            │
-│         │   2. THINK (Cognitive processing)     │            │
-│         │   3. GENERATE (GAN code gen)         │            │
-│         │   4. VERIFY (Sandbox check)          │            │
-│         │   5. PERSIST (Save + remember)        │            │
-│         │   6. EVALUATE (Self-assessment)      │            │
-│         └──────────────────────────────────────┘            │
-│                                                              │
-└─────────────────────────────────────────────────────────────┘
-```
-
----
-
-## 19-Phase OMEGA-CODE Integration
-
-| Phase | Component | File | Status |
-|-------|-----------|------|--------|
-| 1 | Genesis & Foundation | omega_genesis.sh | OK |
-| 2 | Meta-Cognition Engine | omega_meta_logic.py | OK |
-| 3 | Discipline Protocol | omega_forge.py | OK |
-| 4 | Never-Quit Orchestrator | omega_engine.sh | OK |
-| 5 | Temporal State Engine | StateSnapshot | OK |
-| 6 | Self-Developing Intelligence | omega_self_develop.py | OK |
-| 7 | Hierarchical Memory | omega_hierarchical_memory.py | OK |
-| 8 | Vacuum Protocol | omega_vacuum.py | OK |
-| 9 | Systemd Guardian | omega-guardian.service | OK |
-| 10 | Docker Hardening | Dockerfile.omega | OK |
-| 11 | Docker Compose | docker-compose.yml | OK |
-| 12 | Self-Evaluation | omega_self_eval.py | OK |
-| 13 | RAG + GAN | omega_rag.py, omega_gan.py | OK |
-| 14 | Zero-Trust Security | omega_vault.py | OK |
-| 15 | RBAC Access | omega_access.py | OK |
-| 16 | Audit Trail | omega_audit.py | OK |
-| 17 | Observability | Loki + Grafana | OK |
-| 18 | Alerting | omega_mail.py | OK |
-| 19 | System Recovery | omega_iso_gen.sh | OK |
-
----
-
-## Subsystems
-
-### Memory System (3-Tier)
-```
-┌─────────────────────────────────────────┐
-│  LONG-TERM (MEMORY.md)                  │
-│  Distilled wisdom, persists forever      │
-├─────────────────────────────────────────┤
-│  MEDIUM-TERM (Daily logs)               │
-│  Episodic memory, 7-day retention        │
-├─────────────────────────────────────────┤
-│  SHORT-TERM (SESSION-STATE.md)          │
-│  Active context, wiped on session end   │
-└─────────────────────────────────────────┘
-```
-
-### Cognitive Engine
-- **Meta-Cognition**: Failure pattern analysis, constraint derivation
-- **RAG**: Semantic retrieval from long-term memory
-- **GAN**: Generator creates code, Discriminator evaluates quality
-
-### Security Layer
-- **AES-256-GCM**: At-rest encryption
-- **RBAC**: Role-based access (ADMIN, DEVELOPER, AUDITOR)
-- **Audit Trail**: Tamper-evident JSONL logging
-
-### Observability
-- **Loki**: Log aggregation
-- **Grafana**: Visualization dashboards
-- **Self-Evaluation**: Periodic cognitive reports
-
----
-
-## Usage
-
-### Python API
-
-```python
-from agentic_os import AgenticOS
-
-agent = AgenticOS("myproject")
-
-# Think
-thought = agent.think("Build a REST API")
-
-# Generate
-code, result = agent.generate("Build a REST API")
-
-# Remember
-agent.remember("lesson", "Always validate input")
-
-# Recall
-memories = agent.recall("validation")
-
-# Status
-status = agent.status()
-
-agent.close()
-```
-
-### CLI
-
-```bash
-# Demo mode
-python agentic-os.py --demo
-
-# Custom goal
-python agentic-os.py --goal "Create a user authentication system"
-
-# With max iterations
-python agentic-os.py --goal "Build a chatbot" --max 100
-```
-
-### Docker
-
-```bash
-# Full stack
-docker-compose -f docker/docker-compose.yml up --build
-
-# Access services
-# Grafana: http://localhost:3000 (omega/omega-secure-123)
-# Loki: http://localhost:3100
-```
-
----
-
-## Environment Variables
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| PROJECT_NAME | default | Project identifier |
-| GOAL | - | Task goal |
-| MAX_ATTEMPTS | 50 | Max iterations |
-| LLM_PROVIDER | lmstudio | LLM provider |
-| LLM_API_KEY | - | API key |
-
----
-
-## File Structure
-
-```
-agentic-OS/
-├── agentic-os.py              # Unified entry point
-├── quickstart.py             # Demo script
-├── entrypoint.py             # Full OMEGA loop
-│
-├── engine/
-│   ├── omega_forge.py        # Core recursive engine
-│   ├── omega_meta_logic.py   # Meta-cognition
-│   ├── omega_gan.py          # GAN self-correction
-│   ├── omega_rag.py          # RAG retrieval
-│   ├── omega_hierarchical_memory.py  # 3-tier memory
-│   ├── omega_self_eval.py    # Self-evaluation
-│   ├── omega_vacuum.py       # Log cleanup
-│   └── omega_integrator.py   # Integration hub
-│
-├── docker/
-│   ├── Dockerfile.omega       # Hardened container
-│   ├── docker-compose.yml    # Full stack
-│   └── omega_engine.sh       # Never-quit loop
-│
-├── security/
-│   ├── omega_vault.py       # AES-256-GCM
-│   ├── omega_access.py       # RBAC
-│   ├── omega_audit.py        # Audit trail
-│   └── omega_mail.py         # Email alerts
-│
-└── observability/
-    ├── loki-config.yaml       # Loki config
-    └── grafana/              # Dashboards
-```
-
----
-
-## How It Works
-
-### Recursive Loop
-
-```
-1. RECOLLECT
-   └── Load previous state from SQLite
-   └── Check memory for context
-
-2. THINK
-   └── RAG retrieves relevant memories
-   └── Meta-cognition analyzes patterns
-   └── Generate disciplined prompt
-
-3. GENERATE
-   └── GAN generates code solution
-   └── Discriminator evaluates quality
-   └── Loop until passed or max iterations
-
-4. VERIFY
-   └── Execute in sandbox (Docker)
-   └── Check for errors
-   └── Return to THINK if failed
-
-5. PERSIST
-   └── Save state to SQLite
-   └── Update memory (WAL protocol)
-   └── Commit to Git
-
-6. EVALUATE
-   └── Self-assessment report
-   └── Distill lessons
-   └── Send alerts if needed
-```
-
-### Self-Correction
-
-```
-┌─────────────┐     Generate      ┌─────────────┐
-│  Generator  │ ─────────────────>│ Discriminator│
-│             │                  │             │
-│ Creates     │                  │ Evaluates    │
-│ code        │                  │ quality      │
-└─────────────┘                  └──────┬──────┘
-       ▲                               │
-       │       Refine                   │ Score
-       └───────────────────────────────┘
-              < 0.7?
-```
-
----
-
-## Contributing
-
-Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-### Quick Start
-
-```bash
-# Fork and clone
-git clone https://github.com/YOUR_USERNAME/agentic-OS.git
+# Clone with all submodules
+git clone --recursive https://github.com/nrupala/agentic-OS.git
 cd agentic-OS
 
-# Create feature branch
-git checkout -b feature/amazing-feature
+# Build Guardian Mesh (requires Rust)
+cd guardian-mesh && cargo build --release && cd ..
 
-# Make changes and test
-python -m pytest tests/
+# Run Omega Code pipeline
+python omega-code/omega_forge.py
 
-# Commit and push
-git commit -m "feat: add amazing feature"
-git push origin feature/amazing-feature
-
-# Open PR
-gh pr create --fill
+# Launch ecosystem
+python integrator.py --discover  # scans 47 repos
+python integrator.py --status     # reports health of all
+python integrator.py --deploy     # deploys missing services
 ```
 
 ---
 
-## GitHub Resources
+## Vision
 
-| Resource | Link |
-|----------|------|
-| Repository | https://github.com/nrupala/agentic-OS |
-| Issues | https://github.com/nrupala/agentic-OS/issues |
-| Discussions | https://github.com/nrupala/agentic-OS/discussions |
-| Actions | https://github.com/nrupala/agentic-OS/actions |
-| Security | https://github.com/nrupala/agentic-OS/security |
+A **self-sustaining ecosystem** that never dies. If a node fails, another replaces it. If a repo drifts, the integrator corrects it. The system evolves itself — discovering new tools, rewriting components, and hardening security — without human intervention.
 
----
-
-## Referenced Projects
-
-This project is built upon the following open-source research:
-
-| Project | Stars | Description |
-|--------|-------|-------------|
-| [opencode](https://github.com/opencode-ai/opencode) | 142K | Open source coding agent |
-| [AutoGPT](https://github.com/Significant-Gravitas/AutoGPT) | 183K | Autonomous agent platform |
-| [Paradise Stack](https://github.com/mustbeperfect/definitive-opensource) | 3.2K | Agent development framework |
-| [OMEGA-CODE](https://github.com/sh栖息桧/omega-code) | - | Recursive autonomous agent |
-
----
-
-## Status
-
-**ALL 19 PHASES: COMPLETE**
-
-Run `python integration_test.py` to verify all subsystems.
+The integrator (`integrator.py`) is the central nervous system:
+- Discovers every repo and its capabilities
+- Routes tasks to the right agent
+- Monitors health across the fleet
+- Recovers failures autonomously
+- Grows the ecosystem organically
 
 ---
 
 ## License
 
-MIT License - Copyright (c) 2026 [Nrupal Akolkar](https://github.com/nrupala)
+MIT License — Copyright (c) 2026 [Nrupal Akolkar](https://github.com/nrupala)
 
 ---
 
-*Last Updated: 2026-04-15*
+*Last Updated: 2026-06-03*

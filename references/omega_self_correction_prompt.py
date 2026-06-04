@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 def generate_disciplined_prompt(project_history):
     # Analyze the SQLite DB for patterns
     meta = MetaCognition("omega_state.db")

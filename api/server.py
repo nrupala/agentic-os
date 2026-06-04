@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT OR Apache-2.0
 """
 agentic-OS API Server
 ====================
@@ -32,7 +33,8 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 # Try importing optional dependencies
 try:
-    from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect, Depends, Header
+    from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect, Depends, Header, Request
+    from fastapi.responses import JSONResponse
     from pydantic import BaseModel, Field
     import uvicorn
     FASTAPI_AVAILABLE = True
@@ -42,7 +44,8 @@ except ImportError:
 
 # Rate limiting imports
 try:
-    from slowapi import Limiter, _get_remote_address
+    from slowapi import Limiter
+    from slowapi.util import get_remote_address as _get_remote_address
     from slowapi.errors import RateLimitExceeded
     from slowapi.middleware import SlowAPIMiddleware
     SLOWAPI_AVAILABLE = True
@@ -304,7 +307,9 @@ if FASTAPI_AVAILABLE:
         from slowapi.util import get_remote_address
         limiter = Limiter(key_func=get_remote_address)
         app.state.limiter = limiter
-        app.add_exception_handler(RateLimitExceeded, lambda request, exc: HTTPException(status_code=429, detail="Rate limit exceeded"))
+        async def rate_limit_handler(request: Request, exc: RateLimitExceeded):
+            return JSONResponse(status_code=429, content={"detail": "Rate limit exceeded"})
+        app.add_exception_handler(RateLimitExceeded, rate_limit_handler)
         app.add_middleware(SlowAPIMiddleware)
     
     # API Key authentication dependency
@@ -333,39 +338,68 @@ if FASTAPI_AVAILABLE:
             "active_executions": len([e for e in manager.executions.values() if e.status == ExecutionStatus.RUNNING])
         }
     
-    @app.post("/api/v1/execute", response_model=StatusResponse)
-    async def execute(request: ExecuteRequest):
-        """Execute a goal through the agentic-OS pipeline."""
-        execution = manager.create_execution(request)
+    if SLOWAPI_AVAILABLE:
+        @app.post("/api/v1/execute", response_model=StatusResponse)
+        @limiter.limit("5/minute")
+        async def execute_rl(request: Request, exec_request: ExecuteRequest):
+            """Execute a goal through the agentic-OS pipeline (rate-limited)."""
+            execution = manager.create_execution(exec_request)
+            asyncio.create_task(manager.run_execution(execution.execution_id, exec_request))
+            return StatusResponse(
+                execution_id=execution.execution_id,
+                status=execution.status.value,
+                iteration=execution.iteration,
+                max_iterations=execution.max_iterations,
+                created_at=execution.created_at,
+                updated_at=execution.updated_at,
+            )
         
-        # Start execution in background
-        asyncio.create_task(manager.run_execution(execution.execution_id, request))
+        @app.get("/api/v1/status/{execution_id}", response_model=StatusResponse)
+        @limiter.limit("30/minute")
+        async def get_status_rl(request: Request, execution_id: str):
+            """Get the status of an execution (rate-limited)."""
+            execution = manager.get_execution(execution_id)
+            if not execution:
+                raise HTTPException(status_code=404, detail="Execution not found")
+            return StatusResponse(
+                execution_id=execution.execution_id,
+                status=execution.status.value if isinstance(execution.status, Enum) else execution.status,
+                iteration=execution.iteration,
+                max_iterations=execution.max_iterations,
+                created_at=execution.created_at,
+                updated_at=execution.updated_at,
+                error=execution.error,
+            )
+    else:
+        @app.post("/api/v1/execute", response_model=StatusResponse)
+        async def execute(exec_request: ExecuteRequest):
+            """Execute a goal through the agentic-OS pipeline."""
+            execution = manager.create_execution(exec_request)
+            asyncio.create_task(manager.run_execution(execution.execution_id, exec_request))
+            return StatusResponse(
+                execution_id=execution.execution_id,
+                status=execution.status.value,
+                iteration=execution.iteration,
+                max_iterations=execution.max_iterations,
+                created_at=execution.created_at,
+                updated_at=execution.updated_at,
+            )
         
-        return StatusResponse(
-            execution_id=execution.execution_id,
-            status=execution.status.value,
-            iteration=execution.iteration,
-            max_iterations=execution.max_iterations,
-            created_at=execution.created_at,
-            updated_at=execution.updated_at,
-        )
-    
-    @app.get("/api/v1/status/{execution_id}", response_model=StatusResponse)
-    async def get_status(execution_id: str):
-        """Get the status of an execution."""
-        execution = manager.get_execution(execution_id)
-        if not execution:
-            raise HTTPException(status_code=404, detail="Execution not found")
-        
-        return StatusResponse(
-            execution_id=execution.execution_id,
-            status=execution.status.value if isinstance(execution.status, Enum) else execution.status,
-            iteration=execution.iteration,
-            max_iterations=execution.max_iterations,
-            created_at=execution.created_at,
-            updated_at=execution.updated_at,
-            error=execution.error,
-        )
+        @app.get("/api/v1/status/{execution_id}", response_model=StatusResponse)
+        async def get_status(execution_id: str):
+            """Get the status of an execution."""
+            execution = manager.get_execution(execution_id)
+            if not execution:
+                raise HTTPException(status_code=404, detail="Execution not found")
+            return StatusResponse(
+                execution_id=execution.execution_id,
+                status=execution.status.value if isinstance(execution.status, Enum) else execution.status,
+                iteration=execution.iteration,
+                max_iterations=execution.max_iterations,
+                created_at=execution.created_at,
+                updated_at=execution.updated_at,
+                error=execution.error,
+            )
     
     @app.get("/api/v1/results/{execution_id}", response_model=ResultsResponse)
     async def get_results(execution_id: str):

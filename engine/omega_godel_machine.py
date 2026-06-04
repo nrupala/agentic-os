@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT OR Apache-2.0
+# Copyright 2026 agentic-OS Contributors
+
 """
 OMEGA Gödel Machine - Self-Referential Code Modification
 =========================================================
@@ -184,7 +187,7 @@ class GödelMachine:
     
     def __init__(self, project: str = "omega"):
         self.project = project
-        self.db_path = f"projects/{project}/state/omega_state.db"
+        self.db_path = str(PROJECT_ROOT / f"projects/{project}/state/omega_state.db")
         
         self.validator = SelfModificationValidator()
         self.version_control = VersionControl()
@@ -202,7 +205,7 @@ class GödelMachine:
     
     def _init_storage(self):
         """Initialize storage for changes."""
-        self.change_storage = Path(f"projects/{self.project}/state/godel_changes")
+        self.change_storage = PROJECT_ROOT / f"projects/{self.project}/state/godel_changes"
         self.change_storage.mkdir(parents=True, exist_ok=True)
         
         changes_file = self.change_storage / "changes.json"

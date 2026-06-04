@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT OR Apache-2.0
+# Copyright 2026 agentic-OS Contributors
+
 """
 PHASE 8: Vacuum Protocol
 =========================
@@ -8,7 +11,10 @@ Log distillation, cleanup, and wisdom extraction.
 import shutil
 from pathlib import Path
 from datetime import datetime
+
 from typing import List, Dict
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 class VacuumProtocol:
     """
@@ -27,7 +33,7 @@ class VacuumProtocol:
         self.logs_dir = self.project_path / "logs"
         self.memory_dir = self.project_path / "memory"
         self.trash_dir = self.project_path / ".trash"
-        self.temp_dir = Path("/tmp/omega")
+        self.temp_dir = PROJECT_ROOT / ".temp" / "omega"
         
         self.logs_dir.mkdir(parents=True, exist_ok=True)
         self.memory_dir.mkdir(parents=True, exist_ok=True)

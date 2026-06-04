@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 """
 Paradise Stack CLI Interface
 The face of an perpetually learning, never-stopping AI organization.

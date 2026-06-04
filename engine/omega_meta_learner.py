@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT OR Apache-2.0
+# Copyright 2026 agentic-OS Contributors
+
 """
 OMEGA Recursive Meta-Learning Engine
 =====================================
@@ -277,7 +280,7 @@ class RecursiveMetaLearner:
     
     def __init__(self, project: str = "omega"):
         self.project = project
-        self.db_path = f"projects/{project}/state/omega_state.db"
+        self.db_path = str(PROJECT_ROOT / f"projects/{project}/state/omega_state.db")
         
         self.strategy_selector = StrategySelector()
         
@@ -298,7 +301,7 @@ class RecursiveMetaLearner:
         if _ENCRYPTOR is None:
             _ENCRYPTOR = _get_encryptor()
 
-        storage_path = Path(f"projects/{self.project}/state")
+        storage_path = PROJECT_ROOT / f"projects/{self.project}/state"
         storage_path.mkdir(parents=True, exist_ok=True)
 
         attempts_file = storage_path / "meta_attempts.json"
@@ -323,7 +326,7 @@ class RecursiveMetaLearner:
     def _save_attempts(self):
         """Save attempts to encrypted storage."""
         global _ENCRYPTOR
-        storage_path = Path(f"projects/{self.project}/state")
+        storage_path = PROJECT_ROOT / f"projects/{self.project}/state"
         storage_path.mkdir(parents=True, exist_ok=True)
         attempts_file = storage_path / "meta_attempts.json"
         storage_path / "meta_attempts.enc"
@@ -345,7 +348,7 @@ class RecursiveMetaLearner:
     def _load_rules(self):
         """Load learned rules from encrypted storage."""
         global _ENCRYPTOR
-        storage_path = Path(f"projects/{self.project}/state")
+        storage_path = PROJECT_ROOT / f"projects/{self.project}/state"
         storage_path.mkdir(parents=True, exist_ok=True)
         rules_file = storage_path / "meta_rules.json"
         rules_file_enc = storage_path / "meta_rules.enc"
@@ -372,7 +375,7 @@ class RecursiveMetaLearner:
     def _save_rules(self):
         """Save rules to encrypted storage."""
         global _ENCRYPTOR
-        storage_path = Path(f"projects/{self.project}/state")
+        storage_path = PROJECT_ROOT / f"projects/{self.project}/state"
         storage_path.mkdir(parents=True, exist_ok=True)
         rules_file = storage_path / "meta_rules.json"
         storage_path / "meta_rules.enc"

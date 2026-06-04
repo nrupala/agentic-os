@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
+# Copyright 2026 agentic-OS Contributors
+
 """
 OMEGA-CODE: Recursive Coding Agent
 ===================================
@@ -51,7 +54,7 @@ class StateSnapshot:
     
     def __init__(self, project: str):
         self.project = project
-        self.snapshot_path = Path(f"projects/{project}/state_snapshot.json")
+        self.snapshot_path = PROJECT_ROOT / f"projects/{project}/state_snapshot.json"
         self.data = self._load()
         
         try:
@@ -138,12 +141,12 @@ class OmegaForge:
     
     def __init__(self, project: str = None):
         self.project = project or os.getenv("PROJECT_NAME", "default")
-        self.db_path = f"projects/{self.project}/state/omega_state.db"
+        self.db_path = str(PROJECT_ROOT / f"projects/{self.project}/state/omega_state.db")
         os.makedirs(os.path.dirname(self.db_path), exist_ok=True)
         self.conn = sqlite3.connect(self.db_path)
         self._init_db()
         self.docker_available = self._check_docker()
-        self.project_dir = Path(f"projects/{self.project}")
+        self.project_dir = PROJECT_ROOT / f"projects/{self.project}"
         self.snapshot = StateSnapshot(self.project)
         
         self.meta = None

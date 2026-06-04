@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT OR Apache-2.0
+# Copyright 2026 agentic-OS Contributors
+
 """
 PHASE 13: GAN-Inspired Self-Correction
 Generator vs Discriminator pattern for code quality.

@@ -1,0 +1,31 @@
+name: DCO
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  dco-check:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check DCO
+        run: |
+          commits=$(git log --format=%H ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }})
+          failed=0
+          for commit in $commits; do
+            body=$(git show --format=%B --no-patch $commit)
+            if ! echo "$body" | grep -q "^Signed-off-by:"; then
+              echo "FAIL: Commit $commit is missing Signed-off-by:"
+              echo "  $(git log --format=%s -1 $commit)"
+              failed=1
+            fi
+          done
+          if [ $failed -eq 1 ]; then
+            echo "All commits must include 'Signed-off-by: Your Name <email>'"
+            echo "Fix with: git commit --amend -s  (last commit)"
+            echo "Or: git rebase HEAD~N --signoff  (last N commits)"
+            exit 1
+          fi
+          echo "All commits have Signed-off-by: ✓"

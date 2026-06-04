@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 """
 Paradise Stack - Unified Paradise Interface
 Chat -> Agent Loop -> Execution Engine -> Recursive Output -> Deliverables

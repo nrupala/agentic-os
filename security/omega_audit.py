@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
+# Copyright 2026 agentic-OS Contributors
+
 """
 OMEGA-CODE Audit Trail
 ========================
@@ -50,6 +53,8 @@ class OmegaAudit:
         
         if log_dir:
             self.log_dir = Path(log_dir)
+        elif Path(self.project).is_absolute():
+            self.log_dir = Path(self.project) / "logs"
         else:
             self.log_dir = Path(f"projects/{self.project}/logs")
         

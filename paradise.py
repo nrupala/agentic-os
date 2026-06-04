@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT OR Apache-2.0
 """
 Paradise Stack v2.0 - Ultimate Development Organization
 High-Fidelity AI Agent System with Reactive Execution

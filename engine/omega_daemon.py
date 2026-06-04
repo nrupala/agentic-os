@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT OR Apache-2.0
+# Copyright 2026 agentic-OS Contributors
+
 """
 OMEGA Persistent Daemon Service
 ===============================
@@ -127,7 +130,7 @@ class OmegaDaemon:
         self.running = False
         self.resources = ResourceManager()
         
-        self.state_path = Path(f"projects/{project}/state")
+        self.state_path = PROJECT_ROOT / f"projects/{project}/state"
         self.state_path.mkdir(parents=True, exist_ok=True)
         
         self._load_checkpoint()

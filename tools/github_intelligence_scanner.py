@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
+# Copyright 2026 agentic-OS Contributors
+
 """
 GitHub Intelligence Scanner
 Scans GitHub for top-starred skills, MD files, and AI agent patterns.
