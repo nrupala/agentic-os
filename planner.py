@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Copyright (c) 2026 Nrupal Akolkar
+# SPDX-License-Identifier: MIT
 """
 Paradise Planner - Research-backed implementation planner
 Based on: MapCoder (ACL 2024), Claude Code, KAT-Coder

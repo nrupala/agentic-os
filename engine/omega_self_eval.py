@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Copyright (c) 2026 Nrupal Akolkar
+# SPDX-License-Identifier: MIT
 """
 PHASE 12: Self-Evaluation Reporting
 Generates periodic markdown reports on cognitive performance.

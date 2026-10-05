@@ -163,6 +163,17 @@ agentic-OS/
 └── docs/           # Documentation
 ```
 
+## PR-flow discipline
+
+Direct pushes to `main` are retired. Every change lands through this flow:
+
+1. Open a **draft PR** from a feature branch.
+2. **Tests green** — CI must pass before merge (see `.github/workflows/ci.yml`).
+3. **Owner merges** — the repository owner merges; nobody merges their own PR.
+4. Every PR adds a **CHANGELOG entry under `## [Unreleased]`** and bumps semver:
+   patch = fix/chore, minor = feature, major = breaking.
+5. Merge commits reference the PR number; releases are tagged `vX.Y.Z` after merge.
+
 ## License
 
 By contributing, you agree that your contributions will be licensed under the MIT License.

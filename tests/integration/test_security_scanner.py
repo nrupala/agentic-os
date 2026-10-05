@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Nrupal Akolkar
+# SPDX-License-Identifier: MIT
 """
 Integration tests for security scanner with mocks.
 Tests security scanner integration with external tools.

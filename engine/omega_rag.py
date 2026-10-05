@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Copyright (c) 2026 Nrupal Akolkar
+# SPDX-License-Identifier: MIT
 """
 PHASE 13: RAG Integration
 Retrieval-Augmented Generation for long-term memory.
