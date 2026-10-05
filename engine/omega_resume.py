@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Nrupal Akolkar
+# SPDX-License-Identifier: MIT
 """
 OMEGA Zero-Knowledge Resume System
 ==================================

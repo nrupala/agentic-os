@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Nrupal Akolkar
+// SPDX-License-Identifier: MIT
 const express = require('express');
 const { spawn } = require('child_process');
 const path = require('path');

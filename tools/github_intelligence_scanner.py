@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Nrupal Akolkar
+# SPDX-License-Identifier: MIT
 """
 GitHub Intelligence Scanner
 Scans GitHub for top-starred skills, MD files, and AI agent patterns.

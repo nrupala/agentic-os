@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Nrupal Akolkar
+# SPDX-License-Identifier: MIT
 """
 Integration tests for git_ops and docker_ops with mocks.
 Tests external tool integrations.

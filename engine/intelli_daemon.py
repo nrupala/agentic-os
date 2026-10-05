@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Nrupal Akolkar
+# SPDX-License-Identifier: MIT
 """
 Paradise Stack - IntelliDaemon
 VS Code IntelliSense-style background code intelligence daemon.

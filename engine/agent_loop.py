@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Nrupal Akolkar
+# SPDX-License-Identifier: MIT
 """
 Paradise Stack - Agent Loop
 The continuous autonomous interaction loop where Paradise Stack

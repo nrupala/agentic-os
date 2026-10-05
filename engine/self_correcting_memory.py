@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Nrupal Akolkar
+# SPDX-License-Identifier: MIT
 """
 Paradise Stack - Self-Correcting Memory
 Remembers solutions, validates quality, discards inferior ones.

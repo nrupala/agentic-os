@@ -1,5 +1,5 @@
 {
-  "platform": "1.1.0-dev",
+  "platform": "1.1.1-dev",
   "docker": {
     "image": "agentic-os-paradise",
     "tag": "latest",

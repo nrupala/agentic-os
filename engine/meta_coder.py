@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Nrupal Akolkar
+# SPDX-License-Identifier: MIT
 """
 Paradise Stack - MetaCoder
 Meta-cognitive code generation that reuses learned solutions.

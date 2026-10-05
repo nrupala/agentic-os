@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Nrupal Akolkar
+# SPDX-License-Identifier: MIT
 """
 Paradise Stack Status Checker
 Quick validation - fails fast to show what's working and what's not.

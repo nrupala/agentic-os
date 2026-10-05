@@ -1,5 +1,16 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+- `LICENSE` (MIT — matches the license already declared in `package.json` and `CONTRIBUTING.md`; owner to confirm)
+- `NOTICE` attribution file ("Owned by Nrupal Akolkar · Built with Muse by Meta")
+- SPDX MIT license headers on all Python/JavaScript source files
+- PR-flow discipline section in `CONTRIBUTING.md` (draft PR → tests green → owner merges; no direct pushes to `main`; CHANGELOG + semver per PR; releases tagged `vX.Y.Z`)
+
+### Changed
+- `VERSION`, `versions.json`, `package.json`, `dashboard/package.json` patch-bumped for this chore PR
+
 All notable changes to Paradise Stack will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).

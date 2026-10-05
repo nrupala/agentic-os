@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Nrupal Akolkar
+# SPDX-License-Identifier: MIT
 """
 Integration tests for agentic-OS API server with comprehensive mocks.
 Tests API endpoints with mocked dependencies for isolated testing.

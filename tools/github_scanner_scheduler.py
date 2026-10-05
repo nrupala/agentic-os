@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Nrupal Akolkar
+# SPDX-License-Identifier: MIT
 """
 Monthly Intelligence Scheduler
 Schedules GitHub scans on monthly basis using Windows Task Scheduler.

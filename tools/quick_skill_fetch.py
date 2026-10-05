@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Nrupal Akolkar
+# SPDX-License-Identifier: MIT
 """
 Quick Manual Skill Integrator
 Fetches skills directly from top discovered repositories.

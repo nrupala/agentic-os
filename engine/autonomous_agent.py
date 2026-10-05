@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Nrupal Akolkar
+# SPDX-License-Identifier: MIT
 """
 Paradise Stack - Autonomous Coding Agent
 OMEGA-CODE recursive feedback loop with SQLite persistence.

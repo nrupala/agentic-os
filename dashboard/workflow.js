@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Nrupal Akolkar
+// SPDX-License-Identifier: MIT
 /**
  * Paradise Stack - Dashboard Workflow with Cognitive Features
  * 10+ iterations with Meta-Cognition, Knowledge Graph, Reactive Engine

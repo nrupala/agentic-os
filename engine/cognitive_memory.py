@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Nrupal Akolkar
+# SPDX-License-Identifier: MIT
 """
 Paradise Stack - Cognitive Memory
 Persistent knowledge graph, evolving skills, and local cognitive storage.

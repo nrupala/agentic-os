@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Copyright (c) 2026 Nrupal Akolkar
+# SPDX-License-Identifier: MIT
 """
 PHASE 7: Hierarchical Memory System
 Three-tier memory architecture with WAL protocol.
