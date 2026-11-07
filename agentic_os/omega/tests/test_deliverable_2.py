@@ -1,3 +1,5 @@
+# Copyright © 2026 2351485 ALBERTA INC.
+# SPDX-License-Identifier: AGPL-3.0-only
 """
 agentic_os/omega/tests/test_deliverable_2.py
 Harness test script to be executed by the vault test runner.
