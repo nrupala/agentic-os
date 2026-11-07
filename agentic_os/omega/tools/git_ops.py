@@ -1,3 +1,5 @@
+# Copyright © 2026 2351485 ALBERTA INC.
+# SPDX-License-Identifier: AGPL-3.0-only
 """
 agentic_os.omega.tools.git_ops
 Atomic Git operations tool supporting branch isolation, staging,

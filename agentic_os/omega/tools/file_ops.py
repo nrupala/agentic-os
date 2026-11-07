@@ -1,3 +1,5 @@
+# Copyright © 2026 2351485 ALBERTA INC.
+# SPDX-License-Identifier: AGPL-3.0-only
 """
 agentic_os.omega.tools.file_ops
 Guarded file I/O operations strictly confined to authorized workspace boundaries.
