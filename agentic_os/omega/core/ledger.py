@@ -1,3 +1,5 @@
+# Copyright © 2026 2351485 ALBERTA INC.
+# SPDX-License-Identifier: AGPL-3.0-only
 # agentic_os/omega/core/ledger.py
 """Self-correction ledger for OMEGA-CODE, extracted verbatim from omega_forge.py (Deliverable 3A)."""
 from __future__ import annotations
