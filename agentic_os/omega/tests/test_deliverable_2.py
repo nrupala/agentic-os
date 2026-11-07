@@ -3,6 +3,7 @@ agentic_os/omega/tests/test_deliverable_2.py
 Harness test script to be executed by the vault test runner.
 """
 
+import subprocess
 import sys
 import tempfile
 from pathlib import Path
@@ -55,3 +56,72 @@ def test_file_ops() -> None:
         # 3. Listing
         l_res = ops.list_dir(".", recursive=True)
         assert l_res.success is True
+
+
+def test_git_ops():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        repo_path = Path(tmpdir)
+        subprocess.run(["git", "init"], cwd=repo_path, check=True, capture_output=True)
+        subprocess.run(["git", "checkout", "-B", "main"], cwd=repo_path, check=True, capture_output=True)
+        subprocess.run(["git", "config", "user.name", "Test Runner"], cwd=repo_path, check=True)
+        subprocess.run(["git", "config", "user.email", "test@runner.local"], cwd=repo_path, check=True)
+
+        git = GitOps(repo_root=repo_path)
+
+        # Branch resolution
+        branch_res = git.get_current_branch()
+        assert branch_res.success is True
+        assert branch_res.data == "main"
+
+        # Dirty status & staging
+        (repo_path / "work.txt").write_text("iteration content\n")
+        status_dirty = git.get_status()
+        assert status_dirty.success is True
+        assert status_dirty.data["is_clean"] is False
+
+        stage_res = git.stage_files(["work.txt"])
+        assert stage_res.success is True
+
+        # Input guard validations
+        bad_status = git.commit_iteration(1, "INVALID_STATUS_TAG", "msg")
+        assert bad_status.success is False
+        assert bad_status.metadata.get("code") == "INVALID_STATUS"
+
+        bad_iter = git.commit_iteration(-1, "PASS", "msg")
+        assert bad_iter.success is False
+        assert bad_iter.metadata.get("code") == "INVALID_ITERATION"
+
+        # Valid commit
+        commit_res = git.commit_iteration(1, "PASS", "initial run")
+        assert commit_res.success is True
+        assert commit_res.data["iteration"] == 1
+        assert commit_res.data["status"] == "PASS"
+        assert commit_res.data["message"] == "[ITERATION-1] [PASS] initial run"
+        commit_hash = commit_res.data["commit_hash"]
+        assert isinstance(commit_hash, str) and len(commit_hash) > 0
+
+        # HEAD commit check
+        head_res = git.get_head_commit()
+        assert head_res.success is True
+        assert head_res.data == commit_hash
+
+        # Git log message verification
+        log_proc = subprocess.run(
+            ["git", "log", "-1", "--format=%s"],
+            cwd=repo_path,
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        assert log_proc.stdout.strip() == "[ITERATION-1] [PASS] initial run"
+
+        # Clean status post-commit
+        status_clean = git.get_status()
+        assert status_clean.success is True
+        assert status_clean.data["is_clean"] is True
+
+        # Checkout branch
+        co_res = git.checkout_branch("feature/test", create=True)
+        assert co_res.success is True
+        assert co_res.data == {"branch": "feature/test", "created": True}
+        assert git.get_current_branch().data == "feature/test"

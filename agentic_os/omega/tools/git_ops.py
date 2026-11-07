@@ -40,7 +40,11 @@ class GitOps(BaseTool):
 
     def get_current_branch(self) -> ToolResult:
         """Query the currently active branch name."""
-        res = self._exec_git(["rev-parse", "--abbrev-ref", "HEAD"])
+        # symbolic-ref resolves unborn branches (fresh repo, no commits yet);
+        # rev-parse --abbrev-ref HEAD cannot. Fall back for detached HEAD.
+        res = self._exec_git(["symbolic-ref", "--short", "HEAD"])
+        if not res.success:
+            res = self._exec_git(["rev-parse", "--abbrev-ref", "HEAD"])
         if not res.success:
             return ToolResult.fail(f"Failed to get current branch: {res.stderr.strip()}", code="GIT_ERROR")
         return ToolResult.ok(data=res.stdout.strip())
