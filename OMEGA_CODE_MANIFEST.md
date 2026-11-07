@@ -168,4 +168,4 @@ docker-compose -f docker/docker-compose.yml up
 ---
 
 *Signed: OMEGA-CODE Autonomous Orchestrator*
-*Copyright (c) 2026 Nrupal Akolkar*
+*Copyright © 2026 2351485 ALBERTA INC.*
