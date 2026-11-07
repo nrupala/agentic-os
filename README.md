@@ -1,6 +1,6 @@
 # agentic-OS: Unified Autonomous Agent System
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![GitHub stars](https://img.shields.io/github/stars/nrupala/agentic-OS)](https://github.com/nrupala/agentic-OS/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/nrupala/agentic-OS)](https://github.com/nrupala/agentic-OS/network)
@@ -346,7 +346,13 @@ Run `python integration_test.py` to verify all subsystems.
 
 ## License
 
-MIT License - Copyright (c) 2026 [Nrupal Akolkar](https://github.com/nrupala)
+Copyright © 2026 2351485 ALBERTA INC.
+
+This project is licensed under the **GNU Affero General Public License v3.0** (`AGPL-3.0-only`). See the [`LICENSE`](LICENSE) file for the full license text.
+
+### Commercial Licensing
+
+Commercial use, proprietary integration, or distribution that departs from the terms of the AGPL-3.0 is available strictly through a separate written commercial agreement with **2351485 ALBERTA INC.** Refer to [`LICENSE-COMMERCIAL.md`](LICENSE-COMMERCIAL.md) for details, or direct inquiries to `info@aimlds.org`.
 
 ---
 
