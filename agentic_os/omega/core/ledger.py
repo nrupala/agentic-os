@@ -26,12 +26,13 @@ class SelfCorrectionLedger:
         error_msg: str,
         hypothesis: str,
     ) -> str:
-        signature = self._compute_signature(action_name, payload)
+        safe_payload = json.loads(json.dumps(payload, default=str))
+        signature = self._compute_signature(action_name, safe_payload)
         entry = {
             "iteration": iteration,
             "signature": signature,
             "action_name": action_name,
-            "payload": payload,
+            "payload": safe_payload,
             "error_msg": error_msg,
             "hypothesis": hypothesis,
             "timestamp": time.time(),
@@ -44,7 +45,9 @@ class SelfCorrectionLedger:
         return sum(1 for e in self.entries if e["signature"] == signature)
 
     def _compute_signature(self, action_name: str, payload: Dict[str, Any]) -> str:
-        serialized = json.dumps({"action": action_name, "payload": payload}, sort_keys=True)
+        serialized = json.dumps(
+            {"action": action_name, "payload": payload}, sort_keys=True, default=str
+        )
         return hashlib.sha256(serialized.encode("utf-8")).hexdigest()[:12]
 
     def _flush(self) -> None:
