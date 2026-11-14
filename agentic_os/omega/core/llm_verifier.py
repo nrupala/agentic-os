@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import json
 import os
+import time
 import urllib.error
 import urllib.request
 from typing import Any, Callable
@@ -25,7 +26,7 @@ class VerifierError(RuntimeError):
 def create_verifier_provider(
     api_key: Optional[str] = None,
     model: str = "gemini-flash-latest",
-    timeout: float = 30.0,
+    timeout: float = 120.0,
     base_url: str = "https://generativelanguage.googleapis.com/v1beta/models",
     objective: Optional[str] = None,
 ) -> Callable[[ThoughtRecord, ActionResult], VerificationRecord]:
@@ -110,23 +111,32 @@ def create_verifier_provider(
             method="POST",
         )
 
-        try:
-            with urllib.request.urlopen(req, timeout=timeout) as response:
-                status_code = response.getcode()
-                raw_response = response.read().decode("utf-8")
-        except urllib.error.HTTPError as exc:
-            err_msg = exc.read().decode("utf-8", errors="replace") if exc.fp else str(exc)
-            raise VerifierError(
-                f"Gemini API HTTP {exc.code} error during verification: {err_msg}"
-            ) from exc
-        except urllib.error.URLError as exc:
-            raise VerifierError(
-                f"Gemini API network failure during verification: {exc.reason}"
-            ) from exc
-        except Exception as exc:
-            raise VerifierError(
-                f"Unexpected error communicating with Gemini verifier: {exc}"
-            ) from exc
+        max_attempts = 3
+        retry_delays = [1.0, 3.0]
+
+        for attempt in range(max_attempts):
+            try:
+                with urllib.request.urlopen(req, timeout=timeout) as response:
+                    status_code = response.getcode()
+                    raw_response = response.read().decode("utf-8")
+                break
+            except urllib.error.HTTPError as exc:
+                err_msg = exc.read().decode("utf-8", errors="replace") if exc.fp else str(exc)
+                raise VerifierError(
+                    f"Gemini API HTTP {exc.code} error during verification: {err_msg}"
+                ) from exc
+            except (urllib.error.URLError, TimeoutError) as exc:
+                if attempt < max_attempts - 1:
+                    time.sleep(retry_delays[attempt])
+                else:
+                    reason = getattr(exc, "reason", str(exc))
+                    raise VerifierError(
+                        f"Gemini API network failure during verification: {reason}"
+                    ) from exc
+            except Exception as exc:
+                raise VerifierError(
+                    f"Unexpected error communicating with Gemini verifier: {exc}"
+                ) from exc
 
         if status_code != 200:
             raise VerifierError(f"Gemini API returned unexpected HTTP status {status_code}: {raw_response}")

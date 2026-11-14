@@ -12,6 +12,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import time
 import urllib.error
 import urllib.request
 from typing import Any, Callable, Dict, Optional
@@ -134,7 +135,7 @@ def _build_prompt(state: ForgeState, ledger: SelfCorrectionLedger) -> str:
 def create_thought_provider(
     api_key: Optional[str] = None,
     model: str = "gemini-flash-latest",
-    timeout: float = 30.0,
+    timeout: float = 120.0,
     base_url: str = "https://generativelanguage.googleapis.com/v1beta",
 ) -> Callable[[ForgeState, SelfCorrectionLedger], ThoughtRecord]:
     """Factory returning a thought provider callable compatible with OmegaForgeEngine.
@@ -177,23 +178,32 @@ def create_thought_provider(
             method="POST",
         )
 
-        try:
-            with urllib.request.urlopen(request, timeout=timeout) as response:
-                status_code = response.getcode()
-                raw_body = response.read().decode("utf-8")
-                if status_code != 200:
-                    raise ValueError(
-                        f"Gemini API returned unexpected status {status_code}: {raw_body}"
-                    )
-        except urllib.error.HTTPError as http_err:
-            err_body = http_err.read().decode("utf-8", errors="replace")
-            raise ValueError(
-                f"Gemini API HTTP {http_err.code} error: {err_body}"
-            ) from http_err
-        except urllib.error.URLError as url_err:
-            raise ConnectionError(
-                f"Failed to connect to Gemini API: {url_err.reason}"
-            ) from url_err
+        max_attempts = 3
+        retry_delays = [1.0, 3.0]
+
+        for attempt in range(max_attempts):
+            try:
+                with urllib.request.urlopen(request, timeout=timeout) as response:
+                    status_code = response.getcode()
+                    raw_body = response.read().decode("utf-8")
+                    if status_code != 200:
+                        raise ValueError(
+                            f"Gemini API returned unexpected status {status_code}: {raw_body}"
+                        )
+                break
+            except urllib.error.HTTPError as http_err:
+                err_body = http_err.read().decode("utf-8", errors="replace")
+                raise ValueError(
+                    f"Gemini API HTTP {http_err.code} error: {err_body}"
+                ) from http_err
+            except (urllib.error.URLError, TimeoutError) as transport_err:
+                if attempt < max_attempts - 1:
+                    time.sleep(retry_delays[attempt])
+                else:
+                    reason = getattr(transport_err, "reason", str(transport_err))
+                    raise ConnectionError(
+                        f"Failed to connect to Gemini API: {reason}"
+                    ) from transport_err
 
         try:
             parsed_response = json.loads(raw_body)
