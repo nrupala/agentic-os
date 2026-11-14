@@ -40,10 +40,10 @@ def cmd_run(args) -> int:
     workspace = _resolve_workspace(args)
     if args.model:
         thought_provider = create_thought_provider(model=args.model)
-        verifier = create_verifier_provider(model=args.model)
+        verifier = create_verifier_provider(model=args.model, objective=args.objective)
     else:
         thought_provider = create_thought_provider()
-        verifier = create_verifier_provider()
+        verifier = create_verifier_provider(objective=args.objective)
 
     engine = OmegaForgeEngine(
         session_id="cli-run",
