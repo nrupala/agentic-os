@@ -1,0 +1,313 @@
+[
+  {
+    "id": "sec-threat-modeling",
+    "name": "Threat Modeling Architecture Review",
+    "description": "Deconstruct system architecture diagrams and data flows to systematically identify potential attack vectors using STRIDE or similar threat classification frameworks.",
+    "tags": [
+      "threat-modeling",
+      "stride",
+      "architecture",
+      "risk-assessment"
+    ],
+    "instructions": "Begin by decomposing the application into a comprehensive data flow diagram identifying trust boundaries, external entities, process boundaries, and data stores. Apply the STRIDE framework to each interaction across trust boundaries, evaluating Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, and Elevation of Privilege. Document explicit entry points and assets of high value. Rate identified threats using DREAD or CVSS to prioritize remediation based on exploitability and business impact. Validate whether existing design controls sufficiently mitigate each threat or if architectural refactoring is necessary. Beware of assuming internal network boundaries are inherently secure or ignoring zero-trust architectural principles."
+  },
+  {
+    "id": "sec-authentication-design-review",
+    "name": "Authentication Design Review",
+    "description": "Evaluate identity verification mechanisms, credential lifecycle flows, and multi-factor enforcement against enterprise security standards.",
+    "tags": [
+      "authentication",
+      "identity",
+      "mfa",
+      "passwords",
+      "sso"
+    ],
+    "instructions": "Trace all user identity verification pathways including account creation, login, password recovery, credential rotation, and social or federated Single Sign-On integrations. Inspect password storage parameters to enforce modern adaptive hashing algorithms such as Argon2id or bcrypt with appropriate work factors. Check for robust brute-force protection, account lockout thresholds, and credential stuffing mitigations like rate limiting or CAPTCHA integration. Verify that multi-factor authentication (MFA) challenges cannot be bypassed via legacy fallback endpoints or parameter tampering. Ensure reset tokens are cryptographically random, short-lived, single-use, and bound to the requesting account without leaking account existence through user enumeration timing attacks."
+  },
+  {
+    "id": "sec-authorization-design-review",
+    "name": "Authorization Design Review",
+    "description": "Audit access control models, permission evaluation logic, and boundary enforcement to prevent privilege escalation and unauthorized data access.",
+    "tags": [
+      "authorization",
+      "rbac",
+      "abac",
+      "access-control",
+      "privilege-escalation"
+    ],
+    "instructions": "Examine the application access control architecture to verify strict enforcement of the principle of least privilege across Role-Based (RBAC) or Attribute-Based (ABAC) systems. Audit server-side controller and service layer handlers to ensure that every privileged transaction explicitly asserts permission checks rather than relying on UI-level hiding of buttons or client-side validation. Test thoroughly for Broken Object-Level Authorization (BOLA/IDOR) by swapping entity identifiers in request parameters and payloads between distinct tenant contexts. Verify horizontal and vertical access boundaries, ensuring low-privilege roles cannot execute administrative endpoints. Common pitfalls include client-controlled role claims, insecure direct object references, and state transitions that skip intermediate authorization checks."
+  },
+  {
+    "id": "sec-input-validation-review",
+    "name": "Input Validation and Sanitization Review",
+    "description": "Analyze parsing boundaries, schema enforcement, and sanitization routines to prevent injection attacks across untrusted data inputs.",
+    "tags": [
+      "input-validation",
+      "sanitization",
+      "injection",
+      "schema-validation",
+      "xss"
+    ],
+    "instructions": "Inspect all software entry points where external data enters the system, including query parameters, JSON request bodies, headers, and uploaded metadata. Verify that validation uses strict positive allowlisting—enforcing exact data types, lengths, character sets, and numeric ranges—rather than relying on easily bypassable denylists. Inspect code for structured context-aware output encoding to prevent cross-site scripting (XSS), SQL injection, and command injection. Verify that parser configurations disable dangerous features, such as XML External Entity (XXE) resolution and unsafe object deserialization. Avoid the trap of performing validation exclusively on client-side forms or relying on regular expressions that are vulnerable to catastrophic backtracking (ReDoS)."
+  },
+  {
+    "id": "sec-secrets-handling-review",
+    "name": "Secrets Management and Handling Review",
+    "description": "Detect hardcoded credentials and review secret storage, injection, rotation, and lifecycle patterns across source code and deployment manifests.",
+    "tags": [
+      "secrets-management",
+      "credentials",
+      "vault",
+      "api-keys",
+      "ci-cd"
+    ],
+    "instructions": "Audit source code, build scripts, configuration files, container images, and CI/CD pipelines to ensure no API keys, private certificates, or database passwords are hardcoded or committed to version control. Verify that production secrets are injected at runtime through dedicated external secret management systems such as HashiCorp Vault, AWS Secrets Manager, or Kubernetes Secrets with envelope encryption. Inspect application logs, error traces, and debugging endpoints to confirm secrets are masked or excluded during runtime execution. Check that secret rotation procedures are automated and functional without application downtime. A frequent pitfall is exposing secret values through environment variables visible to sub-processes or accidentally baking them into intermediate container layers."
+  },
+  {
+    "id": "sec-dependency-vulnerability-review",
+    "name": "Software Composition and Dependency Vulnerability Review",
+    "description": "Identify vulnerable third-party libraries, assess transitive dependency risks, and review automated software bill-of-materials scanning.",
+    "tags": [
+      "sca",
+      "dependencies",
+      "supply-chain",
+      "cve",
+      "sbom"
+    ],
+    "instructions": "Review project manifests, lockfiles, and container base images to inventory all direct and transitive third-party libraries using Software Composition Analysis (SCA) tooling. Check reported Common Vulnerabilities and Exposures (CVEs) against actual call paths in your application code to distinguish exploitable components from theoretical risks. Verify automated vulnerability scanning in continuous integration pipelines with failing threshold gates for critical and high severity findings. Validate package registry configurations to prevent dependency confusion and namespace squatting attacks by locking internal repository sources. Watch out for pinned, unmaintained libraries, loose version constraints in package declarations, and ignored security audit alerts without formal documented risk acceptance."
+  },
+  {
+    "id": "sec-owasp-top-10-review",
+    "name": "OWASP Top 10 Web Application Vulnerability Review",
+    "description": "Audit web application source code and runtime behaviors against the prevailing OWASP Top 10 critical security risk categories.",
+    "tags": [
+      "owasp",
+      "web-security",
+      "vulnerability-assessment",
+      "appsec"
+    ],
+    "instructions": "Step through the current OWASP Top 10 risk categories, methodically checking the codebase and architecture against each vulnerability class. Validate broken access control, cryptographic failures, injection flaws, insecure design patterns, and security misconfigurations. Review vulnerable and outdated components, identification and authentication failures, software and data integrity failures, security logging shortcomings, and server-side request forgery (SSRF) vulnerabilities. Specifically inspect outbound network clients to guarantee internal metadata services cannot be hit via user-supplied URLs. Ensure that security checks are not treated as isolated checkbox items; correlate multiple lower-severity flaws that could be chained together by an attacker to achieve full remote code execution or data exfiltration."
+  },
+  {
+    "id": "sec-cryptography-usage-review",
+    "name": "Cryptographic Implementation Review",
+    "description": "Assess cipher selection, key derivation functions, random number generation, and protocol configurations to eliminate cryptographic weaknesses.",
+    "tags": [
+      "cryptography",
+      "encryption",
+      "ciphers",
+      "prng",
+      "key-management"
+    ],
+    "instructions": "Inspect source code to confirm the deprecation of legacy or broken cryptographic algorithms, ensuring MD5, SHA-1, DES, and RC4 are replaced by approved standards like AES-256-GCM, ChaCha20-Poly1305, and SHA-256 or SHA-3. Check that initialization vectors, nonces, and salts are generated using cryptographically secure pseudorandom number generators (CSPRNG) rather than standard pseudorandom functions like Math.random. Ensure that AES is used with authenticated encryption modes (GCM or CCM) rather than ECB or plain CBC without MAC. Verify that key material is never hardcoded, keys are of adequate bit length, and key derivation uses PBKDF2, scrypt, or Argon2. Avoid the classic flaw of writing custom cryptographic primitives or rolling custom padding schemes."
+  },
+  {
+    "id": "sec-session-management-review",
+    "name": "Session Lifecycle and Token Management Review",
+    "description": "Audit session token generation, cookie attributes, invalidation workflows, and concurrent session tracking mechanisms.",
+    "tags": [
+      "sessions",
+      "cookies",
+      "jwt",
+      "session-fixation",
+      "csrf"
+    ],
+    "instructions": "Examine how session identifiers and tokens are generated, stored, transmitted, and destroyed throughout the user journey. Confirm that session identifiers possess at least 128 bits of entropy generated from a CSPRNG to prevent predictability. Check that session cookies enforce the Secure, HttpOnly, and appropriate SameSite (Lax or Strict) flags to mitigate cookie theft via cross-site scripting and mitigate cross-site request forgery. If JSON Web Tokens (JWT) are used, verify signature verification is enforced, the 'none' algorithm is explicitly rejected, and expiration ('exp') claims are strictly validated. Ensure robust session invalidation on logout and password changes on both client and server sides. Beware of session fixation vulnerabilities caused by failing to regenerate tokens after authentication."
+  },
+  {
+    "id": "sec-http-security-headers-review",
+    "name": "HTTP Security Headers and Transport Security Review",
+    "description": "Evaluate browser-side security controls and transport layer configurations configured through response headers.",
+    "tags": [
+      "http-headers",
+      "csp",
+      "hsts",
+      "browser-security",
+      "cors"
+    ],
+    "instructions": "Inspect web server, reverse proxy, and application routing configurations to verify the implementation of critical HTTP security response headers. Validate that Content-Security-Policy (CSP) is explicitly defined, restricts script execution to trusted domains, disables 'unsafe-inline' and 'unsafe-eval' where possible, and defines explicit frame-ancestors. Ensure Strict-Transport-Security (HSTS) is present with a long max-age (at least one year), includes subdomains, and supports preload. Verify X-Content-Type-Options is set to 'nosniff' and X-Frame-Options or CSP frame-ancestors prevents clickjacking. Examine Cross-Origin Resource Sharing (CORS) policies to ensure 'Access-Control-Allow-Origin' never dynamically echoes untrusted origins alongside 'Access-Control-Allow-Credentials: true', which could expose sensitive endpoints to third-party web contexts."
+  },
+  {
+    "id": "sec-file-upload-security-review",
+    "name": "File Upload and Processing Security Review",
+    "description": "Review upload handling pathways, file storage architectures, and parser integrations to thwart remote execution and storage exhaustion.",
+    "tags": [
+      "file-upload",
+      "malware",
+      "storage-security",
+      "rce",
+      "mime-type"
+    ],
+    "instructions": "Trace the complete file upload pipeline from multipart request handling to final persistence and distribution. Verify that uploaded filenames are discarded or thoroughly sanitized to prevent path traversal attacks, assigning cryptographically generated UUIDs instead of preserving user-supplied names. Inspect validation logic to ensure file types are determined via magic byte content sniffing and strict allowlists rather than trusting client-provided MIME types or extensions. Verify that uploaded files are stored outside the web root, ideally on isolated object storage systems (such as S3) with private ACLs and no direct execution permissions. Integrate automated malware scanning before processing, and enforce strict file size limits and decompression ratios to neutralize denial-of-service zip bombs."
+  },
+  {
+    "id": "sec-api-security-review",
+    "name": "API Architecture and Endpoint Security Review",
+    "description": "Examine REST, GraphQL, or gRPC endpoints for excessive data exposure, rate limiting, mass assignment, and protocol vulnerabilities.",
+    "tags": [
+      "api-security",
+      "rest",
+      "graphql",
+      "rate-limiting",
+      "mass-assignment"
+    ],
+    "instructions": "Analyze API endpoint definitions and implementations against common architectural vulnerabilities outlined in the OWASP API Security Top 10. Verify that mass assignment is prevented by binding incoming request bodies only to explicit Data Transfer Objects (DTOs) rather than internal domain models. Check that API responses filter out sensitive internal object fields to prevent excessive data exposure, ensuring the client receives only required attributes. Test rate limiting and throttling policies across IP addresses, API tokens, and user accounts to prevent resource exhaustion and brute-force probing. For GraphQL APIs, inspect query complexity analysis, depth limiting, and introspection exposure in production. Avoid exposing unversioned debug endpoints or internal administrative interfaces on public gateways."
+  },
+  {
+    "id": "sec-security-logging-review",
+    "name": "Security Logging and Audit Trail Review",
+    "description": "Assess audit logging completeness, log format consistency, tampering resistance, and the exclusion of sensitive operational data.",
+    "tags": [
+      "logging",
+      "audit-trail",
+      "siem",
+      "monitoring",
+      "compliance"
+    ],
+    "instructions": "Review application logging frameworks to ensure critical security events are recorded with sufficient context for forensic investigation. Verify that authentication successes, failures, authorization denials, privilege changes, administrative operations, and input validation failures generate structured, tamper-resistant log events. Ensure each event records a precise UTC timestamp, correlation identifier, actor identity, client IP address, and operation outcome. Confirm that log messages are strictly sanitized to prevent log injection or log forging via unsanitized carriage return and line feed (CRLF) characters. Thoroughly audit logging statements to prevent recording Personally Identifiable Information (PII), payment card details, session tokens, or cleartext passwords, ensuring compliance with privacy standards and SIEM ingestion requirements."
+  },
+  {
+    "id": "sec-incident-classification",
+    "name": "Security Incident Classification",
+    "description": "Systematically categorize and rate security events to establish appropriate response severity and escalation paths.",
+    "tags": [
+      "incident-response",
+      "triage",
+      "severity-matrix",
+      "threat-management"
+    ],
+    "instructions": "Evaluate incoming alert artifacts, anomalous activity telemetry, and affected asset criticalities immediately upon notification. Match indicators against predefined impact tiers (P1 critical through P4 low) based on confidentiality, integrity, availability loss, and regulatory reporting triggers like GDPR or HIPAA breach rules. Pitfalls to avoid include relying solely on automated vendor severity scores, under-classifying lateral movement in non-production environments that connect to production networks, and failing to engage legal or PR teams early when sensitive data exfiltration is suspected. Always verify blast radius before setting the final severity level."
+  },
+  {
+    "id": "sec-access-control-audit",
+    "name": "Access Control Audit",
+    "description": "Evaluate user entitlements, role memberships, and administrative privileges against least privilege and separation of duties mandates.",
+    "tags": [
+      "iam",
+      "least-privilege",
+      "rbac",
+      "compliance-audit"
+    ],
+    "instructions": "Extract current identity directory dumps alongside active directory groups, cloud IAM role assignments, and application-level privilege tables. Cross-reference active user accounts against human resources termination and role-change logs to identify dormant accounts or privilege creep. Examine segregation of duties conflicts, specifically checking whether single identities hold conflicting rights such as code commit and production deployment capabilities. Pitfalls include overlooking service accounts with legacy wildcards, accepting rubber-stamp manager re-certifications without proof of business justification, and omitting external contractor credentials from the audit scope."
+  },
+  {
+    "id": "sec-data-classification",
+    "name": "Enterprise Data Classification",
+    "description": "Categorize structured and unstructured organizational data based on sensitivity and legal obligations to enforce baseline handling controls.",
+    "tags": [
+      "data-governance",
+      "dlp",
+      "information-protection",
+      "compliance"
+    ],
+    "instructions": "Inventory organizational data repositories across object stores, relational databases, file shares, and SaaS platforms. Map data elements against a four-tier classification schema: Public, Internal, Confidential, and Restricted. Identify regulatory flags such as payment cards (PCI DSS), protected health information (PHI), or customer identifiers (PII). Define explicit handling standards for each tier covering encryption at rest, tokenization, retention limits, and disposal mechanisms. A common pitfall is over-classifying non-sensitive data, causing alert fatigue and high storage costs, or neglecting unstructured repositories like staging buckets and messaging exports where raw extracts often accumulate."
+  },
+  {
+    "id": "sec-privacy-impact-review",
+    "name": "Privacy Impact Review",
+    "description": "Assess personal data handling across system architectures to pinpoint privacy risks and fulfill statutory impact assessment duties.",
+    "tags": [
+      "privacy",
+      "gdpr",
+      "data-protection",
+      "pia-dpia"
+    ],
+    "instructions": "Diagram end-to-end personal data flows starting from initial user capture through processing, third-party transmission, and eventual deletion. Review legal baselines such as consent collection mechanisms, legitimate interest balancing, and user notice clarity under GDPR, CCPA, or regional regulations. Evaluate technical safeguards such as pseudonymization, hashing, and access restrictions against internal privacy policies. Pitfalls include failing to document onward transfers to third-party sub-processors, neglecting data subject rights automation (like right to erasure or data export), and treating the privacy assessment as a retrospective sign-off instead of an iterative design review."
+  },
+  {
+    "id": "sec-secure-code-review",
+    "name": "Secure Code Review",
+    "description": "Inspect application source code and pull requests to eliminate implementation flaws and security vulnerabilities prior to release.",
+    "tags": [
+      "appsec",
+      "sast",
+      "code-audit",
+      "vulnerability-assessment"
+    ],
+    "instructions": "Review modified source code lines alongside surrounding application architecture context, focusing specifically on trust boundaries and untrusted user input handling. Search for OWASP Top Ten vulnerabilities such as SQL injection, server-side request forgery (SSRF), unvalidated redirects, and unsafe object deserialization. Verify that cryptographic implementations rely on modern, vetted libraries rather than custom algorithms, and check that API endpoints enforce strict authorization checks at the object level (BOLA/IDOR). Watch out for blind reliance on automated SAST tooling outputs, missed hardcoded secrets in build scripts, and unhandled edge-case exceptions that leak internal memory structures or stack traces."
+  },
+  {
+    "id": "sec-network-segmentation-review",
+    "name": "Network Segmentation Review",
+    "description": "Validate isolation boundaries between network zones to restrict lateral attacker movement and secure sensitive enclaves.",
+    "tags": [
+      "network-security",
+      "firewalls",
+      "zero-trust",
+      "microsegmentation"
+    ],
+    "instructions": "Inspect router configurations, firewall access control lists (ACLs), cloud security group rules, and software-defined overlay tags across all environments. Confirm that strict isolation barriers exist between corporate workstations, development sandboxes, cardholder or healthcare environments, and core production workloads. Verify default-deny egress and ingress filtering, and ensure stateful inspection or layer 7 proxying is enforced between microsegments. Common pitfalls include allowing broad any-any rules for administrative ease, failing to restrict bidirectional communication between jump hosts and isolated databases, and ignoring dual-homed virtual appliances that inadvertently bridge separated network boundaries."
+  },
+  {
+    "id": "sec-password-policy-design",
+    "name": "Password Policy Design",
+    "description": "Formulate modern credential specifications aligned with regulatory standards and empirical attack resistance recommendations.",
+    "tags": [
+      "authentication",
+      "nist-800-63b",
+      "credential-security",
+      "identity"
+    ],
+    "instructions": "Construct organization-wide credential parameters adopting modern guidance such as NIST SP 800-63B. Mandate a minimum length of 12 to 16 characters while allowing user-friendly passphrases and wide character sets without arbitrary complexity requirements. Incorporate automated checks against known breached credential dictionaries during creation or modification events. Cease arbitrary periodic expiration periods (e.g., 90-day resets) that induce predictable pattern substitutions unless account compromise is proven. Pitfalls include failing to apply identical credential strength rules to legacy service accounts and APIs, allowing truncated inputs in password hashing layers, and neglecting rate limiting or progressive delays on credential validation endpoints."
+  },
+  {
+    "id": "sec-mfa-rollout",
+    "name": "Multi-Factor Authentication Rollout",
+    "description": "Plan and execute the phased deployment of phishing-resistant authentication factors across user populations and administrative access.",
+    "tags": [
+      "mfa",
+      "fido2",
+      "webauthn",
+      "identity-security"
+    ],
+    "instructions": "Outline deployment phases starting with privileged cloud and infrastructure administrators before progressing to general workforce accounts and external contractors. Prioritize phishing-resistant factors such as FIDO2/WebAuthn hardware keys or certificate-based smartcards over legacy SMS and push-notification OTPs vulnerable to SIM swapping or MFA fatigue attacks. Define clear enrollment workflows, emergency break-glass protocols, and secondary identity verification steps for lost authenticator recovery. Pitfalls include leaving legacy protocols (like IMAP, POP3, or Basic Auth) enabled which bypass MFA policies entirely, providing unmonitored exemptions for executive accounts, and omitting help desk authentication validation before issuing credential resets."
+  },
+  {
+    "id": "sec-third-party-risk-review",
+    "name": "Third-Party Risk Review",
+    "description": "Evaluate external vendors and supply chain partners to determine systemic risk posture and contractual security compliance.",
+    "tags": [
+      "vendor-risk",
+      "tprm",
+      "supply-chain",
+      "due-diligence"
+    ],
+    "instructions": "Collect independent assurance reports including SOC 2 Type II audits, ISO 27001 certifications, and penetration test summaries for all prospective vendors handling corporate data. Validate the vendor's actual scope covered in certifications, verifying whether core services or outsourced sub-processors were excluded from audit boundaries. Scrutinize data residency, incident notification timelines (e.g., within 24 to 48 hours), and business continuity guarantees within master service agreements. Pitfalls include treating standard self-attestation questionnaires as sufficient proof of control operation, failing to track fourth-party dependencies, and neglecting recurring annual re-assessments after initial vendor onboarding is completed."
+  },
+  {
+    "id": "sec-security-questionnaire-response",
+    "name": "Security Questionnaire Response",
+    "description": "Complete customer security assessments and compliance inquiries accurately while safeguarding proprietary infrastructure details.",
+    "tags": [
+      "compliance",
+      "vendor-assessment",
+      "sales-enablement",
+      "risk-assessment"
+    ],
+    "instructions": "Review incoming vendor assessment questionnaires (such as SIG, CAIQ, or bespoke RFPs) and synthesize verified responses using internal policy baselines, architectural whitepapers, and existing audit attestations. Ensure that technical capabilities described match real-world production configurations rather than planned roadmap features. Coordinate directly with legal and engineering teams to validate commitments regarding data retention, encryption algorithms, and breach disclosure terms. Avoid hazardous pitfalls such as providing over-detailed internal network diagrams or unredacted vulnerability scanning reports that expose attack surface intelligence, and never sign off on custom compliance guarantees without explicit authorization from compliance leadership."
+  },
+  {
+    "id": "sec-phishing-awareness-training",
+    "name": "Phishing Awareness Training Design",
+    "description": "Develop targeted simulations and educational curricula to enhance workforce detection and reporting of social engineering tactics.",
+    "tags": [
+      "security-awareness",
+      "phishing",
+      "social-engineering",
+      "human-risk"
+    ],
+    "instructions": "Build a progressive training curriculum incorporating real-world threat intelligence scenarios such as spear phishing, credential harvesting pages, QR code redirection (quishing), and executive impersonation. Implement simulated campaigns calibrated in difficulty, pairing immediate point-of-failure micro-learning moments with seamless one-click suspicious email reporting mechanisms in email clients. Measure metrics based on reporting velocity rather than solely on click rates. Key pitfalls include employing punitive HR measures that discourage reporting, creating unrealistically obvious templates that yield false confidence, and failing to provide tailored, high-risk simulations for sensitive cohorts like finance, HR, and IT helpdesk personnel."
+  },
+  {
+    "id": "sec-backup-security-review",
+    "name": "Backup Security Review",
+    "description": "Audit data backup architectures and recovery processes to guarantee resilience against ransomware encryption and catastrophic loss.",
+    "tags": [
+      "disaster-recovery",
+      "ransomware",
+      "data-protection",
+      "immutable-backups"
+    ],
+    "instructions": "Evaluate backup configurations across on-premises storage and cloud platforms, ensuring strict alignment with the 3-2-1 backup strategy. Verify that immutable storage controls (e.g., WORM/object lock) and air-gapped or separated tenant accounts are enforced to prevent ransomware actors from wiping snapshots via compromised administrative credentials. Test encryption key separation so backup decryption keys do not reside on the systems being protected. Pitfalls include never performing full bare-metal restoration drills to validate RTO and RPO benchmarks, storing backup admin credentials within active directory domains that are themselves subject to ransomware takeover, and failing to monitor backup audit logs for unauthorized snapshot deletion events."
+  }
+]

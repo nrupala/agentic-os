@@ -1,0 +1,302 @@
+[
+  {
+    "id": "auto-shell-scripting",
+    "name": "Shell Scripting for Automation",
+    "description": "Develop portable Bash or POSIX shell scripts to orchestrate system-level tasks and command execution.",
+    "tags": [
+      "bash",
+      "shell",
+      "posix",
+      "sysadmin"
+    ],
+    "instructions": "Begin by declaring an explicit shebang such as '#!/usr/bin/env bash' and setting safety flags like 'set -euo pipefail' to halt execution on runtime errors and unbound variables. Define functions for repetitive tasks, ensuring local variable scoping with 'local' to avoid environment pollution. Route logging through stderr using standard prefixes like '[INFO]' and '[ERROR]', accompanied by UTC timestamps. Validate the availability of all external binary dependencies using 'command -v' before executing main task logic. Always quote string variables to prevent dangerous word splitting and glob expansion. Test exit code handling by simulating command failures, and trap signals like EXIT or INT with cleanup functions that delete temporary files."
+  },
+  {
+    "id": "auto-opportunity-identification",
+    "name": "Automation Opportunity Identification",
+    "description": "Evaluate business processes to quantify repetitive manual effort and determine suitability for automation.",
+    "tags": [
+      "process-analysis",
+      "roi",
+      "workflow",
+      "audit"
+    ],
+    "instructions": "Audit daily and weekly operational workflows by tracking team hours spent on manual data transfer, periodic reports, and copy-paste routines. Calculate estimated return on investment by multiplying manual labor hours saved against employee hourly cost, subtracting estimated development and maintenance overhead. Screen candidate tasks using rule-based criteria: high frequency, deterministic decision logic, low exception rates, and structured digital inputs. Interview task owners to discover undocumented edge cases, seasonal volume spikes, and manual workarounds that could break brittle scripts. Prioritize candidate automations using an impact-versus-effort matrix, selecting high-impact, low-complexity tasks as quick wins while rejecting workflows dependent on unstructured subjective judgements."
+  },
+  {
+    "id": "auto-scheduled-job-design",
+    "name": "Scheduled Job Design",
+    "description": "Architect reliable cron and time-based workers with state management and failure recovery mechanisms.",
+    "tags": [
+      "cron",
+      "scheduling",
+      "timers",
+      "reliability"
+    ],
+    "instructions": "Configure execution intervals using standard cron syntax or systemd timers, factoring in server timezone discrepancies by enforcing UTC universally. Implement file-based or distributed flock locking mechanisms at startup to prevent overlapping executions when a job exceeds its allotted window. Write execution telemetry, including runtime duration and processed record counts, to persistent application logs or a central observability collector. Configure dead-man snitches or heartbeat health checks that alert operators if a scheduled window passes without triggering. Gracefully handle server restarts during mid-job processing by storing checkpoints in a persistent database, ensuring interrupted runs resume accurately without producing duplicate transactional records."
+  },
+  {
+    "id": "auto-batch-file-processing",
+    "name": "Batch File Processing",
+    "description": "Implement high-throughput automated file ingestion, validation, transformation, and archiving pipelines.",
+    "tags": [
+      "batch",
+      "file-ingestion",
+      "etl",
+      "data-pipelines"
+    ],
+    "instructions": "Structure dedicated filesystem directories for inbound queues, active processing, terminal completion, and error quarantine. Read arriving files atomically by checking that write locks are released or matching staging extensions before ingestion. Stream input files line-by-line or in fixed memory chunks rather than loading entire multi-gigabyte payloads into application memory at once. Validate schemas, delimiters, and encoding upfront, routing corrupt files immediately to an error directory with an accompanying metadata diagnostic log. Maintain an idempotency ledger recording file checksums to prevent accidental re-processing of previously consumed files. Archive successfully processed inputs into timestamped subdirectories compressed with gzip to conserve local disk storage."
+  },
+  {
+    "id": "auto-text-processing-pipelines",
+    "name": "Text Processing Pipelines",
+    "description": "Construct robust streaming data transformation workflows using standard Unix text-processing utilities.",
+    "tags": [
+      "awk",
+      "sed",
+      "regex",
+      "text-processing"
+    ],
+    "instructions": "Chain standard streams together using Unix pipes, combining tools like sed, awk, cut, and grep to perform fast sequential parsing on unstructured logs. Design regular expressions conservatively, anchoring patterns with caret and dollar characters to avoid catastrophic backtracking and excessive CPU consumption. Normalize heterogeneous delimiters, character encodings, and carriage returns early in the filter stream using tr or dos2unix before field slicing. Use awk associative arrays to aggregate metrics, calculate sums, or filter unique keys across millions of records without requiring external relational databases. Always verify pipeline behavior against edge cases including empty files, malformed headers, embedded delimiters inside quoted strings, and unexpected Unicode symbols."
+  },
+  {
+    "id": "auto-ethical-web-scraping",
+    "name": "Ethical Web Scraping",
+    "description": "Build polite, resilient web extractors that respect remote server boundaries and legal compliance standards.",
+    "tags": [
+      "web-scraping",
+      "http",
+      "crawling",
+      "html-parsing"
+    ],
+    "instructions": "Fetch and parse the target domain's robots.txt file, programmatically respecting Disallow directives and declared crawl delays before requesting content pages. Define an explicit User-Agent header detailing bot identity and contact email so site administrators can reach you regarding problematic traffic. Enforce adaptive rate limiting, randomized request jitter, and exponential backoff retry strategies to prevent service degradation on the target host. Cache fetched raw HTML locally during extractor development to avoid sending redundant network requests while refining parsing selectors. Prefer public, structured REST endpoints or RSS feeds when available over raw HTML scraping, and halt crawling immediately upon receiving HTTP 429 Too Many Requests responses."
+  },
+  {
+    "id": "auto-api-automation",
+    "name": "API Automation Scripting",
+    "description": "Automate multi-step data exchange workflows across web services using authenticated HTTP client scripts.",
+    "tags": [
+      "rest-api",
+      "http-client",
+      "integration",
+      "webhooks"
+    ],
+    "instructions": "Implement secure authentication mechanisms using OAuth2 token refresh workflows or environment-variable API keys rather than embedding raw credentials into codebase scripts. Construct a reusable HTTP client module that standardizes connection timeouts, automatic retries on 5xx server responses, and rate limit header tracking. Handle API pagination dynamically by following response cursors, next-page URLs, or offset-limit parameters until results are exhausted. Serialize and deserialize JSON payloads with strict schema validation to catch unexpected property changes or breaking upstream contract modifications early. In write-heavy automation, include client-generated idempotency keys in request headers to protect remote systems against duplicate resource creation during intermittent network dropouts."
+  },
+  {
+    "id": "auto-spreadsheet-automation",
+    "name": "Spreadsheet Automation",
+    "description": "Programmatically manipulate workbook data, apply formula logic, and format business worksheets without manual editing.",
+    "tags": [
+      "excel",
+      "openpyxl",
+      "spreadsheets",
+      "data-cleanup"
+    ],
+    "instructions": "Leverage headless libraries like openpyxl or pandas to load workbooks without requiring desktop graphical applications installed in server environments. When reading large data sheets, open files in read-only or streaming mode to prevent memory exhaustion caused by rich XML style overhead. Apply cell formatting, date parsing, column number formatting, and formula recalculation explicitly rather than relying on inferred string conversions. Isolate raw data entry sheets from executive summary presentation sheets, keeping automated writes targeted only to designated staging tabs. Save generated artifacts to a temporary file before overwriting target destinations, ensuring write locks or process interruptions never corrupt existing, unbacked spreadsheet files."
+  },
+  {
+    "id": "auto-email-automation-rules",
+    "name": "Email Automation Rules",
+    "description": "Deploy automated email filtering, parsing, and trigger workflows for incoming transactional communications.",
+    "tags": [
+      "email",
+      "imap",
+      "smtp",
+      "workflow-automation"
+    ],
+    "instructions": "Connect to mail servers via TLS-secured IMAP or modern Graph and Gmail APIs using scoped credentials with least-privilege folder access. Filter incoming unread messages using strict match rules including sender addresses, standardized subject prefix patterns, and presence of specific attachments. Parse email bodies using MIME boundary decoders, isolating plain-text variants and discarding vulnerable HTML scripts or tracking pixels before data extraction. Mark processed messages with dedicated flags or move them to archive subfolders immediately to prevent infinite reprocessing loops during script restarts. Ensure outbound automated notification routines include suppressions, unsubscribe headers, and rate throttles to avoid triggering spam filters or generating recursive out-of-office loops."
+  },
+  {
+    "id": "auto-backup-automation",
+    "name": "Backup Automation",
+    "description": "Orchestrate automated snapshotting, encryption, and offsite synchronization of critical system state.",
+    "tags": [
+      "backup",
+      "disaster-recovery",
+      "encryption",
+      "storage"
+    ],
+    "instructions": "Generate point-in-time state dumps using native database utilities, filesystem snapshots, or incremental deduplicated archiving tools like Borg or Restic. Encrypt backup archives with GPG or asymmetric public keys before moving data across networks or writing to remote object storage buckets. Push completed bundles to secondary offsite regions following the 3-2-1 backup rule: three total copies, two distinct media types, one off-site replica. Enforce grandfather-father-son retention pruning to delete expired daily and weekly snapshots automatically, preventing storage capacity overruns. Schedule recurring automated restoration drills in an isolated sandbox environment, programmatically verifying database integrity checks pass rather than merely confirming backup files exist."
+  },
+  {
+    "id": "auto-report-generation",
+    "name": "Report Generation Automation",
+    "description": "Automate the periodic aggregation, visualization, and rendering of operational business metrics into distributable documents.",
+    "tags": [
+      "reporting",
+      "pdf-generation",
+      "data-visualization",
+      "analytics"
+    ],
+    "instructions": "Aggregate summary metrics from analytics databases using parameterized SQL queries that restrict data windows to specific reporting intervals. Feed normalized records into declarative templating engines like Jinja2 to render intermediate HTML markup enriched with responsive CSS layouts and embedded charts. Convert intermediate templates into publication-ready PDFs using headless browser engines or tools like Weasyprint, strictly defining print margins and page breaks. Validate that zero-division errors or null metric values render clean fallbacks such as 'N/A' rather than breaking template rendering logic. Distribute finalized documents via automated webhooks or cloud storage links, archiving historical generated reports alongside corresponding execution metadata for auditability."
+  },
+  {
+    "id": "auto-ci-automation-hooks",
+    "name": "CI Automation Hooks",
+    "description": "Build and optimize continuous integration event hooks that trigger automated testing, linting, and deployment tasks.",
+    "tags": [
+      "ci-cd",
+      "git-hooks",
+      "devops",
+      "automation-pipelines"
+    ],
+    "instructions": "Define workflow triggers bound to specific Git events such as pull request synchronizations, tag pushes, or branch merges while filtering non-functional path changes. Separate pipeline execution into deterministic stages like code linting, unit testing, container build, and deployment, enforcing strict fail-fast policies on earlier steps. Inject sensitive deployment credentials and API tokens strictly through environment secret vaults rather than plaintext repository files. Implement deterministic dependency caching based on lockfile checksums to accelerate runner execution speeds across repeated branch pushes. Validate pipeline configurations locally using command-line runner emulators, and add status check requirements on repository master branches to prevent merging failing pull requests."
+  },
+  {
+    "id": "auto-chatbot-flow-design",
+    "name": "Chatbot Conversation Flow Design",
+    "description": "Design deterministic and stateful interactive conversation trees for automated conversational interfaces.",
+    "tags": [
+      "chatbots",
+      "conversational-ai",
+      "dialogue-tree",
+      "ux-flows"
+    ],
+    "instructions": "Map user interaction paths into finite-state dialogue graphs with clear entry prompts, disambiguation branches, and explicit fallback triggers. Define slot-filling logic that extracts required parameters step-by-step, validating input formats like phone numbers or dates before progressing to downstream actions. Handle out-of-domain queries by offering helpful guidance menus, contextual suggestions, and a clear escalation path to human live-agent handoffs. Store user dialogue context and active entity slots in transient session memory with timeout expiration policies to manage abandoned sessions gracefully. Continually analyze user drop-off nodes and unrecognized user utterance logs to refine intent matching boundaries, eliminate dead-ends, and repair confusing conversational branches."
+  },
+  {
+    "id": "auto-rpa-opportunity-evaluation",
+    "name": "Robotic Process Automation Feasibility Evaluation",
+    "description": "Assess existing business workflows to determine feasibility, stability, and suitability for RPA tooling versus API integration.",
+    "tags": [
+      "rpa",
+      "process-analysis",
+      "feasibility",
+      "workflow"
+    ],
+    "instructions": "Begin by cataloging the candidate process, tracking step-by-step keystrokes, application switches, and decision forks over several representative transactions. Verify whether the underlying systems expose stable REST or database interfaces; if direct APIs exist, eliminate RPA as a preferred path due to maintenance fragility. For legacy or GUI-only software, measure screen stability, selector consistency, and Citrix or remote desktop constraints. Calculate the exception frequency: processes with irregular edge cases exceeding twenty percent rarely sustain positive RPA ROI. Verify credentials and bot identity governance, checking for multi-factor authentication barriers that disrupt unattended execution. Formulate a feasibility score matrix covering volume, system volatility, and structured data availability before greenlighting tool procurement."
+  },
+  {
+    "id": "auto-data-entry-pipeline",
+    "name": "Automated Data Entry Pipeline Construction",
+    "description": "Extract structured and semi-structured input records and populate target business systems reliably without manual re-keying.",
+    "tags": [
+      "data-entry",
+      "etl",
+      "form-filling",
+      "validation"
+    ],
+    "instructions": "Map source attributes from flat files, OCR outputs, or message queues directly to target schemas using strict type casting and canonical data models. Validate records against schema constraints, required fields, and boundary values prior to injection to prevent downstream corruption. Implement transaction batching or idempotency keys to ensure identical records cannot be double-entered during network retry events. Use headless browser drivers or authenticated REST endpoints rather than simulated mouse clicks whenever feasible. Log every rejected record into a dedicated dead-letter store along with the exact field failure reason for human review. Never commit writes without asserting target receipt confirmation, and avoid running concurrent writes on non-thread-safe legacy data stores."
+  },
+  {
+    "id": "auto-infrastructure-monitoring",
+    "name": "Automated System Monitoring Configuration",
+    "description": "Deploy continuous health checks, metric scrapers, and uptime probes across distributed services without manual intervention.",
+    "tags": [
+      "monitoring",
+      "telemetry",
+      "health-checks",
+      "observability"
+    ],
+    "instructions": "Define synthetic health probes that execute end-to-end transactions rather than relying solely on superficial TCP port pings or static HTTP 200 checks. Automate target discovery through cloud provider tags, Kubernetes service annotations, or configuration management templates so newly provisioned instances immediately register for metric scraping. Establish metric baselines for CPU, memory leaks, disk I/O saturation, and network latency over rolling multi-day windows. Configure multi-tiered evaluation thresholds: trigger non-paging warnings on sustained anomalies and restrict urgent pages to service-level objective violations. Beware of alert flapping caused by transient network blips; always enforce minimum duration windows such as five consecutive minutes of degraded state before changing monitor status."
+  },
+  {
+    "id": "auto-incident-notification-dispatch",
+    "name": "Automated Incident Notification Routing",
+    "description": "Deliver contextual alert dispatches to incident responders across communication channels based on severity and on-call schedules.",
+    "tags": [
+      "alerting",
+      "pagerduty",
+      "notifications",
+      "incident-response"
+    ],
+    "instructions": "Ingest incident events from monitoring tools, stripping noise and deduplicating identical alert fingerprints into a single incident thread. Query rotation schedules dynamically from an on-call calendar API to identify the active primary and secondary engineers. Format dispatch payloads with actionable context: include the affected service name, environment, severity, runbook hyperlinks, and live dashboard graphs. Route notifications across graduated channels, attempting chat webhooks first for lower severity issues, and escalating to SMS or automated voice calls when acknowledgment lags past configured thresholds. Avoid alert storms during major outages by enforcing rate limits and aggregate summaries. Always test webhook endpoints with synthetic payloads to prevent silent delivery failures when communication platforms update their API schemas."
+  },
+  {
+    "id": "auto-synthetic-test-data-generation",
+    "name": "Synthetic Test Data Generation Scripting",
+    "description": "Generate privacy-compliant, structurally valid, and relational synthetic datasets for pre-production quality assurance.",
+    "tags": [
+      "test-data",
+      "faker",
+      "qa-scripting",
+      "compliance"
+    ],
+    "instructions": "Inspect target database schemas to extract relational constraints, foreign key hierarchies, unique indexes, and column data types. Write generation scripts utilizing deterministic pseudo-random seeds so failed regression test runs can be reproduced exactly. Substitute all production-derived personally identifiable information with localized synthetic values generated by libraries like Faker, ensuring valid formats for credit cards, tax IDs, and email addresses. Maintain referential integrity by generating parent records prior to dependent child rows, tracking assigned identifiers in memory pools. Avoid uniform distributions when realistic testing requires clustered data: apply power-law or Pareto distributions to simulate real-world customer activity. Validate that generated data passes application validation rules without triggering false positive test failures."
+  },
+  {
+    "id": "auto-dev-environment-bootstrapping",
+    "name": "Development Environment Bootstrap Scripting",
+    "description": "Standardize local developer workstation provisioning using idempotent setup scripts, container runtimes, and dependency managers.",
+    "tags": [
+      "devops",
+      "bootstrap",
+      "dotfiles",
+      "tooling"
+    ],
+    "instructions": "Structure workstation setup scripts using declarative orchestration tools or idempotent shell scripts that verify state prior to modifying system files. Check operating system architecture, install core package managers, and fetch project dependencies pinned to immutable version numbers. Automate local secret provisioning by fetching decrypted development credentials from an enterprise secret vault or prompting securely for template population, never hardcoding keys. Spin up required backing services like databases and caches via container orchestration manifests with healthy volume mounts and pre-seeded seed data. Validate installation integrity by compiling code, running a minimal test suite, and confirming endpoint reachability before declaring setup complete. Prevent destructive overrides by refusing to overwrite modified local dotfiles without explicit user confirmation."
+  },
+  {
+    "id": "auto-log-rotation-management",
+    "name": "System Log Rotation and Retention Automation",
+    "description": "Configure automated log file cycling, compression, and pruning policies to safeguard host storage and support compliance.",
+    "tags": [
+      "logrotate",
+      "sysadmin",
+      "storage",
+      "retention"
+    ],
+    "instructions": "Create configuration blocks within logrotate or daemon managers specifying explicit log paths, rotation intervals, and size-triggered thresholds. Define appropriate copytruncate or postrotate signaling mechanics to inform active daemons, such as sending SIGHUP, without dropping high-throughput in-flight writes. Compress rotated archives using gzip or zstd after a one-cycle delay using delaycompress to ensure active logging handles close cleanly. Implement retention bounds by day count or storage quota, orchestrating automated background sync of aged archives to cloud object storage tiers prior to local deletion. Audit directory permissions so rotated archives inherit secure ownership and restricted read access. A frequent pitfall is wildcards matching previously rotated log files, triggering recursive rotation loops that rapidly deplete inode counts."
+  },
+  {
+    "id": "auto-system-housekeeping-cleanup",
+    "name": "Housekeeping and Ephemeral Resource Cleanup Scripting",
+    "description": "Purge orphaned containers, stale build artifacts, temporary caches, and abandoned cloud resources on schedule.",
+    "tags": [
+      "cleanup",
+      "cron",
+      "disk-management",
+      "garbage-collection"
+    ],
+    "instructions": "Develop scheduled maintenance scripts running via cron or serverless triggers that query storage paths and cloud provider APIs for orphaned assets. Define rigorous age thresholds: remove untagged container images older than fourteen days, temp directory contents unaccessed for forty-eight hours, and stale CI workspace checkouts. Enforce safety dry-run flags that log targeted file paths, sizes, and identifiers before permanent deletion occurs. Use atomic delete operations and graceful termination calls, ensuring locked files or running processes are not corrupted mid-operation. Implement minimum free-space tripwires that alert administrators if automated housekeeping fails to recover adequate disk margins. Never execute reckless recursive deletions with dynamic root variables without first confirming that the target variable is non-null and points within permitted directory bounds."
+  },
+  {
+    "id": "auto-webhook-workflow-orchestration",
+    "name": "Webhook Workflow Ingestion and Routing",
+    "description": "Receive, verify, and orchestrate inbound webhook payloads into asynchronous downstream automation pipelines.",
+    "tags": [
+      "webhooks",
+      "integration",
+      "event-driven",
+      "api"
+    ],
+    "instructions": "Expose an HTTPS endpoint that validates incoming payload integrity using cryptographic HMAC signatures and shared secrets before parsing body content. Return an HTTP 200 or 202 acknowledgment within milliseconds to the provider, offloading payload processing immediately onto an internal task queue or message broker. Parse the event type, validate the payload against a schema, and route tasks to dedicated worker functions based on business rules. Implement replay attack defense by tracking timestamp windows and caching unique event IDs in memory stores like Redis. Handle downstream provider throttling through exponential backoff and jittered retries. Avoid processing long-running business logic synchronously within the HTTP handler, as sender timeouts will cause duplicate webhook deliveries and eventual endpoint suspension."
+  },
+  {
+    "id": "auto-script-documentation-generation",
+    "name": "Automation Runbook and Script Documentation",
+    "description": "Generate comprehensive documentation, usage guides, and architecture runbooks for scripted workflows and automated tasks.",
+    "tags": [
+      "documentation",
+      "runbooks",
+      "markdown",
+      "architecture"
+    ],
+    "instructions": "Extract docstrings, CLI arguments, environment variable requirements, and exit codes directly from source scripts to maintain living documentation alongside code. Detail prerequisites thoroughly, including required interpreter versions, binary dependencies, permission scopes, and network firewall allowances. Document the expected happy-path execution flow alongside common failure states, providing explicit manual remediation steps if the automation crashes midway. Include copy-pasteable execution examples featuring dry-run flags and debug output toggles for troubleshooting. Map all external integrations, upstream data sources, and downstream consumers so engineers understand cascading dependencies during outages. Avoid letting docs grow stale by integrating documentation linting and automated pull-request checks that verify documentation updates whenever script parameters or core logic change."
+  },
+  {
+    "id": "auto-roi-business-case-estimation",
+    "name": "Automation Return on Investment Estimation",
+    "description": "Calculate financial feasibility, labor cost offsets, and long-term maintenance overhead to justify automation engineering investments.",
+    "tags": [
+      "roi",
+      "cost-benefit",
+      "metrics",
+      "financial-modeling"
+    ],
+    "instructions": "Quantify manual baseline effort by calculating time-per-execution multiplied by monthly frequency and burdened employee hourly rates. Calculate initial development capital expenditure by tallying developer hours, testing effort, third-party tooling licenses, and infrastructure provisioning costs. Factor in ongoing operational expenditures: allocate twenty to thirty percent of initial build time annually toward script maintenance, dependency updates, and API breakage fixes. Estimate secondary business benefits, including reduced human error rates, faster SLA fulfillment, and audit compliance cost reductions. Calculate net present value, internal rate of return, and break-even payback timelines across a multi-year horizon. A critical pitfall is assuming one hundred percent automation efficiency; always adjust calculations to account for manual exception handling and operational monitoring overhead."
+  },
+  {
+    "id": "auto-failure-handling-and-resilience",
+    "name": "Automation Resilience and Failure Handling Design",
+    "description": "Implement automated circuit breakers, structured rollbacks, and recovery handlers to manage runtime script exceptions safely.",
+    "tags": [
+      "error-handling",
+      "circuit-breaker",
+      "resilience",
+      "rollback"
+    ],
+    "instructions": "Wrap operational routines in granular try-catch or exception trap blocks that capture specific failure types rather than catching generic root exceptions. Implement circuit breakers that halt automated execution loops when error rates exceed acceptable thresholds, preventing cascading failures across dependent infrastructure. Save state checkpoints prior to executing mutating steps, enabling automated rollback functions to reverse partial changes or resume cleanly from the point of failure. Emit structured error logs containing timestamps, error stack traces, execution context, and recovery suggestions to central observability hubs. Route terminal failures to dead-letter queues while alerting on-call personnel with exact transaction metadata. Beware of unbounded infinite retry loops; always enforce strict retry maximums combined with randomized exponential backoff and jitter."
+  }
+]

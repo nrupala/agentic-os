@@ -1,0 +1,303 @@
+[
+  {
+    "id": "se-requirements-elicitation",
+    "name": "Requirements Elicitation",
+    "description": "Facilitate structured stakeholder discovery sessions to identify and validate functional and non-functional software requirements.",
+    "tags": [
+      "requirements",
+      "analysis",
+      "stakeholders",
+      "specification"
+    ],
+    "instructions": "Start by interviewing key domain stakeholders, end users, and technical teams to capture functional goals and system constraints. Map business workflows using sequence diagrams or flowcharts to expose hidden edge cases and conflicting expectations. Classify identified needs into functional deliverables and non-functional requirements such as latency, throughput, and compliance. Validate every requirement against SMART criteria to ensure testability. Watch out for the pitfall of accepting vague customer requests like 'the system must be fast' without quantifiable acceptance metrics."
+  },
+  {
+    "id": "se-user-story-writing",
+    "name": "User Story Writing",
+    "description": "Translate business requirements into actionable, value-driven user stories accompanied by testable acceptance criteria.",
+    "tags": [
+      "agile",
+      "user-stories",
+      "scrum",
+      "product-management"
+    ],
+    "instructions": "Structure each story using the standard role-feature-benefit template: As a [persona], I want [action], so that [outcome]. Evaluate each draft against INVEST principles, ensuring the story is independent, negotiable, valuable, estimable, small, and testable. Write concrete acceptance criteria using Given-When-Then scenarios to remove ambiguity for developers and QA engineers. Avoid the pitfall of writing implementation-specific technical tasks masquerading as user stories, and split compound stories whenever multiple user paths or distinct deliverables appear."
+  },
+  {
+    "id": "se-rest-api-design",
+    "name": "REST API Design Principles",
+    "description": "Architect predictable, stateless HTTP interfaces conforming to RESTful resource modeling standards.",
+    "tags": [
+      "api",
+      "rest",
+      "http",
+      "backend",
+      "web-services"
+    ],
+    "instructions": "Identify core domain entities and expose them as pluralized noun URIs rather than RPC-style action verbs. Bind standard HTTP methods (GET, POST, PUT, PATCH, DELETE) to their canonical idempotent or safe semantics. Return standard HTTP status codes, pairing 2xx for success, 4xx for client validation failures, and 5xx for upstream faults. Establish consistent envelope patterns for pagination, filtering, and error payloads containing machine-readable error codes. Beware of leaky abstractions that expose internal database schemas directly through public resource representations."
+  },
+  {
+    "id": "se-relational-data-modeling",
+    "name": "Relational Data Modeling",
+    "description": "Design normalized relational schemas that preserve data integrity while optimizing query performance.",
+    "tags": [
+      "database",
+      "sql",
+      "normalization",
+      "schema-design"
+    ],
+    "instructions": "Identify entity relationships (one-to-one, one-to-many, many-to-many) and translate them into normalized tables up to third normal form (3NF) to eliminate data redundancy. Explicitly define primary keys, foreign key constraints, and nullability rules to enforce referential integrity at the engine level. Choose appropriate column data types based on actual storage limits and precision needs. Plan index placement around common join predicates and filter columns, but avoid over-indexing write-heavy tables because every additional index slows down write operations."
+  },
+  {
+    "id": "se-choosing-data-structures",
+    "name": "Choosing Data Structures",
+    "description": "Select optimal memory representations to maximize algorithm throughput and maintain code clarity.",
+    "tags": [
+      "data-structures",
+      "algorithms",
+      "memory",
+      "performance"
+    ],
+    "instructions": "Profile expected workload characteristics, specifically the ratio of lookups, insertions, deletions, and sequential traversals. Prefer hash tables when constant-time key-value retrieval is paramount, dynamic arrays for cache-friendly sequential access, and tree structures or heaps when ordering or priority queues are required. Assess space overhead alongside time complexity, noting pointer overhead in node-based structures versus memory reallocation overhead in contiguous vectors. Do not default to generic maps or lists without measuring memory footprints in high-throughput loops."
+  },
+  {
+    "id": "se-algorithmic-complexity-analysis",
+    "name": "Algorithmic Complexity Analysis",
+    "description": "Evaluate computational efficiency and scalability bottlenecks using asymptotic notation across time and space.",
+    "tags": [
+      "big-o",
+      "complexity",
+      "algorithms",
+      "optimization"
+    ],
+    "instructions": "Deconstruct routines into elementary operations and express worst-case, average-case, and best-case execution bounds using Big-O notation. Account for hidden costs such as string concatenation in loops, recursive stack frame allocation, and underlying collection resizing. Differentiate clearly between auxiliary memory consumption and in-place mutations. Beware of the common trap of ignoring polynomial constants or small input sizes where an O(N log N) algorithm might perform worse in practice than an O(N^2) routine due to cache misses and allocation overhead."
+  },
+  {
+    "id": "se-design-pattern-selection",
+    "name": "Design Pattern Selection",
+    "description": "Apply appropriate object-oriented and functional structural patterns to solve recurring architectural challenges.",
+    "tags": [
+      "design-patterns",
+      "architecture",
+      "oop",
+      "refactoring"
+    ],
+    "instructions": "Analyze the specific architectural pressure point—such as object creation, interface mismatch, or algorithm variation—before reaching for a design pattern. Select creational patterns like Factory or Builder to decouple instantiation, structural patterns like Adapter or Decorator to compose behavior, and behavioral patterns like Strategy or Observer to isolate stateful transitions. Avoid the pitfall of patternitis, which introduces gratuitous abstraction layers before concrete extension requirements exist; always choose the simplest design that satisfies open-closed constraints."
+  },
+  {
+    "id": "se-solid-principles-review",
+    "name": "SOLID Principles Review",
+    "description": "Audit object-oriented designs to ensure low coupling, high cohesion, and long-term maintainability.",
+    "tags": [
+      "solid",
+      "clean-code",
+      "oop",
+      "code-review"
+    ],
+    "instructions": "Inspect each class to verify Single Responsibility by ensuring it has only one reason to change. Check Open-Closed compliance by verifying that new features can be added via polymorphism rather than editing existing logic. Confirm Liskov Substitution by verifying that subtypes honor base contracts without throwing unexpected runtime exceptions. Verify Interface Segregation by splitting fat interfaces into client-specific contracts. Finally, verify Dependency Inversion by ensuring high-level business policies depend on abstractions rather than low-level concrete implementations."
+  },
+  {
+    "id": "se-code-organization-modularity",
+    "name": "Code Organization and Modularity",
+    "description": "Structure codebases into cohesive, loosely coupled packages or modules with clearly defined public boundaries.",
+    "tags": [
+      "architecture",
+      "modularity",
+      "clean-architecture",
+      "packages"
+    ],
+    "instructions": "Organize source files by business capabilities or domain components rather than generic technical layers like controllers and services. Enforce strict visibility boundaries so internal helper classes and state remain hidden behind well-documented public module interfaces. Use dependency inversion and package management tools to prevent circular dependencies between packages. A critical pitfall to avoid is creating God modules or kitchen-sink utility files where miscellaneous routines accumulate; decompose packages when their responsibility footprint expands beyond a single cohesive domain bounded context."
+  },
+  {
+    "id": "se-error-handling-strategy",
+    "name": "Error Handling Strategy",
+    "description": "Formulate resilient exception and error propagation mechanisms that isolate failures and enable graceful recovery.",
+    "tags": [
+      "error-handling",
+      "exceptions",
+      "resilience",
+      "debugging"
+    ],
+    "instructions": "Distinguish operational errors, such as network timeouts and invalid inputs, from programmer bugs like null pointer dereferences. Use typed domain exceptions or explicit Result/Either types rather than raw strings or untyped error maps. Implement centralized boundary handlers to capture unhandled exceptions, sanitize internal stack traces before sending responses to external consumers, and clean up open system resources using deterministic RAII or finally blocks. Avoid swallowing exceptions quietly or catching top-level base exceptions without re-raising or logging actionable context."
+  },
+  {
+    "id": "se-logging-design",
+    "name": "Logging Design",
+    "description": "Instrument applications with structured, contextual telemetry to facilitate efficient debugging and monitoring.",
+    "tags": [
+      "logging",
+      "observability",
+      "telemetry",
+      "devops"
+    ],
+    "instructions": "Emit logs in structured JSON format rather than unstructured plain text to streamline ingestion and querying in centralized log aggregators. Assign appropriate severity levels: DEBUG for diagnostic details, INFO for business lifecycle events, WARN for recoverable anomalies, and ERROR for system failures requiring intervention. Attach correlation IDs or trace contexts to every log statement across distributed requests. Avoid logging sensitive data such as passwords or personal identifiable information (PII), and prevent high-volume log spam inside critical performance paths."
+  },
+  {
+    "id": "se-configuration-management",
+    "name": "Configuration Management",
+    "description": "Decouple application code from environment-specific parameters using externalized configuration practices.",
+    "tags": [
+      "configuration",
+      "devops",
+      "12-factor",
+      "security"
+    ],
+    "instructions": "Externalize all environment-specific variables, database credentials, and external API endpoints into environment variables or dedicated secret stores in accordance with Twelve-Factor App principles. Implement strict startup schema validation using libraries like Zod or Pydantic to ensure missing or malformed configuration fails fast during initialization rather than at runtime. Never commit production credentials, tokens, or encryption keys into source control repositories. Separate dynamic configuration that can reload safely without restarts from immutable build-time constants."
+  },
+  {
+    "id": "se-semantic-versioning",
+    "name": "Semantic Versioning",
+    "description": "Manage release numbering and public API compatibility using standardized SemVer version transitions.",
+    "tags": [
+      "semver",
+      "versioning",
+      "release-management",
+      "git"
+    ],
+    "instructions": "Track releases using the MAJOR.MINOR.PATCH format dictated by SemVer specifications. Increment PATCH for backward-compatible bug fixes, MINOR for backward-compatible new functionality or deprecation notices, and MAJOR whenever public interfaces introduce breaking changes. Maintain an updated changelog documenting breaking changes, migrations, and bug fixes alongside every version bump. A frequent pitfall is releasing breaking contract alterations under minor releases out of convenience; if existing consumers must modify their code to upgrade, a major release increment is mandatory."
+  },
+  {
+    "id": "se-git-branching-strategy",
+    "name": "Git Branching Strategy Design",
+    "description": "Establish an effective Git branching and release workflow tailored to team deployment frequency and stability requirements.",
+    "tags": [
+      "git",
+      "version-control",
+      "ci-cd",
+      "devops"
+    ],
+    "instructions": "Assess your deployment cadence and release risk tolerance to select between GitHub Flow, Gitflow, or trunk-based development. Enforce protected branch rules on main or trunk requiring pull request reviews, passing automated test suites, and linear commit histories via rebase or squash merges. Create short-lived feature branches prefixed with purpose (e.g., feat/, fix/) that merge back within 48 hours to minimize merge conflicts. Avoid long-lived integration branches that diverge from production reality, and establish a clear tag-based hotfix protocol that deploys critical patches directly to production without bundling unverified work-in-progress code."
+  },
+  {
+    "id": "se-code-formatting-standards",
+    "name": "Code Formatting Standardization",
+    "description": "Define and automate consistent source code styling and formatting across heterogeneous development environments.",
+    "tags": [
+      "formatting",
+      "linters",
+      "code-quality",
+      "tooling"
+    ],
+    "instructions": "Select an opinionated, automated formatter appropriate for your language runtime (such as Prettier, Black, or gofmt) rather than debating styling rules in pull request comments. Establish an EditorConfig file to define baseline indents, character encodings, and trailing whitespace across diverse IDEs. Bind formatting checks to local Git pre-commit hooks via tools like Husky or pre-commit, and configure CI pipeline gates that immediately fail unformatted pull requests with non-zero exit codes. Avoid combining formatting refactors with behavioral functional changes in the same commit to ensure git bisect remains reliable and review diffs remain small."
+  },
+  {
+    "id": "se-naming-conventions",
+    "name": "Domain-Driven Naming Conventions",
+    "description": "Establish precise, unambiguous naming patterns that reflect ubiquitous domain language across codebase components.",
+    "tags": [
+      "naming",
+      "clean-code",
+      "refactoring",
+      "domain-driven-design"
+    ],
+    "instructions": "Audit existing codebase identifiers to identify ambiguous abbreviations, type encodings (Hungarian notation), and misleading terminology. Map variables and domain models strictly to nouns representing real-world business entities, reserving verb-first naming patterns for functions and mutation methods. Ensure boolean variables utilize explicit prefix predicates like is, has, or can to declare affirmative states clearly. Avoid generic bucket containers such as 'Manager', 'Helper', or 'Data' that obscure functional boundaries; instead, rename components based on their precise single responsibility, updating accompanying documentation and interfaces consistently across both API schemas and persistence layers."
+  },
+  {
+    "id": "se-commenting-standards",
+    "name": "Codebase Commenting and Inline Documentation",
+    "description": "Standardize inline documentation guidelines to capture architectural rationale and edge-case behavior rather than restating code mechanics.",
+    "tags": [
+      "documentation",
+      "clean-code",
+      "code-review",
+      "maintainability"
+    ],
+    "instructions": "Formulate strict commenting standards that prohibit redundant comments explaining what the code is visibly doing. Mandate 'why' comments that clarify non-obvious business rules, external API constraints, performance workarounds, or regulatory mandates that drove a counter-intuitive implementation. Require public API modules, classes, and exported functions to maintain standard documentation blocks (such as JSDoc or docstrings) specifying parameter types, return values, and thrown exceptions. Audit comments during peer code reviews, immediately flagging outdated comments that conflict with updated logic to prevent drift between implementation reality and narrative guidance."
+  },
+  {
+    "id": "se-technical-debt-triage",
+    "name": "Technical Debt Triage and Prioritization",
+    "description": "Systematically identify, catalog, and prioritize architectural shortcomings against business feature delivery schedules.",
+    "tags": [
+      "tech-debt",
+      "backlog-grooming",
+      "refactoring",
+      "project-management"
+    ],
+    "instructions": "Catalog technical debt tickets into an explicit engineering backlog, scoring each item against developer velocity impact, production defect frequency, and security vulnerability risk. Allocate a dedicated capacity percentage (such as 15-20%) within every sprint iteration specifically for debt remediation rather than deferring cleanup to fictional dedicated refactor sprints. Prioritize hotspots in files undergoing high churn and high complexity rather than rewriting stable, isolated legacy modules that rarely fail. Verify the scope of each refactor with regression integration tests before code modification, preventing scope creep and ensuring architectural debt reduction yields measurable latency or reliability improvements."
+  },
+  {
+    "id": "se-architecture-decision-records",
+    "name": "Architecture Decision Record Authoring",
+    "description": "Document immutable, context-rich architectural decisions to preserve design context and evaluate trade-offs over time.",
+    "tags": [
+      "adr",
+      "architecture",
+      "documentation",
+      "governance"
+    ],
+    "instructions": "Draft an Architecture Decision Record (ADR) whenever introducing significant architectural shifts, new dependencies, or structural patterns. Structure the ADR using standard markdown templates comprising Title, Status (Proposed, Accepted, Superseded), Context, Decision, and Consequences. In the Context section, outline the specific technical drivers and trade-offs of rejected alternatives without bias. In Consequences, explicitly detail negative impacts, added operational complexity, or migration burdens alongside expected benefits. Commit the ADR into a versioned doc repository, circulate it for peer consensus, and mark superseded ADRs with cross-references to newer records rather than deleting historical rationales."
+  },
+  {
+    "id": "se-system-design-breakdown",
+    "name": "System Design Decomposition",
+    "description": "Decompose complex system requirements into modular, scalable, and testable distributed architectural components.",
+    "tags": [
+      "system-design",
+      "architecture",
+      "distributed-systems",
+      "scalability"
+    ],
+    "instructions": "Begin system decomposition by quantifying functional requirements, non-functional latency/throughput targets, and data storage durability constraints. Draw high-level boundaries establishing client ingress, API gateways, core business services, asynchronous message brokers, and persistent storage engines. Calculate anticipated requests per second and storage growth over a 3-year horizon to identify bottleneck choke points early. Define clear boundary contracts using OpenAPI or Protobuf schemas between each isolated component before implementation. Beware of premature optimization and circular synchronous dependencies between downstream services; design fallback paths and bulkhead isolation patterns to contain cascade failures during high-traffic anomalies."
+  },
+  {
+    "id": "se-monolith-vs-microservices-evaluation",
+    "name": "Monolith vs Microservices Architecture Evaluation",
+    "description": "Evaluate organizational scale, operational readiness, and domain boundaries to select between monolithic and distributed topologies.",
+    "tags": [
+      "microservices",
+      "monolith",
+      "architecture",
+      "distributed-systems"
+    ],
+    "instructions": "Assess organizational topology against Conway's Law: evaluate team size, autonomous deployment needs, and operational overhead before adopting microservices. Audit whether the team has mature distributed tracing, automated container orchestration, and centralized logging in place; lacking these, a modular monolith is usually the safer choice. Map domain boundaries using Event Storming to determine if transaction boundaries require distributed consensus (Sagas or 2PC), which introduces massive operational complexity. Check if network latency across distributed hops violates SLA thresholds. Avoid splitting a monolith along arbitrary lines where database schemas remain tightly coupled, which creates a distributed monolith with maximum operational pain."
+  },
+  {
+    "id": "se-caching-strategy-selection",
+    "name": "Caching Strategy and Invalidation Design",
+    "description": "Select and configure distributed caching tiers and invalidation mechanisms while safeguarding data consistency.",
+    "tags": [
+      "caching",
+      "redis",
+      "performance",
+      "system-design"
+    ],
+    "instructions": "Evaluate data read-to-write ratios to determine the appropriate caching pattern: Cache-Aside for general read-heavy workloads, Read-Through/Write-Through for consistent access layers, or Write-Behind for write aggregation. Calculate Redis or Memcached memory requirements based on key size, object serialization payloads, and time-to-live (TTL) expiration strategies. Implement cache key salting and randomized jitter on TTLs to prevent cache stampedes during concurrent cache expiry events. Never design a cache without an explicit cache invalidation strategy triggered by primary data mutations. Monitor hit/miss ratios and memory eviction policies (such as allkeys-lru) to avoid silent performance degradations when memory saturation occurs."
+  },
+  {
+    "id": "se-concurrency-design",
+    "name": "Concurrency and Synchronization Design",
+    "description": "Architect thread-safe workflows and data structures that prevent race conditions, deadlocks, and resource starvation.",
+    "tags": [
+      "concurrency",
+      "multithreading",
+      "thread-safety",
+      "performance"
+    ],
+    "instructions": "Analyze resource contention profiles to choose between optimistic concurrency control (version checks, CAS operations) and pessimistic concurrency control (mutexes, row locks). Minimize lock scope to the smallest critical section possible, ensuring no network I/O or blocking operations are executed while holding exclusive locks. Prevent deadlocks by enforcing a strictly monotonic global acquisition order across all nested locks and utilizing timeouts on acquisition attempts. Favor immutable data structures and message-passing paradigms (actors or channels) over shared mutable state whenever possible. Test concurrent modules using stress-testing tools with artificial thread preemption or sanitizers to surface subtle race conditions before releasing to production."
+  },
+  {
+    "id": "se-idempotency-design",
+    "name": "API and Event Idempotency Implementation",
+    "description": "Design robust mutation APIs and event consumers that safely process duplicate requests without side effects.",
+    "tags": [
+      "idempotency",
+      "api-design",
+      "distributed-systems",
+      "reliability"
+    ],
+    "instructions": "Require client applications to supply a unique Idempotency-Key header for non-safe HTTP mutation methods (POST, PATCH). Intercept inbound requests at an API gateway or application middleware to check for existing keys within a fast persistent datastore like Redis. If a key is currently processing, return a 409 Conflict or 425 Too Early status; if already completed, return the cached original response payload without re-executing business logic. For asynchronous message consumers, record processed message UUIDs within an atomic database transaction alongside state mutations. Beware of indefinite key retention; enforce reasonable key expiration windows (e.g., 24 to 72 hours) while ensuring the expiration duration outlasts client retry schedules."
+  },
+  {
+    "id": "se-feature-flag-management",
+    "name": "Feature Flag Lifecycle and Governance",
+    "description": "Implement dynamic runtime feature toggles and governance policies to enable safe continuous delivery and trunk-based development.",
+    "tags": [
+      "feature-flags",
+      "ci-cd",
+      "devops",
+      "release-management"
+    ],
+    "instructions": "Classify feature flags into explicit categories: release toggles, operational circuit breakers, permission toggles, or experiment variants. Isolate flag evaluation points using dependency injection or strategy patterns rather than sprinkling raw conditional if/else blocks throughout business logic. Store flag configurations in dynamic configuration backends that support sub-millisecond local in-memory evaluation with streaming push updates. Establish strict sunset lifecycles: every release flag must be accompanied by an expiration date and a scheduled cleanup ticket to strip obsolete branch conditions. Monitor fallback code paths continuously to ensure dead feature branches do not accumulate latent defects that crash if a toggle unexpectedly inverts."
+  }
+]

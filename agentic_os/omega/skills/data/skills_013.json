@@ -1,0 +1,302 @@
+[
+  {
+    "id": "refactor-code-smell-identification",
+    "name": "Code Smell Identification",
+    "description": "Detect anti-patterns and structural liabilities in source code before attempting behavioral transformations.",
+    "tags": [
+      "code-smells",
+      "analysis",
+      "code-quality",
+      "maintainability"
+    ],
+    "instructions": "Scan the codebase systematically for structural symptoms such as Long Method, Feature Envy, Primitive Obsession, Data Clumps, and Divergent Change. Begin by running static analysis tools like SonarQube or ESLint to flag high cyclomatic complexity and large file boundaries. Next, manually inspect modules with frequent git churn to locate spots where multiple responsibilities collide. Document each detected smell along with its exact line numbers, the affected architectural boundaries, and its severity. Beware of false positives where performance-critical tight loops intentionally trade clean abstraction for raw execution speed. Always correlate smell density with historical defect rates before prioritizing cleanup targets."
+  },
+  {
+    "id": "refactor-extract-function",
+    "name": "Extract Function Refactoring",
+    "description": "Isolate coherent sub-routines into self-contained helper functions to improve readability and testability.",
+    "tags": [
+      "extract-function",
+      "modularity",
+      "clean-code",
+      "functions"
+    ],
+    "instructions": "Identify a cohesive block of code within a routine that can be grouped under a single explanatory name. Check local variable scope: catalog all variables read by the block and any variable mutated inside it. If more than one variable is mutated, split the block further or group return values into a structured object before extracting. Use IDE automated refactoring tools where possible to avoid transcription errors. Verify that the newly extracted function has no unintended side effects on outer scopes, pass parameters explicitly rather than relying on closures, and immediately run unit test suites to confirm identical runtime behavior."
+  },
+  {
+    "id": "refactor-extract-class",
+    "name": "Extract Class Refactoring",
+    "description": "Split a bloated class by moving a cohesive subset of fields and methods into a dedicated collaborator class.",
+    "tags": [
+      "extract-class",
+      "oop",
+      "single-responsibility",
+      "encapsulation"
+    ],
+    "instructions": "Find a subset of fields and methods inside an existing class that frequently interact with one another or represent a distinct domain concept. Create a new class definition and instantiate it inside the original class as a member field. Move the identified methods and fields one by one to the new class, updating call sites in the old class to delegate calls to the new instance. Keep the original class interface intact initially to avoid breaking downstream consumers. Check for bi-directional dependencies between the old and new classes; if they require tight mutual references, extract an interface or reconsider the partition boundaries before deploying."
+  },
+  {
+    "id": "refactor-safe-renaming",
+    "name": "Safe Renaming",
+    "description": "Rename symbols, variables, and APIs across a codebase without causing runtime regressions or breaking consumer contracts.",
+    "tags": [
+      "renaming",
+      "identifiers",
+      "readability",
+      "ide-tooling"
+    ],
+    "instructions": "Select the target symbol and determine whether it belongs to private internal scope or a public external contract. For internal symbols, rely on semantic Language Server Protocol (LSP) rename actions rather than blind textual search-and-replace to prevent modifying unrelated homonyms. For public APIs, implement a phased deprecation lifecycle: introduce the new name, forward calls from the old symbol to the new implementation, mark the old symbol with explicit compiler deprecation warnings, and update documentation. Run the full compilation pipeline, integration test suites, and dynamic reflection checks to ensure no string-based configuration files or serialization schemas reference the retired identifier."
+  },
+  {
+    "id": "refactor-characterization-tests",
+    "name": "Characterization Tests for Legacy Code",
+    "description": "Harness untested legacy code by capturing existing observable behaviors through baseline regression suites.",
+    "tags": [
+      "testing",
+      "legacy-code",
+      "golden-master",
+      "characterization"
+    ],
+    "instructions": "Identify the system boundaries and inputs for the legacy component you must refactor. Write an initial test invoking the target routine with typical inputs and assert an arbitrary or deliberately failing output. Execute the test runner and observe the actual output produced by the system under test. Copy that actual output directly into the test assertion to freeze the existing behavior as a baseline golden master, regardless of whether that behavior seems bug-free. Generate automated parameterized variations across edge cases, boundary values, and error conditions. Do not attempt any code refactoring until this test harness consistently passes and reliably catches deliberate manual mutations."
+  },
+  {
+    "id": "refactor-strangler-fig",
+    "name": "Strangler Fig Migration",
+    "description": "Gradually replace legacy monolithic subsystems by intercepting traffic and routing it incrementally to modern replacements.",
+    "tags": [
+      "strangler-fig",
+      "migration",
+      "architecture",
+      "monolith-to-microservices"
+    ],
+    "instructions": "Place an API gateway, proxy layer, or internal dispatch router directly in front of the existing legacy service. Implement the first new feature or migrated slice in a modern standalone codebase alongside the legacy system. Configure the routing layer to divert traffic for that specific endpoint or capability away from the legacy system and toward the new implementation while leaving untouched endpoints routing to the monolith. Use canary deployments or feature flags to shift traffic gradually, monitoring latency, error rates, and state parity between both paths. Once the new service is validated under production volume, decommission the corresponding obsolete code path in the legacy core."
+  },
+  {
+    "id": "refactor-dependency-inversion",
+    "name": "Dependency Inversion Cleanup",
+    "description": "Decouple high-level orchestration logic from low-level infrastructure details using interfaces and dependency injection.",
+    "tags": [
+      "solid",
+      "dependency-inversion",
+      "architecture",
+      "decoupling"
+    ],
+    "instructions": "Inspect high-level business services that directly instantiate concrete low-level infrastructure objects such as database clients, disk writers, or third-party HTTP adapters. Formulate an interface or abstract contract representing the operations the business logic actually needs, placing this abstraction inside the domain package. Refactor the concrete infrastructure class to implement this new interface. Modify the high-level class constructor to accept the interface via dependency injection rather than constructing instances internally with new operators. Wire the dependencies at the composition root of the application. Beware of leaking vendor-specific data types, headers, or SQL exceptions across the abstraction boundary."
+  },
+  {
+    "id": "refactor-dead-code-removal",
+    "name": "Dead Code Removal",
+    "description": "Identify and safely delete unreferenced functions, obsolete configuration switches, and unreachable execution branches.",
+    "tags": [
+      "dead-code",
+      "cleanup",
+      "hygiene",
+      "static-analysis"
+    ],
+    "instructions": "Run coverage profilers during end-to-end test execution and combine findings with static tree-shaking and dead code detection tools like ts-prune or Knip. Verify that apparent zero-reference functions are not dynamically invoked via reflection, runtime dependency injection containers, string-based route dispatches, or external plugin APIs. Delete candidate code completely along with its obsolete unit tests rather than commenting it out, relying on version control history for retrieval if needed. Rebuild the system, execute comprehensive regression test suites, and audit production log aggregators during subsequent rollouts to catch hidden runtime dynamic dependencies before closing the change ticket."
+  },
+  {
+    "id": "refactor-conditional-simplification",
+    "name": "Conditional Simplification",
+    "description": "Untangle deeply nested conditional branches using guard clauses, polymorphism, or lookup tables.",
+    "tags": [
+      "conditionals",
+      "clean-code",
+      "control-flow",
+      "refactoring"
+    ],
+    "instructions": "Audit routines containing nested if-else statements, complex boolean logic, or sprawling switch constructs. Flatten nested structures by converting preconditions and early error checks into immediate return guard clauses at the top of the function. For complex boolean expressions, extract intermediate variables with descriptive names or create dedicated predicate helper functions. Where switch statements branch on entity type codes, replace the switch with polymorphic subclass methods or a dictionary mapping keys directly to callable strategy handlers. Beware of subtle evaluation order dependencies and short-circuit boolean side effects when inverting conditions, and always write unit tests for each branch combination before altering flow."
+  },
+  {
+    "id": "refactor-long-function-decomposition",
+    "name": "Long Function Decomposition",
+    "description": "Systematically break down sprawling procedural functions into composed pipelines of small, focused units.",
+    "tags": [
+      "decomposition",
+      "composability",
+      "functions",
+      "readability"
+    ],
+    "instructions": "Read through the lengthy function and segment it into distinct phases: argument validation, data retrieval, core transformation, and persistence or presentation. Group lines within each phase, checking for intermediate variables passed downstream. Extract each logical segment into a discrete helper function operating at a consistent level of abstraction, transforming the original function into a clean orchestrator resembling a high-level table of contents. Avoid passing excessive state by introducing a context parameter object if multiple helpers require identical inputs. Check that error handling and rollback semantics remain intact across split boundaries, and run end-to-end tests to guarantee execution invariants hold."
+  },
+  {
+    "id": "refactor-god-class-decomposition",
+    "name": "God Class Decomposition",
+    "description": "Dismantle monolithic classes that control excessive domain knowledge and dependencies into cohesive collaborative services.",
+    "tags": [
+      "god-class",
+      "single-responsibility",
+      "domain-design",
+      "architecture"
+    ],
+    "instructions": "Map every field and method of the god class to identify distinct clusters of cohesion using an affinity matrix or dependency graph. Group related capabilities into bounded domains such as user identity, billing, audit logging, and notification delivery. Create dedicated target classes for each discovered domain responsibility. Migrate one capability at a time: extract methods, redirect call sites to the new collaborator, and turn the original god class into a thin facade forwarding requests. Beware of hidden circular dependencies where new services call back into the god class; break cycles using events or observer callbacks. Continue until the facade can be safely obsoleted."
+  },
+  {
+    "id": "refactor-duplication-removal",
+    "name": "Duplication Removal",
+    "description": "Consolidate copy-pasted logic across components while guarding against premature or inaccurate abstractions.",
+    "tags": [
+      "dry",
+      "duplication",
+      "abstraction",
+      "code-reuse"
+    ],
+    "instructions": "Locate duplicate or near-duplicate code fragments across multiple files using static clone-detection tools or code review audits. Compare the candidate fragments side-by-side to evaluate whether they represent true domain duplication sharing a unified reason to change, or merely incidental structural coincidence that will diverge over time. If the duplication is genuine, parameterize the differing portions and pull the common core into a shared library, utility function, or base template. Verify that the new shared abstraction does not introduce fragile conditional flags to accommodate minor edge cases across call sites. Re-run test suites across all consuming modules."
+  },
+  {
+    "id": "refactor-gradual-design-pattern-introduction",
+    "name": "Gradual Design Pattern Introduction",
+    "description": "Evolve procedural or ad-hoc structures into established architectural design patterns through safe, incremental stages.",
+    "tags": [
+      "design-patterns",
+      "architecture",
+      "evolutionary-design",
+      "incremental"
+    ],
+    "instructions": "Choose the target design pattern—such as Strategy, Observer, or Factory—only when emergent complexity and multiple concrete changes justify formal structure over simple functions. Begin incrementally without rewiring the existing runtime all at once: introduce the pattern interface first alongside current code. Implement one concrete variant implementing the interface and plug it into the legacy workflow through an adapter or conditional wrapper. Progressively migrate remaining branches or concrete subclasses to the new pattern contract one release at a time. Guard against over-engineering by verifying the pattern directly reduces cyclomatic complexity, improves unit test isolation, and eliminates shotgun surgery across upcoming feature changes."
+  },
+  {
+    "id": "refactor-public-api-cleanup",
+    "name": "Public API Cleanup",
+    "description": "Streamlines external method signatures, deprecates legacy endpoints, and establishes cohesive parameter models without breaking consumer contracts.",
+    "tags": [
+      "api-design",
+      "backwards-compatibility",
+      "interface-cleanup",
+      "semver"
+    ],
+    "instructions": "Identify overloaded or leaky signatures across exported interfaces. Introduce parameter objects for calls with four or more positional arguments. Mark obsolete methods with explicit deprecation annotations pointing directly to their replacements and documenting sunset milestones. Create adapter layers that translate old parameter shapes into new structures internally before modifying core logic. Validate backwards compatibility across existing SDK consumers using automated contract tests. Avoid abruptly altering default argument behaviors or mutation semantics in public structures without major version increments."
+  },
+  {
+    "id": "refactor-database-schema-evolution",
+    "name": "Database Refactoring and Schema Evolution",
+    "description": "Evolves relational schema structures and persistence logic safely using non-breaking transition phases.",
+    "tags": [
+      "database",
+      "schema-migration",
+      "sql",
+      "data-integrity"
+    ],
+    "instructions": "Apply the expand-contract pattern when altering existing table schemas or column definitions. First, add new columns alongside legacy structures with non-null defaults omitted until data backfilling finishes. Update write operations to write dual records or synchronized values to both fields via application triggers or service hooks. Backfill historical records in controlled batches during low-traffic windows while monitoring lock contention. Switch read paths to consume only the newly populated fields once verification queries match parity. Finally, drop the obsolete columns and purge temporary trigger logic in a dedicated subsequent release."
+  },
+  {
+    "id": "refactor-test-suite-hygiene",
+    "name": "Test Code Refactoring",
+    "description": "Improves maintainability, speed, and readability of automated test suites by eliminating duplication and brittle assertions.",
+    "tags": [
+      "testing",
+      "test-architecture",
+      "mocking",
+      "test-maintainability"
+    ],
+    "instructions": "Inspect test suites for obscure setup blocks and brittle assertions that verify implementation details rather than observable behavior. Replace repetitive object instantiation loops with domain-driven test data builders or factory fixtures. Consolidate flaky assertions by substituting arbitrary sleeps with condition-based awaiting mechanisms. Remove shared mutable state between test suites by isolating in-memory database instances or injecting fresh dependency containers per test execution. Beware of over-mocking collaborators where lightweight fake implementations provide more realistic fidelity; verify that tests fail meaningfully when business invariants are intentionally broken."
+  },
+  {
+    "id": "refactor-performance-optimization",
+    "name": "Performance Refactoring",
+    "description": "Eliminates computational bottlenecks, redundant allocations, and algorithmic inefficiencies backed by profiling benchmarks.",
+    "tags": [
+      "performance",
+      "profiling",
+      "caching",
+      "algorithmic-efficiency"
+    ],
+    "instructions": "Establish baseline latency and memory allocation metrics using dedicated profilers before altering production code paths. Identify hot loops, repeated memory allocations, and N+1 query patterns traversing network or disk boundaries. Restructure inefficient loops to utilize early returns, vectorized operations, or pre-sized collections to minimize garbage collector pressure. Introduce memoization or caching layers only when calculation inputs are provably idempotent and memory overhead is bounded. Re-run benchmark suites under identical load characteristics to confirm demonstrable throughput gains, and avoid speculative micro-optimizations that obscure readability without measurable impact."
+  },
+  {
+    "id": "refactor-incremental-planning-strangler",
+    "name": "Incremental Refactoring Planning",
+    "description": "Deconstructs large architectural overhauls into small, independently deployable, and low-risk engineering increments.",
+    "tags": [
+      "strangler-pattern",
+      "architecture",
+      "risk-reduction",
+      "planning"
+    ],
+    "instructions": "Map legacy system dependencies to pinpoint clean seams where target functionality can be isolated. Formulate a sequence of micro-deliverables where each step leaves the application in a fully deployable, working state. Utilize branch-by-abstraction or strangler fig patterns by introducing routing delegates that switch between legacy and refactored code paths via dynamic feature toggles. Define explicit rollback triggers, traffic-shifting criteria, and sunset metrics for every increment. Resist the urge to rewrite entire modules in long-lived feature branches, as delayed integration causes severe merge conflicts and obscures defect origin."
+  },
+  {
+    "id": "refactor-untested-legacy-pinning",
+    "name": "Refactoring Without Test Coverage",
+    "description": "Safely alters legacy codebases lacking automated tests by establishing characterization tests and defensive harnesses first.",
+    "tags": [
+      "legacy-code",
+      "characterization-testing",
+      "risk-mitigation",
+      "black-box"
+    ],
+    "instructions": "Treat untested code as a black box and author characterization tests before editing any implementation files. Feed varied boundary inputs into the target component and capture the actual observed outputs to document current behavior, quirks and bugs included. Identify minimal intervention points to inject mocks or capture side effects without changing structural execution flow. Keep early refactorings strictly mechanical, relying heavily on reliable IDE-automated extractions like rename, extract variable, and extract method. Avoid fixing pre-existing bugs during the initial stabilization pass, because conflating bug fixes with refactoring invalidates golden-master approval tests."
+  },
+  {
+    "id": "refactor-pr-review-guidelines",
+    "name": "Refactoring Pull Request Review",
+    "description": "Evaluates pure structural transformations during code review to ensure zero behavioral regression and scoped changes.",
+    "tags": [
+      "code-review",
+      "pull-requests",
+      "code-quality",
+      "review-practices"
+    ],
+    "instructions": "Verify that the pull request contains zero functional behavior changes or hidden bug fixes disguised within structural modifications. Review git diffs by inspecting extracted modules alongside their previous inline locations to confirm identical logic flow and branch coverage. Check that commit histories separate mechanical syntax adjustments, like automated formatting or renaming passes, from logical abstractions. Confirm that all automated test suites pass without requiring changes to expected output values in existing regression suites. Reject pull requests that balloon across unrelated subsystems; demand smaller, logically segregated patches that ease cognitive load for reviewers."
+  },
+  {
+    "id": "refactor-naming-improvement-pass",
+    "name": "Naming Improvement Pass",
+    "description": "Enhances codebase readability by aligning variable, function, and class identifiers with ubiquitous domain language.",
+    "tags": [
+      "naming-conventions",
+      "clean-code",
+      "domain-driven-design",
+      "readability"
+    ],
+    "instructions": "Audit target scopes for ambiguous acronyms, single-letter variables, and generic suffixes such as Data, Manager, or Helper. Align naming conventions with ubiquitous domain terminology shared between engineering and product stakeholders. Rename boolean flags to reflect interrogative states like isActive or hasPermission, avoiding double-negative predicates that confuse conditional branches. Ensure function names start with clear imperative verbs describing their precise operation, distinguishing clearly between pure accessors and side-effecting commands. Update all references using language-server refactoring tools rather than blanket search-and-replace to prevent accidental renaming of unrelated properties in adjacent scopes."
+  },
+  {
+    "id": "refactor-module-boundary-cleanup",
+    "name": "Module Boundary Cleanup",
+    "description": "Untangles cyclic dependencies and tight coupling by enforcing strict visibility controls and interface abstractions.",
+    "tags": [
+      "modularity",
+      "dependency-inversion",
+      "coupling",
+      "architecture"
+    ],
+    "instructions": "Generate dependency graphs to detect cyclic relationships, hidden cross-package coupling, and leaky internal structures. Define explicit public entrypoints for each package or namespace, marking supporting helper classes as private or internal. Decouple high-level policies from low-level details by applying the Dependency Inversion Principle, introducing lightweight interfaces at consumer boundaries. Extract shared domain data transfer objects into separate foundational packages if multiple higher-level modules require mutual exchange. Prevent packages from depending on concrete implementations of siblings, verifying boundaries with architectural linting rules to avert regression into spaghetti architectures."
+  },
+  {
+    "id": "refactor-error-handling-hygiene",
+    "name": "Error Handling Refactoring",
+    "description": "Standardizes disparate exception hierarchies, eliminates swallowed errors, and introduces robust domain error models.",
+    "tags": [
+      "error-handling",
+      "exceptions",
+      "resilience",
+      "domain-errors"
+    ],
+    "instructions": "Scan the codebase for anti-patterns such as catch-all blocks that swallow exceptions or return ambiguous null primitives. Replace scattered raw runtime exceptions with typed domain error hierarchies or functional Result and Either types that make failure modes explicit in signatures. Preserve root-cause stack traces by passing original exceptions into new custom error wrappers. Centralize unexpected infrastructural error mapping at peripheral layers, preventing internal database or transport exceptions from bleeding through domain boundaries. Ensure all cleanup routines, transaction rollbacks, and released resources are enclosed in deterministic finally blocks or context managers."
+  },
+  {
+    "id": "refactor-configuration-extraction",
+    "name": "Configuration Extraction Refactoring",
+    "description": "Removes hardcoded literals, secrets, and environment-specific values into structured, validated configuration schemas.",
+    "tags": [
+      "configuration",
+      "12-factor-app",
+      "secrets-management",
+      "environment-variables"
+    ],
+    "instructions": "Locate embedded magic numbers, hardcoded URLs, static timeouts, and sensitive credentials scattered across business logic components. Extract these values into strongly typed configuration models that validate constraints, types, and required presence at application startup. Implement dependency injection to supply configuration objects to consuming services rather than querying raw environment variables directly within nested functions. Provide sane, deterministic defaults for non-sensitive local development settings while strictly prohibiting hardcoded fallbacks for production secrets. Verify that changing environment configuration does not require code recompilation or rebuilds, fulfilling modern twelve-factor software delivery principles."
+  },
+  {
+    "id": "refactor-safe-execution-checklist",
+    "name": "Safe Refactoring Checklist",
+    "description": "Executes systematic verification gates and safety checks before, during, and after structural code alterations.",
+    "tags": [
+      "verification",
+      "safety-checks",
+      "best-practices",
+      "code-hygiene"
+    ],
+    "instructions": "Confirm a clean version control working tree and green test suite before touching any line of source code. Keep refactoring transformations separated strictly from functional feature development or bug resolution commits. Execute the entire test suite frequently after each micro-step, reverting instantly to the last known green commit whenever unexpected failures appear. Run static analysis, linting, and type checkers to catch unintended type coercions or broken references before committing changes. Finally, observe staging telemetry and health metrics following deployment to verify that CPU utilization, latency percentiles, and error budgets stay unaffected by the structural adjustments."
+  }
+]

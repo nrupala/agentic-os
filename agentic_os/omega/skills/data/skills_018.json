@@ -1,0 +1,302 @@
+[
+  {
+    "id": "math-mental-math-estimation",
+    "name": "Mental Math Estimation",
+    "description": "Quickly approximate arithmetic operations by rounding to significant figures, clustering values, and compensating for directional rounding error.",
+    "tags": [
+      "arithmetic",
+      "estimation",
+      "mental-math",
+      "numeracy"
+    ],
+    "instructions": "Round multi-digit operands to one or two leading significant figures to reduce cognitive load while preserving magnitude. When multiplying or dividing, round factors in opposing directions (one up, one down) to counterbalance estimation drift. Break complex multiplications into distributive chunks using friendly anchor numbers such as 10, 50, or 100. Always check the final magnitude against upper and lower bounds to catch misplaced decimals, and track whether your net rounding biased the final estimate high or low."
+  },
+  {
+    "id": "math-percentage-and-ratio-solving",
+    "name": "Percentage and Ratio Problem Solving",
+    "description": "Deconstruct multi-step proportional relationships, percentage changes, and base-rate shifts to solve business and quantitative comparison problems.",
+    "tags": [
+      "percentages",
+      "ratios",
+      "proportions",
+      "algebra"
+    ],
+    "instructions": "Identify whether the stated change applies to the original baseline, a subsequent intermediate quantity, or a total mixture. Convert all percentages into decimal multipliers or reduced rational fractions before performing arithmetic. For sequential percentage shifts, multiply the successive decay or growth factors rather than naively summing the percentage values. Set up proportional equations cross-multiplying ratios only after confirming unit alignment across numerators and denominators. Always verify whether the question asks for the absolute change, the relative percentage change, or the final absolute value."
+  },
+  {
+    "id": "math-basic-probability-calculation",
+    "name": "Basic Probability Calculation",
+    "description": "Determine theoretical and empirical event probabilities using sample space enumeration, complement rules, and independence criteria.",
+    "tags": [
+      "probability",
+      "sample-space",
+      "combinatorics",
+      "risk"
+    ],
+    "instructions": "Explicitly define the sample space and verify whether all individual outcomes are strictly mutually exclusive and equally likely. Determine whether compound events require addition for disjoint events or multiplication for independent sequential events. Use the complement rule, 1 minus P(not A), whenever calculating at least one conditions to bypass tedious multi-branch calculations. Beware the common pitfall of assuming statistical independence across repeated trials without verifying replacement or underlying causal mechanisms, and ensure all output probabilities reside strictly between zero and one inclusive."
+  },
+  {
+    "id": "math-combinatorics-basics",
+    "name": "Combinatorics Basics",
+    "description": "Count discrete configurations using the fundamental counting principle, permutations with or without repetition, and combinations.",
+    "tags": [
+      "counting",
+      "permutations",
+      "combinations",
+      "discrete-math"
+    ],
+    "instructions": "Determine upfront whether the order of selection matters to decide between permutations and combinations. Assess whether repeated item selection is permissible or whether choices are drawn without replacement from a diminishing pool. Apply the multiplication principle across sequential independent decision stages, and apply the addition rule across non-overlapping alternative scenarios. Watch out for double-counting symmetric configurations, dividing out factorials for indistinguishable identical items. Sanity check results on edge cases with small sample parameters where brute-force listing of outcomes remains manually feasible."
+  },
+  {
+    "id": "math-statistical-reasoning",
+    "name": "Statistical Reasoning",
+    "description": "Interpret distributions, measures of central tendency, spread, and sampling variance while avoiding common cognitive biases in aggregated data.",
+    "tags": [
+      "statistics",
+      "data-analysis",
+      "distributions",
+      "inference"
+    ],
+    "instructions": "Examine the shape of the data distribution before choosing summary metrics, favoring median and interquartile range over mean and standard deviation in skewed or heavy-tailed contexts. Differentiate between correlation and genuine causal mechanisms by evaluating potential lurking variables, reverse causality, and selection bias. Verify whether sample sizes are adequate to justify reported effect sizes or margin of error bounds. Beware of Simpson's paradox by disaggregating pooled cohorts into relevant subgroups, and never conflate the absence of statistical significance with proof of an absent effect."
+  },
+  {
+    "id": "math-critical-chart-reading",
+    "name": "Critical Chart Reading",
+    "description": "Interrogate visual data representations for distorted axes, deceptive baselines, misleading scales, and missing contextual benchmarks.",
+    "tags": [
+      "data-visualization",
+      "chart-analysis",
+      "critical-thinking",
+      "media-literacy"
+    ],
+    "instructions": "Inspect the vertical and horizontal axes immediately, verifying whether numerical scales start at zero or truncate to artificially exaggerate minute fluctuations. Check whether axes use logarithmic intervals, dual y-axes with mismatched scales, or inconsistent bin widths that skew relative area comparisons. Cross-reference visual element sizes against actual printed data values to detect geometric distortion, especially in three-dimensional pie charts or bubble plots. Always seek out omitted time spans, cherry-picked baseline dates, and ambiguous aggregate categories that mask underlying trend reversals."
+  },
+  {
+    "id": "math-unit-conversion",
+    "name": "Unit Conversion",
+    "description": "Convert compound measurements across metric, imperial, and domain-specific systems using dimensional analysis and conversion factors.",
+    "tags": [
+      "dimensional-analysis",
+      "measurements",
+      "physics",
+      "units"
+    ],
+    "instructions": "Write down the starting value along with its complete compound units as an explicit algebraic fraction. Chain unit conversion ratios sequentially so that unwanted units cancel out algebraically across numerator and denominator pairings. When converting derived units involving area or volume, raise the linear conversion factor to the corresponding power (for example, squaring for square meters or cubing for cubic centimeters). Confirm that the final unit dimension matches the target quantity's physical dimension before computing the arithmetic, preventing inverted scale factors."
+  },
+  {
+    "id": "math-financial-mathematics-basics",
+    "name": "Financial Mathematics Basics",
+    "description": "Evaluate cash flows, simple interest, discounted cash flows, and net present value across commercial and personal finance contexts.",
+    "tags": [
+      "finance",
+      "discounting",
+      "cash-flow",
+      "interest"
+    ],
+    "instructions": "Map out all cash inflows and outflows along an explicit chronological timeline, noting discrete payment dates and directions of capital flow. Apply the appropriate discount rate to convert future cash disbursements into present value equivalents before performing cross-period comparisons. Distinguish strictly between nominal annual rates and effective borrowing costs that incorporate compounding frequency and upfront loan origination fees. Watch for the pitfall of ignoring inflation or taxation impacts on real purchasing power, and confirm whether cash flows occur at the start (annuity due) or end (ordinary annuity) of periods."
+  },
+  {
+    "id": "math-compound-interest-calculation",
+    "name": "Compound Interest Calculation",
+    "description": "Model exponential asset growth and debt accumulation across periodic, continuous, and variable compounding schedules.",
+    "tags": [
+      "compound-interest",
+      "exponential-growth",
+      "finance",
+      "debt"
+    ],
+    "instructions": "Identify the nominal interest rate, the principal balance, and the exact compounding frequency per year, dividing the nominal rate by the compounding periods to obtain the periodic rate. Calculate the total compounding cycles by multiplying elapsed years by frequency, adjusting the exponent in the compound interest formula accordingly. For continuous compounding scenarios, employ Euler's constant raised to the annual rate multiplied by time. Check your calculations against simple heuristics like the Rule of 72 to verify that estimated doubling periods remain consistent with your final computed numerical yields."
+  },
+  {
+    "id": "math-expected-value-calculation",
+    "name": "Expected Value Calculation",
+    "description": "Compute the long-run weighted average of stochastic outcomes across discrete payoff schedules and probability distributions.",
+    "tags": [
+      "expected-value",
+      "decision-theory",
+      "probability",
+      "risk"
+    ],
+    "instructions": "List every mutually exclusive prospective outcome alongside its quantified net payoff and its associated conditional or unconditional probability. Verify that the sum of all assigned outcome probabilities equals exactly 1.0 before conducting calculations. Multiply each payoff value by its respective probability and sum these weighted products to find the mathematical expectation. Avoid treating expected value as the most likely single outcome; instead, recognize it as the long-term central tendency, factoring in variance, tail-risk ruin, and asymmetric utility whenever evaluating one-off, high-consequence choices."
+  },
+  {
+    "id": "math-introductory-bayesian-reasoning",
+    "name": "Introductory Bayesian Reasoning",
+    "description": "Update the probability of a hypothesis following observed evidence using Bayes' theorem, likelihood ratios, and natural frequencies.",
+    "tags": [
+      "bayes-theorem",
+      "probability",
+      "inference",
+      "epistemology"
+    ],
+    "instructions": "Establish an initial prior probability before observing new evidence, grounding this baseline in historical frequency or objective base-rate data. Convert conditional probabilities into natural frequencies across a hypothetical cohort (e.g., 10,000 cases) to minimize cognitive errors associated with false positive rates. Calculate the true positive and false positive rates, combining them to determine the total probability of observing the test result. A common failure mode is the base-rate fallacy: neglecting to factor in rare base rates when interpreting high-sensitivity diagnostic test outcomes."
+  },
+  {
+    "id": "math-logic-puzzle-approach",
+    "name": "Logic Puzzle Approach",
+    "description": "Systematically resolve deductive constraints, truth-teller scenarios, and grid eliminations through formal propositional inference.",
+    "tags": [
+      "logic",
+      "deduction",
+      "problem-solving",
+      "puzzle-solving"
+    ],
+    "instructions": "Construct an explicit visual grid, matrix, or state table that maps entities against candidate attributes or truth states. Translate textual clues into formal logical constraints, noting bidirectional implications, mutual exclusions, and relative orderings. Populate the grid by systematically placing confirmed matches and crossing out refuted combinations, propagating every new deduction across all interdependent categories. When direct deductions stall, formulate a hypothesis on a binary branching choice, trace its logical consequences until encountering a contradiction, and eliminate the disproven assumption cleanly."
+  },
+  {
+    "id": "math-fermi-estimation",
+    "name": "Fermi Estimation",
+    "description": "Derive order-of-magnitude estimates for intractable real-world quantities by decomposing problems into tractable multiplicative sub-factors.",
+    "tags": [
+      "fermi-problems",
+      "back-of-the-envelope",
+      "estimation",
+      "heuristics"
+    ],
+    "instructions": "Deconstruct an opaque, complex target quantity into a chain of three to five independent, intuitively estimable sub-components linked by multiplication or division. Assign reasonable lower and upper bounds for each factor, selecting the geometric mean or powers of ten as the operational working estimate. Calculate the overall product by summing powers of ten separately from leading coefficients, allowing symmetric overestimates and underestimates to cancel out. Conduct a sensitivity check by perturbing your most uncertain assumption by one order of magnitude to establish a plausible confidence interval."
+  },
+  {
+    "id": "math-measurement-error-propagation",
+    "name": "Measurement Error Propagation",
+    "description": "Calculate the aggregate uncertainty of a derived quantity based on individual measurement errors.",
+    "tags": [
+      "uncertainty",
+      "physics",
+      "error-analysis",
+      "measurements"
+    ],
+    "instructions": "Identify whether independent variables add/subtract or multiply/divide. For sums and differences, add absolute uncertainties in quadrature by taking the square root of the sum of squares of individual uncertainties. For products and quotients, compute relative fractional uncertainties and sum them in quadrature before scaling back to absolute terms. If variables exhibit covariance, incorporate the correlation cross-terms rather than assuming independence. Always state the final value as estimate plus-or-minus absolute uncertainty with matching decimal precision. Avoid the pitfall of summing absolute errors linearly, which overstates expected variance."
+  },
+  {
+    "id": "math-significant-figures",
+    "name": "Significant Figures Tracking",
+    "description": "Maintain proper precision throughout calculation steps without prematurely truncating intermediate values.",
+    "tags": [
+      "precision",
+      "rounding",
+      "arithmetic",
+      "laboratory-math"
+    ],
+    "instructions": "Differentiate precision rules based on the operation performed. For addition and subtraction, round the result to match the least number of decimal places of any input value. For multiplication and division, restrict the output to the lowest count of significant digits found among the factors. Retain at least two extra guard digits during intermediate algebraic manipulations to prevent rounding drift, applying rounding only at the final step. Non-zero digits are significant, but trailing zeros before an explicit decimal point require scientific notation to eliminate ambiguity."
+  },
+  {
+    "id": "math-algebra-problem-solving",
+    "name": "Algebraic Problem Solving",
+    "description": "Translate word problems into structured symbolic equations and systematically solve for target unknowns.",
+    "tags": [
+      "algebra",
+      "equations",
+      "modeling",
+      "symbolic-math"
+    ],
+    "instructions": "Assign unambiguous variable names to all unknown quantities and explicitly write out their units. Translate relationships from natural language into independent linear or non-linear equations, verifying that the number of independent constraints matches the count of unknown variables. Isolate variables systematically using inverse operations, performing identical steps on both sides. Check for extraneous solutions introduced by squaring or denominator multiplication by substituting solutions back into the original unsimplified equations. Avoid dividing through by expressions that could evaluate to zero."
+  },
+  {
+    "id": "math-applied-geometry",
+    "name": "Applied Geometry and Trigonometry",
+    "description": "Deconstruct complex physical shapes into standard geometric primitives to determine lengths, perimeters, areas, and volumes.",
+    "tags": [
+      "geometry",
+      "trigonometry",
+      "spatial-reasoning",
+      "mensuration"
+    ],
+    "instructions": "Sketch the problem spatial layout and decompose irregular shapes into composite triangles, rectangles, or circular sectors. Establish a coordinate system or right-triangle decomposition using the Pythagorean theorem, sine, cosine, or tangent ratios to solve for unmeasured boundaries. When computing cross-sectional areas or volumes, ensure internal linear dimensions share identical units before multiplying. Verify spatial consistency by checking extreme boundary conditions, such as angle sum constraints in polygons. A common pitfall is confusing surface area with internal volume or misapplying slant heights instead of perpendicular altitudes."
+  },
+  {
+    "id": "math-optimization-intuition",
+    "name": "Optimization Intuition",
+    "description": "Identify candidate extrema and evaluate trade-offs in continuous or discrete objective functions under constraints.",
+    "tags": [
+      "calculus",
+      "optimization",
+      "extrema",
+      "constrained-systems"
+    ],
+    "instructions": "Define the single scalar objective function to maximize or minimize and formally list all equality and inequality constraints. Express the objective in terms of a single decision variable by substituting constraint relations, or construct a Lagrangian formulation. Differentiate the objective with respect to the control variable and solve where the derivative vanishes to locate interior critical points. Test the second derivative to classify concavity (local maximum versus minimum). Always evaluate boundary constraints and corner points, as global extrema frequently occur at feasibility limits rather than smooth interior stationary points."
+  },
+  {
+    "id": "math-numeric-sanity-checking",
+    "name": "Numeric Sanity Checking",
+    "description": "Quickly validate calculation plausibility using dimensional analysis, boundary cases, and heuristic bounds.",
+    "tags": [
+      "dimensional-analysis",
+      "validation",
+      "estimation",
+      "heuristics"
+    ],
+    "instructions": "Execute dimensional analysis first to ensure units on both sides of the equality sign match exactly. Evaluate edge cases by driving variables to zero or infinity to confirm that the output trends in the expected physical direction. Perform a back-of-the-envelope estimation using single significant digit approximations to verify that the magnitude of the computed answer falls within a factor of two or three of the estimate. Beware of sign errors, inversion mistakes in fractions, and scale-factor discrepancies that indicate misplaced decimal exponents or forgotten unit conversions."
+  },
+  {
+    "id": "math-risk-quantification",
+    "name": "Quantitative Risk Assessment",
+    "description": "Model the likelihood and severity of adverse events using probabilistic distributions and expected loss metrics.",
+    "tags": [
+      "probability",
+      "risk",
+      "expected-value",
+      "decision-theory"
+    ],
+    "instructions": "Enumerate distinct failure modes and assign mutual exclusivity or account for conditional dependencies using Bayes' theorem. Compute expected monetary or utility loss by multiplying the probability of each event by its conditional financial impact. Evaluate higher moments, particularly variance and tail value-at-risk (CVaR), rather than relying purely on expected values, especially for fat-tailed distributions where catastrophic low-probability events dominate exposure. Do not treat separate risks as statistically independent without empirical validation, as correlated downside tail events routinely collapse risk-parity assumptions."
+  },
+  {
+    "id": "math-sampling-intuition",
+    "name": "Statistical Sampling Intuition",
+    "description": "Assess how sample size, selection mechanics, and stratification influence inferential bias and standard error.",
+    "tags": [
+      "statistics",
+      "sampling",
+      "inference",
+      "bias-reduction"
+    ],
+    "instructions": "Determine whether a sample is representative by auditing selection mechanisms for survivorship bias, voluntary response bias, and non-response attrition. Calculate the theoretical standard error of the mean, recognizing that it diminishes proportionally to the square root of sample size, meaning a quadrupling of sample size is required to halve the error margin. Implement stratified random sampling across heterogeneous subgroups to minimize within-group variance. Avoid confusing sample size with population size; once the population is substantially larger than the sample, sampling fraction becomes mathematically negligible for standard errors."
+  },
+  {
+    "id": "math-regression-intuition",
+    "name": "Regression and Correlation Intuition",
+    "description": "Interpret bivariate and multivariate statistical associations without conflating correlation with underlying causality.",
+    "tags": [
+      "regression",
+      "correlation",
+      "data-analysis",
+      "econometrics"
+    ],
+    "instructions": "Examine residual plots rather than relying solely on R-squared metrics; check for heteroscedasticity, non-linear curvature, and autocorrelation. Calculate regression coefficients while checking for multicollinearity among explanatory predictors using variance inflation factors. Differentiate between Pearson correlation (linear dependence) and Spearman correlation (monotonic rank dependence). Recognize that omitted variable bias or reverse causality frequently produces spurious correlations. Never extrapolate regression lines far beyond the observed domain of independent variables, as structural relationships often change outside the historical support envelope."
+  },
+  {
+    "id": "math-quantitative-decision-trees",
+    "name": "Quantitative Decision Tree Modeling",
+    "description": "Structure sequential decision problems with probabilistic branch points using backward induction and expected values.",
+    "tags": [
+      "decision-trees",
+      "backward-induction",
+      "expected-value",
+      "game-theory"
+    ],
+    "instructions": "Map out chronological decision nodes (squares) and chance nodes (circles), ensuring chance branches departing any single node represent mutually exclusive and collectively exhaustive outcomes summing to probability 1.0. Assign concrete financial or payoff values to terminal leaf nodes. Work backward from right to left using backward induction (rollback method), calculating the expected value at each chance node and selecting the maximum value at each decision node. Test robustness with sensitivity analysis across sensitive transition probabilities. Pitfall: failing to discount delayed future payoffs or miscalculating conditional probabilities along sequential branches."
+  },
+  {
+    "id": "math-growth-rate-analysis",
+    "name": "Growth Rate and Compounding Analysis",
+    "description": "Model exponential versus polynomial dynamics over time using continuous and discrete compounding formulations.",
+    "tags": [
+      "exponential-growth",
+      "finance",
+      "calculus",
+      "compounding"
+    ],
+    "instructions": "Classify whether the underlying growth mechanism operates discretely (periodic compounding with formula A = P*(1+r/n)^(nt)) or continuously (A = P*e^(rt)). Use the Rule of 72 for rapid doubling-time estimations when working with annualized percentage growth rates. When fitting empirical time-series data, transform values using natural logarithms to convert exponential curves into linear functions for slope estimation. Watch out for saturation effects; real-world exponential growth invariably transitions into logistic or sigmoidal behavior due to carrying capacity limits. Pitfall: treating linear growth rates as compound rates over extended time horizons."
+  },
+  {
+    "id": "math-order-of-magnitude-reasoning",
+    "name": "Order-of-Magnitude Reasoning",
+    "description": "Synthesize rapid Fermi estimates of unknown quantities by chaining conservative geometric-mean approximations.",
+    "tags": [
+      "fermi-estimation",
+      "back-of-the-envelope",
+      "scales",
+      "heuristics"
+    ],
+    "instructions": "Break down an inaccessible macroscopic quantity into a product of four or five estimable sub-factors. Express each component as an integer power of ten or a round geometric midpoint within plausible upper and lower bounds. Multiply these independent factors together, tracking powers of ten separately from the mantissas. Rely on the principle that independent overestimates and underestimates naturally tend to balance out symmetrically across logarithmic space. Validate the final scale against known macro anchors (such as national populations, land areas, or gross domestic product). Pitfall: getting bogged down in linear precision when exponent accuracy is the goal."
+  }
+]

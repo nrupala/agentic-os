@@ -1,0 +1,302 @@
+[
+  {
+    "id": "data-exploratory-data-analysis",
+    "name": "Exploratory Data Analysis",
+    "description": "Uncover patterns, anomalies, and underlying structural characteristics within novel datasets using systematic statistical and visual summaries.",
+    "tags": [
+      "eda",
+      "statistics",
+      "data-profiling",
+      "python"
+    ],
+    "instructions": "Begin by auditing table shape, primary key uniqueness, and data types across all columns to confirm schema assumptions. Compute univariate summaries: evaluate central tendencies, dispersion, and skewness for numerical fields, while generating frequency counts and cardinality measures for categoricals. Inspect missing value mechanisms, differentiating between missing at random and systemic pipeline dropouts. Generate bivariate cross-tabulations and correlation matrices, paying close attention to non-linear relationships that Pearson metrics conceal. Inspect visual distributions with histograms and boxplots to spot extreme outliers. Avoid jumping directly into predictive modeling without verifying whether observed distribution shifts stem from instrumentation errors, sampling bias, or actual real-world behavioral changes."
+  },
+  {
+    "id": "data-cleaning",
+    "name": "Data Cleaning and Standardization",
+    "description": "Transform messy, incomplete, or inconsistently formatted raw inputs into reliable, analysis-ready data tables.",
+    "tags": [
+      "data-wrangling",
+      "etl",
+      "data-quality",
+      "preprocessing"
+    ],
+    "instructions": "Profile raw values for syntactic inconsistencies, non-printable characters, whitespace anomalies, and irregular date or timestamp encodings. Deduplicate records based on business-level composite keys rather than pure full-row identity to catch partial duplicates. Standardize categorical encodings into controlled vocabularies using mapping dictionaries, explicitly logging unmapped edge cases. Replace placeholder strings like 'NULL', 'N/A', or '999' with actual null tokens. Treat outliers by investigating operational origins: distinguish between instrument sensor clipping, test account activity, and valid whale users before applying winsorization or removal. Document every transformation step deterministically in reusable code scripts rather than manual spreadsheet edits to ensure full auditability and reproducibility."
+  },
+  {
+    "id": "data-descriptive-statistics-reporting",
+    "name": "Descriptive Statistics Reporting",
+    "description": "Synthesize and communicate central tendencies, spread, and compositional breakdowns of business metrics accurately to stakeholders.",
+    "tags": [
+      "statistics",
+      "reporting",
+      "metrics",
+      "summarization"
+    ],
+    "instructions": "Select summary metrics that match the underlying probability distribution: report medians and interquartile ranges alongside means and standard deviations when distributions display heavy tails or multimodal traits. Calculate robust dispersion measures like variance, percentiles (p50, p90, p99), and absolute deviation to expose customer experience extremes. Clearly state the sample size (n) and denominator definitions for every calculated rate or ratio to prevent misunderstanding. Benchmark current metrics against baseline historical reference windows or relevant cohort cohorts. A common pitfall is relying solely on aggregate means, which mask underlying Simpson's Paradox effects across demographic subgroups; always provide dimensional slices across critical segments."
+  },
+  {
+    "id": "data-hypothesis-testing",
+    "name": "Hypothesis Testing for Analysts",
+    "description": "Formulate statistical hypotheses, validate distributional assumptions, and execute appropriate inferential tests to validate analytical claims.",
+    "tags": [
+      "hypothesis-testing",
+      "inferential-statistics",
+      "p-values",
+      "significance"
+    ],
+    "instructions": "Formulate sharp null and alternative hypotheses before examining test data, designating primary directional expectations and significance thresholds (alpha) in advance. Check critical test assumptions: verify normality via Shapiro-Wilk or visual Q-Q plots, confirm homoscedasticity using Levene's test, and verify observation independence. Select test architectures accordingly: utilize Student's t-test for normally distributed metric variables, Welch's t-test when variances differ, Mann-Whitney U for ordinal or skewed non-parametric comparisons, and Chi-square contingency tables for categorical rates. Report exact p-values alongside effect sizes (such as Cohen's d or risk ratios) and 95% confidence intervals, rather than relying exclusively on binary significance thresholds."
+  },
+  {
+    "id": "data-ab-test-analysis",
+    "name": "A/B Test Analysis",
+    "description": "Evaluate randomized controlled experiments to measure intervention lift while accounting for statistical validity and bias risks.",
+    "tags": [
+      "experimentation",
+      "ab-testing",
+      "conversion-rate",
+      "power-analysis"
+    ],
+    "instructions": "Start by running a Sample Ratio Mismatch (SRM) chi-square test on assigned user counts between control and variant groups to guarantee assignment integrity. Confirm that the test achieved targeted statistical power and completed full weekly seasonal cycles to avoid day-of-week distortion. Compute absolute and relative lift on designated primary guardrail and decision metrics using two-tailed confidence intervals. Segment results by device type, user tenure, and acquisition source to expose heterogeneous treatment effects or novelty bias. Watch out for peeking problems; never evaluate standard p-values sequentially unless using pre-calibrated continuous monitoring techniques like sequential probability ratio tests or Bayesian credible intervals."
+  },
+  {
+    "id": "data-cohort-analysis",
+    "name": "Cohort Analysis",
+    "description": "Track behavioral patterns and metric changes across groups of users who share a common temporal starting event.",
+    "tags": [
+      "cohort-analysis",
+      "retention",
+      "churn",
+      "customer-analytics"
+    ],
+    "instructions": "Define unequivocal cohort boundary events, typically tied to first purchase date, user signup timestamp, or initial product activation. Structure retention matrices using standardized elapsed-period increments (e.g., Day 0, Day 1, Week 1, Month 1) based on either rolling 24-hour intervals or strict calendar units. Distinguish between bounded retention (active during that specific period) and unbracketed retention (active at that point or later). Analyze retention curves visually across successive onboarding vintages to detect macro product improvements versus degrading acquisition channel quality. Avoid comparing un-matured cohorts to mature cohorts at later time horizons without proper right-censoring, which artificially skews trailing retention averages downwards."
+  },
+  {
+    "id": "data-funnel-analysis",
+    "name": "Funnel Analysis",
+    "description": "Map, measure, and optimize sequential user progression and conversion drop-offs across defined multi-step operational flows.",
+    "tags": [
+      "funnel-analysis",
+      "conversion",
+      "cro",
+      "product-analytics"
+    ],
+    "instructions": "Map discrete, necessary user actions into an ordered progression, ensuring step criteria are strictly defined without overlapping event triggers. Establish an explicit conversion window, such as one hour or twenty-four hours, to determine whether delayed completions count as successful conversions. Compute step-to-step drop-off percentages as well as overall end-to-end conversion efficiency. Segment conversion paths by user demographics, technical environment, and traffic source to identify localized checkout or onboarding bottlenecks. Avoid constructing funnels with ambiguous step ordering where users can navigate backwards or bypass stages without tracking state changes; implement strict session-level sequence tracking to ensure dropped users genuinely abandoned the flow."
+  },
+  {
+    "id": "data-time-series-analysis",
+    "name": "Time Series Analysis",
+    "description": "Decompose temporal trends, seasonality, and cyclic behaviors in historical metrics to explain dynamics and forecast trajectories.",
+    "tags": [
+      "time-series",
+      "forecasting",
+      "trend-analysis",
+      "seasonality"
+    ],
+    "instructions": "Resample metric sequences to uniform intervals (hourly, daily, monthly), explicitly handling gaps and missing timestamps through deliberate forward-filling or domain-specific interpolation. Decompose the series into trend, seasonal, and residual components using additive or multiplicative models depending on whether variance scales with level. Test for stationarity using the Augmented Dickey-Fuller test, applying differencing or log transformations when non-stationary trends exist. Calculate autocorrelation (ACF) and partial autocorrelation (PACF) functions to identify autoregressive and moving average properties. Watch out for holiday shifts, structural regime changes, and daylight saving anomalies. Never evaluate forecast performance on random splits; always use chronological out-of-time walk-forward validation sets."
+  },
+  {
+    "id": "data-regression-result-interpretation",
+    "name": "Regression Result Interpretation",
+    "description": "Interpret statistical regression output parameters, diagnostic metrics, and structural coefficients to derive sound business inferences.",
+    "tags": [
+      "regression",
+      "econometrics",
+      "modeling",
+      "coefficients"
+    ],
+    "instructions": "Examine overall model fit using R-squared or adjusted R-squared alongside the omnibus F-statistic to confirm model predictive power surpasses white noise. Interpret individual beta coefficients in context of predictor scaling, distinguishing between unstandardized marginal changes and standardized relative impact weights. Evaluate standard errors, t-statistics, and p-values to verify parameter reliability. Run essential residual diagnostics: inspect residual vs fitted plots for heteroscedasticity, evaluate quantile-quantile plots for error normality, and check Variance Inflation Factors (VIF) to rule out multicollinearity above standard thresholds (e.g., VIF > 5). Beware of conflating statistically significant correlations with causal mechanics without controlling for omitted confounding covariates."
+  },
+  {
+    "id": "data-visualization-selection",
+    "name": "Data Visualization Selection",
+    "description": "Select the most effective chart types and visual encodings to convey quantitative relationships without perceptual distortion.",
+    "tags": [
+      "data-visualization",
+      "chart-selection",
+      "visual-design",
+      "information-architecture"
+    ],
+    "instructions": "Map analytical objectives directly to appropriate visual encodings: deploy line charts for temporal continuity, bar charts for discrete categorical comparisons, scatter plots for correlation discovery, and stacked area charts for proportional parts-of-a-whole dynamics over time. Preserve visual integrity by ensuring quantitative bar chart axes start strictly at zero to prevent visual exaggeration of modest differences. Limit categorical color palettes to under seven distinct hues, utilizing high-contrast accessible schemes suited for colorblind users. Avoid pie charts with numerous slices, 3D perspective skewing, dual non-synchronized vertical axes, and cluttered background gridlines that elevate cognitive load without delivering explanatory value."
+  },
+  {
+    "id": "data-dashboard-design",
+    "name": "Dashboard Design",
+    "description": "Architect intuitive, performant, and goal-oriented business intelligence dashboards tailored to specific organizational workflows.",
+    "tags": [
+      "dashboard-design",
+      "bi",
+      "ux",
+      "data-storytelling"
+    ],
+    "instructions": "Structure dashboard layout following visual hierarchy principles: place primary executive summary KPIs in the top left or top banner, followed by trend overviews, and detailed granular drill-down tables at the bottom. Restrict the total number of visual cards per screen to between six and nine to prevent cognitive saturation and query latency. Implement clear global filters with sensible default dates (such as month-to-date or trailing thirty days) and visible data refresh timestamps. Ensure tooltips and contextual labels clarify technical metric definitions directly in place. Avoid building generic kitchen-sink dashboards that attempt to serve both frontline operational managers and executive leaders simultaneously."
+  },
+  {
+    "id": "data-kpi-definition",
+    "name": "KPI Definition and Governance",
+    "description": "Formulate mathematically rigorous, strategically aligned, and tamper-resistant Key Performance Indicators for business operations.",
+    "tags": [
+      "kpi",
+      "business-metrics",
+      "data-governance",
+      "measurement"
+    ],
+    "instructions": "Draft clear algebraic definitions for each KPI, detailing exact numerators, denominators, filter constraints, and boundary conditions to eliminate semantic ambiguity. Pair primary volume and velocity target metrics with balancing counter-metrics (such as customer acquisition cost paired with 90-day churn rate) to discourage perverse operational incentives and gaming behavior. Define calculation frequency, operational ownership, source data models, and baseline refresh SLAs. Validate that candidate metrics are sensitive enough to capture intentional operational interventions while remaining robust against external macroeconomic noise. Avoid defining overly complex composite scores whose underlying drivers cannot be easily diagnosed when values drift outside acceptable operational control bands."
+  },
+  {
+    "id": "data-anomaly-detection-metrics",
+    "name": "Anomaly Detection in Metrics",
+    "description": "Identify unexpected deviations, operational outliers, and metric breaks using statistical thresholding and temporal baselines.",
+    "tags": [
+      "anomaly-detection",
+      "monitoring",
+      "data-quality",
+      "alerting"
+    ],
+    "instructions": "Establish baseline seasonal expectations by computing rolling historical averages paired with standard deviation or median absolute deviation (MAD) confidence bands. Account for known day-of-week and recurring calendar effects before flagging metric dips or spikes as anomalous events. Set adaptive threshold limits, such as three standard deviations or dynamic interquartile multipliers, tailored to the volatility profile of the target metric. Implement hysteresis or persistence requirements (e.g., metric breaching bounds for two consecutive hours) to filter out transient reporting blips and reduce alert fatigue. Avoid alerting strictly on raw absolute metric changes without adjusting for denominator volume shifts or upstream pipeline ingestion delays."
+  },
+  {
+    "id": "data-sampling-method-selection",
+    "name": "Sampling Method Selection",
+    "description": "Determine the most statistically valid and cost-effective sampling strategy based on population characteristics and research constraints.",
+    "tags": [
+      "sampling",
+      "statistics",
+      "research-design",
+      "methodology"
+    ],
+    "instructions": "First, define target population boundaries and verify if a comprehensive sampling frame exists; lack of an exhaustive directory invalidates pure simple random sampling. If subgroups exhibit significant variance across key outcome metrics, apply stratified random sampling, setting stratum quotas proportional to known population weights. For geographically dispersed or operationally constrained populations, evaluate multi-stage cluster sampling while inflating variance calculations using the design effect. Check for self-selection risk when using convenience or voluntary response frames, and explicitly document non-probability caveats if unweighted panel data is utilized."
+  },
+  {
+    "id": "data-correlation-vs-causation-review",
+    "name": "Correlation Versus Causation Review",
+    "description": "Critique empirical associations to prevent false causal assertions by auditing confounding variables, reverse causality, and selection bias.",
+    "tags": [
+      "causal-inference",
+      "statistics",
+      "hypothesis-testing",
+      "bias-detection"
+    ],
+    "instructions": "Inspect identified statistical associations by first establishing temporal precedence: confirm the hypothesized driver unambiguously precedes the measured outcome across observations. Screen for third-variable confounding using partial correlation or multivariable regression conditioning, testing whether the initial effect size attenuates to zero. Assess reverse causality risk, particularly in cross-sectional snapshots where outcomes might incentivize predictor values. Check for collider stratification bias introduced by conditioned sample filters. If observational data lacks natural experiments or instrumental variables, rewrite claims using associational terminology rather than causative verbs like 'drives', 'causes', or 'produces'."
+  },
+  {
+    "id": "data-survey-data-analysis",
+    "name": "Survey Data Analysis",
+    "description": "Process, clean, and analyze questionnaire responses to produce valid demographic cross-tabulations and psychometric summaries.",
+    "tags": [
+      "surveys",
+      "likert-scales",
+      "cross-tabulation",
+      "psychometrics"
+    ],
+    "instructions": "Begin by filtering out speeders, straight-liners, and incomplete submissions through time-on-page checks and reverse-coded validation questions. Recode Likert scale responses consistently across survey waves, checking whether ordinal values should be treated as discrete factors or numeric intervals for mean composite scores. Apply post-stratification survey weighting using raking or rim weighting algorithms to align sample demographics with benchmark population targets. Run chi-square tests of independence on cross-tabulations between key demographic segments and primary satisfaction metrics. Watch out for acquiescence bias and social desirability distortion when drafting top-box response summaries."
+  },
+  {
+    "id": "data-customer-churn-analysis",
+    "name": "Customer Churn Analysis",
+    "description": "Identify leading indicators and risk factors of user defection using historical subscription and behavioral engagement telemetry.",
+    "tags": [
+      "churn",
+      "retention",
+      "survival-analysis",
+      "customer-analytics"
+    ],
+    "instructions": "Formulate an explicit, unambiguous churn definition based on non-renewal events or inactivity thresholds such as zero logins across a rolling 45-day window. Segment active customer histories into fixed observation windows followed by distinct outcome windows to eliminate lookahead bias during feature calculation. Generate behavioral decline metrics, calculating percentage drops in feature utilization, payment failures, and customer support ticket escalations. Employ survival analysis curves like Kaplan-Meier to identify critical drop-off milestones along the customer tenure curve. Ensure you do not confuse seasonal contract renewals with spontaneous organic churn events when aggregating monthly churn rates."
+  },
+  {
+    "id": "data-customer-segmentation",
+    "name": "Customer Segmentation",
+    "description": "Partition a broad customer base into actionable, homogenous cohorts using behavioral, transactional, and demographic clustering techniques.",
+    "tags": [
+      "segmentation",
+      "clustering",
+      "rfm",
+      "customer-analytics"
+    ],
+    "instructions": "Construct a feature matrix combining recency, frequency, and monetary (RFM) values alongside categorical attributes such as acquisition channel and industry vertical. Normalize all numerical variables using z-scores or min-max scaling to prevent high-variance monetary fields from dominating distance calculations. Execute k-means clustering across multiple cluster counts from k=2 through k=8, evaluating both silhouette scores and the within-cluster sum of squares elbow curve. Validate cluster stability by cross-tabulating profiles against distinct business KPIs to verify economic interpretability. Avoid creating more segments than downstream marketing teams can practically target with bespoke messaging campaigns."
+  },
+  {
+    "id": "data-forecasting-basics",
+    "name": "Forecasting Basics",
+    "description": "Build and validate baseline time series projections using historical trend, seasonality decomposition, and exponential smoothing methods.",
+    "tags": [
+      "forecasting",
+      "time-series",
+      "trend-analysis",
+      "seasonality"
+    ],
+    "instructions": "Plot the historical metric chronologically to visually verify stationarity, structural breaks, and recurrent seasonal patterns. Decompose the series into additive or multiplicative components—trend, seasonal cycle, and irregular residuals—based on whether seasonal amplitude scales with baseline volume. Split data into sequential training and test sets using rolling-origin backtesting rather than random k-fold cross-validation, preserving chronological ordering. Calculate baseline benchmarks like naive or seasonal-naive projections, then compare them against Holt-Winters exponential smoothing via mean absolute percentage error (MAPE) and root mean squared error (RMSE). Beware of extrapolating trends during unprecedented macro shocks or platform outages."
+  },
+  {
+    "id": "data-quality-assessment",
+    "name": "Data Quality Assessment",
+    "description": "Systematically audit raw datasets for structural anomalies, schema mismatches, duplicate records, and range violations before downstream ingestion.",
+    "tags": [
+      "data-quality",
+      "data-profiling",
+      "validation",
+      "data-governance"
+    ],
+    "instructions": "Ingest the target dataset into an isolated profiling environment and verify row and column counts against source system extract logs. Inspect primary key uniqueness to catch accidental cartesian joins or duplicate records, checking for near-duplicate entities using fuzzy string matching if necessary. Validate column data types, verifying numeric fields do not contain string currency symbols or trailing whitespace. Profile value distributions for out-of-range anomalies, negative values in unsigned quantities, and future dates in historical timestamp fields. Compile a quantified data quality scorecard detailing completeness, accuracy, consistency, and validity percentages before allowing the pipeline to feed production dashboards."
+  },
+  {
+    "id": "data-pivot-analysis",
+    "name": "Pivot Analysis",
+    "description": "Synthesize high-dimensional transaction data into multi-dimensional aggregation summaries to expose hidden operational trends.",
+    "tags": [
+      "pivot-tables",
+      "aggregation",
+      "summary-statistics",
+      "excel-sql"
+    ],
+    "instructions": "Define rows, columns, values, and filter hierarchies based on the specific managerial question rather than aggregating arbitrarily. Choose aggregation functions mindfully: use medians or trimmed means instead of simple arithmetic means when dealing with heavily skewed fields like order values or response durations. Add calculated fields within the pivot layer rather than pre-calculating weighted averages in raw rows to avoid mathematical distortion. Double-check margin totals against un-pivoted raw totals to detect dropped null values or unintended deduplication. Beware of double-counting records when pivoting datasets that contain one-to-many relationship joins across transactional line items."
+  },
+  {
+    "id": "data-geospatial-analysis-basics",
+    "name": "Geospatial Analysis Basics",
+    "description": "Process coordinate points and boundary polygons to extract spatial patterns, proximity metrics, and regional density indicators.",
+    "tags": [
+      "geospatial",
+      "gis",
+      "spatial-analysis",
+      "mapping"
+    ],
+    "instructions": "Standardize raw geographic coordinates into decimal degrees, verifying latitude values fall between -90 and 90 and longitude values between -180 and 180. Verify that all spatial layers share a matching Coordinate Reference System (CRS), reprojecting planar projections such as UTM when calculating accurate buffer distances or Euclidean lengths. Perform spatial joins to map point events into administrative boundary polygons such as postal codes or census tracts to aggregate density metrics. Calculate Moran's I to test for spatial autocorrelation and identify statistically significant hot spots. Watch out for the Modifiable Areal Unit Problem (MAUP), where changing boundary aggregation levels drastically alters observed regional correlations."
+  },
+  {
+    "id": "data-text-data-analysis",
+    "name": "Text Data Analysis",
+    "description": "Extract structured signals, sentiment indicators, and thematic topics from unstructured feedback and open-ended text fields.",
+    "tags": [
+      "nlp",
+      "text-mining",
+      "sentiment-analysis",
+      "topic-modeling"
+    ],
+    "instructions": "Clean the raw text corpus by stripping HTML markup, normalizing Unicode characters, lowercasing tokens, and removing punctuation while preserving domain-specific acronyms. Strip generic stop words, but retain negations like 'not' or 'never' that invert sentiment polarity in downstream lexicons. Generate n-grams (bigrams and trigrams) to capture critical multi-word business phrases that unigram tokenization fragments. Apply topic modeling algorithms like Latent Dirichlet Allocation (LDA) or embedding-based clustering to discover thematic groupings, checking semantic coherence scores across varying topic numbers. Avoid treating raw word frequency counts as definitive indicators without adjusting for document length via term frequency-inverse document frequency (TF-IDF)."
+  },
+  {
+    "id": "data-missing-data-handling",
+    "name": "Missing Data Handling",
+    "description": "Diagnose missingness mechanisms across attributes and implement robust imputation or exclusion strategies without introducing bias.",
+    "tags": [
+      "imputation",
+      "data-cleaning",
+      "data-wrangling",
+      "missingness"
+    ],
+    "instructions": "Quantify the percentage of missing values per column and examine co-occurrence matrices to categorize missingness as Missing Completely at Random (MCAR), Missing at Random (MAR), or Missing Not at Random (MNAR). If missingness is strictly MCAR and under 5%, listwise deletion may be acceptable; otherwise, discarding rows will introduce severe sample selection bias. For numeric continuous variables exhibiting MAR patterns, utilize iterative multivariate imputation (MICE) or k-nearest neighbors rather than crude mean or median imputation, which artificially deflates sample variance. Always create a binary missingness indicator column before imputing values to allow predictive models to capture informative non-response signals."
+  },
+  {
+    "id": "data-insight-reporting",
+    "name": "Insight Reporting",
+    "description": "Translate complex analytical findings into executive-ready narratives, data visualizations, and strategic business recommendations.",
+    "tags": [
+      "data-storytelling",
+      "reporting",
+      "visualization",
+      "business-intelligence"
+    ],
+    "instructions": "Structure the deliverable using the pyramid principle: lead directly with high-level conclusions and primary strategic recommendations before detailing supporting data evidence. Select visual chart types strictly aligned with cognitive tasks—line charts for continuous temporal evolution, horizontal bar charts for categorical comparisons, and scatter plots for relationships—eliminating decorative 3D elements and low-contrast palettes. Accompany every primary visualization with an explicit callout annotation explaining the takeaway rather than describing chart mechanics. Double-check all chart axis baselines to prevent misleading truncations. Conclude with prioritized next steps, anticipated financial impacts, and explicit operational trade-offs for stakeholders."
+  }
+]

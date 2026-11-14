@@ -1,0 +1,304 @@
+[
+  {
+    "id": "test-unit-test-design",
+    "name": "Unit Test Design",
+    "description": "Systematically structure isolated tests verifying single units of business logic against edge cases and invariant specifications.",
+    "tags": [
+      "unit-testing",
+      "tdd",
+      "code-quality",
+      "test-design"
+    ],
+    "instructions": "Examine the target function to identify inputs, expected outputs, state mutations, and boundary conditions. Deconstruct complex logic into single-behavior test cases using the Arrange-Act-Assert pattern. Check equivalence partitions such as empty inputs, null pointers, negative boundaries, and off-by-one indices. Avoid asserting implementation details or private method calls directly; assert state transitions and return values instead. Watch out for hidden coupling like ambient system clock calls or static singleton state, which make tests non-deterministic and hard to isolate. Verify that each test tests exactly one logical condition and fails with an explanatory message when that condition is breached."
+  },
+  {
+    "id": "test-integration-testing",
+    "name": "Integration Testing",
+    "description": "Verify proper communication, schema adherence, and state persistence across real boundary layers such as databases, caches, and external APIs.",
+    "tags": [
+      "integration-testing",
+      "database",
+      "api",
+      "testcontainers"
+    ],
+    "instructions": "Spin up ephemeral backing services using Docker or Testcontainers to match production dialect and engine versions closely. Execute transactional write and read workflows across the data layer to confirm foreign key constraints, migration scripts, and schema mappings succeed under realistic conditions. Verify network timeouts, connection pool saturation, and serialization boundaries between service clients. Avoid shared state between test runs by wrapping tests in rollback transactions or running dedicated schema truncation scripts between suites. Beware of race conditions during asynchronous events; poll state deterministically with a bounded timeout rather than relying on arbitrary sleep calls."
+  },
+  {
+    "id": "test-end-to-end-testing",
+    "name": "End-to-End Testing",
+    "description": "Validate critical user journeys across the full application stack from the user interface through backend microservices to downstream storage.",
+    "tags": [
+      "e2e",
+      "playwright",
+      "cypress",
+      "browser-automation"
+    ],
+    "instructions": "Map out top-revenue customer paths such as user registration, checkout, and authentication workflows before scripting browser actions. Use resilient locator strategies like accessible roles, test IDs, and labels rather than brittle XPath or deeply nested CSS selectors. Assert visible UI confirmations and underlying backend records at terminal milestone checkpoints. Clear browser cookies, local storage, and server sessions between executions to guarantee isolated starting states. Beware of over-relying on UI end-to-end tests for validation rules that lower pyramid layers can verify faster; reserve E2E passes strictly for cross-boundary integration integrity and fatal workflow blockages."
+  },
+  {
+    "id": "test-mocking-and-test-doubles",
+    "name": "Mocking and Test Doubles",
+    "description": "Replace slow, nondeterministic, or expensive dependencies with disciplined stubs, spies, fakes, or mocks to isolate unit execution.",
+    "tags": [
+      "mocking",
+      "stubs",
+      "fakes",
+      "dependency-injection"
+    ],
+    "instructions": "Differentiate strictly between dummies, stubs, spies, mocks, and in-memory fakes before configuring substitutes. Inject dependencies via constructors or interfaces to substitute outbound network boundaries or third-party gateways. Prefer state verification using fakes over strict interaction verification with mocks, which brittle-binds test suites to internal call counts and parameter order. Avoid mocking types you do not own; wrap third-party SDKs in domain adapters and mock your adapter interface instead. Ensure that mock return signatures remain synchronized with upstream production types by pairing mock definitions with contract checks to prevent false confidence when schemas drift."
+  },
+  {
+    "id": "test-property-based-testing",
+    "name": "Property-Based Testing",
+    "description": "Expose boundary flaws and invariant violations by automatically generating hundreds of randomized input configurations against algorithmic specifications.",
+    "tags": [
+      "property-testing",
+      "fuzzing",
+      "hypothesis",
+      "quickcheck"
+    ],
+    "instructions": "Define universal algebraic or logical invariants of your code, such as round-trip serialization preservation, idempotency, commutativity, or sorting invariants like length stability. Configure generator ranges to emit diverse types including negative zero, unicode strings, deeply nested trees, and massive integer arrays. When a failure triggers, examine the engine's automated shrinking trace to isolate the minimal reproduction case. Ensure that the properties asserted are not just redundant reimplementations of the production code logic. Avoid overly restrictive preconditions that cause the test engine to discard valid samples, which silently drains generator diversity and masks critical edge-case defects."
+  },
+  {
+    "id": "test-mutation-testing",
+    "name": "Mutation Testing",
+    "description": "Evaluate test suite efficacy and catch false positives by injecting deliberate syntactic faults into production source code.",
+    "tags": [
+      "mutation-testing",
+      "stryker",
+      "pitest",
+      "code-coverage"
+    ],
+    "instructions": "Run a mutation engine to systematically alter code tokens, replacing operators like greater-than with less-than, negating booleans, and omitting return values. Execute your existing test suite against each generated mutant to determine whether an assertion fails and kills the mutation. Inspect surviving mutants to uncover tests that execute lines without verifying values, asserting only truthy values, or lacking coverage over boundary logic. Filter out trivial or unkillable equivalent mutants to avoid developer fatigue. Beware of excessive execution time; scope mutation runs to modified files in pull requests or utilize targeted test selection to run only impacted test cases per mutant."
+  },
+  {
+    "id": "test-load-and-performance-testing",
+    "name": "Load and Performance Testing",
+    "description": "Measure throughput, latency percentiles, and resource degradation across systems under anticipated and peak concurrent user traffic.",
+    "tags": [
+      "load-testing",
+      "performance",
+      "k6",
+      "gatling",
+      "benchmarking"
+    ],
+    "instructions": "Formulate performance criteria focused on high percentiles (p95, p99) and error rates rather than misleading mean latency averages. Model traffic curves using realistic ramp-ups, steady plateaus, and sudden spikes that simulate genuine user sessions and concurrent connection pools. Monitor server metrics concurrently, tracking CPU starvation, memory leaks, garbage collection pauses, and database lock contention. Validate that load generator machines do not bottleneck on local network sockets or client CPU before drawing conclusions about backend degradation. Never point unmetered stress runs at shared staging tiers without isolating external third-party webhooks and downstream cost-bearing APIs."
+  },
+  {
+    "id": "test-regression-test-selection",
+    "name": "Regression Test Selection",
+    "description": "Optimize continuous integration runtimes by dynamically executing only the subset of automated tests affected by recent code changes.",
+    "tags": [
+      "regression-testing",
+      "ci-cd",
+      "impact-analysis",
+      "build-speed"
+    ],
+    "instructions": "Generate code-to-test dependency graphs using static abstract syntax tree analysis or dynamic runtime code coverage traces. When a pull request modifies specific files, map the diff hunks directly to dependent test suites and execute only that targeted partition. Periodically balance this selective strategy by scheduling full-suite runs nightly to catch transitive, reflection-based, or non-deterministic regression impacts. Beware of missed dependencies caused by dynamic dispatch, reflection, dependency injection containers, or external configuration changes not tracked in source code diffs. Always keep an override mechanism allowing developers to force full suite execution when modifying shared foundations or core architectural interfaces."
+  },
+  {
+    "id": "test-flaky-test-triage",
+    "name": "Flaky Test Triage",
+    "description": "Detect, isolate, root-cause, and remediate non-deterministic test failures that destabilize build pipelines and erode team trust.",
+    "tags": [
+      "flaky-tests",
+      "ci-cd",
+      "debugging",
+      "root-cause-analysis"
+    ],
+    "instructions": "Quarantine intermittently failing tests into a non-blocking build tier immediately upon detection to protect deployment velocity. Stress-test the isolated test in a loop under resource constraints or CPU throttling to reproduce failures reliably across hundreds of iterations. Analyze logs specifically for race conditions, asynchronous timing gaps, unseeded random generators, timezone disparities, and state pollution leaking from prior runs. Replace arbitrary sleep commands with event-driven hooks or explicit predicate polling. Never settle for automated retries as a permanent fix; verify the root cause was eliminated by confirming the test passes consistently over several hundred executions before lifting quarantine status."
+  },
+  {
+    "id": "test-test-data-management",
+    "name": "Test Data Management",
+    "description": "Provision, sanitize, version, and clean test fixtures to guarantee repeatable, isolated, and legally compliant test runs.",
+    "tags": [
+      "test-data",
+      "fixtures",
+      "anonymization",
+      "database-seeding"
+    ],
+    "instructions": "Construct deterministic test fixtures using factory patterns or database seeders that construct only the minimal attributes required per test. When cloning production datasets for staging environments, sanitize all personally identifiable information through cryptographic pseudonymization or synthetic substitution to comply with privacy regulations like GDPR. Ensure test datasets are partitioned by tenant or uniquely keyed using timestamps or UUIDs to prevent concurrent test jobs from mutating each other's records. Avoid static monolithic database dumps that drift from evolving schema migrations. Automate post-test tear-down steps or execute suites against temporary, discarded database instances to prevent state accrual over time."
+  },
+  {
+    "id": "test-contract-testing",
+    "name": "Contract Testing",
+    "description": "Ensure microservices and distributed APIs remain compatible across schema iterations without relying on expensive end-to-end environments.",
+    "tags": [
+      "contract-testing",
+      "pact",
+      "microservices",
+      "api-testing"
+    ],
+    "instructions": "Implement consumer-driven contracts by recording the exact HTTP requests, payloads, headers, and response structures consumed by client components. Publish generated contract pacts to a centralized broker and verify them against the provider service during its independent CI pipeline execution. Validate that the provider satisfies every expected interaction without needing the actual consumer service online. Use verification states to seed specific provider conditions before contract assertions run. Watch out for over-specifying contracts with optional fields or overly rigid payload matching that impedes provider evolution. Block deployments using broker compatibility queries (such as can-i-deploy) to prevent breaking changes from reaching staging or production clusters."
+  },
+  {
+    "id": "test-visual-regression-testing",
+    "name": "Visual Regression Testing",
+    "description": "Capture and compare visual pixel snapshots of user interfaces to catch unintended CSS, typography, and layout regressions.",
+    "tags": [
+      "visual-regression",
+      "ui",
+      "storybook",
+      "snapshot-testing"
+    ],
+    "instructions": "Render target UI components inside an isolated harness like Storybook or headless browsers with strictly fixed viewport dimensions and device pixel ratios. Freeze non-deterministic elements before capturing screenshots by mocking date displays, disabling CSS transitions, and swapping animated media with static color placeholders. Compute pixel diffs against committed baseline screenshots using perceptual diffing algorithms that ignore subtle sub-pixel anti-aliasing variations across host platforms. Execute visual comparisons inside containerized Linux environments to prevent cross-OS font rendering discrepancies from triggering false positives. Establish a streamlined developer review flow to inspect, reject, or approve intentional visual changes into updated baseline snapshots."
+  },
+  {
+    "id": "test-accessibility-testing",
+    "name": "Accessibility Testing",
+    "description": "Audit web and mobile applications against WCAG criteria to ensure digital experiences are usable by people with disabilities.",
+    "tags": [
+      "accessibility",
+      "a11y",
+      "wcag",
+      "axe-core",
+      "screen-readers"
+    ],
+    "instructions": "Integrate automated rule evaluation engines such as axe-core into component and E2E suites to detect automated violations like low contrast, missing alt attributes, and invalid ARIA roles. Supplement automated scans with manual keyboard navigation audits, ensuring focus indicators remain visibly obvious and focus traps do not detain tab traversal. Verify that interactive custom widgets expose appropriate ARIA states, names, and live regions to assistive screen reader technologies. Beware of treating automated a11y test passes as total compliance, as automated scanners typically uncover only thirty to forty percent of real accessibility defects. Test dynamic content updates to confirm screen readers announce asynchronous notifications appropriately."
+  },
+  {
+    "id": "test-security-testing-basics",
+    "name": "Security Testing Basics",
+    "description": "Audit application attack surfaces by probing for common web vulnerabilities including injection, broken access controls, and misconfigurations.",
+    "tags": [
+      "security",
+      "owasp",
+      "penetration",
+      "vulnerability"
+    ],
+    "instructions": "Map all client-side inputs, URL query parameters, and HTTP headers across the application to define the target attack surface. Probe inputs for SQL injection by submitting single quotes, comments, and boolean payloads like ' OR '1'='1 to observe error responses or altered record sets. Validate cross-site scripting resilience by supplying benign script tags such as <script>console.log(1)</script> and checking whether the payload is sanitized in rendered HTML. Test authorization controls through forced browsing to privileged endpoints such as /admin using a non-privileged session token. Verify that transport security headers including Content-Security-Policy and Strict-Transport-Security are properly set. Pitfall: executing unauthorized security tests on production environments without formal testing agreements or adequate failover isolation."
+  },
+  {
+    "id": "test-chaos-testing",
+    "name": "Chaos Engineering and Resilience Testing",
+    "description": "Introduce controlled infrastructure failures into staging environments to validate self-healing capabilities and graceful degradation.",
+    "tags": [
+      "chaos",
+      "resilience",
+      "fault-injection",
+      "reliability"
+    ],
+    "instructions": "Establish and record the application steady state by measuring baseline metrics including HTTP error rates, throughput, and p99 latency during normal traffic. Formulate a specific hypothesis, such as asserting that terminating half of the cache nodes will trigger automatic failover to the primary database with less than two percent latency degradation. Inject targeted failures into staging infrastructure using tools like Chaos Mesh or AWS Fault Injection Simulator, starting with minor packet loss before escalating to node termination. Continuously track telemetry and circuit breaker transitions to verify fallback mechanisms trigger correctly. Stop the test immediately if blast radius limits are exceeded. Pitfall: injecting uncoordinated faults without verifiable rollback automation or automated experiment abort criteria."
+  },
+  {
+    "id": "test-snapshot-testing",
+    "name": "Snapshot Testing",
+    "description": "Capture and compare serialized rendering output or state representations against committed baselines to detect unintended regressions.",
+    "tags": [
+      "snapshots",
+      "regression",
+      "jest",
+      "ui-components"
+    ],
+    "instructions": "Identify the target component or data payload and mock all volatile fields, including timestamps, pseudorandom IDs, and environment-dependent paths, to ensure deterministic output. Execute the test runner to serialize the rendered structure into a standardized baseline file stored in version control. During regression cycles, inspect any flagged snapshot discrepancies line by line within unified diff views instead of immediately regenerating snapshots. If a diff reflects a planned design change, accept and commit the new baseline; otherwise, treat it as a defect in component rendering logic. Keep snapshots scoped to discrete UI components rather than entire pages. Pitfall: updating failing snapshots blindly with CLI flags, which permanently masks regressions beneath newly approved baseline captures."
+  },
+  {
+    "id": "test-fuzz-testing",
+    "name": "Fuzz Testing",
+    "description": "Generate semi-random, malformed, and unexpected inputs to discover buffer overflows, parsing errors, unhandled exceptions, and memory leaks.",
+    "tags": [
+      "fuzzing",
+      "robustness",
+      "input-validation",
+      "security"
+    ],
+    "instructions": "Locate data ingestion boundaries such as binary parsers, serialization routines, and file upload decoders within the codebase. Collect a corpus of small, valid input files that trigger high code coverage to serve as initial seeds for the fuzzing harness. Configure a coverage-guided fuzzer like AFL++ or libFuzzer with mutation strategies that randomly modify bytes, alter boundaries, and splice chunks. Run the harness with memory sanitizers like AddressSanitizer enabled to detect illegal reads and heap corruptions before process exit. When crashes occur, extract and minimize the offending input payload into a small reproducible case, and commit it to your standard regression test suite. Pitfall: running fuzzers without memory sanitizers, which allows critical memory corruption bugs to pass undetected."
+  },
+  {
+    "id": "test-acceptance-testing",
+    "name": "User Acceptance Testing",
+    "description": "Validate complete end-to-end user workflows against defined business criteria to determine if the software is ready for release.",
+    "tags": [
+      "acceptance",
+      "bdd",
+      "user-stories",
+      "validation"
+    ],
+    "instructions": "Extract acceptance criteria directly from approved product requirements and transcribe them into executable Given-When-Then scenarios. Provision realistic test data representing distinct user personas, billing tiers, and locale configurations across a release-candidate staging environment. Execute core operational paths alongside cross-functional stakeholders, validating that operations such as invoicing, order processing, and subscription adjustments yield correct business outcomes. Confirm that error notifications provide actionable clarity to users rather than revealing internal system exceptions. Secure formal sign-off against every documented acceptance rule prior to triggering production deployment pipelines. Pitfall: treating acceptance testing as low-level technical assertion checks rather than validating that user business workflows complete accurately from end to end."
+  },
+  {
+    "id": "test-exploratory-testing-charters",
+    "name": "Exploratory Testing Charters",
+    "description": "Execute time-boxed, objective-driven exploratory test sessions to discover complex bugs unaddressed by automated test suites.",
+    "tags": [
+      "exploratory",
+      "charter",
+      "session-based",
+      "manual-testing"
+    ],
+    "instructions": "Formulate a concise charter stating what target area you will inspect, what tactics and tools you will use, and what risks you intend to investigate. Set a strict timer between 45 and 90 minutes to preserve focus and maintain testing momentum. Systematically apply exploratory heuristics such as submitting extreme string lengths, interrupting device connectivity midway through write transactions, and opening duplicate tabs to trigger concurrent state collisions. Keep a running timestamped log noting steps taken, system quirks, anomalies, and defect reproduction steps. At the conclusion of the session, debrief with engineering leads to review logs and convert notable findings into actionable issues. Pitfall: conducting unstructured, aimless application clicking without a defined charter or failing to log steps needed to reproduce unexpected defects."
+  },
+  {
+    "id": "test-test-coverage-analysis",
+    "name": "Test Coverage Analysis",
+    "description": "Measure and interpret line, branch, and condition test execution metrics to identify critical untested logic in the codebase.",
+    "tags": [
+      "coverage",
+      "metrics",
+      "code-quality",
+      "analysis"
+    ],
+    "instructions": "Configure coverage collection tools such as Istanbul, Jacoco, or pytest-cov within your automated continuous integration workflow. Generate HTML and lcov reports, prioritizing branch and condition coverage over raw line coverage to reveal untested logic branches. Intersect coverage heatmaps with recent git commit logs to verify that newly modified, high-churn source files receive adequate validation. Exclude auto-generated boilerplate, data transfer objects, and build configuration files from metric calculations to prevent false confidence. Review uncovered error-handling routines, catch blocks, and defensive fallbacks, and write targeted unit or integration tests for high-risk gaps. Pitfall: chasing an arbitrary one hundred percent line coverage goal, which encourages developers to write shallow assertions that do not verify correctness."
+  },
+  {
+    "id": "test-smoke-test-design",
+    "name": "Smoke Test Suite Design",
+    "description": "Assemble a fast, non-exhaustive suite of core verification checks to validate that a newly deployed build is stable enough for deeper testing.",
+    "tags": [
+      "smoke-testing",
+      "ci-cd",
+      "build-verification",
+      "sanity-check"
+    ],
+    "instructions": "Identify the minimum vital functional capabilities required for the system to operate, including endpoint health pings, database reads, authentication, and core transaction routing. Author lightweight, independent test cases covering these flows, ensuring total suite execution finishes in under five minutes. Integrate the smoke suite directly into the post-deployment stage of your continuous delivery pipeline to run against freshly deployed environments. If any smoke check fails, automatically halt the pipeline, trigger a rollback, and flag the build as defective. Never include complex edge cases, cross-browser permutations, or heavy reporting workloads in this suite. Pitfall: allowing smoke suites to slowly accumulate redundant regression tests until runtime slows down and delays continuous deployment feedback loops."
+  },
+  {
+    "id": "test-api-testing",
+    "name": "REST and GraphQL API Testing",
+    "description": "Validate endpoints for schema compliance, correct HTTP status codes, payload integrity, and resilient error handling.",
+    "tags": [
+      "api",
+      "rest",
+      "graphql",
+      "integration"
+    ],
+    "instructions": "Review the OpenAPI document or GraphQL schema to catalog operations, query parameters, headers, and expected response bodies. Write automated test scripts that verify appropriate HTTP status codes, such as 200 for successful retrievals, 201 for creations, 400 for bad payloads, and 401 for unauthenticated calls. Validate response envelopes against rigid JSON schemas to detect contract regressions, altered property types, and missing required keys. Implement stateful test sequences that create a record via POST, fetch and verify it via GET, update it via PUT, and confirm its absence after DELETE. Test boundary limits on pagination parameters like offset, limit, and sorting direction. Pitfall: checking only HTTP status codes while failing to validate response body structure and data consistency."
+  },
+  {
+    "id": "test-ui-test-automation",
+    "name": "UI Test Automation with Page Objects",
+    "description": "Build maintainable browser-based end-to-end tests that interact with user interfaces using robust selectors and resilient waiting mechanisms.",
+    "tags": [
+      "e2e",
+      "playwright",
+      "cypress",
+      "automation"
+    ],
+    "instructions": "Structure automated browser tests using the Page Object Model or Component Model to abstract DOM selectors away from test assertions. Bind test interactions to accessibility attributes or explicit data-testid attributes instead of fragile CSS selectors or dynamic class names. Replace static sleep delays with auto-waiting assertions that poll until DOM elements reach expected visibility, enablement, or text states. Ensure tests run within isolated browser contexts to prevent state contamination from cookies or local storage. Create prerequisite entities through direct backend API requests during setup to reduce test execution duration. Pitfall: inserting hardcoded time delays like sleep(5000), which severely slows down CI pipelines and causes intermittent test flakiness under varying server loads."
+  },
+  {
+    "id": "test-performance-profiling-tests",
+    "name": "Performance Profiling and Load Testing",
+    "description": "Subject applications to simulated concurrency and high traffic loads while profiling CPU, memory, database query duration, and latencies.",
+    "tags": [
+      "performance",
+      "load-testing",
+      "profiling",
+      "benchmarking"
+    ],
+    "instructions": "Define service level objectives specifying acceptable thresholds for throughput, p95 latency, and p99 latency under target concurrent user volumes. Develop realistic load generation scripts in tools like k6 or Locust that incorporate user think times, randomized query data, and realistic usage paths. Execute tests against dedicated staging environments mirrored to production configurations, stepping through ramp-up, steady-state, and spike phases. Capture CPU utilization, memory allocations, garbage collection pauses, and database connection pool saturation using continuous application profilers. Analyze flame graphs during peak load to detect bottlenecks like N+1 database queries, algorithmic complexity traps, or thread deadlocks. Pitfall: executing load tests against undersized staging infrastructure with tiny mock databases that conceal indexing flaws and connection exhaustion."
+  },
+  {
+    "id": "test-test-plan-writing",
+    "name": "Master Test Plan Writing",
+    "description": "Author comprehensive test plans that articulate testing scope, risks, resources, environment needs, and entry and exit criteria for a release.",
+    "tags": [
+      "test-plan",
+      "strategy",
+      "qa-management",
+      "documentation"
+    ],
+    "instructions": "Define the boundaries of the testing initiative by clearly delineating what product features, platforms, and integrations are in scope versus out of scope. Document primary quality risks, evaluating their business impact and likelihood, and pair each with explicit test mitigation approaches. Specify hardware, software, licenses, test data fixtures, and environment configurations needed to complete verification. Enforce unambiguous entry criteria (such as smoke test pass rates and zero blocker defects) and exit criteria (such as ninety-five percent test pass rates and zero open severity-one defects) required for release approval. Assign ownership, timeline milestones, and reporting schedules across team members. Pitfall: authoring an overly theoretical, disconnected document that remains unread rather than serving as an operational guide aligned with delivery goals."
+  }
+]

@@ -1,0 +1,304 @@
+[
+  {
+    "id": "review-checklist-usage",
+    "name": "Code Review Checklist Usage",
+    "description": "Systematically verifies code changes against standardized team standards, operational readiness criteria, and quality gates.",
+    "tags": [
+      "checklist",
+      "standards",
+      "workflow",
+      "quality-assurance"
+    ],
+    "instructions": "Open the team standard review checklist before reading the diff to prime your attention for common failure modes. Systematically verify architecture adherence, automated test coverage, logging adequacy, and error handling rather than relying on memory. Do not tick off items automatically; actively locate concrete evidence in the diff or linked ticket for every item before signing off. Tailor the checklist depth to PR risk level: trivial copy changes skip architectural checks, while stateful business logic requires full verification across edge cases, rollback strategies, and operational observability."
+  },
+  {
+    "id": "review-correctness-verification",
+    "name": "Reviewing for Correctness",
+    "description": "Evaluates whether code accurately satisfies product specifications, business invariants, and logical edge cases.",
+    "tags": [
+      "correctness",
+      "logic",
+      "edge-cases",
+      "specifications"
+    ],
+    "instructions": "Trace the execution flow from entry point to exit point against the stated requirements and user story acceptance criteria. Trace null, empty, negative, boundary, and off-by-one values through every branch to ensure defensive boundaries hold. Inspect state mutations and concurrency synchronization primitives to confirm thread safety and idempotent handling under duplicate retries. Validate that error propagation does not silently swallow exceptions, drop return values, or leave resources like file descriptors and open sockets hanging when an intermediate failure occurs."
+  },
+  {
+    "id": "review-security-vulnerabilities",
+    "name": "Reviewing for Security",
+    "description": "Audits source changes to detect vulnerabilities, improper access controls, and data exposure risks.",
+    "tags": [
+      "security",
+      "owasp",
+      "auth",
+      "vulnerability"
+    ],
+    "instructions": "Examine untrusted data ingest points to verify parameterized queries against SQL injection, strict context-aware escaping against XSS, and safe deserialization routines. Audit authentication and authorization logic to confirm every modified endpoint strictly validates caller roles and ownership scopes rather than trusting client-provided IDs. Check for exposed secrets, API keys, and sensitive personally identifiable information logged in plaintext or exposed across network boundaries. Watch for unsafe regex patterns susceptible to catastrophic backtracking and ensure cryptographic routines utilize modern, non-deprecated algorithms and secure random number generators."
+  },
+  {
+    "id": "review-performance-efficiency",
+    "name": "Reviewing for Performance",
+    "description": "Analyzes computational complexity, resource allocations, and latency bottlenecks within modified code paths.",
+    "tags": [
+      "performance",
+      "optimization",
+      "latency",
+      "resource-usage"
+    ],
+    "instructions": "Scan loops and nested invocations for N+1 database queries, redundant network roundtrips, and unindexed filter predicates. Evaluate algorithmic time and space complexity, flagging unbounded memory allocations, excessive object instantiation in tight loops, and missing stream pagination. Verify that blocking I/O calls are offloaded to asynchronous executors or worker pools to prevent starvation of primary event loops. Confirm that caching layers specify sensible time-to-live policies, cache eviction handles invalidation correctly, and payload sizes remain bounded to prevent buffer pressure."
+  },
+  {
+    "id": "review-tests-and-coverage",
+    "name": "Reviewing Tests in Pull Requests",
+    "description": "Assesses the coverage, reliability, and edge-case sensitivity of automated test suites within code changes.",
+    "tags": [
+      "testing",
+      "unit-tests",
+      "integration-tests",
+      "test-coverage"
+    ],
+    "instructions": "Inspect tests to verify they assert distinct business behaviors and invariant states rather than mirroring implementation details that make refactoring brittle. Check that tests fail when expected business logic is removed or inverted, guarding against tautological or hollow assertions. Ensure edge cases, exception paths, and external timeouts are explicitly simulated rather than solely covering happy paths. Check mock setups to verify external service boundaries are accurately modeled without over-mocking the system under test, and confirm tests avoid flaky patterns such as arbitrary sleep intervals and shared mutable state."
+  },
+  {
+    "id": "review-constructive-feedback",
+    "name": "Constructive Review Feedback",
+    "description": "Delivers actionable, empathetic, and clear feedback to foster collaboration and code quality improvements.",
+    "tags": [
+      "communication",
+      "mentorship",
+      "collaboration",
+      "feedback"
+    ],
+    "instructions": "Frame observations objectively by focusing comments on code behavior and architectural principles rather than personal habits or subjective taste. Distinguish required blocking issues from optional suggestions using conventional prefixes such as nitpick, question, or blocking. Provide concrete reasoning and code snippets or documentation links illustrating your recommended alternative to give the author an actionable path forward. Acknowledge elegant solutions or well-crafted tests within the PR to maintain positive team morale, and offer to hop on a synchronous call when a comment thread exceeds three unresolved back-and-forth exchanges."
+  },
+  {
+    "id": "review-large-pull-requests",
+    "name": "Reviewing Large Pull Requests",
+    "description": "Strategically breaks down and evaluates monolithic code diffs without succumbing to review fatigue.",
+    "tags": [
+      "large-diffs",
+      "pr-sizing",
+      "strategy",
+      "complexity"
+    ],
+    "instructions": "Begin by reviewing high-level architecture documents, database schema diffs, and core domain interfaces before diving into peripheral implementation files. Request that the author break massive diffs into stacked, logical PRs if the scope spans multiple independent features or sweeping renames. Review commit-by-commit if individual commits are clean and atomic, or filter out generated files and lockfiles to reduce visual noise. Pace your review over multiple focused sessions to avoid approval fatigue where late-stage diffs receive shallow scrutiny, documenting overall architectural concerns before noting file-level details."
+  },
+  {
+    "id": "review-generated-code",
+    "name": "Reviewing Generated Code",
+    "description": "Verifies automated code generation artifacts, source generator inputs, and toolchain reproducible consistency.",
+    "tags": [
+      "codegen",
+      "tooling",
+      "reproducibility",
+      "automation"
+    ],
+    "instructions": "Focus your primary review on the schema, declarative definitions, or source templates from which the output is derived rather than manually reviewing thousands of lines of machine-generated code. Verify that generator toolchain versions, CLI arguments, and execution scripts are pinned identically across developer machines and continuous integration pipelines. Re-run the generation task locally or inspect CI build validation steps to ensure that generated artifacts are completely deterministic and free of platform-dependent path separators or timestamps. Check that manual edits have not been mistakenly introduced directly into the generated output files where subsequent rebuilds will overwrite them."
+  },
+  {
+    "id": "review-database-migrations",
+    "name": "Reviewing Database Migrations",
+    "description": "Evaluates schema alterations, data transformations, and index additions for runtime safety and zero-downtime deployment.",
+    "tags": [
+      "database",
+      "migrations",
+      "sql",
+      "zero-downtime"
+    ],
+    "instructions": "Verify that all table alterations, column additions, and index creations can execute concurrently without acquiring exclusive table locks that block active production traffic. Ensure changes adhere to expand-and-contract patterns: never rename or drop columns in the same release where application code updates its queries. Inspect data backfills and cleanup scripts to confirm they execute in batched chunks rather than a single monolithic transaction that exhausts undo logs or memory. Confirm that every migration includes an automated, tested down-migration or a documented rollback procedure that preserves existing data integrity."
+  },
+  {
+    "id": "review-api-changes",
+    "name": "Reviewing API Changes",
+    "description": "Inspects interface contracts for backward compatibility, clear semantics, and robust validation rules.",
+    "tags": [
+      "api",
+      "contract",
+      "rest",
+      "backward-compatibility"
+    ],
+    "instructions": "Check contract changes across endpoints, schemas, and payload shapes to prevent breaking existing mobile, web, and internal downstream clients. Confirm that new request fields are optional or accompanied by sensible default values, and verify that deprecated properties remain available through a defined deprecation window. Validate HTTP status codes, error payload schemas, and pagination mechanics to ensure uniform behavior across the wider service ecosystem. Ensure that comprehensive contract definitions, such as OpenAPI or protobuf specifications, are updated in tandem with backend handlers and client SDKs."
+  },
+  {
+    "id": "review-configuration-changes",
+    "name": "Reviewing Configuration Changes",
+    "description": "Validates environment variables, feature flags, and infrastructure parameters to prevent operational outages.",
+    "tags": [
+      "configuration",
+      "feature-flags",
+      "devops",
+      "environment"
+    ],
+    "instructions": "Verify that new configuration parameters specify sensible production defaults and fail gracefully with explicit startup validation errors when required values are missing. Audit environment variable names for consistency across development, staging, and production manifests, ensuring no secret tokens or credentials are hardcoded into plain text configurations. Confirm that feature flags have clear owners, expiration dates, and fallback paths if toggled off under unexpected runtime faults. Check resource allocation thresholds such as CPU, memory limits, and connection pool timeouts against actual historical metrics to avoid triggering cascading container restarts."
+  },
+  {
+    "id": "review-documentation-changes",
+    "name": "Reviewing Documentation Changes",
+    "description": "Ensures developer guides, system architecture docs, and release notes remain accurate, readable, and aligned with code.",
+    "tags": [
+      "documentation",
+      "clarity",
+      "technical-writing",
+      "specs"
+    ],
+    "instructions": "Cross-check documented instructions, code samples, and setup commands against actual code implementations to ensure they are functional and free of outdated parameters. Check that architectural diagrams, API reference manuals, and configuration tables reflect all new behaviors introduced in the accompanying code changes. Review language for clarity, precise terminology, and accessibility, removing ambiguous jargon or internal assumptions that might confuse external integrators or onboarding developers. Ensure that documentation updates include clear explanations of why decisions were made, breaking changes are highlighted in bold migration guides, and all hyperlinks point to valid destinations."
+  },
+  {
+    "id": "review-dependency-updates",
+    "name": "Reviewing Dependency Updates",
+    "description": "Audits third-party package additions and version bumps for supply chain security, compatibility, and licensing.",
+    "tags": [
+      "dependencies",
+      "supply-chain",
+      "security",
+      "licensing"
+    ],
+    "instructions": "Examine upstream changelogs, release notes, and commit histories to identify breaking changes, behavioral shifts, and security vulnerabilities addressed in the update. Verify that the dependency license complies with organizational legal policies and does not introduce restrictive copyleft requirements. Inspect the package manifest and lockfile diffs to detect typosquatting, unexpected transitive dependency expansions, or modified package registry URLs. Run full integration test suites locally or in CI environments to confirm the updated dependency does not introduce subtle runtime regressions, deprecation warnings, or native binary compilation failures."
+  },
+  {
+    "id": "review-ui-accessibility",
+    "name": "Reviewing UI Accessibility Changes",
+    "description": "Evaluate user interface modifications to guarantee compatibility with assistive technologies, keyboard navigation, and established accessibility standards.",
+    "tags": [
+      "accessibility",
+      "ui",
+      "a11y",
+      "frontend"
+    ],
+    "instructions": "Inspect the markup for semantic HTML elements before approving generic div or span wrappers with synthetic click handlers. Verify that all interactive controls have accessible names, either through visible text, aria-label, or aria-labelledby attributes. Check keyboard tab order to confirm navigation moves logically from top to bottom without keyboard traps. Audit color contrast ratios for new or changed text against WCAG 2.1 AA thresholds using browser inspection tools. Ensure dynamic updates or alert states leverage appropriate ARIA live regions so screen reader users are notified without losing focus. Avoid approving code that suppresses default focus indicators unless a clear custom focus ring is provided."
+  },
+  {
+    "id": "review-error-handling",
+    "name": "Reviewing Error Handling Code",
+    "description": "Assess failure-path implementations to ensure errors are appropriately captured, logged, contextualized, and gracefully surfaced to callers or users.",
+    "tags": [
+      "error-handling",
+      "reliability",
+      "debugging",
+      "fault-tolerance"
+    ],
+    "instructions": "Verify that catch blocks explicitly state expected exception types rather than catching universal base exceptions or swallowing errors silently. Check that error messages include diagnostic context such as entity IDs, timestamps, or state identifiers while strictly sanitizing personally identifiable information and secrets. Confirm that external service calls possess sensible fallback mechanisms, timeouts, and circuit breaker considerations. Trace cleanup routines to guarantee that database connections, file descriptors, and stream buffers are released in finally blocks or resource management wrappers. Watch out for nested try-catch structures that alter control flow unpredictably or mask downstream failures from centralized monitoring systems."
+  },
+  {
+    "id": "review-concurrency-patterns",
+    "name": "Reviewing Concurrency Code",
+    "description": "Examine multi-threaded, asynchronous, or distributed logic to prevent race conditions, deadlocks, and shared-state corruption.",
+    "tags": [
+      "concurrency",
+      "multithreading",
+      "async",
+      "performance",
+      "thread-safety"
+    ],
+    "instructions": "Identify all mutable state accessed by concurrent threads or asynchronous tasks, verifying that read and write operations are synchronized using immutable data structures, atomic primitives, or explicit locks. Check lock acquisition orders across interdependent services to rule out potential deadlock cycles. Look closely at non-atomic check-then-act sequences, such as checking a map key before inserting. Ensure asynchronous promises or goroutines incorporate proper cancellation tokens, timeout propagation, and unhandled rejection guards. Validate that thread pools, channel buffers, and worker counts are bounded to avoid resource starvation under high throughput scenarios."
+  },
+  {
+    "id": "review-code-maintainability",
+    "name": "Reviewing for Maintainability",
+    "description": "Analyze code organization, modularity, and readability to safeguard long-term codebase health and minimize technical debt.",
+    "tags": [
+      "maintainability",
+      "refactoring",
+      "clean-code",
+      "architecture"
+    ],
+    "instructions": "Evaluate whether new classes and functions adhere to single responsibility principles, flagging functions exceeding typical cognitive bounds or mixing disparate business logic. Examine variable, method, and module names to confirm they express intent accurately without requiring explanatory inline comments. Check that newly introduced dependencies do not breach existing architectural layer boundaries or introduce circular dependencies. Verify that configuration values, feature toggles, and business constants are extracted rather than hardcoded throughout the implementation. Reject speculative abstractions or premature generalization that adds indirection without current practical benefit, prioritizing straightforward, testable code paths."
+  },
+  {
+    "id": "review-author-self-review",
+    "name": "Self-Review Before Submitting",
+    "description": "Perform a thorough pre-submission audit of your own pull request to catch obvious oversights and reduce reviewer burden.",
+    "tags": [
+      "self-review",
+      "pull-request",
+      "quality-assurance",
+      "workflow"
+    ],
+    "instructions": "Before marking a pull request ready for peer review, examine the complete diff line by line in your platform interface rather than your local editor. Remove leftover debugging statements, temporary print calls, commented-out dead code, and unintended whitespace adjustments. Confirm that automated unit and integration tests pass cleanly and that new tests adequately cover modified edge cases. Draft a structured pull request description that articulates the motivation, chosen solution, testing steps, and relevant ticket references. Add explanatory line comments on complex or non-obvious design choices to preempt common reviewer questions and accelerate consensus."
+  },
+  {
+    "id": "review-assignment-strategy",
+    "name": "Reviewer Assignment Strategy",
+    "description": "Establish targeted reviewer selection criteria that balance domain expertise, code ownership, and equitable team workload distribution.",
+    "tags": [
+      "team-process",
+      "code-ownership",
+      "collaboration",
+      "workload"
+    ],
+    "instructions": "Map pull request domains directly to CODEOWNERS rules while actively avoiding routing all critical pull requests to a single senior engineer or team lead. Pair domain novices with experienced contributors on complex architecture changes to spread institutional knowledge across the engineering team. Check current reviewer queues and ongoing sprint commitments before dispatching requests to prevent overloading busy peers. Limit mandatory reviewer counts to one or two engineers to avoid bystander effect and analysis paralysis. When cross-team boundaries are crossed, include one representative from the consuming team specifically to validate API contracts and integration ergonomics."
+  },
+  {
+    "id": "review-turnaround-improvement",
+    "name": "Review Turnaround Improvement",
+    "description": "Implement practices and service-level agreements to accelerate review cycles and eliminate deployment bottlenecks.",
+    "tags": [
+      "productivity",
+      "sla",
+      "cycle-time",
+      "velocity",
+      "process"
+    ],
+    "instructions": "Establish explicit team agreements defining target review response intervals, such as first feedback within four business hours for normal changes. Encourage authors to break features down into small, digestible pull requests under four hundred lines of diff, making quick reviews feasible between meetings. Reserve dedicated daily time slots for reviewing code rather than context-switching haphazardly throughout deep work blocks. Integrate automated linting, security scans, and formatting into the continuous integration pipeline so reviewers focus solely on design and correctness. When review comments exceed two discussion rounds without convergence, immediately escalate to a synchronous five-minute call to resolve disagreements."
+  },
+  {
+    "id": "review-requesting-changes",
+    "name": "Requesting Changes Effectively",
+    "description": "Deliver actionable, empathetic, and objective feedback when blocking a pull request to foster constructive collaboration.",
+    "tags": [
+      "communication",
+      "feedback",
+      "collaboration",
+      "critique"
+    ],
+    "instructions": "Frame requested modifications around objective technical rationales, project standards, or demonstrable failure modes rather than personal stylistic preferences. Clearly distinguish blocking defects, such as security vulnerabilities, data corruption risks, or broken contracts, from optional suggestions by prefixing non-blocking feedback with explicit tags like 'nit' or 'consider'. Provide concrete code snippets, documentation links, or counter-examples illustrating your proposed alternative to minimize ambiguity. Critique the code implementation directly rather than using judgmental language directed at the author. Conclude your review with an encouraging summary acknowledging the positive aspects of the work completed."
+  },
+  {
+    "id": "review-confident-approval",
+    "name": "Confident Approval Practices",
+    "description": "Apply disciplined verification criteria before approving pull requests to ensure shared ownership and production readiness.",
+    "tags": [
+      "quality-gate",
+      "approval",
+      "verification",
+      "risk-assessment"
+    ],
+    "instructions": "Do not approve a pull request based on surface scanning or assumption of author competence; actively walk through the execution path from entry point to persistence. Verify that database migrations are backwards-compatible and safe for zero-downtime rollouts before signing off. Confirm that automated continuous integration tests are passing and that new test suites demonstrate meaningful assertions instead of superficial code coverage. Check that observability measures, including metrics, structured logs, and distributed trace headers, are wired properly for post-deployment verification. Only submit an approval when you are prepared to share on-call responsibility for issues arising from the merged changes."
+  },
+  {
+    "id": "review-metrics-analysis",
+    "name": "Code Review Metrics Analysis",
+    "description": "Track and interpret quantitative engineering metrics to diagnose systemic review pipeline friction without creating perverse incentives.",
+    "tags": [
+      "metrics",
+      "engineering-management",
+      "analytics",
+      "continuous-improvement"
+    ],
+    "instructions": "Monitor aggregate trends in review turnaround time, time-to-first-response, pull request size, and review comment density across team sprints. Use these quantitative indicators strictly to diagnose process bottlenecks, such as oversized changes or uneven reviewer workload, rather than evaluating individual developer performance. Correlate high review iteration counts with ambiguity in initial product specifications or ticket requirements. Watch for unhealthy drops in review depth, such as rubber-stamping approvals on massive PRs, which signal team fatigue or unrealistic delivery deadlines. Review metrics retroactively during sprint retrospectives to recalibrate pull request size guidelines and team reviewing capacity."
+  },
+  {
+    "id": "review-mentoring-practices",
+    "name": "Mentoring Through Code Review",
+    "description": "Use the review process as an educational tool to guide junior engineers toward autonomous problem-solving and idiomatic design.",
+    "tags": [
+      "mentorship",
+      "coaching",
+      "learning",
+      "team-growth"
+    ],
+    "instructions": "Use Socratic questioning rather than prescriptive commands when identifying suboptimal solutions, asking the author how their approach handles specific edge cases or scaling limits. Explain the underlying 'why' behind architectural patterns and idiomatic idioms, citing official style guides, design books, or internal architectural decision records. Highlight well-crafted solutions, clever test cases, or clean refactoring in the pull request to reinforce positive engineering habits. Encourage the author to propose the fix themselves before supplying full replacement snippets. Offer follow-up pairing sessions when introducing unfamiliar design paradigms so the author can build confidence without feeling alienated."
+  },
+  {
+    "id": "review-urgent-hotfixes",
+    "name": "Reviewing Urgent Hotfixes",
+    "description": "Perform rapid, high-stakes verification of emergency production patches while mitigating the risk of secondary regressions.",
+    "tags": [
+      "hotfix",
+      "incident-response",
+      "emergency",
+      "risk-mitigation"
+    ],
+    "instructions": "Verify that the hotfix exclusively addresses the immediate incident root cause, stripping away unrelated refactorings, styling changes, or feature updates that expand the blast radius. Scrutinize the patch for dangerous secondary side effects, such as unintended transaction rollbacks, race conditions under high production traffic, or silent data truncation. Check whether a targeted regression test reproducing the exact outage scenario is bundled with the hotfix. Confirm an explicit rollback or mitigation plan exists should the hotfix fail upon deployment. Ensure that any technical debt, temporary workarounds, or skipped full validation suites are logged into an immediate post-incident cleanup ticket."
+  }
+]

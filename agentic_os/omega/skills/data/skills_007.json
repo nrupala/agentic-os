@@ -1,0 +1,302 @@
+[
+  {
+    "id": "plan-project-charter-writing",
+    "name": "Project Charter Writing",
+    "description": "Author an authoritative project charter that formally authorizes the project, defines initial objectives, and establishes executive sponsorship.",
+    "tags": [
+      "charter",
+      "governance",
+      "initiation",
+      "sponsorship"
+    ],
+    "instructions": "Convene with the primary project sponsor to align on business need, measurable success metrics, and budget guardrails. Document the project purpose, high-level deliverables, core assumptions, major known constraints, and baseline milestones. Specifically delineate the project manager's designated authority level regarding budget expenditures, staffing decisions, and vendor selection. Circulate the draft among key executive stakeholders to resolve conflicting expectations before requesting signature. Common pitfall: treating the charter as an exhaustive technical specification rather than an executive mandate; keep requirements strategic and ensure formal sign-off before committing delivery resources."
+  },
+  {
+    "id": "plan-project-scope-definition",
+    "name": "Project Scope Definition",
+    "description": "Define explicit functional boundaries, deliverables, and acceptance criteria to prevent scope creep throughout execution.",
+    "tags": [
+      "scope",
+      "requirements",
+      "deliverables",
+      "boundaries"
+    ],
+    "instructions": "Gather raw business and user requirements through structured interviews and discovery sessions. Synthesize findings into clear project deliverables, detailing explicit acceptance criteria for each item. Create an unambiguous 'Out of Scope' section that explicitly lists items, integrations, or edge cases discussed but excluded from this phase. Conduct a formal scope validation review with lead architects and client representatives to secure written concurrence. A major pitfall is leaving ambiguous terminology like 'fast performance' or 'user friendly' without measurable thresholds; convert every vague expectation into verifiable test conditions."
+  },
+  {
+    "id": "plan-work-breakdown-structure-creation",
+    "name": "Work Breakdown Structure Creation",
+    "description": "Deconstruct project deliverables hierarchically into manageable, deliverable-oriented work packages using the 100 percent rule.",
+    "tags": [
+      "wbs",
+      "decomposition",
+      "work-packages",
+      "planning"
+    ],
+    "instructions": "Start from the terminal deliverables identified in the scope statement and progressively decompose them down to work package levels. Apply the 100 percent rule rigorously: ensure that the child elements completely represent 100 percent of the parent element's work with zero overlap or extraneous tasks. Define each lowest-level package with a distinct WBS dictionary entry detailing boundaries, responsible owner, and expected completion evidence. Verify that no work package is too small (causing micromanagement) or too massive (masking progress risks), typically targeting 8 to 80 hours of effort. Watch out for organizing by functional departments rather than deliverables."
+  },
+  {
+    "id": "plan-estimation-techniques",
+    "name": "Project Estimation Techniques",
+    "description": "Calculate realistic effort, duration, and cost projections by combining parametric, analogous, and three-point estimation models.",
+    "tags": [
+      "estimation",
+      "pert",
+      "budgeting",
+      "sizing"
+    ],
+    "instructions": "Select the appropriate sizing technique based on project phase and data fidelity; use analogous sizing for early concepts and parametric or three-point (PERT) models once specifications mature. For PERT estimations, calculate expected durations using the formula (Optimistic + 4*Most Likely + Pessimistic) / 6, and determine standard deviation to assess schedule variance risks. Involve the actual cross-functional contributors performing the work rather than relying solely on manager estimates. Check for optimism bias and padding by calibrating against historical repository metrics from previous finished projects. Avoid presenting point estimates to leadership; always communicate confidence intervals alongside your baseline figures."
+  },
+  {
+    "id": "plan-critical-path-analysis",
+    "name": "Critical Path Analysis",
+    "description": "Identify the longest sequence of dependent activities and calculate float to determine total project duration and scheduling risks.",
+    "tags": [
+      "cpm",
+      "scheduling",
+      "dependencies",
+      "network-diagram"
+    ],
+    "instructions": "Construct a precedent diagram detailing all work packages, predecessor-successor relationships, and discrete dependency types (FS, SS, FF, SF). Execute a forward pass across the network to establish early start and early finish dates, followed immediately by a backward pass to establish late start and late finish dates. Calculate total float and free float for every activity; any sequence with zero total float constitutes the critical path. Continually monitor near-critical paths with low float, as minor slippages there can instantly shift the critical sequence. A common pitfall is ignoring lead and lag times or missing hard external dependencies, which skews realistic completion projections."
+  },
+  {
+    "id": "plan-risk-register-maintenance",
+    "name": "Risk Register Maintenance",
+    "description": "Log, quantify, prioritize, and monitor project uncertainties through continuous qualitative and quantitative risk analysis.",
+    "tags": [
+      "risk",
+      "mitigation",
+      "monitoring",
+      "contingency"
+    ],
+    "instructions": "Facilitate ongoing risk discovery sessions with technical leads and business stakeholders to log emerging threats and positive opportunities. Assign each entry a standard taxonomy, probability score, impact rating, and qualitative risk score (Probability x Impact). For high-priority threats, articulate a proactive mitigation plan, a secondary contingency trigger, and a single assigned risk owner who monitors leading indicators. Review and update the register bi-weekly, retiring obsolete risks and reassessing existing scores as technical unknowns diminish. Pitfall: documenting risks during kickoff and never revisiting them, or confusing realized issues that require immediate crisis handling with future probabilistic risks."
+  },
+  {
+    "id": "plan-stakeholder-mapping",
+    "name": "Stakeholder Mapping",
+    "description": "Categorize and analyze internal and external stakeholders to formulate targeted communication and engagement strategies.",
+    "tags": [
+      "stakeholders",
+      "communication",
+      "power-interest",
+      "alignment"
+    ],
+    "instructions": "Brainstorm an exhaustive list of all individuals, groups, and regulatory bodies impacted by or capable of influencing the initiative. Plot each entity onto a Power versus Interest matrix to divide them into four distinct quadrants: manage closely, keep satisfied, keep informed, or monitor. Detail specific communication channels, frequency of contact, and preferred message formatting tailored to each group's expectations and organizational influence. Identify hidden champions, detractors, and gatekeepers whose latent opposition could stall executive sign-offs. Guard against static analysis; reassess stakeholder positions after organizational reorganizations, budget reallocations, or significant scope modifications."
+  },
+  {
+    "id": "plan-raci-chart-creation",
+    "name": "RACI Chart Creation",
+    "description": "Clarify decision rights and operational responsibilities across deliverables using the Responsible, Accountable, Consulted, and Informed matrix.",
+    "tags": [
+      "raci",
+      "governance",
+      "roles",
+      "responsibility"
+    ],
+    "instructions": "List core project activities and milestone deliverables along the vertical axis and project roles along the horizontal header. Assign RACI codes per intersection, ensuring strictly one single 'Accountable' role per activity to eliminate leadership ambiguity. Audit rows and columns: verify that no task lacks an assigned 'Responsible' party and that no individual is overloaded with excessive responsibilities. Consult with each role owner during construction rather than mandating assignments unilaterally, securing personal buy-in on participation levels. Pitfall: assigning excessive 'Consulted' labels, which invites bureaucratic analysis paralysis and drags down delivery velocity; convert non-essential reviewers into 'Informed' observers instead."
+  },
+  {
+    "id": "plan-sprint-planning",
+    "name": "Sprint Planning",
+    "description": "Guide agile teams in establishing a coherent sprint goal and selecting a feasible backlog subset based on empirical team velocity.",
+    "tags": [
+      "scrum",
+      "agile",
+      "sprint-goal",
+      "velocity"
+    ],
+    "instructions": "Open the planning session by presenting the proposed business objective and refining it collaboratively into a single, cohesive Sprint Goal. Review historical velocity and available team capacity, factoring in planned vacations, on-call rotations, and organizational holidays before committing to workload. Pull prioritized, refined user stories from the top of the backlog into the sprint container until capacity limits are reached. Have engineers break each story into discrete development, testing, and review subtasks with realistic time estimates. A frequent trap is overloading the sprint without leaving a capacity buffer for unforeseen production defects or technical blocker remediation."
+  },
+  {
+    "id": "plan-backlog-refinement",
+    "name": "Backlog Refinement",
+    "description": "Collaborate with cross-functional teams to clarify user stories, negotiate acceptance criteria, and estimate effort ahead of execution.",
+    "tags": [
+      "backlog",
+      "grooming",
+      "user-stories",
+      "invest"
+    ],
+    "instructions": "Schedule regular refinement cadences to inspect candidate user stories for upcoming delivery cycles alongside the product owner and engineering team. Evaluate every candidate story against the INVEST framework to guarantee independence, negotiability, value, estimability, compactness, and testability. Facilitate sizing exercises, such as Planning Poker or T-shirt sizing, prompting engineers to debate divergent estimates to unearth hidden technical complexities. Document detailed Given-When-Then acceptance criteria and link necessary wireframes, API contracts, or architectural constraints directly in the ticket. Avoid using refinement as an impromptu design review; defer deep exploratory architecture debates to separate technical spikes."
+  },
+  {
+    "id": "plan-product-roadmap-creation",
+    "name": "Product Roadmap Creation",
+    "description": "Synthesize strategic vision and product milestones into an outcome-oriented roadmap that communicates future value delivery.",
+    "tags": [
+      "roadmap",
+      "product-strategy",
+      "outcomes",
+      "vision"
+    ],
+    "instructions": "Anchor the roadmap around strategic business themes and intended customer outcomes rather than rigid feature release dates. Organize initiatives into flexible temporal horizons, such as Now, Next, and Later, to reflect decreasing certainty the further plans extend into the future. Align milestones with measurable key results (OKRs) so leadership understands the intended return on investment before engineering commences. Socialize the roadmap across sales, marketing, support, and engineering leadership to validate feasibility and identify cross-functional go-to-market dependencies. Avoid committing to hard completion deadlines on speculative horizon items, which sets unrealistic stakeholder expectations and causes premature architectural debt."
+  },
+  {
+    "id": "plan-milestone-planning",
+    "name": "Milestone Planning",
+    "description": "Establish critical zero-duration checkpoints throughout the project lifecycle to evaluate progress, gate funding, and manage dependencies.",
+    "tags": [
+      "milestones",
+      "stage-gates",
+      "schedule",
+      "checkpoints"
+    ],
+    "instructions": "Identify key inflection points, contractual handover dates, major phase transitions, and regulatory compliance deadlines across the timeline. Define each milestone as an unambiguous zero-duration event with crisp, binary completion criteria (e.g., 'Alpha build validated by QA'). Establish formal stage-gate criteria, specifying mandatory documentation, security approvals, or sign-offs required before passing each milestone gate. Integrate these milestones into governance reporting to provide external executives with rapid visual indicators of overall schedule health. A dangerous pitfall is creating too many low-impact milestones, which creates administrative review fatigue and obscures genuinely critical delivery risks."
+  },
+  {
+    "id": "plan-resource-allocation-planning",
+    "name": "Resource Allocation Planning",
+    "description": "Balance personnel, equipment, and fiscal capacities against schedule demands using resource leveling and smoothing techniques.",
+    "tags": [
+      "resources",
+      "capacity",
+      "leveling",
+      "staffing"
+    ],
+    "instructions": "Audit required skill profiles across scheduled work packages, mapping individual contributor availability and specialized equipment access against the delivery timeline. Apply resource leveling when critical specialists are overallocated, allowing project duration to adjust when necessary to prevent unsustainable team burnout. Alternatively, apply resource smoothing within available positive float to avoid altering the hard project completion deadline. Maintain a centralized allocation view that factors in shared enterprise commitments, operational maintenance tasks, and conflicting multi-project demands. Common pitfall: assuming 100 percent productivity and continuous focus, ignoring administrative overhead, context switching costs, and inevitable operational churn."
+  },
+  {
+    "id": "plan-dependency-mapping",
+    "name": "Dependency Mapping",
+    "description": "Map cross-functional task relationships and external handoffs to identify critical path vulnerabilities.",
+    "tags": [
+      "dependencies",
+      "critical-path",
+      "scheduling",
+      "risk-management"
+    ],
+    "instructions": "Catalog all work packages from the work breakdown structure. Classify each dependency by type: Finish-to-Start, Start-to-Start, Finish-to-Finish, or external vendor deliverables. Interview workstream leads to uncover implicit assumptions about shared resources, API readiness, or compliance approvals. Document lag times and lead times for each relationship. Visualize the network using a Precedence Diagram Method or trace matrix. Identify single points of failure where multiple critical activities hinge on a single unowned deliverable. Validate the map bi-weekly with technical leads, and avoid the pitfall of ignoring external dependencies like legal reviews and third-party environment provisioning."
+  },
+  {
+    "id": "plan-change-management-planning",
+    "name": "Change Management Planning",
+    "description": "Prepare organizational stakeholders for workflow transitions by structuring enablement, communication, and resistance mitigation strategies.",
+    "tags": [
+      "change-management",
+      "stakeholders",
+      "adoption",
+      "enablement"
+    ],
+    "instructions": "Conduct an impact assessment scoring how significantly processes, tooling, and roles change across each user persona. Group stakeholders by impact severity and sentiment to draft tailored enablement pathways. Design a change network of departmental champions who will beta-test workflows and gather frontline feedback. Structure phased training schedules that align directly with tool release gates rather than arbitrary calendar dates. Define adoption key performance indicators such as weekly active users and support ticket escalation volume. A common pitfall is treating change management as purely broadcast communications; you must establish two-way feedback channels to catch operational resistance before go-live."
+  },
+  {
+    "id": "plan-project-communication-planning",
+    "name": "Project Communication Planning",
+    "description": "Establish structured reporting rhythms, audience matrices, and channel protocols to align project teams and executive sponsors.",
+    "tags": [
+      "communications",
+      "stakeholder-engagement",
+      "governance",
+      "reporting"
+    ],
+    "instructions": "Build a stakeholder matrix categorizing recipients by interest, authority, and information necessity. Define the specific artifact, delivery channel, cadence, and accountable author for each tier, from daily developer standups to monthly executive steering committees. Standardize status report templates using a predictable format: accomplishments, upcoming milestones, blockers, and budget variance. Establish escalation protocols that outline exact thresholds for triggering emergency alerts to sponsors. Verify whether async formats like dashboard links replace synchronous meetings for passive observers. A frequent pitfall is over-communicating raw technical details to executive leadership; tailor the altitude of the message strictly to the target audience's decision-making needs."
+  },
+  {
+    "id": "plan-decision-log-maintenance",
+    "name": "Decision Log Maintenance",
+    "description": "Record the context, rationale, trade-offs, and owners of key project choices to prevent circular debates and maintain auditability.",
+    "tags": [
+      "decision-making",
+      "governance",
+      "documentation",
+      "audit-trail"
+    ],
+    "instructions": "Record decisions immediately after architecture reviews, steerco meetings, or design workshops in a centralized, accessible repository. For each entry, capture the unique ID, decision date, primary driver, options evaluated, chosen solution, rationale, decision owner, and consulted stakeholders. Include explicit consequences or trade-offs accepted by the team, such as technical debt or timeline shifts. Tag related requirements or work breakdown structure IDs to preserve traceability. Review pending or contested decisions weekly during leadership syncs to confirm sign-off. The critical pitfall to avoid is documenting decisions without capturing the rejected alternatives; recording why an option was dismissed prevents future team churn and re-litigating settled discussions."
+  },
+  {
+    "id": "plan-retrospective-facilitation",
+    "name": "Retrospective Facilitation",
+    "description": "Guide cross-functional teams through structured post-iteration reflections to surface operational friction and implement concrete process improvements.",
+    "tags": [
+      "retrospectives",
+      "agile",
+      "continuous-improvement",
+      "facilitation"
+    ],
+    "instructions": "Select a thematic framework like Start-Stop-Continue or 4Ls tailored to the team's recent sprint intensity. Set ground rules emphasizing psychological safety and the prime directive: everyone did the best work possible given their knowledge and tools. Allocate silent ideation time using virtual boards to prevent vocal participants from anchoring the conversation. Group sticky notes into thematic clusters, apply dot voting to prioritize top issues, and facilitate root-cause analysis using the 5 Whys. Formulate maximum two or three SMART action items with dedicated assignees and target completion dates. The primary pitfall is compiling laundry lists of complaints without assigning accountable owners, which turns retrospectives into unproductive venting sessions."
+  },
+  {
+    "id": "plan-okr-writing",
+    "name": "OKR Writing",
+    "description": "Formulate qualitative strategic objectives paired with quantitative, outcome-oriented key results that drive cross-team alignment.",
+    "tags": [
+      "okrs",
+      "goal-setting",
+      "strategic-planning",
+      "metrics"
+    ],
+    "instructions": "Draft qualitative, inspirational Objectives that articulate an ambitious state of success for the upcoming quarter without referencing specific tasks. For each Objective, pair three to five Key Results that measure business outcomes rather than output activities. Ensure every Key Result contains a baseline value, a target value, and an unambiguous measurement source, using the structure 'Increase or decrease metric X from baseline Y to target Z'. Vet the suite against cross-functional dependencies to confirm partner teams commit to shared dependencies. Validate that scoring 70 percent reflects a strong achievement for aspirational goals. Avoid the common pitfall of phrasing standard operational milestones or task tickets as Key Results."
+  },
+  {
+    "id": "plan-budget-planning",
+    "name": "Budget Planning",
+    "description": "Estimate, categorize, and baseline total project expenditures across capital and operational accounts to ensure fiscal control.",
+    "tags": [
+      "budgeting",
+      "cost-management",
+      "financial-planning",
+      "forecasting"
+    ],
+    "instructions": "Break down project scope into cost categories: internal labor, contractor fees, software licensing, hardware, travel, and third-party professional services. Calculate internal labor by multiplying resource hours against blended billing rates per discipline. Differentiate capital expenditures (CapEx) from operational expenditures (OpEx) according to company accounting policies. Apply a 10 to 20 percent contingency reserve calculated from an explicit risk-weighted cost model rather than an arbitrary flat percentage. Establish monthly spending burn-rate baselines and define variance thresholds that require sponsor re-approval. A critical pitfall is failing to account for recurring infrastructure overhead or multi-year software licensing true-ups that kick in post-launch."
+  },
+  {
+    "id": "plan-vendor-evaluation",
+    "name": "Vendor Evaluation",
+    "description": "Appraise prospective external partners against rigorous technical, financial, and organizational criteria through structured scoring.",
+    "tags": [
+      "vendor-management",
+      "procurement",
+      "evaluation",
+      "rfp"
+    ],
+    "instructions": "Construct a weighted evaluation rubric before reviewing vendor proposals, categorizing criteria into functional fit, technical architecture, security compliance, pricing model, and vendor viability. Blind-score initial RFP responses across an evaluation committee of engineering, finance, and product representatives to eliminate individual bias. Require short-listed vendors to conduct standardized, scripted product demonstrations addressing your team's specific edge cases rather than canned sales decks. Conduct thorough reference calls with past clients possessing comparable operational scale. Audit security credentials like SOC 2 Type II or ISO 27001 certifications. The pitfall to avoid is selecting vendors purely on initial pricing, which frequently obscures prohibitive integration costs and aggressive renewal escalations."
+  },
+  {
+    "id": "plan-procurement-checklist",
+    "name": "Procurement Checklist",
+    "description": "Verify critical legal, budgetary, security, and contracting prerequisites prior to issuing purchase orders or signing supplier agreements.",
+    "tags": [
+      "procurement",
+      "contract-management",
+      "compliance",
+      "purchasing"
+    ],
+    "instructions": "Verify that the statement of work includes unambiguous milestone deliverables, acceptance testing windows, and non-performance penalties. Confirm that budget allocations have cleared designated financial approvals and match purchase requisition totals. Review contract terms with legal counsel, verifying clauses covering intellectual property rights, termination for convenience, limitation of liability, and data ownership. Ensure information security teams complete risk assessments, third-party data processing agreements, and SOC reports. Check payment schedules against deliverable gates to prohibit large upfront deposits without protection. A dangerous pitfall is signing software agreements without defining enterprise service level agreements (SLAs) and credit remedies for unplanned vendor service downtime."
+  },
+  {
+    "id": "plan-project-closure-reporting",
+    "name": "Project Closure Reporting",
+    "description": "Synthesize ultimate project performance metrics, deliverable handoffs, and resource releases into a definitive completion document.",
+    "tags": [
+      "project-closure",
+      "reporting",
+      "governance",
+      "handover"
+    ],
+    "instructions": "Compile final performance metrics contrasting baseline versus actual outcomes across schedule, budget, scope, and quality targets. Document the formal acceptance sign-offs for all primary deliverables from the product owner and business sponsor. Outline operational transition details, confirming that production support teams have accepted runbooks, monitoring dashboards, and tier-one escalation procedures. Reconcile open purchase orders, release remaining contract encumbrances, and systematically offboard contractor credentials and physical assets. Archive project documentation, repositories, and decision records in accessible enterprise repositories. A frequent pitfall is closing the project administratively before lingering warranty defects are formally assigned to operational maintenance backlogs."
+  },
+  {
+    "id": "plan-lessons-learned-capture",
+    "name": "Lessons Learned Capture",
+    "description": "Elicit, synthesize, and categorize organizational insights from project successes and failures to enrich institutional knowledge.",
+    "tags": [
+      "knowledge-management",
+      "lessons-learned",
+      "post-mortem",
+      "continuous-learning"
+    ],
+    "instructions": "Distribute an anonymous pre-session survey to project team members, sponsors, and cross-functional partners to identify friction points and unexpected successes. Host a dedicated debrief session structured around core phases: initiation, architecture, execution, and release. For each notable insight, document the root context, the actual outcome versus expectations, and the resulting organizational impact. Convert insights into prescriptive recommendations for future projects rather than descriptive summaries of past pain. Publish findings into a searchable knowledge repository, tagging them by project type, tooling, and domain. Avoid the pitfall of filing lessons learned as shelfware; actively update standard operating procedures, templates, and onboarding guides based on these findings."
+  },
+  {
+    "id": "plan-project-schedule-recovery",
+    "name": "Project Schedule Recovery",
+    "description": "Diagnose schedule slippage and execute structured compression techniques to bring delayed initiatives back to target milestones.",
+    "tags": [
+      "schedule-compression",
+      "critical-path",
+      "fast-tracking",
+      "crashing"
+    ],
+    "instructions": "Perform an earned value analysis to determine Schedule Variance and Schedule Performance Index, pinpointing exact slippage points. Re-evaluate the critical path to distinguish non-negotiable hard dependencies from discretionary soft dependencies. Apply fast-tracking by scheduling sequential critical path activities in parallel where risks are acceptable. If fast-tracking is insufficient, evaluate crashing options by assigning targeted extra resources or authorizing overtime on critical activities with the lowest incremental cost. Negotiate scope de-scoping for non-essential features with product sponsors to protect critical release milestones. A major pitfall is adding untrained personnel to late tasks without factoring in Brooks's Law, which temporarily inflates communication overhead and further delays delivery."
+  }
+]

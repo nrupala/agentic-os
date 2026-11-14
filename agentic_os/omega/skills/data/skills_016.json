@@ -1,0 +1,302 @@
+[
+  {
+    "id": "files-file-naming-conventions",
+    "name": "Standardized File Naming Conventions",
+    "description": "Establish consistent, machine-readable, and human-friendly file naming schemes across personal and shared environments.",
+    "tags": [
+      "file-naming",
+      "metadata",
+      "file-organization",
+      "taxonomy"
+    ],
+    "instructions": "Standardize file naming by defining a fixed structural formula: YYYY-MM-DD_project_document-type_descriptor_v00. Use ISO 8601 dates at the prefix to guarantee chronological sorting across all operating systems. Separate semantic elements with underscores and multi-word descriptors with hyphens. Never use spaces, punctuation marks, or special characters like slashes, colons, or ampersands which break CLI tools and URLs. Restrict the entire filename to under 60 characters to avoid path limit errors in nested filesystems. Check that leading zeros are used for single-digit revision numbers (e.g., v01 instead of v1) so alphabetical sort maintains sequence. A common pitfall is embedding perishable state words like 'final' or 'latest'—always use sequential version numbers instead."
+  },
+  {
+    "id": "files-folder-structure-design",
+    "name": "Hierarchical Folder Structure Design",
+    "description": "Architect balanced, shallow directory hierarchies that balance intuitive browsing with rapid retrieval.",
+    "tags": [
+      "directory-design",
+      "information-architecture",
+      "file-organization",
+      "workflows"
+    ],
+    "instructions": "Design directory trees adhering to the 'three-click rule' by limiting nested folder depth to no more than four tiers. Separate operational spaces using a broad top-level split such as Projects, Areas, Resources, and Archives (PARA) or by core organizational function. Keep top-level directories under eight total items to reduce visual clutter and cognitive load. Ensure every folder has a defined scope document or README outlining permissible contents. Perform regular quarterly audits to collapse underutilized subfolders containing fewer than three files. Avoid creating parallel duplicate structures across departments or personal drives, which causes uncertainty about where canonical assets live. Beware of over-categorization where users spend more time navigating empty directories than filing active work."
+  },
+  {
+    "id": "files-document-version-control-practices",
+    "name": "Manual Document Version Control",
+    "description": "Track document iterations, authorship, and change summaries without relying exclusively on automated Git repositories.",
+    "tags": [
+      "version-control",
+      "document-management",
+      "collaboration",
+      "revision-history"
+    ],
+    "instructions": "Implement major and minor semantic version increments for living documents: increment whole digits (v1.0 to v2.0) for approved milestones and tenths (v0.1 to v0.2, v1.1) for drafting iterations. Place a version history table on the document cover or appendix detailing version number, date, editor initials, and a concise summary of changes made. When collaborating on binary files like PDFs or spreadsheets without branch merging, append contributor initials during review phases before reconciliation into the canonical milestone. Never allow multiple co-authors to edit detached local copies without checking out the central master. Guard against orphaned revisions by designating a single document owner responsible for consolidating redlines and deprecating superseded intermediate drafts into an archive subfolder."
+  },
+  {
+    "id": "files-backup-verification-routine",
+    "name": "Routine Backup Integrity Verification",
+    "description": "Systematically test and validate automated data backups to guarantee recoverability during data loss incidents.",
+    "tags": [
+      "backup",
+      "disaster-recovery",
+      "data-integrity",
+      "verification"
+    ],
+    "instructions": "Execute a monthly test restoration from secondary and off-site backup snapshots onto an isolated sandbox machine rather than assuming backup logs are truth. Compare cryptographic checksums (such as SHA-256 hashes) between source manifests and restored payloads to verify bit-level file integrity. Test both full disaster recovery scenarios and single-file point-in-time recoveries across different operating systems. Verify that cold storage credentials, encryption keys, and recovery passphrases remain accessible and documented outside the primary backup volume itself. Pitfalls include relying solely on green 'backup completed' notification banners without inspecting file sizes, overlooking corrupted databases locked during backup runs, and failing to verify that restore permissions retain original access control lists."
+  },
+  {
+    "id": "files-file-archive-strategy",
+    "name": "Cold Storage and File Archival Strategy",
+    "description": "Safely offload inactive project files into structured, read-only archives to preserve historical assets while reducing working clutter.",
+    "tags": [
+      "archiving",
+      "cold-storage",
+      "records-management",
+      "retention-policy"
+    ],
+    "instructions": "Establish a bi-annual archiving trigger: identify projects untouched for more than six months and package them for cold storage. Export proprietary, ephemeral application files into open preservation formats like PDF/A for text, CSV for spreadsheets, and uncompressed TIFF or PNG for graphics. Generate an archive manifest text file at the root listing project duration, principal stakeholders, license keys, and external dependencies. Apply write-protection or read-only filesystem attributes to the archived directory prior to compressing it into an encrypted ZIP or TAR archive. Move completed archives out of active sync directories to dedicated cold storage tiers. Avoid leaving incomplete draft scraps or temporary cache folders inside archives, as they inflate storage footprints without historical value."
+  },
+  {
+    "id": "files-duplicate-file-cleanup",
+    "name": "Deduplication and Redundant File Purging",
+    "description": "Scan filesystems to safely identify, isolate, and delete identical or near-identical files across volumes.",
+    "tags": [
+      "deduplication",
+      "storage-cleanup",
+      "file-maintenance",
+      "hash-matching"
+    ],
+    "instructions": "Deploy dedicated hash-based deduplication utilities that calculate MD5 or SHA-256 signatures across target drives rather than filtering solely by filename or creation date. Group duplicate candidates and isolate the canonical copy—typically the file positioned in the deepest, most appropriately categorized project folder or the earliest recorded creation stamp. Move all suspected duplicates into a staging quarantine folder for thirty days rather than instantly executing hard deletes. Check whether dependent applications, linked spreadsheets, or code assets reference the duplicate paths before removing them. A critical trap is deduplicating system libraries, package manager caches, or virtual environments where identical binaries are intentionally replicated for isolated runtimes."
+  },
+  {
+    "id": "files-metadata-tagging-systems",
+    "name": "Controlled Vocabulary Metadata Tagging",
+    "description": "Build and maintain a standardized tagging ontology to supplement hierarchical file structures with multidimensional searchability.",
+    "tags": [
+      "metadata",
+      "tagging",
+      "controlled-vocabulary",
+      "searchability"
+    ],
+    "instructions": "Construct a controlled vocabulary dictionary with standardized categories such as status, client, priority, and topic before applying tags indiscriminately. Enforce lowercase, hyphenated formatting for multi-word tags (e.g., 'tax-2023') to avoid case-sensitive duplicate tags across differing operating systems. Limit tag allocation to a maximum of four highly relevant descriptors per file to curb tag bloat and indexing degradation. Embed metadata directly into universal EXIF, XMP, or ID3 containers where possible so tags travel with the file across different platforms and cloud storage syncs. Review your tag registry semi-annually to merge near-synonyms like 'invoices' and 'billing'. Avoid using tags as substitutes for primary folder paths when simple geographic or departmental boundaries already provide explicit context."
+  },
+  {
+    "id": "files-file-search-strategy",
+    "name": "Advanced Boolean and Syntax File Search",
+    "description": "Construct advanced search queries combining attributes, Boolean operators, and filesystem tokens to locate elusive files instantly.",
+    "tags": [
+      "search-syntax",
+      "boolean-search",
+      "file-retrieval",
+      "desktop-search"
+    ],
+    "instructions": "Master filesystem search syntax by combining file extension parameters, temporal bounds, and size filters rather than relying on full-text string matches alone. Construct compound queries using explicit Boolean operators: use AND to narrow contexts, OR for vocabulary variations, and NOT to exclude massive log directories. Leverage path scoping (such as parent directory constraints) alongside wildcard asterisks to bypass unindexed network mounts and avoid slow system-wide scans. Verify that native desktop indexing services are properly configured to monitor non-standard external drives and user data partitions. The main pitfall in desktop searches is searching for broad keywords that yield thousands of stale cache hits; counteract this by specifying exact phrases inside quotes and constraining modified dates within known calendar windows."
+  },
+  {
+    "id": "files-digital-asset-management",
+    "name": "Centralized Digital Asset Management Workflow",
+    "description": "Curate, catalog, and license brand assets and rich media using standardized intake pipelines and governance controls.",
+    "tags": [
+      "dam",
+      "brand-assets",
+      "media-management",
+      "asset-curation"
+    ],
+    "instructions": "Establish an ingest gatekeeper protocol requiring all newly produced marketing assets, raw design files, and brand graphics to pass intake quality checks. Enforce mandatory attribution fields upon ingestion: creator name, usage rights, license expiration date, and model release references. Store master high-resolution raw deliverables in a secure master tier while generating automated derivative web presets (like WebP or compressed MP4) for day-to-day distribution. Set role-based permissions that prevent unauthorized team members from altering approved master assets while granting open download access to downstream stakeholders. Avoid storing raw footage or working files across disparate personal cloud storage drives. Review expired asset licenses quarterly to revoke external public links and flag obsolete creative collateral as unapproved for distribution."
+  },
+  {
+    "id": "files-note-taking-system-design",
+    "name": "Atomic Note-Taking Architecture",
+    "description": "Develop a structured, plaintext-based note-taking workflow emphasizing atomic concepts, progressive summarization, and discoverability.",
+    "tags": [
+      "note-taking",
+      "pkm",
+      "markdown",
+      "information-architecture"
+    ],
+    "instructions": "Architect a markdown-driven note repository following the atomic note principle: dedicate each note file to a single discrete concept or meeting rather than creating sprawling, monolithic documents. Use YAML frontmatter at the top of each file containing creation date, title, tags, and source citations. Implement progressive summarization across long research notes by progressively layering raw excerpts, bolded key phrases, and executive takeaways at the top. Link notes bi-directionally using wikilinks or relative file paths to build associative knowledge graphs. Store raw assets and attachments in a dedicated subfolder to avoid cluttering note indices. A frequent failure point is accumulating hundreds of fleeting capture notes without scheduling weekly triage sessions to synthesize, tag, or delete unformed drafts."
+  },
+  {
+    "id": "files-personal-knowledge-base-building",
+    "name": "Personal Knowledge Base and Zettelkasten Curation",
+    "description": "Build an evergreen personal knowledge repository utilizing linked thought systems and curated index hubs for intellectual synthesis.",
+    "tags": [
+      "knowledge-base",
+      "zettelkasten",
+      "evergreen-notes",
+      "knowledge-management"
+    ],
+    "instructions": "Develop a durable knowledge base by differentiating between ephemeral daily notes, literature notes from external readings, and permanent evergreen notes written in your own words. Create high-level Map of Content (MOC) index files that act as curated entry points into major knowledge domains. Refactor fleeting thoughts into evergreen notes by distilling core arguments and actively forging at least two reciprocal links to existing notes in your system. Use localized plaintext Markdown files to ensure decades of software-agnostic readability, independent of proprietary apps. Avoid collector's fallacy—the passive bookmarking of articles and PDFs without extracting personal interpretations and linking conceptual bridges. Review stale hubs periodically to consolidate emerging themes and weed out superseded theories."
+  },
+  {
+    "id": "files-email-inbox-organization",
+    "name": "Action-Oriented Email Inbox Organization",
+    "description": "Maintain inbox zero and process high-volume email workflows through structured filtering, triage routines, and archival tagging.",
+    "tags": [
+      "email-management",
+      "inbox-zero",
+      "productivity",
+      "triage"
+    ],
+    "instructions": "Implement a four-bucket triage system for all incoming correspondence: Respond immediately (under two minutes), Delegate, Defer to calendar/task manager, or Archive. Configure server-side automated rules to bypass the primary inbox entirely for machine-generated notifications, invoices, and newsletter subscriptions into designated read-later labels. Process incoming messages during dedicated time blocks twice daily rather than keeping mail clients open perpetually. Archive processed emails immediately instead of sorting them into dozens of granular departmental folders, relying instead on fast sender and date search operators. Be vigilant against letting the inbox function as an unprioritized to-do list; extract actionable obligations into your task tracking software, append reference emails as links, and clear the communication channel."
+  },
+  {
+    "id": "files-photo-library-organization",
+    "name": "Chronological Photo Library Curation",
+    "description": "Organize personal and professional photographic archives using chronological storage pipelines, automated EXIF parsing, and culling routines.",
+    "tags": [
+      "photo-management",
+      "exif",
+      "image-archival",
+      "digital-photography"
+    ],
+    "instructions": "Structure raw photo repositories chronologically at the filesystem level using a strict YYYY/YYYY-MM/YYYY-MM-DD_event-name hierarchy based on camera EXIF capture timestamps. Execute a rigorous culling pass immediately following image import: mark rejects for outright deletion, flagging out-of-focus frames, duplicate burst captures, and accidental exposures before editing. Apply descriptive keywords, geolocation tags, and star ratings inside your digital asset catalog rather than renaming image files individually. Store raw sensor captures (DNG, ARW, CR3) separately from rendered JPEG/TIFF exports to preserve nondestructive development workflows. A common mistake is relying entirely on proprietary cloud photo libraries without maintaining an independent, directory-based offline archive of master original files with intact embedded EXIF metadata."
+  },
+  {
+    "id": "files-secure-file-sharing",
+    "name": "Secure File Sharing",
+    "description": "Establish controlled, encrypted transmission workflows for exchanging sensitive documents with internal and external parties.",
+    "tags": [
+      "security",
+      "file-sharing",
+      "encryption",
+      "access-control"
+    ],
+    "instructions": "Assess the sensitivity tier of the document before selecting a delivery mechanism. For confidential materials, avoid unencrypted email attachments; use an enterprise file sync service with granular permissions or an end-to-end encrypted portal. Configure link-level access controls: set explicit expiration dates (ideally under 7 days), restrict editing unless required, and enforce recipient authentication or one-time passcodes. Watermark documents containing proprietary intellectual property. Before sending, verify recipient addresses to prevent autocompletion misdelivery. Review external link activity logs periodically and revoke inactive shares. Avoid the common pitfall of granting 'Anyone with the link can view' permissions on shared folders containing sensitive operational data."
+  },
+  {
+    "id": "files-format-conversion-planning",
+    "name": "File Format Conversion Planning",
+    "description": "Develop standardized migration pipelines to convert proprietary or obsolete document formats into open, archival-grade standards.",
+    "tags": [
+      "archiving",
+      "file-formats",
+      "migration",
+      "data-preservation"
+    ],
+    "instructions": "Inventory target files by identifying proprietary extensions, legacy software dependencies, and embedded objects such as macros or vector graphics. Select target preservation formats, preferring open standards like PDF/A for documents, TIFF or PNG for raster images, and CSV or parquet for tabular data. Execute sample batch conversions using validated command-line or enterprise tools like Ghostscript, LibreOffice headless, or ImageMagick. Inspect converted samples for fidelity regressions: verify font substitutions, layout pagination, metadata retention (EXIF, Dublin Core), and spreadsheet formula evaluations. Maintain an untouched bit-level duplicate of the original files as a rollback failsafe. Common pitfalls include overwriting source files during batch processing and failing to test macro-dependent legacy spreadsheets."
+  },
+  {
+    "id": "files-records-retention-planning",
+    "name": "Records Retention Planning",
+    "description": "Design and enforce compliant lifecycle schedules that dictate creation, storage, legal holds, and destruction for institutional records.",
+    "tags": [
+      "compliance",
+      "governance",
+      "records-retention",
+      "lifecycle"
+    ],
+    "instructions": "Map organizational records against statutory requirements, including tax regulations, employment statutes, and industry-specific privacy mandates such as GDPR or HIPAA. Categorize documents into functional schedules with explicit retention windows, triggering events (such as contract termination plus seven years), and final disposition actions. Establish a formal legal-hold workflow that immediately halts automated deletion schedules across repositories when litigation or audits arise. Coordinate with IT to configure immutable storage policies (WORM storage) where tampering must be prevented. Annually audit departmental conformance by sampling purged indexes against destruction certificates. Avoid the trap of indefinite retention, which expands discovery liability and bloats storage costs."
+  },
+  {
+    "id": "files-cloud-storage-organization",
+    "name": "Cloud Storage Organization",
+    "description": "Structure shared cloud repositories with standardized folder taxonomies, permission boundaries, and strict naming conventions.",
+    "tags": [
+      "cloud-storage",
+      "taxonomy",
+      "naming-conventions",
+      "organization"
+    ],
+    "instructions": "Define a shallow directory hierarchy restricted to no more than four levels to prevent file path truncation and navigational friction. Establish top-level functional domains (e.g., Finance, Engineering, Operations) and configure access permissions at the departmental folder tier rather than on individual nested files. Mandate uniform ISO 8601 date prefixes (YYYY-MM-DD), descriptive project slugs, and version identifiers in file names, prohibiting non-alphanumeric special characters. Implement administrative drive locks or restricted folder creation rights to stop ad-hoc root folder sprawl. Audit shared drive memberships quarterly to deprovision orphaned contractor accounts. A key pitfall is allowing user-level personal folders to hold single-copy team assets that vanish upon employee offboarding."
+  },
+  {
+    "id": "files-local-vs-cloud-storage",
+    "name": "Local Versus Cloud Storage Decisions",
+    "description": "Evaluate workload characteristics to route datasets appropriately between on-premises drives and cloud repositories based on latency, cost, and compliance.",
+    "tags": [
+      "storage-strategy",
+      "cloud-storage",
+      "infrastructure",
+      "data-management"
+    ],
+    "instructions": "Classify data assets using four primary metrics: access latency requirements, network bandwidth consumption, regulatory sovereignty constraints, and egress cost impact. Assign high-throughput, low-latency workloads like 4K video editing, local database testing, and proprietary source builds to high-performance local NVMe or NAS storage arrays. Direct collaborative documents, distributed team backups, and asynchronous archival data to cloud object stores with automated tiering. Document the authoritative master location for every asset type to eliminate split-brain synchronization conflicts. Check that local storage incorporates localized RAID redundancy and offsite synchronization. A critical mistake is deploying multi-terabyte raw media libraries to sync-to-desktop cloud clients, which exhausts local drive capacity and congests office bandwidth."
+  },
+  {
+    "id": "files-file-recovery-planning",
+    "name": "File Recovery Planning",
+    "description": "Formulate and test disaster recovery procedures to restore corrupted, ransomed, or deleted data across storage tiers.",
+    "tags": [
+      "disaster-recovery",
+      "backups",
+      "file-recovery",
+      "business-continuity"
+    ],
+    "instructions": "Establish a comprehensive 3-2-1 backup strategy: retain three complete copies of all critical data across two distinct media types, with at least one copy stored offsite or in an air-gapped immutable cloud bucket. Define concrete Recovery Point Objectives (RPO) and Recovery Time Objectives (RTO) for every departmental workload. Schedule semi-annual bare-metal and granular file restoration drills to validate snapshot integrity without disrupting production environments. Maintain clean bootable recovery media and document offline restoration commands step-by-step so junior staff can execute them during network outages. Verify that backup encryption keys are held in escrow outside the primary domain. Never assume backups are operational based merely on software success banners without performing verifiable byte-level restore dry runs."
+  },
+  {
+    "id": "files-checksum-verification",
+    "name": "Checksum Verification",
+    "description": "Validate digital file integrity and detect silent bit rot or tampering by calculating and matching cryptographic hashes.",
+    "tags": [
+      "integrity",
+      "checksum",
+      "cryptography",
+      "verification"
+    ],
+    "instructions": "Generate cryptographic baseline manifests for critical archive directories using standard utilities such as sha256sum, b2sum, or rhash. Export the resulting hash list to a write-protected, separate verification ledger along with generation timestamps. When transferring assets across networks or archiving to optical/tape storage, recompute hashes on the destination side and compare them against the manifest. Flag any hash mismatch immediately for quarantine and re-transmission; never attempt in-place repairs on divergent binaries. Automate periodic integrity scrubs across long-term storage volumes to detect silent disk sector degradation (bit rot). Avoid relying on obsolete collision-vulnerable algorithms like MD5 or SHA-1 for security-sensitive integrity checks, and never alter file metadata timestamps after hash generation."
+  },
+  {
+    "id": "files-large-file-handling",
+    "name": "Large File Handling",
+    "description": "Optimize the ingestion, transfer, and storage of multi-gigabyte datasets while preventing transfer failures and resource exhaustion.",
+    "tags": [
+      "large-files",
+      "data-transfer",
+      "compression",
+      "performance"
+    ],
+    "instructions": "When processing files exceeding several gigabytes, split compressed archives into deterministic chunks (e.g., using split or 7-Zip) or utilize chunked, resumable transfer protocols like rsync, SFTP with checkpointing, or cloud multi-part upload APIs. Never attempt to transfer massive monolithic archives via browser-based HTTP upload forms prone to socket timeouts. Implement temporary scratch disks formatted with high-performance file systems (such as XFS or APFS) to avoid storage bottlenecks during compression or decompression cycles. Pre-allocate disk space to prevent out-of-space aborts mid-stream. Verify network MTU settings and use transfer acceleration where available. A frequent oversight is failing to monitor destination filesystem constraints, such as legacy FAT32 4GB limits or inode exhaustion on network-attached targets."
+  },
+  {
+    "id": "files-collaborative-document-practices",
+    "name": "Collaborative Document Practices",
+    "description": "Establish governance rules for real-time multi-author editing, version branch management, and asynchronous review cycles.",
+    "tags": [
+      "collaboration",
+      "version-control",
+      "documentation",
+      "workflow"
+    ],
+    "instructions": "Set explicit roles for multi-author document creation: designate a single document owner responsible for resolving conflicting edits and approving structural modifications. Utilize suggestion or track-changes modes for non-editorial team reviews rather than granting direct overwrite rights. Require authors to leave threaded contextual comments resolving specific action items instead of altering contentious text unannounced. Create named milestone snapshots in cloud office suites prior to major revisions to enable clean rollbacks beyond standard autosave histories. When finalizing public releases, lock the document against editing, convert working drafts into static PDF artifacts, and archive the master copy in the project records repository. Pitfalls include untracked edits in circulating offline copies and unassigned comment resolution creating conflicting editorial changes."
+  },
+  {
+    "id": "files-template-library-management",
+    "name": "Template Library Management",
+    "description": "Maintain a centralized, versioned repository of approved document templates to ensure institutional consistency and branding compliance.",
+    "tags": [
+      "templates",
+      "governance",
+      "branding",
+      "standardization"
+    ],
+    "instructions": "Centralize all official institutional templates (presentation slide decks, contract boilerplate, invoice sheets, design briefs) within a read-only, organization-wide asset repository. Save templates in native master formats (.dotx, .potx, or workspace team templates) configured to spawn new, untitled document instances on launch rather than opening the template file directly. Assign a dedicated brand and legal custodian to review and release template versions biannually. Embed standard style guides, accessible font hierarchies, and pre-configured metadata fields directly into template layouts. Maintain a changelog detailing alterations between releases and deprecate superseded variants promptly. A frequent breakdown occurs when employees duplicate obsolete project documents from previous quarters, inadvertently propagating outdated confidentiality clauses, wrong logos, or broken calculation macros."
+  },
+  {
+    "id": "files-password-manager-usage",
+    "name": "Password Manager Usage",
+    "description": "Implement enterprise-grade password management practices to secure document access credentials, encryption keys, and recovery seeds.",
+    "tags": [
+      "security",
+      "passwords",
+      "authentication",
+      "credential-management"
+    ],
+    "instructions": "Deploy a centralized, zero-knowledge password management solution across the organization to house all credentials, API tokens, and storage encryption keys. Require a high-entropy master passphrase composed of at least four random words, complemented by hardware security key (FIDO2/WebAuthn) multi-factor authentication. Organize credentials into strictly segmented vaults separated by department, project, or access tier. Enforce automatic generation of distinct 20-plus-character alphanumeric passwords for every administrative file portal or cloud service. Regularly run built-in vault health audits to detect compromised, reused, or weak passwords. Store physical emergency account recovery kits in tamper-evident envelopes inside a physical safe. The primary pitfall is sharing raw credentials via unencrypted chat channels or leaving exported CSV vault backups in unsecured download folders."
+  },
+  {
+    "id": "files-digital-declutter-planning",
+    "name": "Digital Declutter Planning",
+    "description": "Execute scheduled file audit and purge cycles to eliminate redundant, obsolete, and trivial data across personal and team drives.",
+    "tags": [
+      "declutter",
+      "data-cleanup",
+      "productivity",
+      "storage-optimization"
+    ],
+    "instructions": "Establish recurring monthly or quarterly digital declutter sprints using the ROT framework: identify Redundant, Obsolete, and Trivial files across local download folders, desktop screens, and shared drives. Run disk analyzer tools like WinDirStat, DaisyDisk, or ncdu to pinpoint bloated forgotten caches, duplicate downloads, and orphaned virtual disk images. Move candidate files into a dated 'Staging for Deletion' folder for thirty days; if unaccessed, permanently purge them in accordance with records retention policies. Clear temporary scratch folders, purge trash/recycle bins, and consolidate fragmented working notes into authoritative knowledge bases. Avoid hoarding multiple incremental drafts such as 'final_v2_edit.docx'—retain only the final approved asset and delete interim scratchpads once milestones close."
+  }
+]

@@ -1,0 +1,302 @@
+[
+  {
+    "id": "qa-strategy-design",
+    "name": "QA Strategy Design",
+    "description": "Establish an overarching test and quality governance framework aligned with organizational delivery objectives.",
+    "tags": [
+      "strategy",
+      "governance",
+      "test-planning",
+      "risk-management"
+    ],
+    "instructions": "Begin by analyzing product requirements, architectural design, and deployment pipelines to identify high-risk components. Define the test levels including unit, integration, system, performance, and security testing. Map tooling requirements for automated test execution, test management, and continuous integration triggers. Specify test environment topologies and synthetic data provisioning guidelines. Establish strict entry and exit criteria for every testing phase. Watch out for over-indexing on end-to-end automation at the expense of early integration feedback, and ensure cross-functional stakeholders sign off on acceptance criteria."
+  },
+  {
+    "id": "qa-quality-metrics-definition",
+    "name": "Quality Metrics Definition",
+    "description": "Formulate quantitative indicators to evaluate product health, test efficiency, and team defect resolution performance.",
+    "tags": [
+      "metrics",
+      "kpi",
+      "reporting",
+      "analytics"
+    ],
+    "instructions": "Select a balanced scorecard of leading and lagging quality indicators, such as defect escape rate, mean time to detect, mean time to resolve, and automated test pass stability. Define explicit mathematical formulas and data extraction queries for each metric directly from tracking systems. Set realistic baseline targets and tolerance bands tied to business risk rather than arbitrary percentages. Validate that metric tracking does not incentivize adverse developer behavior, like suppressing minor bugs. Schedule recurring review cadences with engineering leadership to assess metric trends and adjust thresholds."
+  },
+  {
+    "id": "qa-defect-lifecycle-management",
+    "name": "Defect Lifecycle Management",
+    "description": "Standardize the workflow transitions and role handoffs for reported software anomalies from inception to verification.",
+    "tags": [
+      "defect-tracking",
+      "workflow",
+      "jira",
+      "governance"
+    ],
+    "instructions": "Map clear state machine transitions: Draft, Open, Triaged, In Progress, Ready for Test, Verified, and Closed, including terminal states like Rejected and Cannot Reproduce. Define required transition fields, enforcing root cause attribution and fixed version tags before closure. Design strict role permissions specifying who can close or defer bugs to eliminate unauthorized status tampering. Monitor aging tickets across queues with automated escalation alerts for items stuck in triage. A common pitfall is allowing engineers to close tickets without independent QA regression verification; mandate verification in an integrated environment."
+  },
+  {
+    "id": "qa-bug-report-writing",
+    "name": "Bug Report Writing",
+    "description": "Author clear, actionable defect reports containing reproducible steps, environment contexts, and telemetry artifacts.",
+    "tags": [
+      "bug-reporting",
+      "documentation",
+      "troubleshooting",
+      "qa-basics"
+    ],
+    "instructions": "Formulate a concise summary following the formula: [Component][Action taken][Observed anomaly]. Enumerate numbered, isolated reproduction steps starting from a clean state, specifying prerequisites and sample test data payloads. State both the actual behavior and the expected behavior referencing explicit acceptance criteria or interface specifications. Attach relevant system artifacts: network HAR files, console logs, system timestamps, and annotated visual evidence. Avoid subjective commentary or ambiguous phrases like 'it fails'; instead, document explicit error codes or screen freeze durations to minimize back-and-forth debugging."
+  },
+  {
+    "id": "qa-defect-severity-priority-triage",
+    "name": "Defect Severity and Priority Triage",
+    "description": "Facilitate cross-functional triage sessions to categorize technical impact and business urgency for incoming defects.",
+    "tags": [
+      "triage",
+      "prioritization",
+      "risk-assessment",
+      "incident-management"
+    ],
+    "instructions": "Decouple technical severity (system impact like data corruption or system crash) from business priority (release urgency influenced by customer blast radius or contractual SLA). Convene product managers, engineering leads, and QA in regular cadence sessions to evaluate newly logged items against predefined matrix definitions. Scrutinize workarounds; if a feasible low-friction workaround exists, downgrade priority while keeping severity accurate. Beware of stakeholder inflation where every customer-facing glitch is labeled urgent. Record rationale in triage minutes and assign direct owners with committed target delivery sprint milestones."
+  },
+  {
+    "id": "qa-release-readiness-assessment",
+    "name": "Release Readiness Assessment",
+    "description": "Evaluate release candidate criteria against release gates, automated test passes, and outstanding risk registries.",
+    "tags": [
+      "release-management",
+      "go-no-go",
+      "risk-evaluation",
+      "deployment"
+    ],
+    "instructions": "Compile verification artifacts including automated regression pass percentages, open blocker defect tallies, performance benchmark comparisons, and security vulnerability scan reports. Verify completion of compliance requirements, database rollback scripts, and operational runbook sign-offs. Present findings to the Go/No-Go committee using an objective green-amber-red scorecard rather than subjective developer confidence. Probe unexecuted test cases and skipped integration tests thoroughly. If residual risks exist, draft an explicit mitigation and rollback strategy with operational trigger thresholds before securing final executive authorization for deployment."
+  },
+  {
+    "id": "qa-process-audit-execution",
+    "name": "Process Audit Execution",
+    "description": "Conduct systematic reviews of operational workflows against codified policies, regulatory norms, and internal standards.",
+    "tags": [
+      "audit",
+      "compliance",
+      "quality-assurance",
+      "standards"
+    ],
+    "instructions": "Formulate an audit checklist derived from authoritative quality standards, regulatory policies, or certified development processes. Sample representative artifacts across randomly selected project repositories, including code review comments, test run logs, and approval timestamps. Interview process practitioners to identify discrepancies between documented workflows and daily reality. Document non-conformances with factual evidence, differentiating critical failures from minor procedural lapses. Avoid confrontational interrogations; frame observations as optimization opportunities. Produce an audit report detailing corrective and preventive action items with mandatory 30-day reassessment deadlines."
+  },
+  {
+    "id": "qa-five-whys-root-cause-analysis",
+    "name": "Five Whys Root Cause Analysis",
+    "description": "Iteratively interrogate failure chains to pinpoint systemic process breakdowns beyond immediate human errors.",
+    "tags": [
+      "root-cause-analysis",
+      "problem-solving",
+      "postmortem",
+      "continuous-improvement"
+    ],
+    "instructions": "Convene incident participants to articulate a single, objective problem statement backed by telemetry. Ask 'Why did this occur?' to reveal the immediate mechanical failure, and verify that answer with empirical evidence before proceeding. Continue questioning recursively down the causal chain, verifying each link logically in reverse with 'therefore'. Stop when reaching actionable organizational policies, tooling deficiencies, or architectural gaps rather than individual operator blame. Guard against single-thread bias by branching when multiple contributors exist, and implement concrete preventative safeguards targeting the deepest systemic layer."
+  },
+  {
+    "id": "qa-fishbone-diagram-analysis",
+    "name": "Fishbone Diagram Analysis",
+    "description": "Construct an Ishikawa diagram to systematically categorize and explore potential contributors to complex quality issues.",
+    "tags": [
+      "ishikawa",
+      "brainstorming",
+      "defect-analysis",
+      "cause-and-effect"
+    ],
+    "instructions": "Place the specific quality failure in the head box of the diagram on the far right. Draw the central spine and branch out standard categories adapted to the operational environment, such as Methods, Machines, Materials, Measurements, Environment, and People. Facilitate a multi-disciplinary brainstorming session, placing secondary and tertiary causal factors on sub-branches through consensus. Prevent the session from degenerating into blame; ensure technical environmental factors receive equal scrutiny. Prioritize the most credible root causes using multi-voting, then validate these hypotheses against historical system logs and production telemetry before prescribing fixes."
+  },
+  {
+    "id": "qa-kaizen-continuous-improvement",
+    "name": "Kaizen Continuous Improvement",
+    "description": "Facilitate ongoing incremental workplace optimizations through cross-functional collaboration and rapid experimentation.",
+    "tags": [
+      "kaizen",
+      "lean",
+      "continuous-improvement",
+      "agile"
+    ],
+    "instructions": "Identify small-scale operational frictions directly from front-line engineers, testers, and operators using standardized suggestion logs. Plan focused Kaizen events targeting specific workflow bottlenecks, such as slow local build times or cumbersome manual regression runs. Deconstruct the current state using value stream mapping, eliminate non-value-added delays, and design an improved target state. Implement incremental changes immediately using the Plan-Do-Check-Act cycle over a short trial window. Measure before-and-after throughput to substantiate gains. A common pitfall is overcomplicating initial solutions; favor simple, low-cost modifications that teams can rapidly institutionalize."
+  },
+  {
+    "id": "qa-six-sigma-basics",
+    "name": "Six Sigma Basics",
+    "description": "Apply DMAIC methodology and statistical variance analysis to minimize defects and achieve operational consistency.",
+    "tags": [
+      "six-sigma",
+      "dmaic",
+      "statistical-process-control",
+      "quality"
+    ],
+    "instructions": "Execute the DMAIC framework: Define the defect impact on customer critical-to-quality attributes; Measure baseline performance and current process capability; Analyze data distributions to identify primary sources of variance; Improve the system by piloting validated solutions; and Control the future process using statistical process control charts. Calculate standard deviation and defect per million opportunities (DPMO) metrics to benchmark precision. Avoid jumping into solutions during the Measure phase without adequate data validation. Ensure all measurement systems are audited for precision and reproducibility prior to interpreting statistical conclusions."
+  },
+  {
+    "id": "qa-lean-waste-identification",
+    "name": "Lean Waste Identification",
+    "description": "Identify and eliminate the eight types of waste across product delivery lifecycles to maximize value delivery.",
+    "tags": [
+      "lean",
+      "waste-elimination",
+      "muda",
+      "efficiency"
+    ],
+    "instructions": "Audit product delivery workflows for the eight classic forms of waste (Muda): defects, overproduction, waiting, non-utilized talent, transportation, inventory, motion, and extra-processing. Map developer and tester handoffs to uncover hidden delays, like code waiting for deployment pipelines or redundant regression documentation. Quantify process cycle efficiency by dividing value-added engineering time by total lead time. Eliminate extraneous approval gates that fail to catch bugs. Beware of locally optimizing one stage while causing inventory backlog downstream; always focus on holistic throughput across the entire delivery stream."
+  },
+  {
+    "id": "qa-sop-compliance-checking",
+    "name": "SOP Compliance Checking",
+    "description": "Systematically inspect execution adherence against standard operating procedures to guarantee consistent outputs.",
+    "tags": [
+      "sop",
+      "compliance",
+      "inspection",
+      "quality-control"
+    ],
+    "instructions": "Review current standard operating procedures and extract concrete, binary verification checkpoints into an inspection checklist. Conduct direct observations of practitioners performing the procedure or perform forensic reviews of audit logs, commit histories, and deployment pipelines. Verify that all mandatory approvals, security scans, and documentation updates were completed strictly in accordance with documented protocols. Mark deviations as non-conforming, investigating whether the variance stems from negligence, lack of training, or outdated procedures. Avoid penalizing operators without validating SOP clarity; update ambiguities in the documentation before issuing formal corrective action plans."
+  },
+  {
+    "id": "qa-checklist-design",
+    "name": "Operational Quality Checklist Design",
+    "description": "Develops verifiable, step-by-step quality control checklists tailored to front-line operational workflows.",
+    "tags": [
+      "checklists",
+      "standardization",
+      "compliance",
+      "inspection"
+    ],
+    "instructions": "Begin by scoping the exact start and completion boundaries of the target task. Interview three experienced performers to identify critical failure points and tacit knowledge steps. Structure checklist items in chronological order using imperative verbs such as measure, verify, or record. Replace subjective terms like 'ensure cleanliness' with binary criteria such as 'wipe surface with 70% IPA and verify zero visible debris under 500 lux lighting'. Include dedicated fields for operator initials, numeric tolerances, and timestamps. Pilot the draft with an apprentice operator to identify ambiguous wording, and restrict total length to two pages to prevent visual fatigue and pencil-whipping."
+  },
+  {
+    "id": "qa-quality-gate-definition",
+    "name": "Milestone Quality Gate Definition",
+    "description": "Establishes formal phase-boundary quality criteria and sign-off governance for development and manufacturing lifecycles.",
+    "tags": [
+      "governance",
+      "milestones",
+      "quality-gates",
+      "risk-control"
+    ],
+    "instructions": "Map the product lifecycle transitions where handoffs create operational risk, such as moving from prototype tooling to pilot production. For each boundary, establish hard stop-or-go criteria separated into mandatory entrance requirements and deliverables. Formulate objective verification artifacts, including statistical capability reports, closed non-conformance registers, and environmental test pass certificates. Designate a tripartite approval matrix consisting of the lead quality engineer, product owner, and operations manager with explicit zero-waiver policies for unresolved safety critical defects. Watch for schedule pressure circumventing gate reviews by creating a formal deviation approval process signed off by the director of quality."
+  },
+  {
+    "id": "qa-supplier-quality-evaluation",
+    "name": "Supplier Quality Performance Evaluation",
+    "description": "Assesses external vendor capability, incoming material reliability, and quality system maturity against contractual standards.",
+    "tags": [
+      "supply-chain",
+      "vendor-audit",
+      "sqa",
+      "procurement"
+    ],
+    "instructions": "Compile the trailing twelve months of incoming lot acceptance data, dock-to-stock rejection rates, and Supplier Corrective Action Request response latencies. Categorize suppliers into critical tiers based on single-source risk and component criticality. Conduct on-site process capability audits focusing on calibration controls, raw material traceability back to heat lots, and sub-tier supplier oversight mechanisms. Score the vendor using a weighted rubric distributing 40% to defect rates, 30% to audit compliance, 20% to corrective action effectiveness, and 10% to delivery predictability. Avoid relying solely on self-reported vendor questionnaires; always mandate live verification of statistical process control charts during production runs."
+  },
+  {
+    "id": "qa-customer-feedback-analysis",
+    "name": "Customer Quality Feedback Analysis",
+    "description": "Synthesizes customer sentiment, warranty claims, and field failure telemetry into prioritized defect trends.",
+    "tags": [
+      "voc",
+      "warranty-analysis",
+      "customer-satisfaction",
+      "analytics"
+    ],
+    "instructions": "Aggregate raw incoming feedback across ticketing platforms, field service return logs, warranty claims, and public reviews into a centralized repository. Cleanse the data by stripping duplicates and normalizing taxonomy codes matching internal failure modes. Apply text analytics and Pareto ranking to identify the vital few root symptoms driving 80% of customer dissatisfaction. Cross-reference complaint spikes against manufacturing lot numbers or software release tags to isolate batch anomalies. Avoid the trap of over-indexing on vocal enterprise accounts at the expense of high-volume minor defects; weight issues by both customer lifetime revenue impact and safety risk."
+  },
+  {
+    "id": "qa-complaint-handling-process",
+    "name": "End-to-End Complaint Handling Process",
+    "description": "Structures the intake, triage, containment, and regulatory reporting sequence for external product complaints.",
+    "tags": [
+      "complaints",
+      "customer-care",
+      "triage",
+      "compliance"
+    ],
+    "instructions": "Establish a single intake portal requiring mandatory initial fields: product serial number, operational environment, and precise failure timestamp. Execute a rapid triage within four hours to screen for regulatory reportability such as personal injury, regulatory threshold breaches, or hazardous substance releases. Immediately initiate an inventory hold on corresponding warehouse lots and issue containment instructions to affected distribution hubs. Assign the incident to an engineering investigator while issuing a formal acknowledgement to the complainant within twenty-four hours. Never close a complaint based solely on commercial goodwill credits; formal closure requires documented physical return evaluation, root cause isolation, and verified corrective action verification."
+  },
+  {
+    "id": "qa-inspection-sampling-plans",
+    "name": "Statistical Inspection Sampling Plan Design",
+    "description": "Formulates statistically sound acceptance sampling plans based on risk tiers and standard industrial tables.",
+    "tags": [
+      "sampling",
+      "aql",
+      "statistical-quality",
+      "metrology"
+    ],
+    "instructions": "Determine whether the inspection evaluates attribute characteristics or variable dimensional tolerances to select either ANSI/ASQ Z1.4 or Z1.9 frameworks. Identify the batch size and establish the Acceptance Quality Limit according to defect severity: 0.0% for critical safety flaws, 0.65% for major functional defects, and 4.0% for minor cosmetic blemishes. Select Normal Inspection Level II as the default baseline, defining explicit switching rules to tightened inspection upon two rejections within five consecutive batches. Provide technicians with randomized sampling procedures using coordinate grids or randomized index generators rather than convenient top-of-box sampling to prevent selection bias."
+  },
+  {
+    "id": "qa-documentation-quality-review",
+    "name": "Quality Management System Documentation Review",
+    "description": "Audits standard operating procedures and controlled records for regulatory compliance and technical accuracy.",
+    "tags": [
+      "document-control",
+      "qms",
+      "sop-review",
+      "compliance"
+    ],
+    "instructions": "Gather the active Standard Operating Procedure, associated work instructions, and the previous revision changelog. Walk the physical or digital shop floor with the document in hand to observe operators executing the task in real-time, highlighting discrepancies between written procedures and observed behavior. Verify that equipment references, chemical classifications, and specification limits match current engineering master files and regulatory mandates. Check document control headers for correct revision levels, effective release dates, document owners, and proper archival status. Watch out for orphaned cross-references to rescinded forms, obsolete numbering systems, or missing approvals in the electronic document management system."
+  },
+  {
+    "id": "qa-process-mapping",
+    "name": "Cross-Functional Value Stream Process Mapping",
+    "description": "Visualizes end-to-end process workflows to eliminate waste, expose bottlenecks, and pinpoint inspection points.",
+    "tags": [
+      "process-mapping",
+      "value-stream",
+      "lean",
+      "workflow-analysis"
+    ],
+    "instructions": "Assemble a cross-functional squad comprising operators, shift supervisors, maintenance leads, and systems engineers in an interactive mapping workshop. Document the process as it actually runs today using swimlane diagrams that distinguish responsibilities across departments. Capture cycle times, changeover durations, queue wait times, and scrap rates at every processing node. Differentiate value-added transformations from non-value-added activities like staging, re-labeling, or redundant inspections. Flag rework loops and disconnected handoffs where data must be manually re-keyed between software tools. Avoid relying on executive perception of the process; confirm every handoff by validating five historical work order trails through the factory floor."
+  },
+  {
+    "id": "qa-failure-mode-and-effects-analysis",
+    "name": "Failure Mode and Effects Analysis Execution",
+    "description": "Facilitates proactive risk assessments using FMEA methodologies to identify and mitigate process and product vulnerabilities.",
+    "tags": [
+      "fmea",
+      "risk-assessment",
+      "reliability",
+      "defect-prevention"
+    ],
+    "instructions": "Break down the target product design or manufacturing process into individual components and sequential operations. For each step, brainstorm potential failure modes, the consequential effects on subsequent stages, and the root physical causes. Score each item from 1 to 10 on Severity, Occurrence, and Detection using standard AIAG-VDA action priority tables or traditional RPN matrices. Prioritize engineering mitigations for any item with a Severity score of 9 or 10 regardless of the overall score. Prescribe specific error-proofing mechanisms, sensor redundancies, or geometric interlocks rather than generic recommendations like retraining personnel. Re-evaluate and lower Occurrence and Detection scores only after physical validation of the corrective barrier."
+  },
+  {
+    "id": "qa-corrective-action-planning",
+    "name": "Corrective and Preventive Action Planning",
+    "description": "Guides structured root cause investigations and corrective action implementation to prevent problem recurrence.",
+    "tags": [
+      "capa",
+      "root-cause",
+      "problem-solving",
+      "8d"
+    ],
+    "instructions": "Define the problem statement precisely using the 5W2H framework supported by physical defect samples and photographic evidence. Execute an immediate containment action to isolate suspected nonconforming inventory across warehouses, transit lines, and customer premises. Convene an 8D or 5-Why investigation to drill past superficial human error down to systemic policy, tooling, or training gaps. Formulate an actionable plan assigning single-point owners, realistic milestones, and required capital expenditures. Mandate an effectiveness check at 30, 60, and 90 days using statistical verification of zero recurrence before formally submitting the corrective action for quality committee closure."
+  },
+  {
+    "id": "qa-quality-training-planning",
+    "name": "Competency-Based Quality Training Planning",
+    "description": "Designs, deploys, and verifies technical quality training programs to maintain workforce operational capability.",
+    "tags": [
+      "training",
+      "competency",
+      "workforce-development",
+      "qualification"
+    ],
+    "instructions": "Perform a gap analysis comparing required skill matrices against current operator certification records and recent scrap trends. Formulate module curricula that combine classroom theoretical principles, such as calibration concepts and defect acceptance criteria, with hands-on practice on quarantined production lines. Build practical competency evaluations requiring trainees to successfully identify deliberate golden defect samples and pass a standardized calibration test. Schedule recurring refresher intervals tied to process changes, engineering change orders, or twelve-month recertification cadences. Avoid relying on passive attendance sign-in sheets; require supervisor sign-off on a demonstrated minimum of twenty supervised error-free cycles before granting unsupervised line clearance."
+  },
+  {
+    "id": "qa-audit-finding-follow-up",
+    "name": "Audit Finding Follow-Up and Verification",
+    "description": "Tracks non-conformances identified during internal and external audits through validation and sustained closure.",
+    "tags": [
+      "auditing",
+      "compliance",
+      "non-conformance",
+      "follow-up"
+    ],
+    "instructions": "Log all findings from internal, ISO, or regulatory audits into a centralized finding register, categorizing each as a major non-conformance, minor non-conformance, or opportunity for improvement. Review corrective action responses submitted by auditees within 14 business days, rejecting responses that propose mere symptom-patching without root cause analysis. Schedule on-site follow-up verification audits 60 days post-implementation to observe operating conditions directly. Examine objective evidence such as revised SOPs, operator training logs, calibration records, and recent run-charts to confirm the fix is working. Close the finding only after verifying that the operational change has not introduced secondary failure modes elsewhere in the process stream."
+  }
+]
