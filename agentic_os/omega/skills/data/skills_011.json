@@ -1,0 +1,314 @@
+[
+  {
+    "id": "api-rest-design-review",
+    "name": "REST API Design Review",
+    "description": "Evaluate proposed RESTful endpoints for strict adherence to resource-oriented architecture, semantic HTTP methods, and clean URI conventions.",
+    "tags": [
+      "rest",
+      "api-design",
+      "http",
+      "architecture"
+    ],
+    "instructions": "Audit URI structures to enforce plural nouns for resource collections and eliminate verbs in paths. Verify HTTP method semantics: GET, HEAD, and OPTIONS must be safe and idempotent; PUT and DELETE must be idempotent; POST handles non-idempotent creation or operations. Check status codes across responses, ensuring 201 Created returns a Location header, 204 No Content has an empty body, and 4xx codes map accurately to client errors. Inspect payload envelope consistency, query filtering parameters, and HATEOAS link relations where appropriate. Watch out for tunneling actions via POST or exposing internal database primary keys directly."
+  },
+  {
+    "id": "api-graphql-schema-design",
+    "name": "GraphQL Schema Design",
+    "description": "Formulate domain-driven, maintainable GraphQL schemas with resilient type definitions, standardized pagination, and predictable mutation interfaces.",
+    "tags": [
+      "graphql",
+      "schema",
+      "api-design",
+      "types"
+    ],
+    "instructions": "Model domain entities using clear object types rather than mirroring raw database tables or REST endpoints. Structure queries to represent data graphs natively and implement the Relay cursor connections specification for lists with edges and pageInfo. Design mutations using dedicated, single-purpose input object types accompanied by distinct payload types that return both the modified entity and user-facing errors. Set up non-null modifiers judiciously: avoid declaring fields non-null if downstream service degradation could cause field resolution failures. Beware of deep circular nesting vulnerabilities and establish clear schema-wide scalar types for timestamps and currency."
+  },
+  {
+    "id": "api-versioning-strategy",
+    "name": "API Versioning Strategy",
+    "description": "Establish and govern evolution policies across breaking changes using explicit version identifiers and continuous backward compatibility.",
+    "tags": [
+      "versioning",
+      "lifecycle",
+      "governance",
+      "api-design"
+    ],
+    "instructions": "Select an explicit versioning mechanism early: URL path prefixes (such as /v1/), custom request headers (such as X-API-Version), or Accept media-type negotiation. Define an unambiguous contract for what constitutes a breaking change, specifically field removals, type mutations, and stricter validation rules. When introducing a major revision, maintain parallel operational paths in routing layers and decouple version routing from underlying business services via adapters. Verify that client documentation clearly highlights delta changes. Avoid releasing major versions for additive changes like optional parameters or new nullable fields, which should evolve continuously without incrementing version identifiers."
+  },
+  {
+    "id": "api-pagination-design",
+    "name": "API Pagination Design",
+    "description": "Architect scalable and deterministic pagination mechanisms to navigate large datasets without risking database performance or payload bloat.",
+    "tags": [
+      "pagination",
+      "performance",
+      "database",
+      "rest"
+    ],
+    "instructions": "Choose cursor-based pagination over offset/limit for large or frequently mutating datasets to avoid the missing/duplicate item anomalies and deep offset database query degradation. Base cursors on opaque, base64-encoded composite keys (such as created_at and id) rather than sequential auto-increment integers. Provide explicit navigational metadata in the response payload, including next_cursor, has_more, and limit. Set a strict server-enforced maximum page size to prevent denial-of-service from unbounded limit parameters. Verify that underlying database indexes directly cover the sort and cursor filter predicates. Avoid exposing raw SQL offset clauses directly to untrusted client inputs."
+  },
+  {
+    "id": "api-error-response-design",
+    "name": "API Error Response Design",
+    "description": "Construct machine-readable, unambiguous error payloads that aid client debugging while strictly concealing internal implementation details.",
+    "tags": [
+      "error-handling",
+      "rfc7807",
+      "observability",
+      "rest"
+    ],
+    "instructions": "Adopt an established standard such as RFC 7807 (Problem Details for HTTP APIs) using type, title, status, detail, and instance fields. For validation failures, provide a structured invalid_params array pinpointing the field path, rejected value, and specific reason. Ensure sensitive diagnostic data, database errors, and stack traces are stripped before reaching production clients, logged internally instead with a shared correlation_id returned in the response. Pair custom internal error codes with standard HTTP status codes so clients can write programmatic fallback logic. Never return HTTP 200 OK with an error payload nested inside the response body."
+  },
+  {
+    "id": "api-rate-limiting-design",
+    "name": "API Rate Limiting Design",
+    "description": "Design and deploy scalable traffic-shaping controls to safeguard services against abuse and allocate fair capacity across tenants.",
+    "tags": [
+      "rate-limiting",
+      "security",
+      "traffic-management",
+      "infrastructure"
+    ],
+    "instructions": "Select an appropriate algorithm: Token Bucket or Leaky Bucket for smoothing bursts, or Sliding Window Counter to eliminate boundary-reset spikes. Identify client identity across multiple tiers, falling back from authenticated API keys/tokens to client IP addresses for public routes. Emit standard IETF rate-limit headers (RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset) alongside every response. When thresholds are breached, immediately return HTTP 429 Too Many Requests with a Retry-After header calculated in seconds. Use low-latency distributed storage like Redis with atomic operations to prevent race conditions. Avoid global limits that allow single aggressive tenants to starve system resources."
+  },
+  {
+    "id": "api-authentication-patterns",
+    "name": "API Authentication Patterns",
+    "description": "Implement robust authentication and token verification workflows across machine-to-machine, third-party, and end-user access scenarios.",
+    "tags": [
+      "authentication",
+      "oauth2",
+      "security",
+      "jwt"
+    ],
+    "instructions": "Align authentication models with client contexts: OAuth 2.0 with PKCE for single-page and mobile apps, Client Credentials for machine-to-machine integrations, and cryptographically signed API keys for developer APIs. When using JSON Web Tokens (JWTs), validate signatures, expiration (exp), audience (aud), and issuer (iss) claims on every request, keeping lifetimes short (5 to 15 minutes). Distribute public keys via standardized JWKS endpoints with key rotation capabilities. Store refresh tokens securely with automatic rotation and family reuse detection to mitigate token theft. Never transmit access tokens or sensitive credentials within URL query strings or unencrypted logging pipelines."
+  },
+  {
+    "id": "api-webhook-design",
+    "name": "Webhook Design",
+    "description": "Architect a resilient outbound event delivery system featuring payload verification, delivery tracking, and intelligent retry strategies.",
+    "tags": [
+      "webhooks",
+      "event-driven",
+      "integration",
+      "security"
+    ],
+    "instructions": "Deliver webhooks via HTTP POST with a consistent JSON envelope including event_id, event_type, created_at, and data. Secure payloads by signing them with an HMAC-SHA256 signature calculated over the raw request body and timestamp, passed via an X-Signature header to defend against tampering and replay attacks. Queue outbound events asynchronously with exponential backoff and jitter over a multi-day schedule for failing target endpoints. Implement automatic endpoint disabling (circuit breaking) after consecutive sustained failures, alerting subscribers via email or portal. Avoid synchronous delivery on the main application thread or executing retries without idempotency tokens in event headers."
+  },
+  {
+    "id": "api-openapi-spec-writing",
+    "name": "OpenAPI Specification Writing",
+    "description": "Author comprehensive, machine-readable OpenAPI 3.1 contracts that serve as single sources of truth for documentation, validation, and generation.",
+    "tags": [
+      "openapi",
+      "swagger",
+      "documentation",
+      "schema"
+    ],
+    "instructions": "Structure the specification hierarchically using OpenAPI 3.1, organizing reusable components into schemas, parameters, responses, and requestBodies. Define exact data types, formatting rules, enum constraints, and mandatory fields using standard JSON Schema syntax. Supply rich, realistic examples for all request and response variants, including success paths and edge-case errors. Document every security scheme explicitly and apply security requirements at both global and operation levels. Use linting tools like Spectral in CI pipelines to enforce naming consistency and schema completeness. Avoid using empty generic object schemas without explicit properties or leaving response descriptions blank."
+  },
+  {
+    "id": "api-testing-strategy",
+    "name": "API Testing Strategy",
+    "description": "Construct an automated multi-layered test pyramid covering contract compliance, business workflows, load tolerances, and security posture.",
+    "tags": [
+      "testing",
+      "qa",
+      "contract-testing",
+      "automation"
+    ],
+    "instructions": "Structure your test pipeline across three mandatory layers: contract tests validating request/response schemas against the OpenAPI spec, end-to-end integration tests validating multi-step user journeys, and non-functional performance benchmarks. Use consumer-driven contract testing (such as Pact) to verify cross-service dependencies without standing up full environments. Automate negative tests asserting boundary values, unauthorized access attempts, malformed headers, and injection attacks. Validate idempotency guarantees by running identical requests concurrently in automated test suites. Avoid over-relying on mocked external dependencies during integration phases, and never run load tests against unisolated production databases."
+  },
+  {
+    "id": "api-client-sdk-design",
+    "name": "Client SDK Design",
+    "description": "Produce idiomatic, ergonomic client libraries across multiple programming languages to accelerate developer onboarding and integration reliability.",
+    "tags": [
+      "sdk",
+      "developer-experience",
+      "tooling",
+      "integration"
+    ],
+    "instructions": "Adopt language-idiomatic naming conventions, data structures, and packaging patterns rather than enforcing a raw 1:1 reflection of REST endpoints. Provide built-in resilience primitives, including configurable timeouts, automatic retries with exponential backoff for transient 5xx/429 errors, and transparent token refresh mechanics. Expose strongly typed models for all requests and responses with comprehensive IDE autocompletion support. Maintain clean separation between the underlying HTTP transport layer and domain services to facilitate mocking during client-side testing. Avoid monolithic dependency graphs or bundling unnecessary third-party libraries that could trigger dependency conflicts in host projects."
+  },
+  {
+    "id": "api-deprecation-planning",
+    "name": "API Deprecation Planning",
+    "description": "Execute structured phase-out strategies for outdated API capabilities while minimizing disruption and guiding consumers toward migration paths.",
+    "tags": [
+      "deprecation",
+      "migration",
+      "lifecycle",
+      "governance"
+    ],
+    "instructions": "Announce deprecations well in advance through formal channels, developer dashboards, and machine-readable Deprecation and Sunset HTTP headers (RFC 8594). Instrument telemetry to track caller identities, traffic volume, and consumer usage patterns on deprecated endpoints. Provide comprehensive migration guides with side-by-side payload comparisons and code snippets. Schedule controlled 'brownouts'—temporary, brief service degradations or synthetic errors during off-peak hours—to flush out dormant consumers prior to permanent decommissioning. Maintain active communication channels for critical integrators. Do not abruptly cut traffic or repurpose existing URL paths for new incompatible behaviors without full sunset completion."
+  },
+  {
+    "id": "api-idempotent-endpoint-design",
+    "name": "Idempotent Endpoint Design",
+    "description": "Design mutation endpoints that safely tolerate network retries without unintended side effects or duplicate resource state mutations.",
+    "tags": [
+      "idempotency",
+      "distributed-systems",
+      "reliability",
+      "rest"
+    ],
+    "instructions": "Mandate unique Idempotency-Key headers on non-idempotent state-changing requests like POST transactions. Store the processing state, fingerprint of the request payload, and eventual response in a distributed fast-lookup store within an atomic transaction. If a subsequent request arrives with an active pending key, return a 409 Conflict or 425 Too Early status; if already completed, return the cached status code and payload directly without re-executing logic. Reject requests if the payload changes while reusing the same key (payload mismatch error). Set appropriate TTLs (typically 24 to 72 hours) on stored keys to balance storage costs with retry windows."
+  },
+  {
+    "id": "api-file-upload-design",
+    "name": "File Upload API Design",
+    "description": "Architect scalable and secure file ingestion interfaces supporting multipart payloads and direct-to-cloud signed URLs.",
+    "tags": [
+      "upload",
+      "multipart",
+      "s3",
+      "storage",
+      "rest"
+    ],
+    "instructions": "First, determine whether payloads should traverse application servers via multipart/form-data or be delegated using presigned URLs to cloud object storage. For files larger than 10MB, implement a two-step flow where the client requests a pre-authenticated upload URL and metadata ticket, uploads directly to storage, and notifies the API upon completion. Enforce strict MIME-type sniffing on the receiving end rather than relying on the Content-Type header. Set strict max payload limits in reverse proxies to block memory exhaustion. For very large assets, implement resumable chunking protocols such as tus.io to gracefully tolerate network interruptions and avoid complete upload retries."
+  },
+  {
+    "id": "api-streaming-basics",
+    "name": "Streaming API Basics",
+    "description": "Implement persistent unidirectional and bidirectional data streams using Server-Sent Events, WebSockets, or HTTP chunked transfer.",
+    "tags": [
+      "streaming",
+      "websockets",
+      "sse",
+      "http",
+      "realtime"
+    ],
+    "instructions": "Select the transport protocol based on directionality: choose Server-Sent Events (SSE) with text/event-stream for server-to-client updates, and WebSockets for full-duplex communication. Disable buffering in upstream proxies such as Nginx by setting X-Accel-Buffering to no. Implement client-side exponential backoff reconnection strategies with jitter, carrying a Last-Event-ID header to resume missed events seamlessly. Send periodic heartbeat or ping/pong frames every 15 to 30 seconds to prevent intermediate firewalls and NAT gateways from silently terminating idle TCP connections. Monitor connection state pools carefully to prevent memory leakage from unclosed or orphaned client sockets."
+  },
+  {
+    "id": "api-gateway-configuration",
+    "name": "API Gateway Configuration",
+    "description": "Configure edge routing, SSL termination, and centralized traffic policies to isolate upstream microservices.",
+    "tags": [
+      "gateway",
+      "routing",
+      "rate-limiting",
+      "reverse-proxy",
+      "infrastructure"
+    ],
+    "instructions": "Establish deterministic upstream route mappings separating external path prefixes from internal service names. Configure centralized rate limiting algorithms, such as token bucket or leaky bucket, keyed by verified client identity or client IP. Terminate TLS at the edge, but mandate mutual TLS (mTLS) for downstream communication to internal services within the private subnet. Standardize request header propagation by injecting correlation identifiers like X-Correlation-ID and stripping unauthorized spoofed headers such as X-Forwarded-User. Set aggressive connect and read timeouts on gateway upstreams to prevent slow downstream dependencies from saturating the edge worker pool."
+  },
+  {
+    "id": "api-cors-troubleshooting",
+    "name": "CORS Troubleshooting",
+    "description": "Diagnose and resolve Cross-Origin Resource Sharing failures across preflight requests and response headers.",
+    "tags": [
+      "cors",
+      "security",
+      "http-headers",
+      "preflight",
+      "debugging"
+    ],
+    "instructions": "Inspect the browser console to identify whether the failure originates from a rejected OPTIONS preflight or missing headers on the actual request. Verify that the server explicitly responds to the HTTP OPTIONS method with status code 200 or 204, returning Access-Control-Allow-Origin matching the Origin request header. Avoid wildcards when credentials like cookies or authorization headers are included, as browsers forbid Access-Control-Allow-Credentials: true alongside a wildcard origin. Confirm that Access-Control-Allow-Headers explicitly lists custom headers such as X-Requested-With or Authorization. Check that reverse proxies and WAF rules do not intercept and reject preflight requests before they reach the CORS middleware."
+  },
+  {
+    "id": "api-response-caching",
+    "name": "API Response Caching",
+    "description": "Optimize throughput and reduce compute costs by designing deterministic Cache-Control, ETag, and CDN invalidation workflows.",
+    "tags": [
+      "caching",
+      "etag",
+      "cdn",
+      "performance",
+      "http"
+    ],
+    "instructions": "Define explicit Cache-Control headers on all GET and HEAD endpoints, utilizing directives like public, max-age, and s-maxage for downstream caches and reverse proxies. Compute cryptographically strong or revision-based ETags over deterministic response serializations to support conditional requests via If-None-Match, returning 304 Not Modified when fresh. Never cache authenticated user-specific resources unless the private directive is explicitly set alongside a Vary: Authorization header. Establish an automated webhook or event-driven cache invalidation routine targeting edge CDN endpoints whenever underlying entities mutate, preventing clients from receiving stale records after updates."
+  },
+  {
+    "id": "api-batch-endpoint-design",
+    "name": "Batch Endpoint Design",
+    "description": "Construct robust bulk processing endpoints that handle partial failures, atomicity controls, and resource bounding.",
+    "tags": [
+      "batch",
+      "bulk",
+      "rest",
+      "transactions",
+      "throughput"
+    ],
+    "instructions": "Structure batch payloads as an array of discrete sub-requests or entity objects, assigning a unique client-generated correlation ID to each record. Establish strict limits on batch size, such as a maximum of 100 items per request, to avoid database connection exhaustion and payload truncation. Return an overall 207 Multi-Status or a 200 OK containing individual status codes, error payloads, and identifiers for every processed record, rather than failing the entire batch unless all-or-nothing transactions are requested via an explicit query parameter. Execute internal database writes in batched bulk inserts or transactional chunks to avoid round-trip network overhead while preventing lock contention."
+  },
+  {
+    "id": "api-usage-analytics",
+    "name": "API Usage Analytics",
+    "description": "Instrument API pipelines to capture high-cardinality telemetry, latency distributions, and consumer engagement metrics.",
+    "tags": [
+      "analytics",
+      "telemetry",
+      "metrics",
+      "observability",
+      "monitoring"
+    ],
+    "instructions": "Integrate non-blocking middleware to extract telemetry data including endpoint route templates, HTTP methods, response codes, consumer IDs, and duration percentiles. Emit these events asynchronously into an event bus or log aggregator such as Kafka, avoiding inline database writes that degrade request latency. Tag metrics with normalized path patterns rather than dynamic URL paths containing IDs to avoid high-cardinality explosion in time-series databases. Build monitoring dashboards that track p95 and p99 latencies, error budget burn rates, and per-tenant consumption quotas. Periodically audit client usage patterns to identify deprecated endpoint consumers prior to breaking version retirements."
+  },
+  {
+    "id": "api-mock-creation",
+    "name": "Mock API Creation",
+    "description": "Construct dynamic, schema-compliant simulated endpoints to decouple frontend and client engineering from backend delivery.",
+    "tags": [
+      "mocking",
+      "testing",
+      "openapi",
+      "prototyping",
+      "developer-experience"
+    ],
+    "instructions": "Derive mock endpoints directly from an authoritative OpenAPI or JSON Schema specification to guarantee contractual alignment between client and server teams. Configure the mock server to simulate realistic network latency by injecting randomized delays between 100ms and 500ms into responses. Provide dynamic response switching triggered by request headers, query flags, or mock state engines to simulate boundary cases, including 400 validation errors, 401 unauthenticated responses, and 503 service outages. Avoid hardcoded, non-relational dummy data by using generative seeders that generate consistent references across entities. Verify client resilience by occasionally injecting schema drift or unexpected payload variations into staging mock environments."
+  },
+  {
+    "id": "api-client-error-handling",
+    "name": "API Client Error Handling",
+    "description": "Build resilient client-side network interceptors that parse structured error contracts and orchestrate safe retries.",
+    "tags": [
+      "client",
+      "resilience",
+      "retry",
+      "errors",
+      "circuit-breaker"
+    ],
+    "instructions": "Parse machine-readable problem details conformant to RFC 7807, extracting the type URI, title, and field-level validation dictionaries rather than matching raw HTTP status codes or message strings. Implement an automated retry mechanism strictly for idempotent methods and transient errors such as 429, 502, 503, and 504. Employ exponential backoff augmented with full jitter, respecting the Retry-After header whenever present. Wrap failing remote endpoints in a circuit breaker pattern to immediately short-circuit outbound requests during prolonged outages. Bubble user-friendly contextual messages up to the interface while logging original correlation IDs and error codes for downstream operational debugging."
+  },
+  {
+    "id": "api-hateoas-evaluation",
+    "name": "HATEOAS Evaluation",
+    "description": "Assess the trade-offs and architectural fit of hypermedia controls within RESTful service ecosystems.",
+    "tags": [
+      "hateoas",
+      "rest",
+      "hypermedia",
+      "hal",
+      "architecture"
+    ],
+    "instructions": "Audit existing domain models to determine whether business processes exhibit state-machine behavior where valid transitions depend heavily on dynamic resource state. Choose a standard hypermedia dialect such as HAL, JSON:API, or Siren to represent link relations and embedded entities consistently. Evaluate the overhead: hypermedia links increase response payload size and introduce client coupling to dynamic rel attributes, which can complicate static type generation in SDKs. Check whether client teams actually navigate the API via links or if they construct URLs using out-of-band documentation. If client workflows are rigidly defined or SDK-driven, consider simpler pragmatic REST patterns over full HATEOAS compliance."
+  },
+  {
+    "id": "api-grpc-service-design",
+    "name": "gRPC Service Design",
+    "description": "Define strongly-typed, high-performance RPC contracts using Protocol Buffers and idiomatic stream semantics.",
+    "tags": [
+      "grpc",
+      "protobuf",
+      "rpc",
+      "microservices",
+      "performance"
+    ],
+    "instructions": "Draft Protocol Buffer definitions prioritizing backward and forward compatibility by never altering existing field tag numbers or changing existing field types. Group related methods into cohesive service boundaries, designating streaming semantics (unary, client streaming, server streaming, or bidirectional) based strictly on data volume and latency requirements. Use well-known types such as google.protobuf.Timestamp and google.type.Money for domain consistency. Standardize error signaling by mapping internal exceptions to standard canonical gRPC status codes and attaching google.rpc.Status details containing domain error messages. Run buf or protoc linters in continuous integration to catch breaking schema changes before merging."
+  },
+  {
+    "id": "api-token-handling",
+    "name": "API Token Handling",
+    "description": "Implement secure token issuance, validation, rotation, and revocation across distributed authentication architectures.",
+    "tags": [
+      "security",
+      "auth",
+      "oauth2",
+      "jwt",
+      "tokens"
+    ],
+    "instructions": "Enforce short lifespans for asymmetric JSON Web Tokens (JWTs) used as access tokens, keeping validity under 15 minutes while pairing them with secure, opaque refresh tokens stored in hashed form. Validate the signature, issuer, audience, and expiration claims locally on microservices using cached public keys retrieved from a JSON Web Key Set (JWKS) endpoint. Maintain a distributed revocation blocklist in Redis for revoking compromised tokens ahead of their natural expiration. Store client refresh tokens in HTTP-only, Secure, SameSite cookies or protected vaults rather than browser local storage. Require explicit cryptographic scopes to enforce principle of least privilege across downstream service boundaries."
+  }
+]

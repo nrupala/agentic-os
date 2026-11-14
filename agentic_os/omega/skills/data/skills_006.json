@@ -1,0 +1,302 @@
+[
+  {
+    "id": "research-literature-search-strategy",
+    "name": "Literature Search Strategy",
+    "description": "Systematic identification and retrieval of scholarly literature using structured query strings across multiple academic databases.",
+    "tags": [
+      "literature-review",
+      "databases",
+      "boolean-operators",
+      "information-retrieval"
+    ],
+    "instructions": "Deconstruct the overarching research objective into distinct conceptual facets using frameworks like PICO or SPIDER. For each facet, compile exhaustive lists of synonyms, MeSH terms, and controlled vocabulary variants. Combine intra-facet terms using OR logic and link distinct facets using AND logic. Execute search strings across at least three complementary index databases, such as Scopus, Web of Science, and PubMed. Document exact search syntax, filters applied, dates, and hit counts in an audit log. Beware of over-specifying search strings prematurely, which causes high false-negative rates; always test sensitivity against a set of benchmark papers before finalizing your query protocol."
+  },
+  {
+    "id": "research-source-credibility-evaluation",
+    "name": "Source Credibility Evaluation",
+    "description": "Critical assessment of external information sources for authority, rigor, institutional affiliation, and potential conflicts of interest.",
+    "tags": [
+      "critical-thinking",
+      "source-evaluation",
+      "craap-test",
+      "fact-verification"
+    ],
+    "instructions": "Apply lateral reading techniques by opening adjacent browser tabs to investigate the author, publishing entity, and funding bodies behind an unfamiliar source. Verify the author's academic credentials, peer-reviewed track record, and current organizational appointments via ORCID or Google Scholar. Inspect the publication venue for legitimate peer-review policies, editorial board composition, and presence on predatory publishing registries. Cross-examine primary methodological claims against consensus literature, noting whether data sets, confidence intervals, and funding disclosures are transparently provided. Avoid relying strictly on surface-level visual polish or top-level domains like .org or .edu, as these frequently mask proprietary advocacy, undisclosed lobbying, or unvetted preprint drafts."
+  },
+  {
+    "id": "research-citation-management",
+    "name": "Citation Management",
+    "description": "Systematic capture, cataloging, deduplication, and export of bibliographic metadata using reference management software.",
+    "tags": [
+      "zotero",
+      "referencing",
+      "bibliography",
+      "metadata-hygiene"
+    ],
+    "instructions": "Configure a reference manager like Zotero or Mendeley with standardized tag structures and hierarchical project collections before ingestion. Import citations directly via DOI resolvers or direct publisher metadata scrapers rather than manual text entry. Immediately inspect newly imported records for missing volume numbers, garbled author names, uppercase-only titles, and truncated page ranges. Run automated deduplication sweeps across merged folder sets, carefully verifying that true updates or errata notices are not mistakenly merged into original parent records. Prior to outputting manuscripts, reconcile in-text markers against the designated CSL style guide (such as APA 7th or Chicago Author-Date). Never trust unverified web-importer metadata without reviewing the underlying BibTeX fields manually."
+  },
+  {
+    "id": "research-question-formulation",
+    "name": "Research Question Formulation",
+    "description": "Iterative translation of broad investigative curiosities into precise, answerable, and theoretically grounded research questions.",
+    "tags": [
+      "methodology",
+      "problem-framing",
+      "finer-framework",
+      "scope-definition"
+    ],
+    "instructions": "Map the boundaries of your intellectual inquiry by evaluating candidate questions against the FINER criteria: Feasible, Interesting, Novel, Ethical, and Relevant. Discard purely descriptive \"what\" questions in favor of explanatory or relational inquiries that explore mechanisms, conditions, or interventions. Explicitly delineate target populations, temporal constraints, key variables, and measurable outcomes to prevent scope creep. Validate theoretical grounding by ensuring the question addresses an identified tension, empirical gap, or paradox within prevailing domain literature. Resist the temptation to embed pre-determined conclusions or leading assumptions inside the core hypothesis, and confirm that available data collection instruments are empirically capable of disconfirming your expected outcome."
+  },
+  {
+    "id": "research-survey-design",
+    "name": "Survey Design",
+    "description": "Construction and validation of structured questionnaires engineered to collect quantifiable, unbiased psychometric and behavioral data.",
+    "tags": [
+      "questionnaire-design",
+      "psychometrics",
+      "quantitative-methods",
+      "likert-scales"
+    ],
+    "instructions": "Establish a clear operational definition for every construct before drafting survey items, mapping questions directly to planned statistical analyses. Balance positive and negative phrasing across Likert-scale batteries while maintaining consistent scale directionality, labeled anchors, and neutral midpoints. Eliminate double-barreled questions, ambiguous temporal qualifiers, and technical jargon that could induce cognitive burden or misinterpretation. Order questions logically from general, non-threatening inquiries to sensitive behavioral or demographic questions placed strictly at the conclusion. Run cognitive pre-testing and pilot tests with a small cohort to measure completion times and detect attrition inflection points. Pitfall: Avoid forced-choice answers on questions without exhaustive mutually exclusive categories; always include vetted \"prefer not to answer\" options."
+  },
+  {
+    "id": "research-interview-guide-design",
+    "name": "Interview Guide Design",
+    "description": "Development of semi-structured qualitative interview protocols balancing thematic focus with conversational flexibility.",
+    "tags": [
+      "qualitative-research",
+      "semi-structured-interviews",
+      "fieldwork",
+      "probing"
+    ],
+    "instructions": "Organize the protocol around four to six primary thematic arcs arranged in a chronological or narrative arc from rapport-building to complex reflections. Draft open-ended anchor questions formulated with conversational stems like \"Can you walk me through...\" or \"How did you experience...\" to stimulate detailed storytelling. Subordinate three to four targeted probes beneath each main anchor to investigate underlying motivations, emotional reactions, and tactical decision points without interrupting flow. Include explicit interviewer notes indicating pacing benchmarks, transition prompts, and non-verbal observation reminders. Rehearse the protocol in a mock interview to ensure conversational naturalism. A major pitfall is formulating closed or leading questions that cue socially desirable responses rather than genuine experiential reflections."
+  },
+  {
+    "id": "research-competitive-analysis",
+    "name": "Competitive Analysis",
+    "description": "Methodical identification, categorization, and feature-level benchmarking of direct, indirect, and substitute market rivals.",
+    "tags": [
+      "market-intelligence",
+      "benchmarking",
+      "product-strategy",
+      "differentiation"
+    ],
+    "instructions": "Establish a cross-functional evaluation matrix segmenting competitors into direct rivals, adjacent category encroachers, and non-consumption alternatives. Gather primary intelligence through public earnings calls, customer review platforms (such as G2 or Trustpilot), patent filings, and user onboarding walkthroughs. Benchmark targets across defined dimensions: core value proposition, pricing tiers, go-to-market motions, technological moats, and notable customer pain points. Validate reported features through hands-on product trials rather than marketing collateral claims. Synthesize findings into visual perceptual maps and feature parity grids that expose unserved market whitespaces. Beware of static snapshot biases: competitor capabilities evolve rapidly, so set calendarized audit intervals and track employee hiring trends to anticipate impending strategic pivots."
+  },
+  {
+    "id": "research-market-sizing-estimation",
+    "name": "Market Sizing Estimation",
+    "description": "Derivation of Total Addressable Market, Serviceable Available Market, and Serviceable Obtainable Market via triangulation.",
+    "tags": [
+      "market-sizing",
+      "tam-sam-som",
+      "fermi-estimation",
+      "financial-modeling"
+    ],
+    "instructions": "Construct concurrent top-down and bottom-up mathematical estimation models to establish bounded confidence ranges for target market volume. For top-down calculations, extrapolate aggregate industry figures from verified trade associations and national census datasets, factoring in sector-specific adoption haircuts. For bottom-up models, multiply the realistic count of potential target buyers by annual average contract values or purchase frequencies. Reconcile variances between both modeling trajectories through Fermi decomposition of uncertain assumptions, documenting all baseline ratios explicitly in version-controlled spreadsheets. Conduct sensitivity analysis across pessimistic, base, and aggressive growth trajectories. A critical pitfall is assuming arbitrary universal capture percentages (e.g., \"if we only get 1% of the total market\") without proving concrete channel distribution capabilities."
+  },
+  {
+    "id": "research-swot-analysis",
+    "name": "SWOT Analysis",
+    "description": "Structured evaluation of internal organizational capabilities and external environmental forces to inform strategic planning.",
+    "tags": [
+      "strategic-planning",
+      "internal-audit",
+      "environmental-scanning",
+      "tows-matrix"
+    ],
+    "instructions": "Assemble a cross-departmental group to capture distinct operational perspectives across Strengths, Weaknesses, Opportunities, and Threats. Enforce a strict boundary condition: categorize assets and liabilities under internal control as Strengths or Weaknesses, while reserving macroeconomic, regulatory, or competitive dynamics strictly for Opportunities and Threats. Require empirical evidence, customer testimonials, or comparative KPIs for every bulleted entry to prevent subjective wishful thinking. Transform the descriptive grid into an actionable TOWS matrix, pairing specific internal strengths against external opportunities while outlining defensive mitigations for vulnerabilities exposed by threats. Avoid vague single-word bullet points like \"culture\" or \"technology\"; formulate each point as a complete, contextualized assertion supported by benchmark data."
+  },
+  {
+    "id": "research-fact-checking",
+    "name": "Fact Checking",
+    "description": "Systematic verification of empirical assertions against primary evidentiary records, statistical repositories, and verifiable chronologies.",
+    "tags": [
+      "verification",
+      "investigative-methods",
+      "lateral-reading",
+      "data-audit"
+    ],
+    "instructions": "Isolate distinct factual assertions within a target text, separating verifiable claims (dates, quantities, direct quotations, causal links) from subjective opinion. Trace every quantitative metric and quoted excerpt back to its original primary source document rather than relying on secondary news recaps. Check the provenance of digital media using reverse image lookups, metadata extraction tools, and historical web archives such as the Wayback Machine. Consult authoritative statistical repositories (e.g., BLS, Eurostat, WHO) to determine whether isolated data points have been selectively cherry-picked outside of contextual trendlines. Pitfall: Avoid confirmation bias by actively searching for reputable disconfirming sources; never mark a claim verified simply because multiple aggregation websites repeat the exact same unverified claim wire copy."
+  },
+  {
+    "id": "research-academic-paper-summarization",
+    "name": "Academic Paper Summarization",
+    "description": "Distillation of complex empirical journal articles into structured executive briefs detailing question, methods, results, and limitations.",
+    "tags": [
+      "synthesis",
+      "paper-reading",
+      "methodology-critique",
+      "executive-summary"
+    ],
+    "instructions": "Read the paper in strategic passes, beginning with the abstract, introduction, and conclusion before critically reviewing the methodology, figures, and discussion. Extract four essential structural pillars into your notes: the central theoretical gap, exact empirical methodology (sample size, controls, design), key statistically significant findings, and stated institutional limitations. Verify that claims made in the abstract correspond directly to statistical significance indicators and effect sizes in the data tables. Translate specialized domain jargon into plain language suitable for cross-disciplinary peers while preserving nuanced scientific qualifiers. Pitfall: Do not merely paraphrase the author's self-congratulatory discussion section; rigorously assess whether the empirical design actually proves causation or merely demonstrates an unadjusted observational correlation."
+  },
+  {
+    "id": "research-annotated-bibliography-writing",
+    "name": "Annotated Bibliography Writing",
+    "description": "Compilation of structured bibliographic references coupled with analytical summaries and critical assessments of scholarly relevance.",
+    "tags": [
+      "scholarly-writing",
+      "bibliographic-analysis",
+      "literature-review",
+      "source-synthesis"
+    ],
+    "instructions": "Format the primary citation rigorously according to the assigned style manual (such as APA, MLA, or Chicago), ensuring hanging indents and proper punctuation. Below each citation, compose an annotation structured in three distinct paragraphs: an objective summary of the work's central argument and evidence, an evaluation of methodology and author authority, and a reflective analysis of how the source integrates into your specific project scope. Compare the item's findings against other works in your bibliography, highlighting theoretical consensus or methodological divergence. Avoid writing superficial descriptive abstracts that merely rephrase the publisher's synopsis. Ensure the evaluative commentary critiques the source's sample size, theoretical bias, or dated perspective, demonstrating active critical engagement with the scholarly conversation."
+  },
+  {
+    "id": "research-patent-search-basics",
+    "name": "Patent Search Basics",
+    "description": "Discovery and prior art analysis of published patents and patent applications across national and international intellectual property databases.",
+    "tags": [
+      "intellectual-property",
+      "prior-art",
+      "patentability",
+      "classification-codes"
+    ],
+    "instructions": "Begin prior art searches by identifying relevant Cooperative Patent Classification (CPC) and International Patent Classification (IPC) codes corresponding to the invention's structural and functional aspects. Query global repositories such as Google Patents, Espacenet, and the USPTO database using combinations of technical keywords and specific classification subclasses. Analyze independent claims first, as they define the legal scope of protection, before reviewing dependent claims and detailed architectural embodiments. Map dates of earliest priority and track familial relationships across international jurisdictions to assess patent status and validity. Pitfall: Avoid searching only by commercial product names or inventor keywords, as patent drafters intentionally use broad, obfuscated technical vocabulary (e.g., \"spherical energy absorbing member\" instead of \"tennis ball\")."
+  },
+  {
+    "id": "research-trend-analysis",
+    "name": "Trend Analysis",
+    "description": "Examine longitudinal time-series datasets and market signals to project emerging directional movements and structural shifts.",
+    "tags": [
+      "trends",
+      "forecasting",
+      "data-analysis",
+      "quantitative"
+    ],
+    "instructions": "Define the longitudinal timeframe and establish baseline boundary parameters across at least three comparable historical intervals. Aggregate both quantitative time-series data and qualitative market indicators, cleaning out seasonal anomalies and one-off macro shocks using moving averages. Plot directional momentum indicators to isolate sustained structural inflection points from short-term cyclical noise. Verify your forecast validity by cross-referencing predictive signals against secondary trailing data cohorts. A critical pitfall is conflating correlation during bubble periods with genuine sustained trajectory shifts; actively test whether underlying drivers remain independent."
+  },
+  {
+    "id": "research-user-research-planning",
+    "name": "User Research Planning",
+    "description": "Formulate comprehensive research roadmaps outlining core hypotheses, participant recruitment criteria, methodology selection, and operational timelines.",
+    "tags": [
+      "user-research",
+      "planning",
+      "uxr",
+      "methodology"
+    ],
+    "instructions": "Initiate by aligning product stakeholders around explicit foundational unknowns and drafting falsifiable research questions. Map those questions to generative or evaluative methodologies, such as diary studies or contextual inquiries, based on product maturity. Define behavioral screener criteria to recruit representative participant personas while explicitly excluding friends, internal staff, and professional survey-takers. Build an operational logistics schedule encompassing pilot runs, incentive disbursement, interview buffers, and debrief windows. Watch out for scope creep where teams attempt to validate feature requests and discover foundational workflows within a single sprint protocol."
+  },
+  {
+    "id": "research-usability-study-design",
+    "name": "Usability Study Design",
+    "description": "Architect controlled task-based test protocols to rigorously evaluate digital interface effectiveness, efficiency, and user satisfaction.",
+    "tags": [
+      "usability-testing",
+      "ux",
+      "task-design",
+      "evaluation"
+    ],
+    "instructions": "Select between moderated and unmoderated modalities depending on UI complexity and the necessity of real-time probing. Construct realistic, goal-oriented task scenarios that present end objectives without leaking the exact nomenclature or UI pathways to the participant. Establish quantifiable metrics including task completion rates, time-on-task, error taxonomy frequencies, and post-task Single Ease Question scores. Pre-test the script during dry runs to confirm interactive prototype links work flawlessly across varied browser viewports. A major hazard is framing tasks with leading verbiage like 'click the search icon to find help,' which invalidates navigation measurement."
+  },
+  {
+    "id": "research-data-source-discovery",
+    "name": "Data Source Discovery",
+    "description": "Systematically locate, vet, and catalogue primary and secondary datasets appropriate for deep quantitative or qualitative empirical investigation.",
+    "tags": [
+      "data-sourcing",
+      "data-collection",
+      "discovery",
+      "vetting"
+    ],
+    "instructions": "Map the conceptual variables required for the investigation and generate a target matrix of proprietary, public, and open-source data repositories. Execute targeted search queries using Boolean operators across institutional catalogs, academic repositories, government portals, and industry APIs. Evaluate candidate sources using provenance verification, refresh cadence, collection methodology transparency, and licensing constraints. Log all promising datasets into a centralized registry tracking schema consistency, sample size, missingness rates, and accessibility barriers. Beware of utilizing stale web-scraped corpora with undocumented collection biases or unstated survivor bias in commercial market directories."
+  },
+  {
+    "id": "research-expert-interview-preparation",
+    "name": "Expert Interview Preparation",
+    "description": "Prepare tailored inquiry frameworks and targeted technical discussion guides to extract non-obvious domain knowledge from industry subject matter specialists.",
+    "tags": [
+      "interviews",
+      "qualitative",
+      "expert-engagement",
+      "guide-design"
+    ],
+    "instructions": "Thoroughly review the specialist's published papers, patents, technical presentations, and career background to establish credibility and prevent redundant baseline questioning. Formulate an inverted pyramid discussion guide that starts with macro domain dynamics before drilling into technical bottlenecks, proprietary heuristics, and edge cases. Draft neutral, open-ended prompts alongside technical counter-factuals to challenge the expert's initial assertions respectfully. Schedule a pre-briefing session to align on non-disclosure boundaries, recording consent, and citation attribution terms. Avoid the common failure mode of spending valuable interview time on basic industry definitions that could be acquired via desk research."
+  },
+  {
+    "id": "research-research-synthesis",
+    "name": "Research Synthesis",
+    "description": "Translate disparate qualitative and quantitative observations into coherent thematic models, actionable frameworks, and strategic product implications.",
+    "tags": [
+      "synthesis",
+      "affinity-mapping",
+      "qualitative-analysis",
+      "insights"
+    ],
+    "instructions": "Transcribe raw audio, video, and field logs, extracting granular atomic observation units coded with participant identifiers. Organize these discrete quotes and behaviors into inductive affinity clusters without forcing pre-conceived business hypotheses onto the evidence. Synthesize emergent clusters into second-order thematic insights, articulating the human friction points, root causes, and systemic interactions observed. Translate each verified insight into distinct 'how might we' opportunity vectors prioritized by customer value and implementation feasibility. A frequent pitfall is cherry-picking outlier quotes that validate personal opinions while discounting systemic behavioral patterns evident across the wider participant group."
+  },
+  {
+    "id": "research-evidence-quality-grading",
+    "name": "Evidence Quality Grading",
+    "description": "Assess and score the reliability, methodological rigor, and internal validity of empirical literature and secondary research claims.",
+    "tags": [
+      "evidence-based",
+      "quality-appraisal",
+      "methodology",
+      "literature-review"
+    ],
+    "instructions": "Establish a standardized appraisal rubric such as GRADE or a customized risk-of-bias checklist evaluating study design, statistical power, and confounder control. Score each study based on sample representativeness, blinding procedures, measurement validity, and potential researcher conflicts of interest. Classify findings into tiered tiers of confidence ranging from high-confidence causal evidence to speculative anecdotal commentary. Check for publication bias and selective outcome reporting by scrutinizing pre-registration logs against published conclusions. Avoid the trap of treating large sample sizes as automatic proxies for high quality when underlying selection bias or non-random attrition remains uncorrected."
+  },
+  {
+    "id": "research-gap-analysis",
+    "name": "Gap Analysis",
+    "description": "Identify discrepancies between current operational or knowledge states and future strategic objectives through structured capability auditing.",
+    "tags": [
+      "gap-analysis",
+      "strategic-research",
+      "auditing",
+      "needs-assessment"
+    ],
+    "instructions": "Document the baseline current state across technical capabilities, user expectations, and institutional metrics through documented empirical audits. Define the desired future state with explicit, measurable operational criteria, benchmarking targets, and functional specifications agreed upon by key stakeholders. Compare the two conditions to isolate specific systemic deficits, missing knowledge components, and tooling barriers separating baseline from target. Prioritize identified gaps using a risk-adjusted impact matrix, assigning clear ownership and remediation milestones for each finding. Avoid the tendency to prescribe software or policy solutions before achieving complete, objective consensus on the actual root deficit."
+  },
+  {
+    "id": "research-benchmarking-study-design",
+    "name": "Benchmarking Study Design",
+    "description": "Construct standardized, repeatable comparative testing environments to evaluate competitive offerings or system iterations against set performance criteria.",
+    "tags": [
+      "benchmarking",
+      "comparative-study",
+      "metrics",
+      "performance-testing"
+    ],
+    "instructions": "Select a balanced cohort of direct and indirect competitor solutions alongside baseline legacy versions to establish comparative baselines. Define standardized, immutable testing parameters—such as identical hardware profiles, simulated network latency, standard datasets, and equivalent user personas. Create synchronized evaluation rubrics assessing functional feature completeness, time-to-value, error resilience, and standardized customer satisfaction scores. Execute the study using counterbalanced order assignment across evaluators to mitigate sequence bias and learning effects. Guard against the pitfall of optimizing evaluation metrics strictly around your existing product strengths, which blinds the organization to novel competitor architectures."
+  },
+  {
+    "id": "research-white-paper-research",
+    "name": "White Paper Research",
+    "description": "Conduct in-depth technical and market investigations to author authoritative, persuasive, and data-backed thought leadership publications.",
+    "tags": [
+      "white-paper",
+      "thought-leadership",
+      "secondary-research",
+      "content-strategy"
+    ],
+    "instructions": "Identify an under-researched industry dilemma or disruptive technical paradigm that lacks clear analytical synthesis in current market discourse. Formulate an overarching narrative thesis, supporting it through primary survey data, academic literature reviews, and real-world case studies. Develop custom conceptual models, architectural diagrams, and quantitative charts to substantiate every major argumentative premise logically. Subject draft conclusions to internal peer review and external technical scrutiny to eliminate factual leaps, promotional hyperbole, and flawed deductions. Beware of allowing marketing spin to undermine the scientific objectivity of the report, as readers quickly discount content that reads like thinly veiled advertising."
+  },
+  {
+    "id": "research-ethics-review",
+    "name": "Research Ethics Review",
+    "description": "Evaluate research protocols to safeguard human subjects, secure informed consent, protect sensitive data, and uphold compliance norms.",
+    "tags": [
+      "ethics",
+      "irb",
+      "compliance",
+      "data-privacy"
+    ],
+    "instructions": "Review the research protocol to identify potential physical, psychological, social, or legal risks to human participants, detailing mitigation strategies. Draft plain-language informed consent documents that explicitly outline study purpose, data retention policies, voluntary participation rights, and withdrawal mechanisms. Audit data handling pipelines to enforce strict anonymization, pseudonymous coding keys, encrypted storage, and access controls compliant with regulations like GDPR. Submit the complete research package to an institutional review board or internal ethics committee before initiating participant recruitment. Never compromise by burying data-sharing permissions in unreadable legalese or failing to provide mental health debriefings after psychologically sensitive inquiry sessions."
+  },
+  {
+    "id": "research-field-observation-notes",
+    "name": "Field Observation Notes",
+    "description": "Record rigorous, structured ethnographic observations during on-site contextual inquiries to capture naturalistic human behavior.",
+    "tags": [
+      "ethnography",
+      "field-notes",
+      "contextual-inquiry",
+      "observation"
+    ],
+    "instructions": "Establish a standardized two-column jottings template separating raw descriptive behavioral facts from interpretive analytical impressions and researcher emotional reactions. Document environmental artifacts, physical room layouts, social dynamics, non-verbal cues, and informal user workarounds in continuous timestamped entries. Expand quick shorthand notes into rich, descriptive prose within twenty-four hours of leaving the field to capture fleeting contextual memory. Verify observational accuracy where feasible through participant member checks or by cross-referencing photographic artifacts and audio logs. Avoid the critical trap of recording subjective inferences as objective facts, such as writing 'the subject was angry' instead of describing observable vocal pitch changes and brow clenching."
+  }
+]

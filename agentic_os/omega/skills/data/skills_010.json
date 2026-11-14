@@ -1,0 +1,306 @@
+[
+  {
+    "id": "db-relational-schema-design",
+    "name": "Relational Schema Design",
+    "description": "Model business entities, attributes, and relationships into robust relational tables with strict constraints.",
+    "tags": [
+      "schema-design",
+      "rdbms",
+      "data-modeling",
+      "ddl"
+    ],
+    "instructions": "Analyze domain requirements by enumerating primary entities and cardinality ratios (one-to-one, one-to-many, many-to-many). Assign surrogate or natural primary keys with immutable constraints. Define foreign keys explicitly with appropriate ON DELETE policies (CASCADE vs RESTRICT) based on lifecycle ownership. Apply NOT NULL constraints by default unless missing data is semantically valid. Check that column datatypes match domain ranges tightly (such as VARCHAR length bounds and exact NUMERIC for currency instead of floating point). Watch out for circular foreign key dependencies and prematurely merging logically distinct entities into oversized catch-all tables."
+  },
+  {
+    "id": "db-normalization",
+    "name": "Database Normalization",
+    "description": "Decompose relational schemas across normal forms to eliminate update, insertion, and deletion anomalies.",
+    "tags": [
+      "normalization",
+      "normal-forms",
+      "schema-refactoring",
+      "rdbms"
+    ],
+    "instructions": "Audit candidate tables starting from First Normal Form (1NF) by verifying atomic attribute values and removing repeating groups. Advance to Second Normal Form (2NF) by identifying composite primary keys and moving partial functional dependencies into dedicated reference tables. Enforce Third Normal Form (3NF) and Boyce-Codd Normal Form (BCNF) by eradicating transitive dependencies where non-key attributes determine other non-key attributes. Verify that each decomposition is lossless-join and dependency-preserving. Watch out for over-normalizing analytical read-heavy workloads where selective denormalization is required to avoid prohibitive join penalties."
+  },
+  {
+    "id": "db-indexing-strategy",
+    "name": "Database Indexing Strategy",
+    "description": "Design and place B-tree, hash, and composite indexes to accelerate queries without excessive write overhead.",
+    "tags": [
+      "indexing",
+      "b-tree",
+      "performance-tuning",
+      "query-optimization"
+    ],
+    "instructions": "Profile production query predicates (WHERE, JOIN, ORDER BY, and GROUP BY clauses) to select leading index columns based on cardinality and selectivity. Create composite indexes ordered by equality columns first, followed by range or inequality filters. Evaluate covering indexes using INCLUDE clauses to serve queries directly from index leaf pages without table heap fetches. Audit index maintenance costs against table write throughput, removing unused or duplicate indexes via system statistics. Avoid indexing low-cardinality boolean columns alone, and beware of functional index omissions when queries wrap indexed columns in functions."
+  },
+  {
+    "id": "db-sql-query-optimization",
+    "name": "SQL Query Optimization",
+    "description": "Analyze query execution plans and rewrite SQL statements to reduce computational cost and execution time.",
+    "tags": [
+      "sql-optimization",
+      "execution-plans",
+      "performance",
+      "query-tuning"
+    ],
+    "instructions": "Inspect execution plans using EXPLAIN ANALYZE to identify sequential scans, expensive nested loop joins, high-cost sort operations, and skewed row count estimates. Rewrite non-sargable predicates (such as expressions on columns or leading wildcard LIKE patterns) into sargable comparisons that leverage indexes. Replace uncorrelated subqueries with JOINs or EXISTS where optimizer transformations fail. Verify table statistics are up-to-date with ANALYZE before changing query structure. Avoid fetching surplus columns with SELECT * across wide tables, and test query rewrites with realistic production data volumes rather than empty development databases."
+  },
+  {
+    "id": "db-sql-joins",
+    "name": "SQL Join Implementation",
+    "description": "Select and construct optimal relational join operations to combine datasets accurately and efficiently.",
+    "tags": [
+      "sql",
+      "joins",
+      "query-construction",
+      "relational-algebra"
+    ],
+    "instructions": "Determine appropriate join semantics (INNER, LEFT, RIGHT, FULL OUTER, or CROSS) based on whether unmatched rows must be preserved. Explicitly specify join conditions in the ON clause rather than relying on WHERE filters or implicit cross joins. Inspect join algorithmic choices—nested loops for small outer sets with indexed inner tables, hash joins for large unindexed sets, and merge joins for pre-sorted inputs. Watch for Cartesian product explosions caused by missing join predicates or many-to-many intermediate relationships. Validate handling of NULL values in outer join filtering to prevent accidentally converting outer joins into inner joins."
+  },
+  {
+    "id": "db-sql-window-functions",
+    "name": "SQL Window Functions",
+    "description": "Execute complex analytical calculations across partitioned row sets without collapsing rows via aggregation.",
+    "tags": [
+      "window-functions",
+      "sql-analytics",
+      "aggregation",
+      "olap"
+    ],
+    "instructions": "Construct OVER clauses combining PARTITION BY and ORDER BY to define evaluation frames for ranking (DENSE_RANK, ROW_NUMBER), offset navigation (LAG, LEAD), and running aggregations (SUM, AVG). Explicitly define the window frame specification (ROWS BETWEEN vs RANGE BETWEEN) to avoid unintentional unbounded default ranges that degrade performance or mishandle duplicate sort keys. Verify sort stability by appending deterministic tie-breaking columns in the ORDER BY clause. Watch out for placing window functions in WHERE or HAVING clauses; encapsulate them within Common Table Expressions (CTEs) or subqueries when filtering results."
+  },
+  {
+    "id": "db-transactions-and-isolation-levels",
+    "name": "Transactions and Isolation Levels",
+    "description": "Configure ACID transaction boundaries and concurrency controls to prevent data anomalies and deadlocks.",
+    "tags": [
+      "acid",
+      "transactions",
+      "concurrency",
+      "isolation-levels"
+    ],
+    "instructions": "Delineate explicit transaction boundaries (BEGIN and COMMIT/ROLLBACK) around all atomic state mutations, keeping transaction duration as brief as possible. Select the minimum required ANSI isolation level (Read Committed, Repeatable Read, or Serializable) based on tolerance for phenomena like dirty reads, non-repeatable reads, phantom reads, and write skew. Implement consistent resource acquisition ordering across transactions to eliminate deadlock conditions. In Serializable or optimistic concurrency regimes, implement automatic retry loops with exponential backoff to handle serialization failures. Avoid holding open transactions across network I/O calls or user input pauses."
+  },
+  {
+    "id": "db-database-migration-planning",
+    "name": "Database Migration Planning",
+    "description": "Plan and execute zero-downtime relational schema changes and data backfills in production environments.",
+    "tags": [
+      "migrations",
+      "zero-downtime",
+      "devops",
+      "schema-evolution"
+    ],
+    "instructions": "Deconstruct schema evolution into backward-compatible expand-and-contract phases rather than single destructive releases. Add new nullable columns or tables first, deploy dual-writing application code, backfill historical data in throttled asynchronous batches, and finally switch read paths before dropping deprecated structures. Lock timeouts must be explicitly configured before executing DDL to prevent lock queuing from starving live queries. Verify that index additions use non-blocking creation modes (such as CREATE INDEX CONCURRENTLY). Always generate and validate automated rollback scripts against staging snapshots matching production scale before maintenance windows."
+  },
+  {
+    "id": "db-backup-and-restore-planning",
+    "name": "Database Backup and Restore Planning",
+    "description": "Design comprehensive disaster recovery procedures to satisfy Recovery Point and Recovery Time Objectives.",
+    "tags": [
+      "backup-recovery",
+      "disaster-recovery",
+      "rpo-rto",
+      "database-admin"
+    ],
+    "instructions": "Define formal Recovery Point Objectives (RPO) and Recovery Time Objectives (RTO) with business stakeholders. Combine scheduled full physical snapshots with continuous Write-Ahead Log (WAL) or transaction log archiving to facilitate Point-In-Time Recovery (PITR). Encrypt backups both in transit and at rest, maintaining geographically isolated immutable storage copies to defend against ransomware. Schedule automated, unattended restore rehearsals into an isolated environment to verify backup validity and measure actual restore duration against RTO targets. A backup is merely a hypothesis until a full restore and data verification check succeeds."
+  },
+  {
+    "id": "db-replication-concepts",
+    "name": "Database Replication Architecture",
+    "description": "Architect and manage physical and logical replication topographies for high availability and read scaling.",
+    "tags": [
+      "replication",
+      "high-availability",
+      "failover",
+      "read-replicas"
+    ],
+    "instructions": "Determine appropriate replication topology (single-primary, multi-primary, or read replica pool) and mechanism (synchronous vs asynchronous). For asynchronous topologies, design application routing to direct write traffic to the primary and tolerant read traffic to replicas while handling replication lag anomalies through sticky sessions. Implement automated health monitoring and consensus-driven failover mechanisms to elect a new primary without split-brain scenarios. In logical replication scenarios, verify that replicated tables possess unique replica identity keys and filter out unwanted DDL mutations. Plan for downstream replication slot growth, which can exhaust primary disk space during replica disconnects."
+  },
+  {
+    "id": "db-sharding-evaluation",
+    "name": "Database Sharding Evaluation",
+    "description": "Assess horizontal partitioning viability, shard key selection, and cross-shard operational overhead.",
+    "tags": [
+      "sharding",
+      "horizontal-partitioning",
+      "distributed-systems",
+      "scalability"
+    ],
+    "instructions": "Exhaust vertical scaling, read-replica scaling, and table partitioning options before committing to horizontal sharding architectures. Select a shard key that distributes read and write traffic uniformly across shards (evaluating hash-based vs range-based partitioning) to prevent hot-spotting. Model primary query workflows to verify that the dominant access patterns filter directly on the shard key, eliminating costly cross-shard scatter-gather queries. Plan architectural solutions for distributed transactions, two-phase commits, global unique identifier generation, and cross-shard joins. Establish resharding and rebalancing procedures early, as dynamic shard splitting in production involves severe operational risk and data relocation overhead."
+  },
+  {
+    "id": "db-nosql-data-modeling",
+    "name": "NoSQL Data Modeling",
+    "description": "Model query-first document, wide-column, and graph schemas optimized for specific access patterns.",
+    "tags": [
+      "nosql",
+      "document-db",
+      "data-modeling",
+      "access-patterns"
+    ],
+    "instructions": "List all application query access patterns exhaustively prior to modeling, as NoSQL schemas must be designed around queries rather than entity relationships. Evaluate embedding versus referencing: embed bounded, co-accessed child entities within a single document for atomic single-read access; reference unbounded collections to avoid document size limit breaches (such as MongoDB 16MB limit). In wide-column stores, design composite partition and clustering keys to govern physical node placement and on-disk sorting. Plan for eventual consistency across materialized views or secondary collections where denormalized duplicate data requires dual-writes or asynchronous background reconciliation workers."
+  },
+  {
+    "id": "db-key-value-store-usage-patterns",
+    "name": "Key-Value Store Usage Patterns",
+    "description": "Implement caching, distributed locking, session stores, and rate limiters using in-memory key-value engines.",
+    "tags": [
+      "key-value",
+      "redis",
+      "caching",
+      "in-memory"
+    ],
+    "instructions": "Choose the right caching pattern (Cache-Aside, Write-Through, or Write-Behind) based on consistency requirements and write-to-read ratios. Design structured key namespaces using consistent delimiters (such as service:entity:id:attribute) and always attach Time-To-Live (TTL) expirations to prevent boundless memory growth. Implement distributed locks using atomic primitives with fencing tokens to prevent split-brain execution under clock drift or GC pauses. Protect the backing datastore against cache penetration with Bloom filters, cache stampede using mutexes or probabilistic early expiration, and cache avalanches by adding jitter to TTL values. Monitor memory eviction policies (LRU/LFU) to avoid premature eviction of critical working sets."
+  },
+  {
+    "id": "db-data-warehousing-basics",
+    "name": "Data Warehousing Architecture and Star Schema Design",
+    "description": "Design multidimensional schemas using fact and dimension tables optimized for analytical queries.",
+    "tags": [
+      "data-warehouse",
+      "star-schema",
+      "analytics",
+      "olap"
+    ],
+    "instructions": "Identify core business processes to model as fact tables, defining numeric metrics such as revenue or quantity sold at the lowest atomic grain. Construct supporting dimension tables with surrogate primary keys to hold descriptive context like customer profile, store location, and date hierarchies. Avoid snowflake normalization unless dimension cardinality severely degrades storage and maintenance. Implement Slowly Changing Dimensions (SCD Type 2) with valid_from, valid_to, and current_flag columns to track attribute drift over time without losing historical reporting integrity. Verify integrity by checking foreign keys between facts and dimensions while disallowing null foreign keys in fact records."
+  },
+  {
+    "id": "db-etl-pipeline-design",
+    "name": "Resilient ETL Pipeline Construction",
+    "description": "Construct fault-tolerant extract, transform, and load workflows with idempotent staging and retry mechanics.",
+    "tags": [
+      "etl",
+      "data-pipelines",
+      "batch-processing",
+      "staging"
+    ],
+    "instructions": "Extract changed delta data using incremental timestamps, high-water marks, or change data capture (CDC) logs rather than full table scans. Ingest raw extracts into an isolated, append-only staging area before initiating transformations to allow safe re-runs. Perform schema validations, type casting, and deduplication within memory or ephemeral staging tables before merging into the target warehouse. Enforce idempotency by wrapping load steps in transactional upserts (MERGE statements) keyed on natural unique identifiers so pipeline restarts do not generate duplicate records. Implement dead-letter queues for unparseable payload chunks, emitting alerts when retry thresholds are breached."
+  },
+  {
+    "id": "db-data-validation-rule-design",
+    "name": "Relational and Ingestion Data Validation Engineering",
+    "description": "Define comprehensive domain constraints, cross-field assertions, and data quality check suites.",
+    "tags": [
+      "data-quality",
+      "constraints",
+      "schema-validation",
+      "integrity"
+    ],
+    "instructions": "Establish baseline column constraints directly in the DDL using NOT NULL, CHECK expressions (e.g., end_date >= start_date), and explicit enum or lookup table references. Supplement database constraints with pre-ingestion validation contracts that test structural invariants such as regex matches for tax identifiers and standard RFC formatting for email addresses. Create automated assertion tasks that compute daily null rates, distribution anomalies via standard deviation bounds, and uniqueness checks across combined candidate keys. Trap non-compliant rows into an audit quarantine table alongside specific failure error codes rather than silently discarding them or halting entire bulk ingestion operations."
+  },
+  {
+    "id": "db-security-basics",
+    "name": "Database Access Hardening and Privilege Management",
+    "description": "Secure relational instances through least-privilege role-based access control, network isolation, and encryption.",
+    "tags": [
+      "security",
+      "rbac",
+      "encryption",
+      "hardening",
+      "compliance"
+    ],
+    "instructions": "Bind the database listener exclusively to private subnet interfaces or localhost, blocking all public ingress through security groups and firewall rules. Create functional roles with tightly scoped permissions (e.g., app_read, app_write) instead of granting direct permissions to individual human or service users. Enforce TLS 1.3 for all in-transit connections and enable Transparent Data Encryption (TDE) for storage volumes, write-ahead logs, and automated snapshots. Revoke default superuser access from application connection strings, rotate database credentials periodically via automated secret managers, and mandate parameterization across all application queries to systematically neutralize SQL injection vectors."
+  },
+  {
+    "id": "db-connection-pooling",
+    "name": "Application Connection Pool Tuning and Lifecycle Management",
+    "description": "Optimize database throughput and prevent connection starvation using client and server-side pooling mechanisms.",
+    "tags": [
+      "connection-pooling",
+      "performance",
+      "scalability",
+      "concurrency"
+    ],
+    "instructions": "Calculate optimal pool size using standard concurrency formulas: typically set maximum connections roughly to (core_count * 2) + effective_spindle_count rather than arbitrarily setting hundreds of connections that cause thread-scheduling contention. Configure server-side pooling utilities like PgBouncer or ProxySQL in transaction-pooling mode for short-lived stateless microservices. Set reasonable connection timeouts, including connection_timeout (fail fast if pool is exhausted), idle_timeout (prune stale sockets), and max_lifetime (reconnect regularly to avoid DNS caching staleness and memory fragmentation). Avoid retaining pooled connections across long-running background tasks or external HTTP requests, which quickly causes starvation for active transaction threads."
+  },
+  {
+    "id": "db-slow-query-diagnosis",
+    "name": "Execution Plan Analysis and Slow Query Profiling",
+    "description": "Diagnose database performance bottlenecks using query execution plans, indexing fixes, and workload statistics.",
+    "tags": [
+      "query-optimization",
+      "explain-plan",
+      "indexes",
+      "performance"
+    ],
+    "instructions": "Identify high-impact queries using slow query logs or database performance views (e.g., pg_stat_statements or sys.dm_exec_query_stats), prioritizing by total execution time rather than mean latency alone. Inspect the execution plan via EXPLAIN (ANALYZE, BUFFERS) or graphical query trees, looking specifically for sequential full table scans on large relations, nested loops processing unexpected cardinality, and excessive temporary disk spilling. Address root causes by creating composite B-tree indexes matching query filter and sort orders (following equality first, then range filters). Update stale table statistics via ANALYZE after major data shifts, and rewrite queries to eliminate non-sargable expressions like wrapping indexed columns in scalar functions."
+  },
+  {
+    "id": "db-monitoring",
+    "name": "Telemetry Collection and Health Observability",
+    "description": "Monitor database metrics, resource contention, and replication delays to maintain operational reliability.",
+    "tags": [
+      "monitoring",
+      "observability",
+      "metrics",
+      "alerting"
+    ],
+    "instructions": "Configure an agent-based or remote exporter to gather key operational metrics, focusing on saturation, errors, and throughput. Track disk I/O metrics (IOPS limits and queue lengths), CPU utilization, cache hit ratios (targeting >99% for active OLTP working sets), and connection pool saturation percentages. For replicated clusters, continuously calculate and emit alerts on replication lag in bytes or seconds to prevent stale reads on replicas. Set proactive alert thresholds on write-ahead log disk usage and transaction ID wraparound proximity to prevent emergency read-only failsafes. Correlate spike events with application deploy logs to immediately identify problematic code changes."
+  },
+  {
+    "id": "db-data-archiving-strategy",
+    "name": "Lifecycle Archiving and Cold Storage Partitioning",
+    "description": "Implement data lifecycle policies to prune historical records into cost-effective cold storage without locking tables.",
+    "tags": [
+      "archiving",
+      "partitioning",
+      "lifecycle",
+      "maintenance"
+    ],
+    "instructions": "Establish an archival retention policy based on compliance requirements and query recency patterns, segregating transactional records older than specified windows (e.g., older than two years). Use declarative range partitioning on date columns so that entire obsolete partitions can be decoupled instantly using metadata operations like ALTER TABLE DETACH PARTITION instead of issuing slow, locking DELETE queries. Export detached historical partitions to compressed Parquet or CSV files stored in cloud object storage (e.g., S3 Glacier). If working with unpartitioned legacy tables, purge rows in small, throttled batches inside short explicit transactions with sleep intervals to minimize row-level lock contention and write-ahead log bloating."
+  },
+  {
+    "id": "db-json-relational-storage",
+    "name": "Semi-Structured JSON Storage and Querying",
+    "description": "Store, query, and index semi-structured document payloads within ACID-compliant relational tables.",
+    "tags": [
+      "json",
+      "jsonb",
+      "nosql",
+      "postgres",
+      "indexing"
+    ],
+    "instructions": "Choose binary JSON formats (such as JSONB in PostgreSQL or binary JSON in MySQL) over raw text storage to enable fast traversal and indexing without repeated parsing overhead. Apply schema validation at the database level using JSON Schema check constraints to guarantee essential key presence and correct value data types. Optimize read performance on nested attributes by creating expression indexes on specific extraction paths or generalized GIN/functional indexes for containment queries (`@>` operator). Avoid treating JSON columns as a total replacement for relational design: keep high-cardinality foreign keys, frequently joined fields, and core search predicates in standard typed relational columns to avoid query plan degradation."
+  },
+  {
+    "id": "db-full-text-search-configuration",
+    "name": "Full-Text Search Indexing and Lexical Parsing",
+    "description": "Configure linguistic text parsing, stop words, stemming, and ranking within relational search engines.",
+    "tags": [
+      "full-text-search",
+      "tsvector",
+      "lexical-analysis",
+      "stemming"
+    ],
+    "instructions": "Configure a text search dictionary appropriate for the target language to handle tokenization, stop-word elimination, and morphological stemming (e.g., mapping 'running' to 'run'). Create a dedicated precomputed search vector column (such as tsvector in PostgreSQL) populated automatically via a database trigger or generated column upon insert/update. Build an inverted index (such as GIN or GiST) directly over the parsed vector column rather than running expensive wildcard pattern searches (`LIKE '%keyword%'`). Construct user search queries using rank functions (e.g., ts_rank_cd) to calculate relevance scores based on term frequency and document length, and set headline extraction to highlight matching snippets in the UI."
+  },
+  {
+    "id": "db-graph-database-modeling",
+    "name": "Property Graph Schema Design and Traversal",
+    "description": "Model connected domain topologies as nodes, labeled relationships, and properties for path traversal queries.",
+    "tags": [
+      "graph-database",
+      "cypher",
+      "neo4j",
+      "relationships",
+      "modeling"
+    ],
+    "instructions": "Identify entities with complex, many-to-many connections as nodes and their direct relationships as directed edges with explicit semantic labels (e.g., (:User)-[:FOLLOWS]->(:User)). Attach properties directly to relationships when the edge itself carries context, such as timestamp, weight, or permission roles. Balance property placement carefully: avoid deeply nested collections inside node properties; instead, decompose multi-attribute relations into intermediate nodes if they require independent indexing. Ensure relationship directions reflect domain semantics while designing queries to leverage undirected traversals when needed. Create schema constraints and uniqueness indexes on node business identifiers to prevent duplicate node creation during Cypher MERGE operations."
+  },
+  {
+    "id": "db-migration-tool-workflow",
+    "name": "Version-Controlled Schema Migration Operations",
+    "description": "Manage deterministic, incremental database schema changes using code-driven migration tooling and CI/CD.",
+    "tags": [
+      "migrations",
+      "ci-cd",
+      "liquibase",
+      "flyway",
+      "schema-evolution"
+    ],
+    "instructions": "Maintain all DDL modifications in immutable, sequentially numbered or timestamped migration scripts committed alongside application code in version control. Configure migration frameworks (e.g., Flyway, Liquibase, or ORM migrators) to execute automatically inside deployment pipelines, recording applied changesets in an internal schema-history tracking table. Design changes according to the expand-and-contract pattern: introduce new columns as nullable, deploy application code supporting both schemas, backfill data, and only drop old columns in a subsequent release to prevent production downtime. Never modify an existing, applied migration file; instead, always author a forward-moving corrective migration script to fix unintended schema issues."
+  }
+]

@@ -1,0 +1,304 @@
+[
+  {
+    "id": "debug-systematic-method",
+    "name": "Systematic Debugging Method",
+    "description": "Isolate and resolve software defects through an evidence-based scientific loop of observation, hypothesis formation, experimentation, and verification.",
+    "tags": [
+      "methodology",
+      "troubleshooting",
+      "root-cause-analysis",
+      "scientific-method"
+    ],
+    "instructions": "Begin by documenting the exact unexpected behavior alongside the expected behavior and system preconditions. Formulate a falsifiable hypothesis explaining why the variance occurred based on state transitions or input mutations. Design a targeted test or instrumentation step that can definitively prove or disprove the hypothesis without introducing side effects. Execute the test and compare the observed outcome strictly against your prediction. If disproven, record the finding to avoid repeating it and formulate an alternate hypothesis. If confirmed, write a regression test demonstrating the bug before implementing the minimal code change required. Beware the confirmation bias pitfall where you alter code prematurely hoping it fixes the symptom without establishing causal proof."
+  },
+  {
+    "id": "debug-stack-trace-reading",
+    "name": "Stack Trace Analysis",
+    "description": "Interpret runtime execution traces to pinpoint failure origins, identify unwinding paths, and separate framework boilerplate from application code.",
+    "tags": [
+      "stack-trace",
+      "exceptions",
+      "runtime",
+      "call-stack"
+    ],
+    "instructions": "Scan the trace from the root cause or bottom-most exception if nested causes exist, looking for the first frame originating in user-controlled application code rather than third-party dependencies or runtime internal dispatchers. Examine the exact exception class, message, and line number to understand the failing invariant, such as a null dereference or type violation. Inspect the call chain immediately preceding the failure to reconstruct caller intent and arguments passed through stack boundaries. Look out for re-thrown exceptions or asynchronous execution jumps where original stack context was truncated or masked by wrapper threads. Cross-reference source control annotations at the target line to verify recent changes, checking for assumptions that became invalid under edge-case parameters."
+  },
+  {
+    "id": "debug-bisection-debugging",
+    "name": "Bisection Debugging",
+    "description": "Locate faulty code blocks, configuration drifts, or data payloads by recursively halving the search space until the smallest trigger is isolated.",
+    "tags": [
+      "bisection",
+      "search-reduction",
+      "isolation",
+      "divide-and-conquer"
+    ],
+    "instructions": "Establish definitive upper and lower boundaries where the system is known to work and known to fail respectively. In code or data structures, split the suspect component or payload in half by disabling the second half via commenting, conditional switches, or slicing arrays. Execute verification to determine if the failure persists in the remaining subset. If the issue remains, bisect that subset again; if the issue vanishes, restore the disabled portion and bisect that half instead. Beware of multi-variable bugs where two interacting changes are required to trigger the failure, which causes standard single-axis bisection to yield false negatives. Always keep an explicit log of tested slices to prevent cycling through duplicate configurations."
+  },
+  {
+    "id": "debug-logging-strategy",
+    "name": "Targeted Debug Logging",
+    "description": "Inject informative, structured log emissions into critical execution paths to reveal hidden state changes without saturating system I/O.",
+    "tags": [
+      "logging",
+      "observability",
+      "instrumentation",
+      "telemetry"
+    ],
+    "instructions": "Identify key state boundaries, conditional branches, and asynchronous returns surrounding the suspected failure area. Add structured logs that emit both correlation identifiers and local invariant state, formatting entries with key-value pairs rather than unstructured string concatenation. Place log statements before and after external I/O or state mutations to track latency and payload transformations. Ensure high-frequency loops summarize metrics or sample entries rather than writing on every iteration, avoiding disk thrashing or masked race conditions caused by logger serialization locks. Avoid leaking sensitive tokens or personally identifiable data into log streams. Once the issue is resolved, either remove temporary logging or convert critical checkpoints into permanent debug-level entries with appropriate log level guards."
+  },
+  {
+    "id": "debug-interactive-debugger",
+    "name": "Interactive Debugger Execution",
+    "description": "Harness breakpoints, watch expressions, and step-through controls to inspect live program state and memory structures during execution.",
+    "tags": [
+      "debugger",
+      "breakpoints",
+      "inspection",
+      "step-debugging"
+    ],
+    "instructions": "Attach the debugger to the target process or launch it with debug symbols enabled, ensuring compiler optimizations like inlining are disabled for accurate variable mapping. Set targeted conditional breakpoints at critical branch points to halt execution only when anomalous variables or loop counter thresholds are encountered. Use watchpoints on suspect memory addresses or properties to automatically capture unintended mutations occurring outside the local scope. Step over pure utility routines and step into custom domain logic while monitoring the call frame stack and local variable evaluation windows. Avoid modifying variable values in flight to force paths unless explicitly testing a hypothetical recovery branch, as manual intervention can obscure the real underlying corrupting state."
+  },
+  {
+    "id": "debug-memory-leak-hunting",
+    "name": "Memory Leak Hunting",
+    "description": "Detect, profile, and remediate unbounded heap growth and uncollected object references across long-running processes.",
+    "tags": [
+      "memory-leak",
+      "profiling",
+      "heap-analysis",
+      "garbage-collection"
+    ],
+    "instructions": "Take an initial heap snapshot after process warmup under nominal baseline load, followed by a sustained load generation phase. Trigger garbage collection or run the target allocator sweep, then capture a second heap snapshot. Compare the differential object count and retained size between snapshots, sorting by classes or structures with monotonically increasing instance counts. Trace the shortest dominator retaining paths back to the root context to discover what is keeping dead references alive, such as dangling event listeners, static collections, or unclosed streams. Verify whether native memory bindings or buffer caches bypass runtime garbage collectors. Beware of prematurely optimizing transient high-allocation churn instead of actual cumulative leaks that prevent memory reclamation."
+  },
+  {
+    "id": "debug-race-condition-debugging",
+    "name": "Race Condition Debugging",
+    "description": "Uncover unsynchronized shared state access, thread interleaving bugs, and deadlocks through stress testing and concurrency sanitizers.",
+    "tags": [
+      "concurrency",
+      "threading",
+      "race-conditions",
+      "thread-sanitizer"
+    ],
+    "instructions": "Compile or run the application with concurrency instrumentation enabled, such as ThreadSanitizer or runtime lock validators. Increase thread contention artificially by running parallel worker stress tests or injecting random microsecond sleeps around shared resource read-modify-write sequences. Audit shared state variables to ensure all accesses are protected by identical synchronization primitives, atomic wrappers, or thread-confined queues. Verify that multi-lock acquisitions always follow a strict global ordering to prevent deadlocks under opposing concurrent flows. Avoid relying on simple sleep delays to synchronize threads, as timing assumptions crumble under variable CPU throttling or production virtualization load. Confirm fixes by running thousands of automated concurrent iterations under thread-stress harnesses."
+  },
+  {
+    "id": "debug-intermittent-failures",
+    "name": "Intermittent Failure Investigation",
+    "description": "Diagnose flakiness and non-deterministic failures by controlling environmental variables, isolating state pollution, and capturing automated failure dumps.",
+    "tags": [
+      "flakiness",
+      "non-deterministic",
+      "ci-testing",
+      "diagnostics"
+    ],
+    "instructions": "Wrap the failing operation or automated test in a tight loop execution harness running hundreds of iterations until failure reproduces. Collect environmental snapshots during both passing and failing runs, comparing system clock skew, thread pool allocation, random number seeds, and network latency variations. Check for shared state contamination leaking across test runs or process lifecycles due to uncleaned database rows, static caches, or global singletons. Introduce deterministic seeding for pseudo-random generators and mock out third-party time dependencies to make temporal execution predictable. Avoid simply increasing timeout thresholds as a workaround; treat the intermittent failure as an unmanaged asynchronous dependency that requires explicit event synchronization."
+  },
+  {
+    "id": "debug-production-incidents",
+    "name": "Production Incident Debugging",
+    "description": "Triage and diagnose live operational outages under time pressure while prioritizing service restoration and blast radius mitigation.",
+    "tags": [
+      "incident-response",
+      "production",
+      "triage",
+      "post-mortem"
+    ],
+    "instructions": "Establish communication channels and record a running incident timeline before taking disruptive investigative actions. Review deployment logs, configuration change events, and traffic anomaly graphs within the preceding 60 minutes to establish proximate triggers. Prioritize mitigation—such as rolling back recent releases, enabling fallback feature flags, or rerouting traffic—over root-cause debugging if user impact is ongoing. Collect ephemeral diagnostic evidence including thread dumps, error rate spikes, database lock metrics, and container memory stats before restarting nodes or clearing caches. Avoid making multiple uncoordinated production changes concurrently, which confuses remediation analysis. Once stabilized, preserve telemetry artifacts to perform post-incident blameless root-cause analysis and design permanent safeguards."
+  },
+  {
+    "id": "debug-minimal-reproduction",
+    "name": "Minimal Reproduction Creation",
+    "description": "Distill complex, multi-tier software failures into self-contained, dependency-free test scripts that consistently trigger the defect.",
+    "tags": [
+      "mcve",
+      "reproduction",
+      "unit-test",
+      "isolation"
+    ],
+    "instructions": "Extract the failing logic from the parent application into an isolated single file or dedicated standalone unit test. Strip external infrastructure dependencies by substituting real network services, databases, and third-party APIs with static in-memory stub fixtures or mocked responses. Remove tangential functions, extraneous fields, and unrelated configuration parameters line by line, re-testing after each deletion to ensure the exact error remains active. Ensure the reproduction script executes cleanly in a fresh runtime environment without requiring proprietary secrets or local ambient state. Avoid retaining complicated multi-step setup wizards; the ideal reproduction should be runnable with a single command and fail deterministically in fewer than 100 lines of code."
+  },
+  {
+    "id": "debug-git-bisect-workflow",
+    "name": "Git Bisect Regression Hunting",
+    "description": "Employ binary search across revision histories to locate the exact commit that introduced a functional regression.",
+    "tags": [
+      "git",
+      "version-control",
+      "regression",
+      "automation"
+    ],
+    "instructions": "Initialize the search with git bisect start, specifying the current broken revision with git bisect bad and a known working prior commit with git bisect good. Write a standalone verification script that runs the failing check and exits with code 0 on success or non-zero on failure. Automate the search loop using git bisect run followed by your script to let Git automatically traverse commits and identify the culprit. If untestable commits occur due to unrelated build breakage, use git bisect skip to step past them. Avoid running bisect on a dirty working tree, as untracked files can pollute compilation results across branch checkouts. Once identified, run git bisect reset and inspect the commit diff."
+  },
+  {
+    "id": "debug-network-issue-debugging",
+    "name": "Network Issue Debugging",
+    "description": "Diagnose distributed connectivity failures, latency spikes, and packet anomalies across network layers and protocol boundaries.",
+    "tags": [
+      "networking",
+      "tcpdump",
+      "dns",
+      "http"
+    ],
+    "instructions": "Verify underlying connectivity by isolating DNS resolution, TCP handshakes, TLS negotiation, and HTTP application layers sequentially. Use utilities like dig or nslookup to rule out DNS caching delays, followed by curl with verbose output or traceroute to detect connection resets or routing drops. Capture raw packet streams using tcpdump or Wireshark on relevant network interfaces to examine retransmissions, zero-window probes, or malformed protocol headers. Check intermediary proxies, firewalls, and load balancers for idle connection timeouts or header size limits that silently terminate long-lived sockets. Avoid assuming application timeout errors always mean the upstream service is down; often downstream backpressure or SYN packet drops cause premature client-side aborts."
+  },
+  {
+    "id": "debug-performance-bottlenecks",
+    "name": "Performance Bottleneck Hunting",
+    "description": "Identify CPU hotspots, memory allocation saturation, and I/O wait times through continuous profiling and flame graph analysis.",
+    "tags": [
+      "profiling",
+      "flamegraph",
+      "cpu-bottleneck",
+      "optimization"
+    ],
+    "instructions": "Capture CPU and off-CPU sampling profiles under representative synthetic production workloads using tools like perf, pprof, or asynchronous profilers. Render the collected traces into flame graphs to identify wide plateaus representing disproportionate CPU time consumption or lock contention wait cycles. Differentiate between compute-bound bottlenecks—such as unindexed algorithm complexity or JSON serialization overhead—and I/O-bound bottlenecks like synchronous database queries inside loops. Verify cache hit ratios and operating system context-switch frequencies before modifying code. Avoid optimizing micro-routines based on intuition alone; focus exclusively on the verified dominant hot paths revealed by empirical profiling data. Re-profile after each code modification to validate measurable throughput gains."
+  },
+  {
+    "id": "debug-deadlock-diagnosis",
+    "name": "Deadlock Diagnosis",
+    "description": "Identify mutual lock acquisition cycles and thread starvation states across concurrent execution flows.",
+    "tags": [
+      "concurrency",
+      "multithreading",
+      "locks",
+      "profiling"
+    ],
+    "instructions": "Trigger consecutive thread dumps across short intervals using tools like jstack, gdb, or OS signals. Construct a resource dependency graph mapping held mutexes against requested locks to spot circular wait conditions. Inspect database engine transaction tables such as pg_locks or InnoDB status output to pinpoint transactions blocking one another. Beware of transient lock contention masquerading as permanent deadlocks; verify that threads remain blocked indefinitely on identical memory addresses. Ensure thread-safe logging does not introduce secondary deadlocks while gathering forensic evidence."
+  },
+  {
+    "id": "debug-environment-difference-debugging",
+    "name": "Environment Difference Debugging",
+    "description": "Isolate behavioral divergences caused by discrepancies between local, staging, and production runtimes.",
+    "tags": [
+      "infrastructure",
+      "parity",
+      "sysadmin",
+      "containers"
+    ],
+    "instructions": "Generate normalized manifests of all operating system packages, kernel parameters, runtime patch versions, and dynamic link libraries across the diverging environments. Compare environment variables, locale settings, ulimits, and DNS resolution paths using automated diff tooling. Check filesystem characteristics like case sensitivity, inode capacity, and clock drift via NTP. Avoid testing with stale cache data or mismatched database seed records. Verify whether reverse proxies or cloud load balancers inject differing HTTP headers or enforce stricter payload size boundaries in production."
+  },
+  {
+    "id": "debug-dependency-conflict-debugging",
+    "name": "Dependency Conflict Debugging",
+    "description": "Resolve diamond dependency collisions, ABI mismatches, and semantic versioning breaks in package graphs.",
+    "tags": [
+      "dependencies",
+      "packaging",
+      "build-systems",
+      "node-modules"
+    ],
+    "instructions": "Run dependency tree inspection tools like npm ls, cargo tree, or mvn dependency:tree to identify overlapping versions of shared packages. Check for duplicate symbols loaded by runtime classloaders or dynamic linkers that cause NoSuchMethodError or undefined symbol crashes. Enforce lockfile consistency and clear package manager global caches to eliminate stale resolved artifacts. Watch out for transitive dependencies pulling unpinned patch versions that alter behavior silently. If deduplication fails, configure package overrides, resolutions, or shading plugins to force explicit, compatible library versions."
+  },
+  {
+    "id": "debug-configuration-error-debugging",
+    "name": "Configuration Error Debugging",
+    "description": "Detect and resolve malformed parameters, precedence overrides, and silent fallback failures in application configs.",
+    "tags": [
+      "configuration",
+      "devops",
+      "env-vars",
+      "validation"
+    ],
+    "instructions": "Dump the fully merged runtime configuration tree at boot to evaluate cascading overrides across files, environment variables, secret managers, and CLI flags. Validate variable types, schema syntax, and string encoding formats against expected definitions to spot silent truncation or type coercion issues. Check that required defaults are not silently masking missing production secrets. Guard against trailing whitespace, unescaped characters, or boolean-to-string mismatches such as string false evaluating as truthy. Ensure staging test flags did not inadvertently leak into production configuration bundles."
+  },
+  {
+    "id": "debug-frontend-rendering-debugging",
+    "name": "Frontend Rendering Debugging",
+    "description": "Diagnose layout thrashing, component re-render loops, and state hydration mismatches in client interfaces.",
+    "tags": [
+      "frontend",
+      "browser-devtools",
+      "dom",
+      "rendering"
+    ],
+    "instructions": "Open browser developer tools and inspect the performance timeline to detect layout thrashing, forced reflows, and long tasks blocking the main event loop. Utilize framework profilers to trace component re-render causes, examining unstable prop references and memoization failures. For SSR applications, inspect the console for hydration mismatch warnings and inspect the initial HTML payload against the hydrated client DOM. Avoid mutating reactive state directly within render bodies, which triggers infinite loops. Verify CSS cascade rules and z-index contexts when elements render invisibly or out of position."
+  },
+  {
+    "id": "debug-mobile-app-debugging",
+    "name": "Mobile App Debugging",
+    "description": "Triage lifecycle state interruptions, background execution constraints, and device-specific failures on iOS and Android.",
+    "tags": [
+      "mobile",
+      "ios",
+      "android",
+      "device-logs",
+      "lifecycle"
+    ],
+    "instructions": "Attach native platform debuggers like Xcode LLDB or Android Studio Logcat to monitor system events, memory warnings, and thread crashes. Simulate aggressive OS conditions including background app termination, low memory warnings, airplane mode toggling, and permission revocations during runtime. Validate deep link routing and push notification payloads against cold, warm, and background application boot states. Be cautious of OEM-specific Android battery optimization suites killing background workers prematurely. Always verify that hardware-specific capabilities like biometric sensors or GPS work on real physical hardware, not solely on desktop emulators."
+  },
+  {
+    "id": "debug-distributed-tracing-analysis",
+    "name": "Distributed Tracing Analysis",
+    "description": "Trace asynchronous request lifecycles, latency bottlenecks, and network failures across microservice boundaries.",
+    "tags": [
+      "tracing",
+      "opentelemetry",
+      "microservices",
+      "observability"
+    ],
+    "instructions": "Query trace aggregation backends filtering by trace ID, HTTP status code, or high duration spans. Analyze the critical path in the flame graph to pinpoint unoptimized sequential calls that should be executed concurrently. Inspect span attributes and baggage items to verify context propagation across message brokers and asynchronous thread pools. Beware of missing spans caused by unpropagated trace headers in outbound HTTP clients. Check for clock skew across distinct cluster nodes that can distort relative span start times and causal ordering."
+  },
+  {
+    "id": "debug-error-message-interpretation",
+    "name": "Error Message Interpretation",
+    "description": "Deconstruct cryptic compiler errors, runtime exceptions, and stack traces into actionable remediation targets.",
+    "tags": [
+      "stack-trace",
+      "exceptions",
+      "compilers",
+      "diagnostics"
+    ],
+    "instructions": "Decompose the error output into root cause, error code, and call trace, reading from bottom-up for nested exceptions and top-down for compiler cascades. Map minified production stack traces back to uncompiled source files using correct source maps and symbol files. Search internal codebase history and issue trackers for the exact string, stripping out dynamic identifiers and variable parameters. Beware of masking exceptions, where a secondary cleanup failure in a finally block overwrites the genuine primary exception. Confirm whether the error originates from application code or third-party vendor libraries before applying code modifications."
+  },
+  {
+    "id": "debug-regression-root-cause-analysis",
+    "name": "Regression Root Cause Analysis",
+    "description": "Isolate the precise commit and systemic mechanism that introduced a flaw into a previously stable codebase.",
+    "tags": [
+      "git",
+      "regression",
+      "root-cause",
+      "bisect"
+    ],
+    "instructions": "Write a deterministic, automated test script that reproduces the regression with a zero exit code on success and non-zero on failure. Execute git bisect using known good and bad release tags to binary search the commit history down to the offending changeset. Scrutinize the culprit commit's diff for unintended side effects, hidden assumptions, or altered interfaces. Verify whether database migrations, configuration changes, or external service contracts updated concurrently during that deployment window. Document the systemic testing gap that allowed the regression to escape initial review and add an automated regression test into the CI pipeline."
+  },
+  {
+    "id": "debug-heisenbug-handling",
+    "name": "Heisenbug Handling",
+    "description": "Uncover transient, non-deterministic bugs that disappear or change behavior upon attaching debugging probes.",
+    "tags": [
+      "race-conditions",
+      "non-deterministic",
+      "timing",
+      "concurrency"
+    ],
+    "instructions": "Avoid adding synchronous logging statements or interactive debugger breakpoints that alter thread scheduling and mask race conditions. Deploy non-intrusive tracing techniques such as circular memory buffers, eBPF probes, or hardware performance counters with minimal CPU overhead. Induce timing stress by simulating thread contention, network packet jitter, and artificial CPU throttling using chaos testing utilities. Inspect code for uninitialized memory reads, dangling pointers, memory corruption, and non-deterministic collection ordering. Run thread sanitizer or address sanitizer builds repeatedly under high parallel test loads to expose hidden data races."
+  },
+  {
+    "id": "debug-post-fix-verification",
+    "name": "Post-Fix Verification",
+    "description": "Validate that a bug fix resolves the incident cleanly without creating secondary regressions or performance hits.",
+    "tags": [
+      "verification",
+      "qa",
+      "testing",
+      "validation"
+    ],
+    "instructions": "Re-run the isolated reproduction test against the unpatched branch to confirm failure, then against the patched branch to confirm success. Execute the broader test suite to detect unintended side effects across adjacent system modules. Subject the fix to edge cases, stress testing, and boundary limits that mirror real-world usage beyond the initial failure symptom. Monitor system metrics like memory consumption, CPU load, and response latencies in a staging canary deployment to ensure the patch does not degrade performance. Validate that all monitoring alerts, telemetry dashboards, and log entries return to nominal operational baselines."
+  },
+  {
+    "id": "debug-crash-report-analysis",
+    "name": "Crash Report Analysis",
+    "description": "Extract actionable forensics from operating system core dumps, minidumps, and automated crash reporting services.",
+    "tags": [
+      "crash-dumps",
+      "core-dump",
+      "post-mortem",
+      "gdb",
+      "symbols"
+    ],
+    "instructions": "Load the crash dump into a native debugger like GDB, WinDbg, or LLDB alongside the exact executable binary and corresponding debug symbol files. Inspect CPU registers, the program counter, signal numbers such as SIGSEGV or SIGABRT, and the faulting memory address. Reconstruct stack frames across all active threads to pinpoint which thread triggered the termination and what data it was processing. Beware of corrupted stack frames caused by buffer overflows; use frame unwinding tools or register inspection to trace execution paths. Aggregate crash signatures across incoming reporting streams to distinguish isolated hardware faults from widespread software defects."
+  }
+]

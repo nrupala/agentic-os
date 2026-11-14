@@ -1,0 +1,303 @@
+[
+  {
+    "id": "write-technical-writing",
+    "name": "Technical Writing",
+    "description": "Produce unambiguous, structured technical explanations tailored to developer and engineering audiences.",
+    "tags": [
+      "technical-writing",
+      "engineering",
+      "documentation",
+      "clarity"
+    ],
+    "instructions": "Begin by identifying the target reader's technical baseline and required mental model. Define complex domain concepts before using them, substituting passive voice with active, subject-driven phrasing. Deconstruct complex architectures into logical layers, using explicit naming conventions throughout. Verify that every technical assertion is verifiable against current codebase or architectural blueprints. Avoid hedging words like 'basically' or 'simply' that obscure technical nuance, and ensure prerequisites and system dependencies are enumerated explicitly prior to procedural exposition."
+  },
+  {
+    "id": "write-executive-summary",
+    "name": "Executive Summary Writing",
+    "description": "Synthesize complex business initiatives, operational outcomes, and strategic recommendations into a concise high-level briefing.",
+    "tags": [
+      "leadership",
+      "strategy",
+      "executive",
+      "summaries"
+    ],
+    "instructions": "Open immediately with the bottom-line decision, strategic rationale, and core financial or operational impacts, avoiding narrative build-up. Structure the briefing into three distinct segments: the strategic problem, the recommended course of action, and projected quantitative returns. Check that financial metrics, resource constraints, and risk mitigation strategies are prominently highlighted in bold callouts. Avoid technical jargon or operational minutiae that obscure portfolio-level impacts. Validate that an executive reader can grasp the complete business case and approve resource allocation solely from reading this document."
+  },
+  {
+    "id": "write-business-email",
+    "name": "Business Email Drafting",
+    "description": "Draft actionable, courteous professional correspondence designed to secure swift alignment and decision-making.",
+    "tags": [
+      "email",
+      "communication",
+      "workplace",
+      "correspondence"
+    ],
+    "instructions": "Craft an informative subject line that specifies the project and required action, such as 'Decision Needed: Q3 Vendor Renewal'. State the primary request or core takeaway within the opening two sentences, followed by context partitioned into short paragraphs or bulleted points. Conclude with explicit owner assignments, deadlines, and direct next steps. Avoid buried asks, emotional tone, or open-ended prompts like 'thoughts?'. Before dispatch, double-check recipient lists to prevent accidental disclosure and verify all attachments or links referenced in the body are included and accessible."
+  },
+  {
+    "id": "write-meeting-notes",
+    "name": "Meeting Notes Writing",
+    "description": "Capture discussion context, critical decisions, and designated action items from collaborative discussions.",
+    "tags": [
+      "meetings",
+      "collaboration",
+      "action-items",
+      "productivity"
+    ],
+    "instructions": "Document the meeting date, attendee roster, and primary agenda objectives at the top of the record. Record key debate points neutrally without transcribing spoken dialogue verbatim, highlighting consensus points and open disagreements. Create a dedicated action table detailing each assigned task, single accountable owner, and agreed deadline. Circulate the summary within twenty-four hours to all participants for validation. Avoid vague assignees like 'the team' or missing deadlines, and cross-reference linked project tickets to preserve traceability across ongoing sprint workflows."
+  },
+  {
+    "id": "write-status-report",
+    "name": "Status Report Writing",
+    "description": "Communicate project milestones, schedule variances, and operational blockers using standardized status indicators.",
+    "tags": [
+      "project-management",
+      "reporting",
+      "milestones",
+      "updates"
+    ],
+    "instructions": "Establish an immediate high-level health assessment using standard Red-Amber-Green indicators paired with an explanatory rationale. Outline completed achievements against previous milestones, active deliverables scheduled for the upcoming reporting period, and critical path blockers requiring escalation. Frame blockers with concrete remediation proposals and required stakeholder interventions rather than just listing issues. Verify budget expenditures, timeline deviations, and scope modifications against baseline projections. Avoid sugarcoating delays or reporting routine operational activities as substantive milestone achievements."
+  },
+  {
+    "id": "write-presentation-structuring",
+    "name": "Presentation Structuring",
+    "description": "Organize slide narratives and supporting arguments into persuasive, high-retention structural frameworks.",
+    "tags": [
+      "presentations",
+      "storytelling",
+      "slide-design",
+      "pitching"
+    ],
+    "instructions": "Define the core takeaway message before drafting individual slides, restricting each slide to a single governing thought. Employ the pyramid principle by delivering conclusions first, supported beneath by logically grouped evidence and thematic visuals. Write complete, informative takeaway headlines rather than topical labels like 'Market Overview'. Limit bullet points to avoid cognitive overload and force oral presentation of details. Verify that slide transitions create an intuitive argumentative progression, ensuring the closing slide reinforces a concrete call to action for the audience."
+  },
+  {
+    "id": "write-proposal-writing",
+    "name": "Proposal Writing",
+    "description": "Develop persuasive commercial and technical proposals that demonstrate client problem comprehension and deliverable feasibility.",
+    "tags": [
+      "proposals",
+      "sales",
+      "bidding",
+      "strategy",
+      "procurement"
+    ],
+    "instructions": "Ground the proposal in the prospective client's explicit pain points and success criteria before introducing your proposed solution. Detail the methodology, work breakdown structure, implementation milestones, and resource allocation models with transparent pricing structures. Address potential risks proactively with documented containment contingencies to build credibility and demonstrate operational maturity. Avoid generic vendor claims, unsubstantiated superlative marketing statements, or vague statements of work. Audit the text against the original Request for Proposal matrix to ensure complete compliance across all mandatory contractual criteria."
+  },
+  {
+    "id": "write-blog-post-drafting",
+    "name": "Blog Post Drafting",
+    "description": "Produce engaging, search-optimized educational articles that build brand authority and retain reader interest.",
+    "tags": [
+      "content-marketing",
+      "blogging",
+      "seo",
+      "storytelling"
+    ],
+    "instructions": "Open with a compelling narrative hook that highlights a familiar challenge, followed by a clear thesis promising practical resolution. Segment the post using descriptive, keyword-aligned H2 and H3 subheadings, formatting takeaways into scannable lists and bolded callouts. Integrate real-world examples, proprietary data, or expert citations to validate key assertions and preserve editorial depth. Avoid shallow, repetitive filler or generic platitudes that drive bounce rates. Finish with an actionable concluding summary and a contextual call-to-action that directs readers to relevant tools or resources."
+  },
+  {
+    "id": "write-product-documentation",
+    "name": "Product Documentation Writing",
+    "description": "Write comprehensive reference guides, configuration specs, and workflow manuals for digital products.",
+    "tags": [
+      "product-docs",
+      "manuals",
+      "technical-writing",
+      "saas"
+    ],
+    "instructions": "Catalogue product capabilities by mapping features to distinct user workflows, administrative functions, and system configurations. Specify input requirements, parameter types, default values, and boundary edge cases systematically across all feature documentation. Incorporate annotated UI screenshots, code snippets, or configuration tables wherever abstract descriptions might cause user confusion. Audit all procedural steps hands-on against staging builds to prevent documenting stale interface elements. Avoid assuming user familiarity with non-standard administrative acronyms, and provide cross-links to troubleshooting articles for commonly encountered configuration failures."
+  },
+  {
+    "id": "write-readme",
+    "name": "README Writing",
+    "description": "Construct an accessible gateway document detailing repository purpose, setup steps, and contribution standards.",
+    "tags": [
+      "readme",
+      "open-source",
+      "developer-tools",
+      "onboarding"
+    ],
+    "instructions": "State the repository's primary purpose and core architecture in the header, supported by relevant badges and a minimal usage demonstration. List prerequisite runtimes, system dependencies, and step-by-step local installation commands that can be run sequentially in terminal environments. Provide a concise minimal working example showing foundational API usage, configuration flags, and testing instructions. Avoid undocumented environment variables, obsolete commands, or omitting license and contributing guidelines. Test installation steps directly in a pristine container environment to confirm reproduction accuracy and identify unstated system dependencies."
+  },
+  {
+    "id": "write-changelog-writing",
+    "name": "Changelog Writing",
+    "description": "Publish structured, user-centric release notes documenting modifications, deprecations, and fixes across versions.",
+    "tags": [
+      "changelog",
+      "release-notes",
+      "versioning",
+      "product-updates"
+    ],
+    "instructions": "Follow Semantic Versioning paradigms and standardize entries under standardized categorizations such as Added, Changed, Deprecated, Removed, Fixed, and Security. Translate raw git commit messages into user-oriented benefits that explain how modifications impact daily operations. Call out breaking changes prominently with step-by-step migration paths, deprecation timelines, and code diff illustrations. Avoid vague summaries like 'performance improvements and bug fixes' which erode user trust. Verify that every stated ticket reference, contributor handle, and documentation link accurately resolves to valid tracker issues."
+  },
+  {
+    "id": "write-user-guide",
+    "name": "User Guide Writing",
+    "description": "Formulate goal-oriented, step-by-step procedural guides that enable non-technical users to accomplish tasks.",
+    "tags": [
+      "user-guides",
+      "help-center",
+      "tutorials",
+      "customer-success"
+    ],
+    "instructions": "Structure guides around specific end-user goals rather than technical feature lists, using active imperative sentences like 'Select the Export button'. Break complex workflows into numbered sequential actions, explicitly stating expected system feedback after each user interaction. Include contextual tips and warnings prior to irreversible actions, such as account deletions or database overrides. Avoid jargon-heavy language, ambiguous screen coordinates, or multi-step run-on sentences. Conduct user acceptance testing with representative beginners to identify points where instructions fail to match current interface layouts."
+  },
+  {
+    "id": "write-faq-writing",
+    "name": "FAQ Writing",
+    "description": "Formulate direct, authoritative answers to recurring customer questions and operational inquiries.",
+    "tags": [
+      "faq",
+      "customer-support",
+      "knowledge-base",
+      "self-service"
+    ],
+    "instructions": "Extract recurring inquiries from support ticket analytics and user feedback channels, phrasing questions from the authentic first-person user perspective. Deliver direct answers immediately in the opening sentence, following up with succinct background explanations, policy justifications, or external links for further exploration. Group related questions into thematic collapsible categories to maintain page readability and search usability. Avoid defensive phrasing, evasive non-answers, or converting FAQs into a dumping ground for poorly explained product mechanics. Regularly review query logs to retire obsolete questions and address newly emerging issues."
+  },
+  {
+    "id": "write-editing-for-clarity",
+    "name": "Editing for Clarity",
+    "description": "Systematically refine dense or convoluted prose into clear, readable, and direct language without altering the original meaning.",
+    "tags": [
+      "editing",
+      "clarity",
+      "plain-language",
+      "readability"
+    ],
+    "instructions": "Read through the text to identify the core subject and action of every sentence. Flag nominalizations, passive constructions where the agent is ambiguous, and unnecessary qualifying words like somewhat or fairly. Break sentences exceeding thirty words into two distinct ideas. Ensure each paragraph begins with a strong framing idea and that transitions highlight logical progression rather than relying on clunky connective phrases. Watch out for industry jargon that obscures simple concepts; replace it with plain vocabulary while preserving technical accuracy when precision is necessary. Verify that pronoun antecedents are unmistakably clear."
+  },
+  {
+    "id": "write-proofreading",
+    "name": "Mechanics and Proofreading",
+    "description": "Detect and correct surface-level typographical, grammatical, punctuation, and layout errors in final-stage copy.",
+    "tags": [
+      "proofreading",
+      "grammar",
+      "copyediting",
+      "punctuation"
+    ],
+    "instructions": "Perform a dedicated pass strictly targeting micro-level mechanical errors after substantive editing is finished. Read the draft backward sentence by sentence or change the font display to bypass cognitive pattern recognition that masks typos. Check punctuation consistency, specifically serial commas, quotation mark placement inside or outside periods, and hyphenation in compound modifiers. Cross-reference all proper nouns, hyperlinks, dates, day-of-week pairings, and quantitative figures against source documents. Beware of homophones like their, there, and they are that bypass automated spellcheckers, and confirm that formatting elements like headers and bulleted lists follow uniform capitalization rules throughout."
+  },
+  {
+    "id": "write-tone-and-style-adjustment",
+    "name": "Tone and Style Adjustment",
+    "description": "Adapt the register, voice, and formality level of a document to suit the intended audience and institutional standards.",
+    "tags": [
+      "voice",
+      "style",
+      "tone",
+      "brand-alignment"
+    ],
+    "instructions": "Identify the target audience persona and evaluate the text against intended dimensions such as warmth, formality, assertiveness, and technical depth. Audit verb choices and sentence structures: convert detached third-person phrasing into direct second-person address for conversational customer guides, or remove colloquialisms and contractions for formal executive white papers. Scan for unintentional passive aggression or defensive phrasing in critical communications, replacing loaded vocabulary with neutral, objective statements. Ensure stylistic choices match organizational style guides regarding capitalization, acronym usage, and honorifics. Confirm the emotional temperature remains consistent across sections rather than fluctuating between casual and bureaucratic."
+  },
+  {
+    "id": "write-persuasive-writing",
+    "name": "Persuasive Writing",
+    "description": "Construct compelling arguments that motivate reader action by combining logical reasoning, emotional resonance, and credibility.",
+    "tags": [
+      "persuasion",
+      "rhetoric",
+      "copywriting",
+      "argumentation"
+    ],
+    "instructions": "Anchor the narrative around the reader's primary pain points, aspirations, and underlying motivations before pitching any solution. Establish credibility early using verified precedent or authoritative citations, followed by a structured logical framework like Problem-Agitate-Solve. Preemptively address counterarguments and common objections rather than ignoring potential skepticism. Anchor abstract benefits with concrete consequences of inaction, showing what is lost if the reader delays. Conclude with a single, unambiguous call to action that specifies exactly what step to take next. Avoid overpromising, hyperbole, or manipulative emotional appeals that erode reader trust and invite post-decision regret."
+  },
+  {
+    "id": "write-data-storytelling",
+    "name": "Data Storytelling",
+    "description": "Translate complex metrics and quantitative findings into accessible, contextualized narratives that drive business decisions.",
+    "tags": [
+      "data-storytelling",
+      "analytics",
+      "reporting",
+      "visualization"
+    ],
+    "instructions": "Extract the primary insight from the quantitative dataset before drafting, framing it as a specific business question or operational problem. Place raw numbers in context using relevant baselines, historical comparisons, percentages, and real-world equivalents instead of displaying naked metrics. Build a clear narrative arc moving from context through friction to recommended strategic intervention. Ensure visual charts and textual explanations reinforce one another without duplicating exact data tables verbatim. Guard against data cherry-picking or presenting correlation as direct causation, which damages analytical credibility. Always specify the confidence interval, sample size, or methodology limitations when communicating findings to technical stakeholders."
+  },
+  {
+    "id": "write-speech-drafting",
+    "name": "Speech Drafting",
+    "description": "Compose spoken-word scripts tailored to an orator's natural voice, cadence, and live audience reception.",
+    "tags": [
+      "speeches",
+      "public-speaking",
+      "rhetoric",
+      "presentation"
+    ],
+    "instructions": "Write primarily for the ear rather than the eye by employing shorter sentence lengths, rhythmic pacing, and phonetic clarity. Incorporate deliberate pauses, emphasis markers, and rhetorical devices such as parallel structure, anaphora, or the rule of three to enhance audience retention. Read the draft aloud repeatedly during composition to catch tongue-twisting consonant clusters and breathless run-on clauses. Tailor the opening hook to the physical room dynamics, acknowledging current events or audience expectations immediately. Avoid burying main takeaways inside dense exposition; state key themes redundantly across the beginning, middle, and end so inattentive listeners retain the primary thesis."
+  },
+  {
+    "id": "write-press-release-writing",
+    "name": "Press Release Writing",
+    "description": "Format newsworthy corporate announcements into standardized media releases that capture journalist interest and editorial pickup.",
+    "tags": [
+      "public-relations",
+      "press-release",
+      "media-relations",
+      "journalism"
+    ],
+    "instructions": "Follow the standard inverted pyramid structure, packing the five Ws—who, what, where, when, and why—into the dateline and opening paragraph. Write an engaging, search-optimized headline and concise subheadline that state the core news hook without relying on sensational buzzwords like revolutionary or disruptive. Include authentic executive quotes that offer perspective, visionary context, or strategic rationale rather than regurgitating dry factual milestones. Provide a standardized company boilerplate, verified media contact details, and links to high-resolution assets at the conclusion. Guard against burying the actual announcement underneath corporate self-congratulation, which prompts journalists to discard the pitch immediately."
+  },
+  {
+    "id": "write-newsletter-writing",
+    "name": "Newsletter Writing",
+    "description": "Curate and write engaging recurring email publications that maintain high open rates and deepen subscriber loyalty.",
+    "tags": [
+      "newsletters",
+      "email-marketing",
+      "content-strategy",
+      "audience-engagement"
+    ],
+    "instructions": "Formulate a compelling subject line and preheader text pairing that sparks genuine curiosity without resorting to deceptive clickbait. Open with a personal editorial note or a timely, high-value insight that hooks the reader within the preview pane. Keep layout scannable by employing distinct thematic sections, bold headers, concise bullet points, and high-contrast call-to-action buttons. Curate external links judiciously, adding brief original commentary explaining why each resource matters to the reader's daily routine. Avoid cramming too many competing topics into a single issue; maintain focus, uphold a reliable publishing cadence, and test link tracking parameters before dispatching."
+  },
+  {
+    "id": "write-resume-writing",
+    "name": "Resume Writing",
+    "description": "Design and write accomplishment-driven resumes optimized for applicant tracking systems and rapid recruiter evaluation.",
+    "tags": [
+      "resumes",
+      "career-development",
+      "ats",
+      "job-search"
+    ],
+    "instructions": "Structure each employment entry around the Action-Context-Result framework, beginning every bullet point with a vigorous, non-repetitive past-tense action verb. Quantify achievements with concrete metrics, revenue amounts, percentages, or saved hours rather than merely listing daily responsibilities or job descriptions. Tailor professional summaries and skill taxonomies directly to the keywords and technical requirements highlighted within the target job posting to pass automated parsing filters. Maintain strict visual hierarchy, clean margins, and consistent chronological ordering. Eliminate outdated technical competencies, first-person pronouns, high school credentials, and references upon request phrasing to maximize usable page space."
+  },
+  {
+    "id": "write-cover-letter-writing",
+    "name": "Cover Letter Writing",
+    "description": "Draft persuasive, tailored job application letters connecting a candidate's background to an employer's strategic mission.",
+    "tags": [
+      "cover-letters",
+      "job-applications",
+      "career",
+      "professional-writing"
+    ],
+    "instructions": "Address the letter to a named hiring manager whenever possible rather than defaulting to generic greetings like To Whom It May Concern. Open with an engaging hook that connects your professional mission to a recent initiative, product launch, or company value. Select two or three relevant career milestones that demonstrate your capability to solve the employer's specific operational challenges, elaborating on context rather than duplicating your resume bullet points. Conclude with an assertive, enthusiastic request for an exploratory interview. Avoid expressing what the role will do for your personal growth; keep the narrative focused entirely on employer value."
+  },
+  {
+    "id": "write-written-feedback-delivery",
+    "name": "Written Feedback Delivery",
+    "description": "Compose actionable, empathetic, and objective written critiques that drive professional growth without demoralizing recipients.",
+    "tags": [
+      "feedback",
+      "management",
+      "performance-review",
+      "communication"
+    ],
+    "instructions": "Separate observable behavior from personal identity by anchoring comments in concrete examples, dates, and measurable outcomes using the Situation-Behavior-Impact model. Balance constructive critique by validating genuine strengths, but avoid artificial praise sandwiches that dilute the seriousness of developmental feedback. Articulate explicitly what successful iteration or behavior looks like, supplying actionable recommendations and benchmark timelines for review. Invite dialogue and recipient perspective rather than issuing unilateral verdicts over email or performance portals. Check the document for ambiguous adjectives like unprofessional or poor, substituting objective descriptions of the observed deviation and its operational business consequences."
+  },
+  {
+    "id": "write-grant-application-drafting",
+    "name": "Grant Application Drafting",
+    "description": "Produce compliant, evidence-based grant proposals aligned precisely with funder priorities, scoring rubrics, and project guidelines.",
+    "tags": [
+      "grants",
+      "proposal-writing",
+      "nonprofit",
+      "fundraising"
+    ],
+    "instructions": "Dissect the request for proposals (RFP) to extract scoring rubrics, formatting parameters, word counts, and mandatory attachment checklists before writing. Articulate a compelling, data-backed statement of need that establishes community urgency without depicting target populations as helpless. Frame project objectives using the SMART criteria—specific, measurable, achievable, relevant, and time-bound—and pair them with a detailed evaluation methodology. Align narrative terminology directly with the grantor's strategic goals and scoring criteria. Double-check budget line items against the narrative justification to ensure every dollar requested matches an articulated project activity, eliminating unallowable administrative overhead costs."
+  }
+]

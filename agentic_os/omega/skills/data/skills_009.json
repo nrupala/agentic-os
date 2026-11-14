@@ -1,0 +1,302 @@
+[
+  {
+    "id": "docs-api-reference",
+    "name": "API Reference Documentation",
+    "description": "Produce complete, schema-accurate reference pages for programmatic interfaces, endpoints, and data payloads.",
+    "tags": [
+      "api",
+      "rest",
+      "openapi",
+      "reference"
+    ],
+    "instructions": "Audit the canonical endpoint contracts against live service schemas to verify HTTP methods, paths, and status codes. For every parameter, document required versus optional status, data types, validation constraints, and fallback defaults. Provide copy-pasteable request payloads and authentic 2xx, 4xx, and 5xx JSON response fixtures rather than truncated placeholders. Explicitly state rate limits, pagination query conventions, and token authentication headers. Check that response headers like idempotency keys are documented. Avoid generic descriptions such as 'id: the id'; specify UUID formats, foreign key relationships, and nullability."
+  },
+  {
+    "id": "docs-architecture-documentation",
+    "name": "Architecture Documentation",
+    "description": "Document system-level topology, component boundaries, and structural tradeoffs for technical stakeholders.",
+    "tags": [
+      "architecture",
+      "c4-model",
+      "system-design",
+      "adr"
+    ],
+    "instructions": "Deconstruct the system using standard abstractions such as C4 context and container boundaries to map data flows between microservices, datastores, and external dependencies. Document non-functional constraints including latency budgets, throughput thresholds, failover policies, and consistency models. Include Architecture Decision Records (ADRs) capturing evaluated alternatives, chosen solutions, and accepted compromises. Validate that network ingress and egress points, encryption boundaries, and auth gates are explicit. Guard against documenting aspirational future-state architecture as currently deployed reality; date-stamp current states and tag deferred implementation targets."
+  },
+  {
+    "id": "docs-new-hire-onboarding",
+    "name": "New-Hire Onboarding Guides",
+    "description": "Construct sequential zero-to-commit onboarding pathways that enable engineers to ship code within their first week.",
+    "tags": [
+      "onboarding",
+      "developer-experience",
+      "setup-guide",
+      "team-docs"
+    ],
+    "instructions": "Sequence local environment provisioning into a linear, reproducible checklist covering prerequisites, package managers, credential retrieval, and secret configuration. Specify exact command-line invocations for cloning repositories, bootstrapping dependencies, seeding development databases, and running test suites locally. Establish a concrete first milestone, such as merging a trivial pull request or running an isolated unit test, to validate setup integrity. Identify common operating-system-specific compilation errors and terminal permission failures in a triage appendix. Have a newly joined peer execute the guide from a wiped machine before publishing updates."
+  },
+  {
+    "id": "docs-operations-runbook",
+    "name": "Operations Runbook Writing",
+    "description": "Draft high-urgency, executable operational runbooks for resolving production incidents and service alerts.",
+    "tags": [
+      "runbooks",
+      "sre",
+      "incident-response",
+      "devops"
+    ],
+    "instructions": "Link each runbook directly to monitored alert names, severity levels, and service-level objectives (SLOs). Begin with diagnostic steps to verify whether an alert represents a true positive, detailing dashboard links and log query filters with pre-filled time ranges. Provide ordered remediation workflows segmented by escalation tier, specifying non-destructive mitigations like traffic shedding before destructive actions like node termination. Include exact CLI commands, script parameters, and expected shell outputs. Highlight blast-radius warnings, rollback thresholds, and communication checklists to prevent sleep-deprived responders from causing secondary outages during high-stress incident responses."
+  },
+  {
+    "id": "docs-troubleshooting-guides",
+    "name": "Troubleshooting Guide Writing",
+    "description": "Structure symptom-driven resolution playbooks that diagnose root causes behind user-facing and backend anomalies.",
+    "tags": [
+      "troubleshooting",
+      "diagnostics",
+      "support",
+      "debugging"
+    ],
+    "instructions": "Organize entries by observable symptoms, exact error strings, or anomalous telemetry rather than internal root causes. Structure each scenario with a diagnostic branching tree: describe the manifestation, list quick diagnostic checks to isolate variables, and explain the underlying failure mechanism. Present corrective actions sequentially from least disruptive configuration tweaks to destructive resets, highlighting when data backups are necessary before proceeding. Verify that all log paths, stack traces, and monitoring query strings are accurate. Pitfall: do not provide an open-ended list of guesses; explicitly state criteria for when to escalate to Tier 3 engineering."
+  },
+  {
+    "id": "docs-style-guides",
+    "name": "Documentation Style Guides",
+    "description": "Standardize voice, terminology, mechanics, and markup conventions across an organization's documentation corpus.",
+    "tags": [
+      "style-guide",
+      "content-design",
+      "technical-writing",
+      "governance"
+    ],
+    "instructions": "Establish rules for tone, reading grade level, person (favoring second-person active voice), and tense across all technical documentation. Define typographical conventions for UI elements, shell commands, keyboard shortcuts, and file system paths. Maintain an approved word list alongside disallowed synonyms and forbidden jargon to standardize enterprise naming. Include accessible formatting requirements such as descriptive hyperlink text, heading hierarchy, and alt-text standards for imagery. Configure linter rules (such as Vale or markdownlint) corresponding to every major prose rule so writers can enforce the style guide automatically via continuous integration."
+  },
+  {
+    "id": "docs-glossary-building",
+    "name": "Glossary Building",
+    "description": "Curate an authoritative repository of domain-specific terminology, acronyms, and operational definitions.",
+    "tags": [
+      "glossary",
+      "terminology",
+      "domain-driven-design",
+      "taxonomy"
+    ],
+    "instructions": "Identify overloaded, ambiguous, or proprietary terminology through cross-functional reviews of codebases, customer support tickets, and product specifications. Define each headword with a concise one-sentence core definition followed by contextual examples, domain boundaries, and relationships to adjacent terms. Alphabetize entries and cross-link synonyms, deprecated phrases, and acronym expansions to canonical terms. Ensure definitions rely on plain language rather than circular technical jargon. Periodically audit the glossary against product release changes to purge retired concepts, and integrate glossary definitions into developer portals as automated tooltips or inline hover cards."
+  },
+  {
+    "id": "docs-diagram-descriptions",
+    "name": "Architecture Diagram Description",
+    "description": "Compose structured, accessible textual descriptions that convey the layout and relationships within visual architectural diagrams.",
+    "tags": [
+      "accessibility",
+      "diagrams",
+      "system-topology",
+      "alt-text"
+    ],
+    "instructions": "Provide an overarching summary identifying the diagram's scope, vantage point, and intended takeaway before decomposing sub-components. Enumerate functional tiers from external entry points down to persistent datastores, explicitly describing directional communication protocols (e.g., synchronous gRPC versus asynchronous Kafka topics). State security zones, VPC perimeters, and trust boundaries that bisect components. Never rely solely on visual cues like color coding or spatial positioning in the narrative; translate layout relationships into clear topological hierarchies. Ensure this written description enables screen-reader users and audit reviewers to comprehend system resilience, redundancy, and network bottlenecks without viewing the raw image."
+  },
+  {
+    "id": "docs-migration-guides",
+    "name": "Migration Guide Writing",
+    "description": "Formulate step-by-step procedures to guide users through platform upgrades, breaking changes, and data cutovers.",
+    "tags": [
+      "migrations",
+      "upgrades",
+      "breaking-changes",
+      "versioning"
+    ],
+    "instructions": "Define target release baselines and prerequisite compatibility matrices upfront before outlining migration operations. Catalog breaking changes comprehensively, showing side-by-side 'before and after' code, configuration, or schema snippets. Split the migration process into distinct phases: pre-migration audits, automated transformation or codemod execution, manual refactoring steps, and post-cutover validation scripts. Provide verified zero-downtime dual-write or fallback roll-back plans for each critical phase to prevent irreversible data corruption. Warn against silent behavior changes, such as altered default sorting or stricter payload parsers, which pass compilation but cause runtime defects."
+  },
+  {
+    "id": "docs-deprecation-notices",
+    "name": "Deprecation Notices",
+    "description": "Draft actionable retirement warnings and timelines for features, configurations, and API interfaces.",
+    "tags": [
+      "deprecation",
+      "lifecycle",
+      "api-governance",
+      "versioning"
+    ],
+    "instructions": "State clearly what specific component, field, or behavior is being phased out, accompanied by the precise version or sunset date when support terminates. Offer a drop-in replacement or documented migration strategy, articulating why the change occurred and what benefits the replacement delivers. Insert warnings across multiple discovery surfaces: release notes, inline API responses via HTTP Sunset/Deprecation headers, compiler warnings, and runtime log notices. Specify the distinct phases of decommissioning (e.g., soft deprecation, feature freezing, dark traffic brownouts, and hard removal). Avoid vague timelines such as 'in a future release' without specifying contractual SLAs."
+  },
+  {
+    "id": "docs-internal-wiki-structuring",
+    "name": "Internal Wiki Structuring",
+    "description": "Organize team wikis and engineering spaces into intuitive taxonomies that minimize content rot and silos.",
+    "tags": [
+      "knowledge-management",
+      "wiki",
+      "information-architecture",
+      "governance"
+    ],
+    "instructions": "Establish a top-level hierarchy based on durable organizational domains (such as Teams, Architecture, Operations, and Standards) rather than transient projects or individuals. Limit nesting depth to three levels to keep navigation discoverable, and enforce consistent page templates with mandatory metadata: document owner, last-reviewed date, and technical scope. Create designated scratchpads or draft spaces to keep unverified notes out of canonical knowledge hubs. Institute automated or scheduled verification sweeps where stale documents without active ownership are flagged, archived, or purged. Audit search terms regularly to configure redirects and resolve navigational dead ends."
+  },
+  {
+    "id": "docs-knowledge-base-articles",
+    "name": "Knowledge Base Article Writing",
+    "description": "Author modular, self-service support articles that answer discrete user queries with minimal friction.",
+    "tags": [
+      "knowledge-base",
+      "support",
+      "self-service",
+      "technical-writing"
+    ],
+    "instructions": "Frame the title as an action-oriented phrase or question matching user search vocabulary (e.g., 'How to Configure Webhook Signatures'). Open with a brief summary explaining the intended outcome, expected prerequisites, and required account permissions. Deliver instructions through numbered imperative steps containing single actions, accompanied by relevant UI labels in bold and short illustrative screenshots with redacted sensitive information. Conclude with verification steps so the user can independently confirm success. Check that related articles are linked logically, and avoid burying actionable resolutions beneath historical background, internal engineering context, or unnecessary corporate narrative."
+  },
+  {
+    "id": "docs-sop-writing",
+    "name": "Standard Operating Procedure Writing",
+    "description": "Author standardized, audit-compliant procedural documentation for critical business and technical workflows.",
+    "tags": [
+      "sop",
+      "compliance",
+      "process",
+      "quality-assurance"
+    ],
+    "instructions": "Define the operational purpose, regulatory or compliance scope, and RACI roles responsible for execution and approval. Document workflows as numbered, sequential instructions with zero ambiguity, detailing specific triggers, input criteria, system environments, and output artifacts. Insert mandatory sign-off checkpoints, compliance logs, and risk warnings prior to irreversible operational steps. Detail exception handling protocols for when the standard path fails or dependencies are unreachable. Review procedures through hands-on dry runs conducted by individuals outside the authoring team, and record change log histories with revision numbers and executive approval sign-offs to satisfy compliance audits."
+  },
+  {
+    "id": "docs-policy-document-drafting",
+    "name": "Policy Document Drafting",
+    "description": "Establish binding operational, compliance, and governance rules through structured, unambiguous policy specifications.",
+    "tags": [
+      "policy",
+      "compliance",
+      "governance",
+      "drafting"
+    ],
+    "instructions": "Define scope, authority, and effective date clearly in an initial metadata block. Identify target roles and use imperative modal verbs (must, shall, may not) strictly according to RFC 2119 conventions to prevent legal ambiguity. Detail explicit procedures, enforcement mechanisms, reporting channels, and non-compliance consequences. Have legal, human resources, or security teams verify statutory compliance before staging. A common pitfall is conflating policy statements with procedural guidelines; isolate dynamic how-to steps into separate standard operating procedure (SOP) appendices to avoid frequent re-approvals. Ensure version history logs every modification reason and signatory."
+  },
+  {
+    "id": "docs-training-material-outlining",
+    "name": "Training Material Outlining",
+    "description": "Structure modular educational curricula and learning paths to guide learners from core foundations to practical mastery.",
+    "tags": [
+      "training",
+      "curriculum",
+      "instructional-design",
+      "onboarding"
+    ],
+    "instructions": "Begin by defining measurable learning objectives using Bloom's Revised Taxonomy verbs such as configure, analyze, or diagnose. Group content into sequential modules that transition from baseline mental models to independent hands-on exercises. For each module, outline the estimated duration, prerequisites, lecture topics, interactive labs, and diagnostic knowledge checks. Verify that progressive disclosure is maintained so complex edge cases do not overwhelm early stages. Avoid the pitfall of organizing material around internal engineering architecture rather than the learner's actual workflow priorities. Review the completed outline with subject-matter instructors to confirm logical pacing and realistic time allocations."
+  },
+  {
+    "id": "docs-tutorial-video-scripting",
+    "name": "Tutorial Video Scripting",
+    "description": "Write dual-column audiovisual scripts that synchronize spoken narration with on-screen software demonstrations.",
+    "tags": [
+      "video",
+      "screencast",
+      "scriptwriting",
+      "multimedia"
+    ],
+    "instructions": "Format the document using a dual-column layout dividing audio narration on the left from precise visual screen directions on the right. Time-stamp major transition checkpoints and maintain a concise conversational voice targeted at 130 to 150 spoken words per minute. Explicitly direct mouse cursor movements, zoom-ins, callout banners, and keyboard shortcuts in the visual column to ensure smooth recording sessions. Avoid the mistake of reading interface labels verbatim without explaining their contextual significance. Run a read-aloud rehearsal while following the staging software to catch timing mismatches, awkward phrasing, and redundant clicks before the presenter records audio."
+  },
+  {
+    "id": "docs-documentation-audit",
+    "name": "Documentation Audit",
+    "description": "Systematically inventory and evaluate technical content repositories to identify inaccuracies, gaps, and obsolete pages.",
+    "tags": [
+      "audit",
+      "content-strategy",
+      "maintenance",
+      "quality"
+    ],
+    "instructions": "Crawl the existing documentation repository to compile a comprehensive inventory containing URLs, page titles, owners, last-modified dates, and pageview analytics. Categorize each artifact into an explicit action tier: keep as-is, revise, consolidate, or archive with a permanent 301 redirect. Evaluate samples against accuracy benchmarks by executing code snippets and validating interface screenshots against current production software builds. A frequent pitfall is deleting deprecated documentation without inspecting incoming referral links or search index rankings. Document all remediation findings in a centralized spreadsheet, assigning concrete completion milestones and technical writers to each affected document."
+  },
+  {
+    "id": "docs-documentation-versioning",
+    "name": "Documentation Versioning",
+    "description": "Manage multi-release technical documentation branches that accurately correspond to past, current, and upcoming software releases.",
+    "tags": [
+      "versioning",
+      "git",
+      "release-management",
+      "docs-as-code"
+    ],
+    "instructions": "Establish an unambiguous release tagging and branching strategy in the docs-as-code repository aligned with semantic versioning numbers. Configure documentation site generators to present persistent version selectors, prominent deprecation banners on outdated editions, and canonical URL meta tags targeting the latest stable release. Prevent cross-version pollution by isolating product feature changes within distinct release branches until general availability. Watch out for broken internal cross-references when backporting security hotfix documentation to sustained LTS versions. Regularly verify automated build workflows so that publishing updates to an older patch branch does not inadvertently overwrite default search index pointers."
+  },
+  {
+    "id": "docs-documentation-localization-prep",
+    "name": "Documentation Localization Preparation",
+    "description": "Optimize source documentation assets and translation toolchains to ensure smooth internationalization into target languages.",
+    "tags": [
+      "localization",
+      "i18n",
+      "l10n",
+      "translation"
+    ],
+    "instructions": "Standardize source copy by eliminating colloquial idioms, regional metaphors, humor, and complex nested clauses that resist straightforward translation. Externalize all UI text strings, callout captions, and image labels into structured resource formats like XLIFF or Gettext PO files. Provide global translators with an exhaustive terminology glossary defining brand terms, untranslatable code identifiers, and acronyms. A major failure mode is embedding critical instructional text directly inside raster image screenshots without editable source vectors. Test layout expansion buffers of at least thirty percent across navigation menus and code containers to prevent visual truncation during right-to-left and multicharacter language rendering."
+  },
+  {
+    "id": "docs-accessible-documentation",
+    "name": "Accessible Documentation",
+    "description": "Author and format technical content to meet universal accessibility standards, including WCAG 2.1 AA compliance.",
+    "tags": [
+      "accessibility",
+      "a11y",
+      "wcag",
+      "inclusive-design"
+    ],
+    "instructions": "Construct semantically strict HTML or Markdown hierarchies starting with a single H1 tag and cascading sequentially without skipping heading levels. Write informative alt text for architectural diagrams that conveys functional relationships rather than merely describing visual aesthetics. Verify that color palettes used in code syntax highlighters and charts maintain a minimum contrast ratio of 4.5:1 against page backgrounds. Avoid relying solely on sensory characteristics like color or spatial position to communicate state, such as instructing users to click the green button on the right. Audit generated pages using screen readers and keyboard navigation tabs to verify full interactive accessibility."
+  },
+  {
+    "id": "docs-code-comment-conversion",
+    "name": "Code Comment to Documentation Conversion",
+    "description": "Transform inline code docstrings and annotations into complete, user-facing reference documentation and API guides.",
+    "tags": [
+      "api-docs",
+      "docstrings",
+      "developer-docs",
+      "automation"
+    ],
+    "instructions": "Extract docstrings, parameters, return types, and thrown exceptions using automated generators such as TypeDoc, JSDoc, or Sphinx. Supplement bare parameter descriptions with concrete context, expected ranges, default values, and nullable constraints that raw type signatures omit. Author self-contained, reproducible code examples for every public method, showing both happy-path invocations and comprehensive error handling. Do not blindly republish raw implementation comments intended for internal maintainers as public developer guides. Validate all generated API reference pages against live sandbox environments to ensure demonstrated endpoints and payload schemas match actual production behavior."
+  },
+  {
+    "id": "docs-release-documentation",
+    "name": "Release Documentation",
+    "description": "Compose clear release notes, changelogs, and migration guides detailing changes between product versions.",
+    "tags": [
+      "release-notes",
+      "changelog",
+      "migration",
+      "product-updates"
+    ],
+    "instructions": "Aggregate pull requests, issue trackers, and commit histories across the release window, filtering out trivial refactors and internal chore commits. Categorize changes systematically under standardized headings: Breaking Changes, New Features, Enhancements, Bug Fixes, and Security Patches. Detail exact upgrade steps, code snippets, and automated codemod instructions for any breaking interface modifications. A critical pitfall is copying cryptic internal ticket summaries directly into customer-facing changelogs without translating technical jargon into tangible user value. Distribute the final release notes to technical support, developer advocates, and marketing teams for review prior to the public deployment cutoff."
+  },
+  {
+    "id": "docs-support-response-templates",
+    "name": "Support Response Templates",
+    "description": "Draft modular macro responses that customer support teams use to resolve frequent technical inquiries accurately.",
+    "tags": [
+      "support",
+      "customer-service",
+      "macros",
+      "knowledge-base"
+    ],
+    "instructions": "Identify high-volume support ticket topics through ticket tagging trends and compile empathetic, step-by-step resolution responses. Structure templates with customizable greeting placeholders, diagnostic questions, explicit troubleshooting procedures, and direct links to public knowledge base articles. Ensure tone remains professional, empathetic, and de-escalating while avoiding overly rigid corporate robotic scripts that alienate frustrated customers. A common hazard is failing to mark dynamic parameter variables clearly, which leads agents to send unresolved placeholder tokens to end users. Establish a quarterly cadence to audit all response macros against recent product updates, retiring obsolete workarounds and refining steps."
+  },
+  {
+    "id": "docs-documentation-quality-metrics",
+    "name": "Documentation Quality Metrics",
+    "description": "Measure documentation effectiveness and health using quantitative analytics and qualitative customer feedback loops.",
+    "tags": [
+      "metrics",
+      "analytics",
+      "kpis",
+      "feedback"
+    ],
+    "instructions": "Define a balanced scorecard incorporating qualitative sentiment (such as page helpfulness voting and CSAT scores) and quantitative telemetry (search bounce rates, page views, and time on page). Track support ticket deflection rates by correlating surges in specific doc views with decreases in corresponding support ticket submissions. Instrument analytics to capture failed search queries to identify terminology gaps where user search phrases do not match official article keywords. Avoid relying solely on vanity traffic metrics, as high time on page can signal cognitive confusion rather than deep engagement. Review metric trends monthly to prioritize rewriting initiatives and allocate documentation engineering resources."
+  },
+  {
+    "id": "docs-documentation-review-process",
+    "name": "Documentation Review Process",
+    "description": "Coordinate collaborative peer, editorial, and technical stakeholder reviews to validate content prior to publication.",
+    "tags": [
+      "editorial-review",
+      "peer-review",
+      "qa",
+      "collaboration"
+    ],
+    "instructions": "Implement a formal pull request review gate separating peer editorial evaluations from technical subject matter expert sign-offs. Editorial reviewers must check style guide adherence, tone, accessibility, link validity, and clarity, while technical reviewers execute all instructions in staging to confirm operational validity. Use structured review checklists within the pull request template so reviewers do not skip validation steps like screenshot freshness or permission prerequisites. Avoid the bottleneck of requesting unbounded open-ended reviews without specifying deadlines or targeted focus areas. Require documented approvals from designated engineering and product leads before merging changes to production publishing branches."
+  }
+]

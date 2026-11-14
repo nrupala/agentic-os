@@ -1,0 +1,146 @@
+[
+ {
+  "id": "ml-dataset-curation",
+  "name": "Dataset Curation and Deduplication",
+  "description": "Curate, filter, and deduplicate raw samples to build high-signal training datasets.",
+  "tags": [
+   "dataset-curation",
+   "preprocessing",
+   "data-quality",
+   "mlops"
+  ],
+  "instructions": "Define explicit inclusion criteria based on label distribution, metadata completeness, and domain relevance. Ingest raw corpuses into an immutable staging store with deterministic hashing. Execute exact-match deduplication using SHA-256 digests across raw payload fields, followed by near-deduplication using MinHash LSH or dense embedding cosine thresholds. Apply rule-based heuristics to excise synthetic artifacts, malformed encodings, and automated spam. Inspect label balance across protected slices and underrepresented clusters. Partition the curated set into train, validation, and holdout splits using stratified grouping keys to preserve sample independence, then export versioned manifests with associated lineage metadata."
+ },
+ {
+  "id": "ml-feature-engineering",
+  "name": "Feature Engineering Pipeline Construction",
+  "description": "Design, transform, and validate predictive signals for tabular and sequence models.",
+  "tags": [
+   "feature-engineering",
+   "tabular-data",
+   "data-transformations",
+   "feature-store"
+  ],
+  "instructions": "Audit raw inputs to categorize numerical, categorical, and temporal signals before designing deterministic transformation pipelines. Apply target encoding or one-hot encodings with infrequent category aggregation to limit cardinality explosion on categorical features. Construct sliding-window aggregate features for temporal series, ensuring rolling windows do not compute statistics over prospective intervals. Compute interaction ratios and polynomial expansions only when supported by domain heuristics or mutual information scores. Normalize skewed continuous distributions using Yeo-Johnson or quantile transformers. Package transformations into scikit-learn compatible pipeline estimators, register definitions in a central feature store, and assert unit test coverage against unobserved categorical values and missing inputs."
+ },
+ {
+  "id": "ml-model-evaluation-design",
+  "name": "Model Evaluation Protocol Design",
+  "description": "Construct statistically rigorous evaluation suites reflecting operational constraints.",
+  "tags": [
+   "model-evaluation",
+   "validation",
+   "metrics",
+   "benchmarking"
+  ],
+  "instructions": "Select primary utility metrics and secondary constraint metrics aligned directly with product objectives rather than raw surrogate loss. Establish stratified k-fold cross-validation or temporal out-of-time splits that mirror inference deployment environments. Define gold-standard evaluation benchmarks containing fixed slices for edge cases, adversarial inputs, and sensitive demographic subgroups. Calculate empirical confidence intervals for metric deltas via non-parametric bootstrapping with at least one thousand resamples. Compare candidate architectures against trivial majority-class baselines and prevailing production systems simultaneously. Enforce hard gating thresholds requiring candidates to outperform incumbent models on top-level metrics without degrading performance beyond predetermined tolerances on critical subgroup slices."
+ },
+ {
+  "id": "ml-hyperparameter-search-planning",
+  "name": "Hyperparameter Optimization Strategy Planning",
+  "description": "Formulate sample-efficient hyperparameter tuning regimens across search spaces.",
+  "tags": [
+   "hyperparameter-tuning",
+   "optimization",
+   "automl",
+   "bayesian-optimization"
+  ],
+  "instructions": "Delineate bounded parameter spaces for architectural coefficients, learning rates, and regularizers, setting log scales for orders-of-magnitude explorations. Select a sample-efficient optimization algorithm, such as Tree-structured Parzen Estimators or Gaussian Process Bayesian Optimization, rather than naive grid searches. Integrate early stopping criteria using median stopping rules or asynchronous successive halving to abort non-convergent trials rapidly. Fix global random seeds and cross-validation partition splits across all trials to isolate parameter influence from stochastic noise. Limit search budgets through predefined wall-clock constraints or total compute trial limits. Aggregate trial histories to analyze hyperparameter sensitivity and parameter interactions, then validate the optimal configuration across untouched test sets."
+ },
+ {
+  "id": "ml-experiment-tracking",
+  "name": "Systematic ML Experiment Tracking",
+  "description": "Instrument and log modeling runs to guarantee reproducibility across research cycles.",
+  "tags": [
+   "experiment-tracking",
+   "reproducibility",
+   "mlops",
+   "metadata"
+  ],
+  "instructions": "Instrument training entry points with programmatic tracking hooks using MLflow, Weights & Biases, or similar engines before launching sweeps. Record immutable commit SHAs, container environment hashes, hardware profiles, and raw random seed configurations at run initialization. Log granular hyperparameter maps alongside tabular training metrics, validation losses, and custom telemetry on each validation interval. Persist serialized model checkpoints, training curves, confusion matrices, and sample-level error distributions as versioned run artifacts. Tag individual experiments with clear operational descriptions and hypothesis identifiers. Verify that any logged experiment can be resurrected and identically reproduced on clean compute nodes directly from its registered artifact manifest and environment specification."
+ },
+ {
+  "id": "ml-data-leakage-detection",
+  "name": "Pipeline Data Leakage Auditing",
+  "description": "Detect and eradicate train-test contamination and lookahead bias in ML pipelines.",
+  "tags": [
+   "data-leakage",
+   "pipeline-validation",
+   "debugging",
+   "data-integrity"
+  ],
+  "instructions": "Audit preprocessing workflows to ensure scalers, encoders, and imputers fit strictly on training partitions prior to transforming test splits. Search for temporal lookahead contamination by validating that sliding-window features use strictly retrospective timestamps relative to label events. Compute overlap ratios between feature columns and target variables using mutual information and predictive power scores to spot direct label proxies. Verify that grouping entities, such as user identifiers or patient cohorts, do not straddle cross-validation fold boundaries. Inspect data augmentation pipelines to ensure identical source samples do not appear in both train and validation subsets. Replace ad-hoc script steps with encapsulated, scikit-learn compatible pipeline abstractions."
+ },
+ {
+  "id": "ml-model-drift-monitoring",
+  "name": "Production Model and Data Drift Monitoring",
+  "description": "Monitor production inferences to detect concept drift, covariate shift, and performance decay.",
+  "tags": [
+   "drift-monitoring",
+   "concept-drift",
+   "mlops",
+   "observability"
+  ],
+  "instructions": "Capture live inference payloads, predicted distributions, and downstream ground-truth labels into sliding-window analytical storage. Compute population stability index (PSI) and Wasserstein distance for continuous features, alongside Kolmogorov-Smirnov tests, comparing live inference windows against baseline training distributions. Measure Jensen-Shannon divergence across categorical feature distributions and output probability distributions to flag covariate shift. Track delayed ground-truth feedback to compute running utility metrics and distinguish benign input shifts from catastrophic concept drift. Configure multi-tiered alerting thresholds to page engineering teams when cumulative drift exceeds predetermined variance boundaries. Trigger automated retraining pipelines or fallback heuristic policies when drift metrics breach critical statistical thresholds."
+ },
+ {
+  "id": "ml-inference-latency-profiling",
+  "name": "Inference Latency Profiling and Benchmarking",
+  "description": "Profile and optimize runtime latency distributions for real-time model serving.",
+  "tags": [
+   "latency-profiling",
+   "benchmarking",
+   "inference",
+   "performance-optimization"
+  ],
+  "instructions": "Warm up target hardware runtimes with synthetic payloads before logging latency benchmarks to eliminate cold-start distortions. Instrument inference pipelines with CUDA events or high-resolution CPU performance counters, profiling tokenization, preprocessing, forward passes, and postprocessing independently. Measure latency across batch sizes under simulated concurrency to establish p50, p90, and p99 distribution profiles. Pinpoint compute bottlenecks using kernel-level profilers like PyTorch Profiler or NVIDIA Nsight Systems to identify non-vectorized operations, excess memory copies, and thread contention. Evaluate alternative serving runtimes like ONNX Runtime, TensorRT, or vLLM to optimize execution kernels. Document memory peak requirements and throughput curves to determine horizontal autoscaling thresholds."
+ },
+ {
+  "id": "ml-quantization-planning",
+  "name": "Model Quantization and Compression Planning",
+  "description": "Formulate post-training quantization and quantization-aware training strategies for target runtimes.",
+  "tags": [
+   "quantization",
+   "model-compression",
+   "edge-ml",
+   "optimization"
+  ],
+  "instructions": "Determine target hardware constraints, checking whether target chipsets natively accelerate INT8, FP8, INT4, or mixed-precision tensor cores. Evaluate candidate compression approaches: begin with Post-Training Quantization (PTQ) as an initial baseline before considering Quantization-Aware Training (QAT). Assemble a representative, unaugmented calibration dataset matching production distribution characteristics to establish scale factors and zero points. Profile weight and activation dynamic ranges across layer types to pinpoint sensitive layers requiring mixed-precision preservation. Implement quantization schemes using toolkits like AutoGPTQ, TensorRT, or PyTorch Quantization. Measure end-to-end memory reduction, latency speedup, and perplexity or accuracy degradation across comprehensive regression benchmarks before approving production deployments."
+ },
+ {
+  "id": "ml-prompt-evaluation",
+  "name": "Prompt Evaluation Framework Design",
+  "description": "Design deterministic and LLM-as-a-judge evaluation frameworks for prompt engineering.",
+  "tags": [
+   "prompt-engineering",
+   "llm-evaluation",
+   "llmops",
+   "testing"
+  ],
+  "instructions": "Construct a representative golden evaluation dataset containing domain-specific edge cases, adversarial inputs, and canonical tasks. Establish deterministic verification checks, including regex pattern validation, JSON schema conformance, output length bounds, and exact keyword matches. Develop reference-guided LLM-as-a-judge scoring protocols with rubric definitions, explicitly penalizing hallucinations, formatting deviations, and verbosity. Mitigate position bias and score drift by swapping candidate ordering and averaging multi-judge ensembles with temperature set to zero. Compute Cohen's kappa or Gwet's AC1 to validate inter-annotator agreement between human ratings and automated judge assessments. Version prompt templates, system instructions, and evaluation rubrics inside source control alongside regression test suites."
+ },
+ {
+  "id": "ml-annotation-quality-control",
+  "name": "Annotation Quality Control and Inter-Annotator Agreement",
+  "description": "Establish QA pipelines and agreement metrics for human and synthetic data labeling.",
+  "tags": [
+   "data-annotation",
+   "quality-control",
+   "active-learning",
+   "dataset-management"
+  ],
+  "instructions": "Author unambiguous annotation guidelines complete with exhaustive positive examples, negative counter-examples, and edge-case dispute protocols. Embed honeypot verification tasks with known ground-truth labels blindly into annotator work queues to measure continuous baseline accuracy. Calculate Fleiss' kappa or Krippendorff's alpha across multi-annotator overlap samples to monitor inter-annotator reliability across categories. Establish dynamic consensus thresholds, routing low-confidence or high-disagreement annotations to senior adjudicators for final resolution. Conduct recurring calibration sessions with labeling workforces to clarify ambiguous boundary guidelines identified during adjudication cycles. Filter or re-annotate records from labeling cohorts failing minimum acceptance benchmarks before importing batches into curated training repositories."
+ },
+ {
+  "id": "ml-model-card-writing",
+  "name": "Production Model Card Authoring",
+  "description": "Document model architectures, training conditions, performance profiles, and governance limits.",
+  "tags": [
+   "model-cards",
+   "governance",
+   "documentation",
+   "reproducibility"
+  ],
+  "instructions": "Document core model metadata including architecture topology, parameter counts, framework versions, and training compute resource expenditures. Outline intended production use cases, explicit out-of-scope applications, and foreseeable operational misuse scenarios. Detail training data provenance, including collection methodologies, demographic representation, licensing constraints, and applied curation filters. Summarize evaluation results across standard validation suites and disaggregated demographic slices, noting empirical performance disparities and confidence intervals. Disclose operational constraints, environmental trade-offs, inference latency profiles, and hardware dependency requirements. Enumerate known model vulnerabilities, failure modes, safety guardrails, and post-deployment monitoring obligations before archiving the card as a version-controlled release artifact."
+ }
+]

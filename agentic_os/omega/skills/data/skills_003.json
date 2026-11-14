@@ -1,0 +1,309 @@
+[
+  {
+    "id": "devops-ci-pipeline-design",
+    "name": "Continuous Integration Pipeline Design",
+    "description": "Architect automated build, test, and static analysis workflows that validate developer changes before branch merging.",
+    "tags": [
+      "ci",
+      "automation",
+      "testing",
+      "git-flow"
+    ],
+    "instructions": "Deconstruct the repository build workflow into discrete, parallelizable stages: dependency caching, static linting, unit testing, and artifact generation. Configure branch protection rules requiring all pipeline stages to pass along with required peer reviews before merge permission is granted. Implement aggressive caching for package managers (such as npm, pip, or maven) by hashing lockfiles to keep cycle times under ten minutes. Pitfall: Avoid running slow end-to-end browser tests in the standard pull request validation path, as prolonged test queues encourage engineers to bypass checks or batch excessive unrelated changes together."
+  },
+  {
+    "id": "devops-continuous-delivery-strategy",
+    "name": "Continuous Delivery Strategy",
+    "description": "Establish automated delivery paths to ensure software artifacts are consistently verified and kept continuously releasable to production.",
+    "tags": [
+      "cd",
+      "deployment",
+      "automation",
+      "release-engineering"
+    ],
+    "instructions": "Establish an immutable artifact pipeline where the exact container image or binary built during CI is promoted across staging and production without recompilation. Implement automated smoke and contract tests immediately following deployment to non-production environments to validate API backwards compatibility before gating for production. Maintain feature flag architectures to decouple mechanical deployments from user-facing feature activation. Pitfall: Avoid environment-specific artifact builds where configuration is baked directly into the image; always inject environment configuration dynamically via runtime environment variables or external configuration stores."
+  },
+  {
+    "id": "devops-infrastructure-as-code",
+    "name": "Infrastructure as Code",
+    "description": "Provision and manage cloud infrastructure deterministically using version-controlled declarative code.",
+    "tags": [
+      "iac",
+      "terraform",
+      "cloud",
+      "provisioning",
+      "gitops"
+    ],
+    "instructions": "Structure declarative configuration files (e.g., Terraform or OpenTofu modules) into isolated layers separating foundational networking, persistent data stores, and compute clusters. Configure remote state storage with distributed state locking and server-side encryption to prevent concurrent mutation conflicts. Enforce plan generation and policy-as-code linting (using tools like OPA or Conftest) in pipeline checks before running apply steps against cloud targets. Pitfall: Never allow manual modifications or emergency 'clickops' adjustments directly inside the cloud management console without promptly reconciling the state in code, otherwise state drift will inevitably cause subsequent automated apply operations to fail catastrophically."
+  },
+  {
+    "id": "devops-container-image-building",
+    "name": "Container Image Building",
+    "description": "Construct secure, minimal, and reproducible OCI-compliant container images optimized for rapid deployment.",
+    "tags": [
+      "containers",
+      "docker",
+      "security",
+      "oci",
+      "buildkit"
+    ],
+    "instructions": "Employ multi-stage Dockerfiles where compile-time toolchains, SDKs, and intermediate source files are isolated in disposable builder stages, copying only the final compiled runtime artifact into a minimal base distribution (like Chainguard or Alpine). Enforce non-root user execution directives inside the container image to mitigate privilege escalation risks. Integrate vulnerability scanners like Trivy or Grype within the pipeline to break builds on critical CVEs before pushing to registries. Pitfall: Do not rely on floating tags like 'latest' or unbounded OS package updates in RUN steps; always pin explicit package versions and digest hashes to guarantee deterministic builds."
+  },
+  {
+    "id": "devops-blue-green-deployment",
+    "name": "Blue-Green Deployment",
+    "description": "Execute zero-downtime releases by routing traffic between duplicate isolated production environments.",
+    "tags": [
+      "deployments",
+      "zero-downtime",
+      "routing",
+      "load-balancer"
+    ],
+    "instructions": "Provision two identical production environments designated Blue (active) and Green (idle), keeping the inactive environment updated with the incoming release. Execute internal validation, health checks, and synthetic transactions directly against the Green target before modifying network routing. Shift ingress load balancer or DNS pointers instantaneously to switch all incoming user traffic to the Green environment while keeping Blue running standby for rapid fallback. Pitfall: Shared persistent databases can break during immediate cutover; always ensure schema migrations follow an expand-and-contract model so both the old and new application versions can operate concurrently against the database without constraint violations."
+  },
+  {
+    "id": "devops-canary-release-management",
+    "name": "Canary Release Management",
+    "description": "Incrementally expose new application versions to a fractional percentage of live traffic while monitoring telemetry.",
+    "tags": [
+      "canary",
+      "traffic-routing",
+      "progressive-delivery",
+      "sre"
+    ],
+    "instructions": "Configure service mesh or ingress controller rules (e.g., Istio, Flagger, or Argo Rollouts) to steer a small percentage (e.g., 2% to 5%) of production traffic to the candidate baseline. Quantify baseline error budgets and measure telemetry—specifically HTTP 5xx rates, latency percentiles (p95/p99), and saturated system metrics—against the stable deployment over fixed observation intervals. Incrementally increase the traffic weighting in stages (10%, 25%, 50%, 100%) upon passing progressive health checks. Pitfall: Insufficient traffic sample sizes can obscure edge-case bugs; avoid evaluating canary metrics during low-traffic windows or over intervals shorter than what is statistically required to register meaningful error rates."
+  },
+  {
+    "id": "devops-rollback-strategy",
+    "name": "Automated Rollback Strategy",
+    "description": "Rapidly revert failing deployments to a verified previous state to minimize mean time to recovery.",
+    "tags": [
+      "rollback",
+      "recovery",
+      "mttr",
+      "automation"
+    ],
+    "instructions": "Establish automated rollback triggers configured within your orchestration layer that react instantly when synthetic monitors or health probes fail post-deployment. Ensure deployment systems track previous known-good image tags, configuration maps, and revision numbers so reversion requires executing a single deterministic API call rather than initiating a new code build. Keep backward-compatible database schema changes decoupled from application binaries to prevent rollbacks from failing due to missing database columns. Pitfall: Do not attempt to 'roll forward' with hotfixes during severe customer-impacting outages; immediately execute the verified rollback procedure first to restore service stability, and investigate the root cause asynchronously in lower environments."
+  },
+  {
+    "id": "devops-environment-management",
+    "name": "Environment Management",
+    "description": "Standardize, provision, and maintain lifecycle parity across development, staging, and production environments.",
+    "tags": [
+      "environments",
+      "parity",
+      "configuration",
+      "staging"
+    ],
+    "instructions": "Define all non-production environments using identical infrastructure templates and resource topologies as production, scaling down only node replica counts and compute sizing where necessary. Implement automated ephemeral environment creation for pull requests, tearing them down upon branch closure to control cloud costs. Audit configurations continuously across all staging tiers to eradicate subtle drifts in runtime libraries, kernel parameters, and network access policies. Pitfall: Allowing staging environments to serve as unmaintained junk drawers with uncommitted hotfixes breaks parity; strictly enforce that no manual adjustments are made to staging environments outside the standard automated deployment pipeline."
+  },
+  {
+    "id": "devops-secrets-management",
+    "name": "Secrets Management",
+    "description": "Securely inject, rotate, and audit sensitive credentials and API tokens across the software development lifecycle.",
+    "tags": [
+      "security",
+      "secrets",
+      "vault",
+      "encryption",
+      "compliance"
+    ],
+    "instructions": "Store all sensitive materials such as database passwords, TLS certificates, and API tokens inside a centralized secrets manager (e.g., HashiCorp Vault or AWS Secrets Manager) rather than plaintext configuration repositories. Inject secrets into application runtimes using short-lived memory volumes or ephemeral environment variables sourced through service account identities. Configure automated periodic rotation policies and integrate pre-commit git hooks (like GitGuardian or TruffleHog) to detect exposed credentials before code leaves developer workstations. Pitfall: Avoid printing configuration dumps to stdout or debug logs during container bootstrap; unmasked environment variables logged to centralized logging pipelines present severe compliance and credential leak vulnerabilities."
+  },
+  {
+    "id": "devops-monitoring-observability-setup",
+    "name": "Monitoring and Observability Setup",
+    "description": "Instrument distributed applications to emit metrics, distributed traces, and health telemetry for operational visibility.",
+    "tags": [
+      "observability",
+      "metrics",
+      "tracing",
+      "opentelemetry",
+      "prometheus"
+    ],
+    "instructions": "Instrument services using OpenTelemetry standards to collect the core Golden Signals: latency, traffic, errors, and saturation across all service boundaries. Configure standardized scrape targets with Prometheus or metric collectors, standardizing metric naming conventions and cardinality dimensions across microservices. Inject trace context headers (W3C traceparent) across inter-service RPC and asynchronous queue boundaries to enable end-to-end distributed transaction tracing. Pitfall: Avoid injecting high-cardinality values—such as raw user IDs, UUIDs, or unbounded request URLs—as metric labels, as this will quickly explode timeseries database storage, cause severe collector out-of-memory crashes, and degrade dashboard query performance."
+  },
+  {
+    "id": "devops-alerting-design",
+    "name": "Alerting Design",
+    "description": "Construct actionable, symptom-oriented alerts linked to Service Level Objectives to eliminate notification fatigue.",
+    "tags": [
+      "alerting",
+      "slo",
+      "sre",
+      "on-call",
+      "pagerduty"
+    ],
+    "instructions": "Base paging alerts on Service Level Objectives (SLOs) and rapid error-budget burn rates that reflect genuine user pain rather than transient, single-node CPU spikes. Ensure every firing alert includes a direct hyperlink to an active, up-to-date runbook containing specific mitigation steps, diagnostic queries, and escalation contacts. Route non-urgent degradation notifications to asynchronous ticketing queues or team chat channels instead of waking on-call engineers outside business hours. Pitfall: Never allow alerts that require no immediate human action to page engineers; recurring actionable-less alerts breed alert fatigue, causing on-call responders to overlook critical severity-one infrastructure failures during real production emergencies."
+  },
+  {
+    "id": "devops-log-aggregation",
+    "name": "Log Aggregation",
+    "description": "Centralize, structure, and index application and system logs for accelerated troubleshooting and forensic analysis.",
+    "tags": [
+      "logging",
+      "elasticsearch",
+      "fluentbit",
+      "loki",
+      "debugging"
+    ],
+    "instructions": "Configure containerized applications to emit logs strictly as structured JSON to stdout/stderr, capturing essential contextual metadata including timestamps, log levels, correlation IDs, and service names. Deploy lightweight daemon agents (such as Fluent Bit or Promtail) on compute nodes to collect, buffer, and stream log events into an indexing store like OpenSearch or Grafana Loki. Apply index retention policies and partition indices by day or tier to control storage costs. Pitfall: Ingesting high-volume debug logs in steady-state production without dynamic sampling or filtering will saturate network bandwidth and quickly overwhelm storage backends during traffic surges."
+  },
+  {
+    "id": "devops-incident-response-coordination",
+    "name": "Incident Response Coordination",
+    "description": "Lead and organize operational teams through major outage mitigation, communication, and post-incident learning.",
+    "tags": [
+      "incident-management",
+      "sre",
+      "postmortem",
+      "on-call",
+      "operations"
+    ],
+    "instructions": "Designate clear operational roles immediately upon declaring an incident: an Incident Commander to direct triage, a Communications Lead to provide scheduled stakeholder updates, and Technical Leads to isolate failure domains. Establish a dedicated virtual war room and pin a real-time event timeline recording mitigation attempts, observations, and system changes. Shift focus exclusively to stabilizing the service before investigating deep root causes, and conduct a blameless post-mortem retrospective within 72 hours of incident resolution. Pitfall: Do not allow leadership or unassigned participants to pressure responders into making hasty, speculative production modifications without the explicit concurrence of the Incident Commander."
+  },
+  {
+    "id": "devops-on-call-runbook-writing",
+    "name": "On-Call Runbook Writing",
+    "description": "Standardizes the creation of operational documentation enabling responders to triage and mitigate production incidents efficiently.",
+    "tags": [
+      "sre",
+      "on-call",
+      "runbooks",
+      "incident-response"
+    ],
+    "instructions": "Identify every firing alert condition and pair it directly with an unambiguous runbook document. Structure the runbook into four distinct sections: alert context and symptom explanation, initial triage queries to verify impact, step-by-step mitigation commands, and escalation points. Require exact copy-pasteable CLI commands or dashboard URLs rather than descriptive summaries. Verify permissions regularly so responders can execute remediation scripts without authorization roadblocks during night hours. Avoid assuming high domain familiarity by spelling out rollback steps explicitly. Review runbooks quarterly or immediately after any incident postmortem flags missing guidance."
+  },
+  {
+    "id": "devops-disaster-recovery-planning",
+    "name": "Disaster Recovery Planning",
+    "description": "Establishes institutional recovery objectives and technical execution frameworks for catastrophic infrastructure failures.",
+    "tags": [
+      "sre",
+      "disaster-recovery",
+      "bcp",
+      "resilience"
+    ],
+    "instructions": "Define clear Recovery Time Objectives (RTO) and Recovery Point Objectives (RPO) categorized by tier of business criticality. Map upstream and downstream data dependencies across regions, ensuring DNS failover, secret synchronization, and identity providers are decoupled from the primary zone. Script the full failover process end-to-end rather than relying on manual console navigation, and store these scripts outside the primary failure domain. Schedule semi-annual chaos or tabletop failover drills involving production databases to surface stale configurations. Beware of split-brain scenarios by implementing definitive quorum consensus mechanisms before declaring secondary systems active."
+  },
+  {
+    "id": "devops-backup-strategy-verification",
+    "name": "Backup Strategy Verification",
+    "description": "Validates the integrity and restorability of persistent application data through automated restore drills.",
+    "tags": [
+      "backups",
+      "database",
+      "reliability",
+      "storage"
+    ],
+    "instructions": "Implement continuous automated restore tests inside an isolated sandbox environment rather than simply checking backup job exit codes. Parse transaction logs and execute sample business-logic validation queries against the restored schema to confirm zero data corruption. Enforce the 3-2-1 backup rule across heterogeneous storage tiers with immutable object locks to defeat ransomware compromise. Track restore duration metrics continuously against documented RTO targets, sounding high-severity alerts when restore times drift upward. A common pitfall is backing up encrypted volumes while neglecting to verify that decryption keys remain accessible in alternate cloud accounts during recovery."
+  },
+  {
+    "id": "devops-capacity-planning",
+    "name": "Capacity Planning",
+    "description": "Forecasts resource demands across compute, network, and storage to prevent saturation before traffic spikes occur.",
+    "tags": [
+      "capacity-planning",
+      "scaling",
+      "infrastructure",
+      "performance"
+    ],
+    "instructions": "Collect p95 and p99 historical utilization metrics across CPU, memory, network bandwidth, and IOPS alongside application-level metrics like requests per second. Construct linear regression or seasonal baseline models to forecast saturation thresholds against anticipated marketing events or customer onboarding timelines. Factor in infrastructure provisioning lead times, quota limits, and multi-tenant noisy-neighbor headroom when determining scaling trigger points. Stress-test current limits using synthetic load generation tools to identify non-linear bottlenecks such as database connection pools or thread starvation. Avoid over-provisioning out of fear; instead, establish dynamic auto-scaling policies paired with strict resource quotas."
+  },
+  {
+    "id": "devops-error-budget-management",
+    "name": "Error Budget Management",
+    "description": "Balances feature velocity and system stability by systematically tracking service level objective burn rates.",
+    "tags": [
+      "sre",
+      "slo",
+      "sli",
+      "error-budgets"
+    ],
+    "instructions": "Define Service Level Indicators (SLIs) reflecting genuine user misery, such as HTTP 5xx responses and latency exceeding acceptable thresholds. Establish concrete Service Level Objectives (SLOs) over a rolling 30-day window to calculate allowable downtime or failed request counts. Implement multi-window multi-burn-rate alerting to notify engineers of rapid budget exhaustion without generating alert fatigue during brief spikes. Codify automated freeze policies that halt non-critical deployments when budget drops below 10%, pivoting engineering effort strictly toward reliability remediation. Avoid setting 100% availability targets, which stifle experimentation and mask downstream architectural fragility."
+  },
+  {
+    "id": "devops-postmortem-writing",
+    "name": "Blameless Postmortem Writing",
+    "description": "Documents systemic incident causes and actionable remediation items without assigning individual fault.",
+    "tags": [
+      "postmortem",
+      "incident-management",
+      "sre",
+      "culture"
+    ],
+    "instructions": "Gather timestamps from monitoring logs, incident chat channels, and pull requests to construct a minute-by-minute timeline of the outage. Write with blameless language, focusing on underlying systemic conditions, inadequate tooling, or missing safeguards rather than human operational errors. Identify contributing factors across detection, response, mitigation, and verification phases using iterative inquiry techniques. Convert every finding into a SMART action item assigned to a specific owner with a realistic completion deadline. Avoid vague preventive tasks like 'be more careful'; instead, mandate structural changes such as linting rules, automated canary deployments, or stricter circuit breakers."
+  },
+  {
+    "id": "devops-release-notes-automation",
+    "name": "Release Notes Automation",
+    "description": "Generates structured changelogs from version control metadata and ticket tracking systems within continuous delivery pipelines.",
+    "tags": [
+      "ci-cd",
+      "automation",
+      "git",
+      "release-engineering"
+    ],
+    "instructions": "Enforce Conventional Commits specification via pre-commit hooks and pull request title linters across all source repositories. Configure pipeline actions to extract commit prefixes—such as feat, fix, and breaking change—grouping entries into standardized release categories. Correlate commit metadata with issue trackers like Jira or GitHub Issues to append relevant ticket IDs and summary links automatically. Scrub internal developer terminology, sensitive environment variable references, and confidential ticket summaries prior to publishing public release artifacts. Avoid publishing raw git commit logs; filter out merge commits, chore tasks, and formatting patches to keep customer-facing summaries clean and actionable."
+  },
+  {
+    "id": "devops-artifact-management",
+    "name": "Artifact Management",
+    "description": "Secures, organizes, and lifecycle-manages container images and binary packages across development and production environments.",
+    "tags": [
+      "artifacts",
+      "docker",
+      "security",
+      "ci-cd"
+    ],
+    "instructions": "Store immutable build outputs in dedicated artifact registries with distinct promotion paths from development to staging and production. Sign every build artifact cryptographically using tools like Cosign to establish provenance and enforce admission controller verification in Kubernetes clusters. Integrate automated vulnerability scanning into the storage workflow, blocking promotion when critical CVEs without patches are detected. Establish lifecycle cleanup policies based on semantic versioning and retention windows to control registry storage bloat and costs. Never allow mutable tags like 'latest' in production manifests; pin deployments strictly to immutable cryptographic image digests or explicit semantic version tags."
+  },
+  {
+    "id": "devops-configuration-drift-detection",
+    "name": "Configuration Drift Detection",
+    "description": "Identifies discrepancies between declared infrastructure-as-code definitions and actual running cloud resources.",
+    "tags": [
+      "iac",
+      "terraform",
+      "gitops",
+      "drift-detection"
+    ],
+    "instructions": "Schedule periodic headless execution of infrastructure-as-code planning tools, such as Terraform plan or CloudFormation drift detection, against production state. Route any detected differential directly into operational alerting systems or an internal ticketing queue before unmanaged state introduces deployment failures. Enforce strict role-based access control that strips interactive write permissions from human users, funneling all infrastructure alterations through automated CI/CD runners. When drift occurs due to emergency manual intervention, require immediate backporting of changes into version control to reconcile state. Avoid running blind auto-remediation without dry-run validation, as automated reconciliation could accidentally destroy manually patched live components during active incidents."
+  },
+  {
+    "id": "devops-cloud-cost-optimization",
+    "name": "Cloud Cost Optimization",
+    "description": "Applies architectural auditing, resource right-sizing, and commitment models to curb unnecessary infrastructure expenditure.",
+    "tags": [
+      "finops",
+      "cloud",
+      "aws",
+      "cost-optimization"
+    ],
+    "instructions": "Tag every cloud resource with mandatory metadata specifying team owner, environment, cost center, and application service. Run continuous automated scans to identify orphaned assets such as unattached EBS volumes, idle load balancers, and snapshot chains exceeding retention limits. Analyze memory and CPU utilization percentiles over 30 days to right-size over-provisioned virtual machine instances and database nodes. Purchase savings plans or reserved instances to cover steady-state baseline compute while leveraging spot instances exclusively for fault-tolerant batch workloads. Avoid indiscriminate downscaling that compromises peak-traffic resiliency; always validate performance headroom under stress before committing to smaller compute tiers."
+  },
+  {
+    "id": "devops-deployment-checklist-design",
+    "name": "Deployment Checklist Design",
+    "description": "Creates standardized verification gates to ensure releases meet reliability, compliance, and rollback readiness standards.",
+    "tags": [
+      "ci-cd",
+      "deployments",
+      "compliance",
+      "change-management"
+    ],
+    "instructions": "Construct structured pre-flight, in-flight, and post-flight verification items covering database schema backward compatibility, feature flag configurations, and dependency availability. Require validation that canary deployment stages monitor error rates and latency thresholds automatically before promoting changes to the broader fleet. Specify explicit, tested rollback criteria and commands to execute if health checks fail during progressive traffic shifting. Mandate confirmation that relevant on-call engineers are notified and dashboards are actively observed throughout the release window. Avoid overly bureaucratic checklists with unmeasurable questions like 'code reviewed properly'; instead, link checklist gates to automated CI test results and security scan approvals."
+  },
+  {
+    "id": "devops-service-health-dashboards",
+    "name": "Service Health Dashboards",
+    "description": "Designs intuitive observability views visualizing core service indicators to facilitate rapid problem diagnosis.",
+    "tags": [
+      "observability",
+      "monitoring",
+      "metrics",
+      "dashboards"
+    ],
+    "instructions": "Organize dashboard panels hierarchically following the Four Golden Signals: latency, traffic, errors, and saturation. Place top-level user-facing business KPIs and SLO burn rates at the top of the view, descending into infrastructure-level metrics like CPU and disk I/O below. Standardize color palettes, scale units, and time-range alignments across all panels so responders interpret anomalies without visual translation overhead. Include direct links to relevant runbooks, distributed tracing queries, and log filtering views within panel descriptions or dashboard headers. Avoid crowding the dashboard with dozens of low-signal metrics; prioritize glanceability so any engineer can determine whether a service is healthy within five seconds."
+  }
+]

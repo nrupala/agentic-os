@@ -1,0 +1,314 @@
+[
+  {
+    "id": "web-semantic-html",
+    "name": "Semantic HTML Authoring",
+    "description": "Structure web documents using meaningful HTML5 elements that convey true document hierarchy and content roles to browsers and assistive technologies.",
+    "tags": [
+      "html5",
+      "semantics",
+      "markup",
+      "accessibility"
+    ],
+    "instructions": "Audit the content outline before writing code to identify main landmarks such as header, nav, main, article, section, aside, and footer. Replace generic div and span containers with contextual elements like figure, time, and address wherever applicable. Ensure there is strictly one h1 tag per page representing the core topic, followed by properly nested heading levels without skipping ranks. Verify list structures use ul, ol, or dl appropriately. Avoid overusing section tags merely for styling purposes; every section should ideally have an associated heading. Finally, validate the document using the W3C markup validator to catch stray unclosed tags, illegal parent-child nestings, and deprecated presentational attributes."
+  },
+  {
+    "id": "web-css-layout-design",
+    "name": "CSS Layout Architecture",
+    "description": "Construct robust, modular page layouts using modern CSS Flexbox, Grid, and subgrid techniques.",
+    "tags": [
+      "css",
+      "flexbox",
+      "css-grid",
+      "layout",
+      "styling"
+    ],
+    "instructions": "Determine structural layout axes early by reserving CSS Grid for macro two-dimensional arrangements and Flexbox for micro one-dimensional component alignment. Define layout containers with explicit fractional tracks, auto-fit or auto-fill repeaters, and minmax clamps to prevent overflow. Avoid hardcoded pixel heights on layout wrappers; rely instead on min-height and intrinsic content sizing to prevent visual clipping. Implement the gap property instead of margin hacks for consistent spatial rhythm between tracks. Check for margin collapsing anomalies when nesting block containers. Test the layout against unexpected dynamic content expansion by injecting double-length text strings into components to confirm that grid tracks stretch or wrap predictably without breaking page boundaries."
+  },
+  {
+    "id": "web-responsive-web-design",
+    "name": "Responsive Web Design Implementation",
+    "description": "Adapt user interfaces smoothly across diverse viewport dimensions, orientations, and hardware pixel densities.",
+    "tags": [
+      "responsive",
+      "media-queries",
+      "mobile-first",
+      "viewport",
+      "css"
+    ],
+    "instructions": "Begin by inserting the meta viewport tag with width=device-width and initial-scale=1.0 in the document head. Write CSS using a mobile-first philosophy, establishing default baseline styles for narrow screens and progressively adding min-width media queries as viewport real estate expands. Integrate fluid typography and spacing using CSS clamp(), calc(), and viewport units rather than static breakpoints for every small shift. Supply responsive images via the srcset and sizes attributes, alongside picture elements with WebP or AVIF formats for differing pixel densities. Test interfaces across physical devices and responsive devtools modes, inspecting touch targets to confirm they satisfy minimum 44 by 44 pixel click boundaries without requiring pinch-to-zoom."
+  },
+  {
+    "id": "web-javascript-code-review",
+    "name": "JavaScript Code Review",
+    "description": "Evaluate client-side JavaScript pull requests for maintainability, idiomatic patterns, memory safety, and logic errors.",
+    "tags": [
+      "javascript",
+      "code-review",
+      "clean-code",
+      "es6",
+      "quality"
+    ],
+    "instructions": "Scan the incoming pull request for unhandled asynchronous operations, checking that all Promises incorporate catch blocks or reside inside try-catch structures when using async/await. Identify unintended memory leaks caused by lingering event listeners, un-cleared intervals, or circular DOM references inside long-lived closures. Verify that modern ES6+ conventions are utilized consistently, forbidding var in favor of const and let, and substituting raw loops with immutable array methods where appropriate. Confirm that pure functions avoid mutating input objects and external module state directly. Ensure all incoming dynamic values are typed or checked at component boundaries. Request automated unit test coverage for newly introduced conditional branches before granting merge approval."
+  },
+  {
+    "id": "web-frontend-state-management",
+    "name": "Frontend State Architecture",
+    "description": "Design and organize application state by distinguishing between local component UI state, server cache, and global application state.",
+    "tags": [
+      "state-management",
+      "architecture",
+      "caching",
+      "react",
+      "frontend"
+    ],
+    "instructions": "Classify incoming application data strictly into ephemeral UI state, URL search parameter state, and persistent server cache before creating centralized stores. Use dedicated caching libraries like React Query or SWR for remote data fetching rather than synchronizing network responses manually inside Redux or Pinia stores. Keep state slices normalized to prevent deep nesting and redundant multi-place updates. Avoid lifting state up beyond the closest common ancestor to prevent unnecessary component re-render cascades across sibling subtrees. Instrument state transitions using devtools to track action dispatch history and identify redundant selector recomputations. Profile memory footprints over extended single-page navigation sessions to confirm disconnected views release their bound subscriptions and local records."
+  },
+  {
+    "id": "web-performance-optimization",
+    "name": "Core Web Vitals and Performance Tuning",
+    "description": "Diagnose and remediate client-side bottlenecks to achieve high scores across Core Web Vitals metrics.",
+    "tags": [
+      "performance",
+      "core-web-vitals",
+      "optimization",
+      "lighthouse",
+      "metrics"
+    ],
+    "instructions": "Record a Lighthouse and Chrome DevTools Performance trace on a throttled mobile network to capture baseline LCP, INP, and CLS scores. Optimize Largest Contentful Paint by preloading critical hero images, inlining critical path CSS, and hosting font files locally with font-display: swap. Eliminate Cumulative Layout Shift by enforcing explicit width and height aspect-ratio attributes on all images, video players, and dynamic ad containers. Reduce Interaction to Next Paint by breaking long JavaScript tasks over 50 milliseconds using scheduler.yield() or requestIdleCallback. Audit third-party script tags, loading analytics and tracking libraries asynchronously or via web workers with Partytown. Verify cache headers specify immutable assets with content hashing."
+  },
+  {
+    "id": "web-accessibility-wcag-compliance",
+    "name": "Web Accessibility WCAG Compliance Auditing",
+    "description": "Ensure web interfaces meet WCAG 2.1 AA standards for keyboard navigation, screen readers, and visual contrast.",
+    "tags": [
+      "accessibility",
+      "a11y",
+      "wcag",
+      "aria",
+      "inclusive-design"
+    ],
+    "instructions": "Execute an automated accessibility scan using Axe or Lighthouse to catch basic structural oversights such as missing image alt text, empty buttons, and deficient color contrast ratios below 4.5:1 for body copy. Perform a complete keyboard-only walk-through using Tab, Shift-Tab, Space, Enter, and arrow keys to guarantee focus indicators remain prominently visible and no focus traps exist inside modals. Verify that custom interactive controls expose appropriate ARIA roles, states, and properties like aria-expanded, aria-controls, and aria-live regions for dynamic notifications. Test the application with screen readers such as VoiceOver or NVDA to confirm table relationships and landmark regions announce logically. Never override outline: none without providing an equivalent focus style."
+  },
+  {
+    "id": "web-technical-seo-basics",
+    "name": "Technical SEO Foundation Setup",
+    "description": "Optimize technical website infrastructure to maximize crawling efficiency, indexing accuracy, and search engine visibility.",
+    "tags": [
+      "seo",
+      "metadata",
+      "crawling",
+      "robots",
+      "structured-data"
+    ],
+    "instructions": "Configure the canonical URL tag on every routable page to prevent self-created duplicate content penalties stemming from tracking queries or differing URL protocols. Produce an automated sitemap.xml file containing valid lastmod dates, registering it inside the robots.txt file alongside strict disallow directives for private administration paths. Embed JSON-LD structured data schemas matching schema.org specifications for articles, breadcrumbs, and organizations to qualify for enhanced SERP rich snippets. Verify that dynamic single-page applications render content server-side or via static generation so search engine bots parse full markup on initial fetch. Test HTTP response headers to ensure 301 permanent redirects resolve trailing slash inconsistencies and non-www variants."
+  },
+  {
+    "id": "web-browser-compatibility-handling",
+    "name": "Cross-Browser Compatibility Management",
+    "description": "Identify and mitigate cross-browser rendering inconsistencies, API support discrepancies, and CSS feature divergence.",
+    "tags": [
+      "browsers",
+      "compatibility",
+      "polyfills",
+      "cross-browser",
+      "css"
+    ],
+    "instructions": "Consult Can I Use to verify browser baseline support levels for newly introduced Web APIs, CSS properties, and JavaScript syntax before committing them into production branches. Configure build toolchains with Browserslist and PostCSS Autoprefixer to inject vendor prefixes dynamically according to your target audience telemetry. Utilize CSS feature queries via @supports rules to establish elegant fallbacks for cutting-edge styles such as backdrop-filter or subgrid. Provide polyfills selectively via dynamic imports only when older engines lack native modern primitives like ResizeObserver or AbortController. Perform automated and manual testing suites across Chromium, WebKit (Safari), and Gecko (Firefox) engines on desktop and mobile operating systems to discover platform-specific rendering anomalies."
+  },
+  {
+    "id": "web-form-design-and-validation",
+    "name": "Web Form Design and Client Validation",
+    "description": "Build user-friendly, resilient web forms equipped with accessible feedback mechanisms and multi-layered validation.",
+    "tags": [
+      "forms",
+      "validation",
+      "ux",
+      "accessibility",
+      "inputs"
+    ],
+    "instructions": "Pair every input, select, and textarea element with an explicit label element bound via matching for and id attributes. Leverage native HTML5 constraints such as required, pattern, minlength, and appropriate type values like email or tel to invoke specialized mobile keyboard layouts. Trigger custom client validation on blur rather than keystroke to prevent premature error messages while users are actively typing. Link generated validation error text to its corresponding input field using the aria-describedby attribute, accompanied by aria-invalid=true when invalid. Disable submit buttons or show loading spinners during pending request resolution to thwart duplicate submission payloads. Always mirror client-side validation rules identically on the backend server to defend against bypassed constraints."
+  },
+  {
+    "id": "web-frontend-security-xss-csrf",
+    "name": "Frontend XSS and CSRF Hardening",
+    "description": "Protect web client applications from Cross-Site Scripting, Cross-Site Request Forgery, and client-side injection attacks.",
+    "tags": [
+      "security",
+      "xss",
+      "csrf",
+      "csp",
+      "web-security"
+    ],
+    "instructions": "Sanitize any untrusted HTML strings using a hardened library like DOMPurify prior to rendering them into DOM containers via innerHTML or framework raw HTML directives. Enforce a robust Content Security Policy through HTTP response headers, banning unsafe-inline scripts, disabling eval(), and restricting script sources to verified origins and cryptographic nonces. Safeguard authentication tokens against script access by storing session tokens strictly inside HttpOnly, Secure, SameSite=Strict cookies rather than localStorage. Defend form submissions and mutating API requests against cross-site exploitation by appending anti-CSRF custom headers or synchronizer tokens verified server-side. Regularly inspect npm dependency vulnerabilities using audit scanners to catch compromised runtime third-party packages before releasing software."
+  },
+  {
+    "id": "web-progressive-web-app-basics",
+    "name": "Progressive Web App Implementation",
+    "description": "Transform web applications into installable, offline-capable progressive web apps using Web App Manifests and Service Workers.",
+    "tags": [
+      "pwa",
+      "service-worker",
+      "offline",
+      "manifest",
+      "caching"
+    ],
+    "instructions": "Create and link a web app manifest.json file containing comprehensive application metadata, including name, short_name, start_url, theme_color, and an array of properly proportioned PNG and SVG icons. Register a Service Worker in your application bootstrap script, scoping it to root routes. Write the service worker lifecycle scripts with explicit install, activate, and fetch event listeners. Employ specialized caching strategies such as Cache First for immutable static assets and Network First or Stale-While-Revalidate for dynamic API data. Implement a fallback offline HTML page served automatically whenever network requests fail. Test your offline workflow using DevTools Application panel, verifying background sync and confirming that installability criteria are satisfied without producing registration warnings."
+  },
+  {
+    "id": "web-analytics-setup",
+    "name": "Web Analytics and Telemetry Integration",
+    "description": "Implement client-side tracking, user interaction telemetry, and analytics tags while respecting user privacy and regulatory consent.",
+    "tags": [
+      "analytics",
+      "telemetry",
+      "privacy",
+      "gdpr",
+      "tracking"
+    ],
+    "instructions": "Deploy a centralized tag manager or tracking SDK using asynchronous or deferred script loading to prevent blocking critical page rendering. Establish a standard dataLayer object pattern to decouple business logic from tracking vendors, dispatching uniform event names and contextual payloads for key user journeys like form submissions and checkout clicks. Implement a cookie consent management banner that gates all non-essential tracking scripts until affirmative user opt-in is confirmed, honoring Global Privacy Control signals. Scrub query parameters and custom event payloads to ensure no personally identifiable information (PII) like email addresses or credit card numbers is transmitted to telemetry endpoints. Verify tracking events firing accuracy within real-time debug view consoles before deploying configurations to production."
+  },
+  {
+    "id": "web-ab-testing-execution",
+    "name": "Web A/B Testing Execution",
+    "description": "Deploy and monitor controlled experiment variants on user-facing web applications to measure conversion rate impact accurately.",
+    "tags": [
+      "experimentation",
+      "analytics",
+      "cro",
+      "frontend"
+    ],
+    "instructions": "Define a clear null hypothesis and identify primary conversion metrics alongside guardrail metrics like page load speed. Choose an assignment strategy, preferentially client-side feature flagging or edge worker routing, to prevent layout cumulative shift (CLS). Ensure variant buckets are deterministically salted by anonymous user ID. Verify traffic splits using chi-squared tests to catch Sample Ratio Mismatch (SRM) early. Avoid running multiple overlapping experiments that mutate identical DOM nodes, and never terminate experiments prematurely before achieving the predetermined sample size and statistical power."
+  },
+  {
+    "id": "web-frontend-error-monitoring",
+    "name": "Frontend Error Monitoring",
+    "description": "Capture, filter, and triage uncaught client-side JavaScript exceptions and resource failures in real-time production environments.",
+    "tags": [
+      "observability",
+      "debugging",
+      "sentry",
+      "javascript"
+    ],
+    "instructions": "Initialize an error tracking SDK at the absolute entry point of your bundle before mounting UI trees. Configure source maps securely during the CI build step and upload them directly to your monitoring provider, blocking public access to prevent intellectual property exposure. Set up global unhandled promise rejection listeners and custom React or Vue error boundaries. Scrub Personally Identifiable Information (PII) including auth tokens and payment form fields inside client-side event pre-send hooks. Filter out high-volume benign noise such as browser extension runtime failures or obsolete third-party script timeouts."
+  },
+  {
+    "id": "web-static-site-generation",
+    "name": "Static Site Generation",
+    "description": "Pre-render HTML pages and assets at build time to maximize hosting scalability, security, and edge delivery speed.",
+    "tags": [
+      "ssg",
+      "jamstack",
+      "performance",
+      "build-tools"
+    ],
+    "instructions": "Extract dynamic content sources through headless APIs or Markdown files into static data structures during the build phase. Configure static path generators to compile unique HTML documents for every route while generating XML sitemaps and RSS feeds concurrently. Implement incremental or on-demand rebuilding hooks triggered by CMS webhooks to avoid re-rendering millions of unchanged pages. Audit build output to ensure no private environment secrets are embedded into the client bundle. Guard against memory exhaustion during massive multi-thousand-page builds by batching asset generation and running asynchronous data fetches in controlled worker pools."
+  },
+  {
+    "id": "web-cms-platform-evaluation",
+    "name": "CMS Platform Evaluation",
+    "description": "Assess and select headless or coupled content management systems based on editorial workflows, architecture, and governance requirements.",
+    "tags": [
+      "content-management",
+      "architecture",
+      "headless-cms",
+      "selection"
+    ],
+    "instructions": "Map editorial operational needs against technical constraints, contrasting traditional monolithic platforms like WordPress with API-first headless options like Sanity or Strapi. Evaluate schema flexibility, localization capabilities, role-based access control (RBAC), and preview environment latency for draft content. Benchmark webhook reliability, GraphQL or REST API rate limits, and asset delivery costs under peak traffic projections. Run a proof-of-concept integrating content modeling with your frontend framework. Beware vendor lock-in caused by proprietary querying languages or non-exportable asset storage, and verify ongoing operational maintenance overhead against developer team capacity."
+  },
+  {
+    "id": "web-ecommerce-site-basics",
+    "name": "E-Commerce Site Basics",
+    "description": "Construct functional e-commerce storefronts supporting product catalogs, persistent shopping carts, and secure checkout flows.",
+    "tags": [
+      "ecommerce",
+      "checkout",
+      "payments",
+      "state-management"
+    ],
+    "instructions": "Model product catalogs with structured data supporting variants, real-time inventory counts, and price calculations including localized tax rates. Implement persistent client-side cart states backed by synchronized server-side sessions to recover abandoned user sessions across devices. Offload sensitive payment collection exclusively to PCI-compliant hosted fields or tokens (such as Stripe Elements) rather than handling raw credit card data on your servers. Validate stock availability atomically during final checkout before executing charges. Guard against race conditions during high-demand flash sales by applying database row-level locking or distributed queue reservations for inventory decrements."
+  },
+  {
+    "id": "web-typography-implementation",
+    "name": "Web Typography Implementation",
+    "description": "Configure scalable, accessible, and high-performance typographic scales across responsive web layouts.",
+    "tags": [
+      "typography",
+      "css",
+      "web-fonts",
+      "design"
+    ],
+    "instructions": "Establish a modular type scale using relative CSS units like rem and fluid clamp functions to ensure harmonious sizing from mobile to ultrawide viewports. Self-host font files in modern WOFF2 format, applying font-display: swap or optional alongside preloading tags for critical body fonts to prevent Flash of Invisible Text (FOIT). Match fallback font metrics with CSS font-override properties to minimize cumulative layout shifts during font swapping. Ensure accessible body contrast ratios of at least 4.5:1, limit line lengths to 45 to 75 characters (ch units), and configure appropriate line-height ratios that scale inversely with font sizes."
+  },
+  {
+    "id": "web-image-optimization",
+    "name": "Image Optimization for Web",
+    "description": "Compress, resize, and deliver responsive imagery to minimize page weight and boost core web vitals.",
+    "tags": [
+      "performance",
+      "images",
+      "core-web-vitals",
+      "responsive-design"
+    ],
+    "instructions": "Convert raster images into modern formats like WebP or AVIF using automated build plugins or dynamic CDN image pipelines. Implement HTML picture elements or responsive srcset and sizes attributes so the browser downloads dimensions matching the device viewport and pixel density. Always specify explicit width and height attributes on img tags to preserve aspect ratio and avoid layout shifts. Add loading=\"lazy\" and decoding=\"async\" to offscreen imagery, but explicitly set fetchpriority=\"high\" and avoid lazy loading for the Largest Contentful Paint (LCP) hero element. Never serve raw uncompressed camera uploads."
+  },
+  {
+    "id": "web-caching-strategy",
+    "name": "Web Caching Strategy",
+    "description": "Architect multi-layered browser, edge CDN, and origin cache policies to accelerate content delivery and offload servers.",
+    "tags": [
+      "caching",
+      "http-headers",
+      "cdn",
+      "performance"
+    ],
+    "instructions": "Define immutable cache-control headers (public, max-age=31536000, immutable) for content-hashed static assets like JavaScript bundles, CSS, and media. For dynamic HTML documents, implement Cache-Control: no-cache with ETags, or leverage stale-while-revalidate directives on edge CDNs to serve cached pages instantly while background-refreshing origin responses. Segment caches carefully using the Vary header (such as Vary: Accept-Encoding) to prevent serving incompatible representations. Establish precise cache invalidation webhooks triggered by data mutations. Watch out for catastrophic cache stampedes on expired keys by enforcing edge request coalescing and mutex locking."
+  },
+  {
+    "id": "web-frontend-api-integration",
+    "name": "Frontend API Integration",
+    "description": "Connect client applications to backend services using robust data fetching, validation, and error-handling patterns.",
+    "tags": [
+      "api",
+      "data-fetching",
+      "typescript",
+      "http"
+    ],
+    "instructions": "Centralize network transport logic inside configured HTTP client wrappers or data-fetching libraries like TanStack Query or SWR to manage automatic retries, deduplication, and cache invalidation. Validate raw API responses at runtime using schema validation libraries such as Zod before passing data to state layers, ensuring backend contract changes fail loudly and safely. Handle loading, empty, and partial error states gracefully in UI components rather than assuming 200 OK payloads are complete. Implement AbortController to terminate stale in-flight requests when components unmount or route parameters update, preventing memory leaks and out-of-order race conditions."
+  },
+  {
+    "id": "web-design-system-usage",
+    "name": "Design System Usage",
+    "description": "Implement and consume reusable, token-driven component libraries to guarantee interface consistency and accessibility across products.",
+    "tags": [
+      "design-systems",
+      "components",
+      "tokens",
+      "accessibility"
+    ],
+    "instructions": "Consume shared design tokens for colors, spacing, elevation, and typography via CSS custom properties or design token transformers, completely disallowing arbitrary hardcoded magic values in local components. Compose complex layouts using primitive headless components (like Radix UI or React Aria) that ensure built-in keyboard navigation, focus management, and ARIA attributes out of the box. Enforce strict prop interfaces in TypeScript to prevent improper component extension. When an edge-case visual pattern arises, contribute the enhancement upstream through the established governance workflow rather than overriding library styles with fragile !important rules or deep nested CSS selectors."
+  },
+  {
+    "id": "web-frontend-testing-basics",
+    "name": "Frontend Testing Basics",
+    "description": "Write effective unit, integration, and end-to-end tests to guarantee user interface reliability and prevent regressions.",
+    "tags": [
+      "testing",
+      "vitest",
+      "playwright",
+      "quality-assurance"
+    ],
+    "instructions": "Construct test suites prioritizing user-facing behaviors over internal implementation details by utilizing testing libraries like React Testing Library or Playwright. Query DOM elements through accessible roles, labels, and text contents (getByRole, getByLabelText) instead of unstable CSS class names or test IDs. Mock third-party network requests at the transport layer using tools like Mock Service Worker (MSW) to keep unit and integration tests isolated, deterministic, and fast. Test happy paths, form validation failures, network timeouts, and asynchronous boundary updates. Avoid over-testing trivial styling declarations or writing brittle snapshot tests that break on harmless whitespace changes."
+  },
+  {
+    "id": "web-deployment-workflow",
+    "name": "Web Deployment Workflow",
+    "description": "Automate build, preview, and release pipelines to deploy web applications continuously, safely, and with zero downtime.",
+    "tags": [
+      "ci-cd",
+      "devops",
+      "deployment",
+      "automation"
+    ],
+    "instructions": "Construct a CI/CD pipeline that triggers linting, type-checking, unit test execution, and production asset compilation on every pull request. Provision ephemeral preview environments for branch reviews to validate integration against staging services before merging into the main line. Implement zero-downtime release methods like blue-green deployments or atomic directory symlinking on web servers. Configure post-deployment health check probes that verify HTTP status codes and core runtime telemetry before switching traffic DNS or edge CDN origins. Establish automated rollback scripts that trigger immediately if error rates spike or synthetic monitoring checks fail within five minutes post-release."
+  }
+]
