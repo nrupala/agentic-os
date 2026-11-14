@@ -146,7 +146,28 @@ class OmegaForgeEngine:
 
         # 1. THOUGHT PHASE
         self.state.status = StepStatus.THINKING
-        thought = thought_fn(self.state, self.ledger)
+        try:
+            thought = thought_fn(self.state, self.ledger)
+        except Exception as exc:
+            step = CycleStep(
+                iteration=iteration,
+                status=StepStatus.FAIL,
+                thought=None,
+                error_recovery_notes=f"Thought provider error: {exc}",
+            )
+            self.state.steps.append(step)
+            self.ledger.record_failure(
+                iteration=iteration,
+                action_name="thought_provider",
+                payload={},
+                error_msg=str(exc),
+                hypothesis="Thought provider failed to produce a valid ThoughtRecord (malformed generation or transport error).",
+            )
+            self.state.status = StepStatus.FAIL
+            self.state.current_iteration = iteration
+            self._persist_state()
+            return StepStatus.FAIL
+
         ThinkingRules.enforce_pre_action_rule(thought)
 
         step = CycleStep(iteration=iteration, status=StepStatus.THINKING, thought=thought)
@@ -168,7 +189,14 @@ class OmegaForgeEngine:
         step.status = StepStatus.VERIFYING
         self.state.status = StepStatus.VERIFYING
 
-        verification_result = verifier_fn(thought, action_result)
+        try:
+            verification_result = verifier_fn(thought, action_result)
+        except Exception as exc:
+            verification_result = VerificationRecord(
+                passed=False,
+                diagnostic_message=f"Verifier error: {exc}",
+                observed_state={},
+            )
         step.verification = verification_result
 
         # Determine outcome
