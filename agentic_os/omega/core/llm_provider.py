@@ -128,6 +128,40 @@ def _build_prompt(state: ForgeState, ledger: SelfCorrectionLedger) -> str:
         if callable(summary_method):
             prompt_lines.append(f"\nLedger Summary:\n{summary_method()}")
 
+    # Incorporate recent steps if available
+    steps = getattr(state, "steps", None)
+    if steps:
+        prompt_lines.append("\nRecent Steps (most recent last):")
+        for step in steps[-4:]:
+            step_iter = getattr(step, "iteration", "?")
+            thought = getattr(step, "thought", None)
+            if thought is not None and getattr(thought, "proposed_action", None):
+                proposed = str(thought.proposed_action)[:300]
+                prompt_lines.append(f"Step {step_iter}: action: {proposed}")
+            else:
+                prompt_lines.append(f"Step {step_iter}")
+
+            action = getattr(step, "action", None)
+            if action is not None:
+                exit_code = getattr(action, "exit_code", None)
+                prompt_lines.append(f"  exit_code: {exit_code}")
+                raw_output = str(getattr(action, "output", "") or "")
+                if len(raw_output) > 3000:
+                    output = raw_output[:1400] + "\n...[output truncated]...\n" + raw_output[-1400:]
+                else:
+                    output = raw_output
+                prompt_lines.append(f"  output: {output}")
+                error = getattr(action, "error", None)
+                if error:
+                    prompt_lines.append(f"  error: {error}")
+
+            verification = getattr(step, "verification", None)
+            if verification is not None:
+                passed = getattr(verification, "passed", False)
+                verdict = "PASS" if passed else "FAIL"
+                diagnostic = str(getattr(verification, "diagnostic_message", "") or "")[:400]
+                prompt_lines.append(f"  verdict: {verdict} — {diagnostic}")
+
     prompt_lines.append("\nGenerate the next TAV cycle step in valid JSON format.")
     return "\n".join(prompt_lines)
 
