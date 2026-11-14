@@ -38,6 +38,8 @@ Rules:
 1. Return ONLY the JSON object. Do not enclose in markdown code fences or add commentary.
 2. The 'thought', 'action', and 'verification_plan' keys are required.
 3. 'action' must contain a 'content' string describing the proposed action.
+4. 'action.content' must be exactly ONE executable POSIX shell command (sh). It will be executed verbatim by a shell dispatcher inside the session workspace. Never output pseudocode, invented function calls, placeholders, or natural-language instructions as the action.
+5. 'verification_plan' must state a falsifiable criterion tied to the SESSION OBJECTIVE's completion: what observable output or artifact will prove the objective itself is accomplished.
 """
 
 
@@ -109,14 +111,10 @@ def parse_tav_json(raw_text: str, iteration: int) -> ThoughtRecord:
 def _build_prompt(state: ForgeState, ledger: SelfCorrectionLedger) -> str:
     """Construct prompt context from current state and self-correction ledger."""
     prompt_lines = [
-        f"Goal: {getattr(state, 'goal', 'Execute assigned objective')}",
-        f"Current Iteration: {getattr(state, 'iteration', 0)}",
-        f"State Status: {getattr(state, 'status', 'UNKNOWN')}",
+        f"Session Objective: {state.objective}",
+        f"Current Iteration: {state.current_iteration + 1}",
+        f"State Status: {getattr(state.status, 'value', state.status)}",
     ]
-
-    context = getattr(state, "context", None)
-    if context:
-        prompt_lines.append(f"State Context: {json.dumps(context, default=str)}")
 
     # Incorporate ledger history if available
     entries = getattr(ledger, "entries", None)
@@ -135,7 +133,7 @@ def _build_prompt(state: ForgeState, ledger: SelfCorrectionLedger) -> str:
 
 def create_thought_provider(
     api_key: Optional[str] = None,
-    model: str = "gemini-1.5-flash",
+    model: str = "gemini-flash-latest",
     timeout: float = 30.0,
     base_url: str = "https://generativelanguage.googleapis.com/v1beta",
 ) -> Callable[[ForgeState, SelfCorrectionLedger], ThoughtRecord]:

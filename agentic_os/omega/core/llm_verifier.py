@@ -23,10 +23,11 @@ class VerifierError(RuntimeError):
 
 
 def create_verifier_provider(
-    api_key: str | None = None,
+    api_key: Optional[str] = None,
     model: str = "gemini-flash-latest",
     timeout: float = 30.0,
     base_url: str = "https://generativelanguage.googleapis.com/v1beta/models",
+    objective: Optional[str] = None,
 ) -> Callable[[ThoughtRecord, ActionResult], VerificationRecord]:
     """Creates a callable verifier provider conforming to OmegaForgeEngine's verifier_fn.
 
@@ -55,6 +56,14 @@ def create_verifier_provider(
         '{"passed": <true|false>, "diagnostic": "<string explaining reasoning>"}\n'
         "Do not include markdown fences, comments, or any extra text."
     )
+    if objective:
+        system_instruction += (
+            "\n\nSESSION OBJECTIVE (the standard you ultimately judge against):\n"
+            f"{objective}\n"
+            "Rule: return passed=true ONLY when the executed action's output demonstrates that the SESSION OBJECTIVE itself is accomplished. "
+            "A command that merely ran successfully, or that makes only partial progress toward the objective, is passed=false, with a diagnostic naming what remains to be done. "
+            "When the thought's verification criterion conflicts with the session objective, the session objective governs."
+        )
 
     def verifier(thought: ThoughtRecord, action: ActionResult) -> VerificationRecord:
         payload_data = {
@@ -74,6 +83,8 @@ def create_verifier_provider(
             f"Error:\n{action.error}\n\n"
             "Evaluate strictly and return JSON with keys 'passed' and 'diagnostic'."
         )
+        if objective:
+            user_prompt = f"Session Objective:\n{objective}\n\n" + user_prompt
 
         request_body = {
             "systemInstruction": {
